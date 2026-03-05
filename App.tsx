@@ -22,7 +22,6 @@ import { UnifiedCouncilService } from './services/councilService';
 import { SettingsModal } from './components/SettingsModal';
 import { CouncilCard } from './components/CouncilCard';
 import { PaywallModal } from './components/PaywallModal';
-import { AdModal } from './components/AdModal';
 import { PricingPage } from './components/PricingPage';
 import { AccountPage } from './components/AccountPage';
 import { CookbookPage } from './components/CookbookPage';
@@ -168,8 +167,6 @@ const App: FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.HOME);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
-  const [isAdModalOpen, setIsAdModalOpen] = useState(false);
-  const [hasWatchedAd, setHasWatchedAd] = useState(false);
   const [authSession, setAuthSession] = useState<Session | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -272,12 +269,6 @@ const App: FC = () => {
       return;
     }
 
-    // Intercept 2nd turn for Ad Sponsor (turn 0 is free, turn 1 is ad, turn 2+ is paywall)
-    if (config.turnsUsed === 1 && !hasWatchedAd && !config.isLifetime && !canUseCredits) {
-      setIsAdModalOpen(true);
-      return;
-    }
-
     // Detect active nodes
     const readyMembers = councilService.current.getReadyMembers(config.activeCouncil);
 
@@ -290,6 +281,22 @@ const App: FC = () => {
       }));
       return;
     }
+
+    // IMPORTANT: Deduct turn IMMEDIATELY upon starting to prevent infinite free loops
+    setConfig((current: AppConfig) => {
+      const hasOwnKeys = current.googleKey || current.openaiKey || current.anthropicKey || current.groqKey || current.deepseekKey;
+      if (hasOwnKeys && current.creditsRemaining > 0) {
+        return {
+          ...current,
+          creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN
+        };
+      } else {
+        return {
+          ...current,
+          turnsUsed: current.turnsUsed + 1
+        };
+      }
+    });
 
     setSession({
       id: crypto.randomUUID(),
@@ -356,23 +363,6 @@ const App: FC = () => {
       setSession((prev: SessionState) => {
         const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED };
         setHistory((h: SessionState[]) => [completedSession, ...h]);
-
-        // Update Usage Tracking
-        setConfig((current: AppConfig) => {
-          const hasOwnKeys = current.googleKey || current.openaiKey || current.anthropicKey || current.groqKey || current.deepseekKey;
-          if (hasOwnKeys && current.creditsRemaining > 0) {
-            return {
-              ...current,
-              creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN
-            };
-          } else {
-            return {
-              ...current,
-              turnsUsed: current.turnsUsed + 1
-            };
-          }
-        });
-
         return completedSession;
       });
     } catch (err: any) {
@@ -862,15 +852,6 @@ const App: FC = () => {
           setIsWelcomeOpen(false);
         }} />
       )}
-      <AdModal
-        isOpen={isAdModalOpen}
-        onAdComplete={() => {
-          setIsAdModalOpen(false);
-          setHasWatchedAd(true);
-          // Small delay to let modal close before starting heavy compute
-          setTimeout(() => handleStart(), 300);
-        }}
-      />
     </div>
   );
 };
