@@ -81,7 +81,7 @@ export const SYSTEM_PROMPTS = {
 
     DIRECTIVE: ${query}
   `,
-  
+
   PEER_REVIEWER: (query: string, peerResponse: string, peerName: string) => `
     ROLE: Peer Reviewer.
     QUERY_CONTEXT: "${query}"
@@ -137,16 +137,10 @@ export const PRESETS = [
 
 export const PRICING = {
   TURNS: [
-    { count: 10, price: 8.99, label: "10 Turns" },
-    { count: 20, price: 16.99, label: "20 Turns" },
-    { count: 50, price: 39.99, label: "50 Turns" },
-    { count: Infinity, price: 129.99, label: "Lifetime Unlimited" }
+    { count: 10, price: 19.99, label: "Starter Pack", stripeUrl: "https://buy.stripe.com/8x228k6Ca1Bxf7X1rM7Re04" },
+    { count: 30, price: 49.99, label: "Pro Pack", stripeUrl: "https://buy.stripe.com/28E3cogcKfsne3T1rM7Re06" },
+    { count: 100, price: 149.99, label: "Expert Pack", stripeUrl: "https://buy.stripe.com/6oU7sE5y6a83f7XfiC7Re07" },
   ],
-  CREDITS: [
-    { count: 10, price: 8.99, label: "10 Credits" },
-    { count: 25, price: 17.99, label: "25 Credits" },
-    { count: 40, price: 22.99, label: "40 Credits" }
-  ]
 };
 
 export const USAGE_LIMITS = {

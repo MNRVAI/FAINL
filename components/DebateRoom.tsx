@@ -318,10 +318,10 @@ export const DebateRoom: FC<DebateRoomProps> = ({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/85 backdrop-blur-xl">
-      <div className="w-full max-w-3xl h-[100dvh] sm:h-[92vh] bg-[#f5f4f0] dark:bg-zinc-950 border-0 sm:border-4 border-black dark:border-zinc-700 sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl">
+      <div className="w-full max-w-3xl h-[100dvh] sm:h-[92vh] bg-[#f5f4f0] dark:bg-zinc-950 border-0 sm:border-4 border-black dark:border-white/20 sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl">
 
         {/* ── Header ────────────────────────────────────────────────── */}
-        <div className="bg-black dark:bg-zinc-900 text-white px-5 py-3.5 flex items-center gap-3 shrink-0">
+        <div className="bg-black dark:bg-zinc-900 border-b-2 dark:border-white/10 text-white px-5 py-3.5 flex items-center gap-3 shrink-0">
           <Zap className="w-4 h-4 shrink-0 opacity-70" />
           <div className="flex-1 min-w-0">
             <p className="font-black text-[9px] uppercase tracking-[0.35em] text-white/40">Live Debate Room</p>
@@ -365,7 +365,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                   className={`py-5 rounded-2xl border-4 font-black text-base uppercase transition-all ${
                     duration === opt.seconds
                       ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white scale-105'
-                      : 'bg-white dark:bg-zinc-900 text-black dark:text-white border-black/10 dark:border-zinc-700 hover:border-black dark:hover:border-white'
+                      : 'bg-white dark:bg-zinc-900 text-black dark:text-white border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white'
                   }`}>
                   {opt.label}
                 </button>
@@ -419,8 +419,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                       <div
                         className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                           isUser
-                            ? 'bg-black dark:bg-white text-white dark:text-black rounded-br-sm'
-                            : `bg-white dark:bg-zinc-800 text-black dark:text-white rounded-bl-sm border-l-4 ${accent} cursor-pointer hover:brightness-95 transition-all`
+                            ? 'bg-black dark:bg-white text-white dark:text-black rounded-br-sm shadow-md'
+                            : `bg-white dark:bg-zinc-800 text-black dark:text-white rounded-bl-sm border-l-4 ${accent} cursor-pointer hover:brightness-95 dark:hover:brightness-110 transition-all shadow-sm`
                         }`}
                         onClick={() => !isUser && setUserInput(prev => `${prev}> ${member?.name}: "${msg.content.substring(0, 60)}..."\n\n`)}
                         title={!isUser ? 'Click to quote' : ''}
@@ -465,7 +465,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 onChange={e => setUserInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
                 placeholder="Jump in — speak your mind..."
-                className="flex-1 bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-2.5 text-sm font-medium text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 focus:border-black dark:focus:border-white outline-none transition-all" />
+                className="flex-1 bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 focus:border-black dark:focus:border-white outline-none transition-all" />
 
               <button onClick={handleSend} disabled={!userInput.trim()} title="Send message"
                 className="p-2.5 rounded-xl bg-black dark:bg-white text-white dark:text-black hover:opacity-80 disabled:opacity-20 transition-all shrink-0">

@@ -72,6 +72,7 @@ export enum AppView {
 }
 
 export interface SessionState {
+  id: string;
   stage: WorkflowStage;
   query: string;
   councilResponses: CouncilResponse[];
@@ -79,6 +80,7 @@ export interface SessionState {
   reviews: PeerReview[];
   synthesis: string;
   error?: string;
+  isArchived?: boolean;
 }
 
 export interface AppConfig {

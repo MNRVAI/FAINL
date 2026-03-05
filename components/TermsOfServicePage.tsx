@@ -4,22 +4,22 @@ import { Gavel, Scale, FileText, Zap, Users, AlertTriangle } from 'lucide-react'
 export const TermsOfServicePage: FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-24 animate-fade-in">
-      <div className="bg-white border-4 border-black p-8 md:p-16 shadow-[24px_24px_0px_0px_rgba(0,0,0,1)]">
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-16 pb-16 border-b-4 border-black/5">
-          <div className="w-24 h-24 bg-black rounded flex items-center justify-center shrink-0 shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)]">
-            <Gavel className="text-white w-12 h-12" />
+      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-16 shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)]">
+        <div className="flex flex-col md:flex-row items-center gap-8 mb-16 pb-16 border-b-4 border-black/5 dark:border-white/5">
+          <div className="w-24 h-24 bg-black dark:bg-white rounded flex items-center justify-center shrink-0 shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.05)]">
+            <Gavel className="text-white dark:text-black w-12 h-12" />
           </div>
           <div>
-            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4">Terms of Protocol</h1>
-            <p className="text-black/40 font-bold uppercase text-xs md:text-sm tracking-[0.3em]">Operational Governance & Usage Standards • Version 1.0.0</p>
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4 text-black dark:text-white">Terms of Protocol</h1>
+            <p className="text-black/40 dark:text-white/40 font-bold uppercase text-xs md:text-sm tracking-[0.3em]">Operational Governance & Usage Standards • Version 1.0.0</p>
           </div>
         </div>
 
-        <div className="prose prose-xl max-w-none prose-headings:uppercase prose-headings:font-black prose-headings:tracking-tighter prose-p:text-black/70 prose-strong:text-black prose-li:text-black/70 leading-relaxed space-y-16">
+        <div className="prose prose-xl max-w-none prose-headings:uppercase prose-headings:font-black prose-headings:tracking-tighter prose-p:text-black/70 dark:prose-p:text-white/70 prose-strong:text-black dark:prose-strong:text-white prose-li:text-black/70 dark:prose-li:text-white/70 leading-relaxed space-y-16">
           
           <section>
-            <div className="flex items-center gap-4 mb-6">
-              <Zap className="w-8 h-8 text-black" />
+            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
+              <Zap className="w-8 h-8" />
               <h2 className="text-3xl m-0">01. Neural Authorization</h2>
             </div>
             <p>
@@ -30,8 +30,8 @@ export const TermsOfServicePage: FC = () => {
           </section>
 
           <section>
-            <div className="flex items-center gap-4 mb-6">
-              <Users className="w-8 h-8 text-black" />
+            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
+              <Users className="w-8 h-8" />
               <h2 className="text-3xl m-0">02. Council Arbitration</h2>
             </div>
             <p>
@@ -45,8 +45,8 @@ export const TermsOfServicePage: FC = () => {
           </section>
 
           <section>
-            <div className="flex items-center gap-4 mb-6">
-              <Scale className="w-8 h-8 text-black" />
+            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
+              <Scale className="w-8 h-8" />
               <h2 className="text-3xl m-0">03. Usage Limits & Credits</h2>
             </div>
             <p>
@@ -60,8 +60,8 @@ export const TermsOfServicePage: FC = () => {
           </section>
 
           <section>
-            <div className="flex items-center gap-4 mb-6">
-              <AlertTriangle className="w-8 h-8 text-black" />
+            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
+              <AlertTriangle className="w-8 h-8" />
               <h2 className="text-3xl m-0">04. Prohibited Directives</h2>
             </div>
             <p>
@@ -76,8 +76,8 @@ export const TermsOfServicePage: FC = () => {
           </section>
 
           <section>
-            <div className="flex items-center gap-4 mb-6">
-              <FileText className="w-8 h-8 text-black" />
+            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
+              <FileText className="w-8 h-8" />
               <h2 className="text-3xl m-0">05. Termination of Access</h2>
             </div>
             <p>
@@ -86,8 +86,8 @@ export const TermsOfServicePage: FC = () => {
             </p>
           </section>
 
-          <div className="pt-16 border-t-4 border-black">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 text-center">
+          <div className="pt-16 border-t-4 border-black dark:border-white/20">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 dark:text-white/20 text-center">
               Protocol Governance Active • Usage Monitored by Local Node
             </p>
           </div>
