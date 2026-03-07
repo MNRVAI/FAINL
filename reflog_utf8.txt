@@ -1,0 +1,23 @@
+﻿caf1c7a HEAD@{0}: commit: Fix GitHub Pages CNAME root domain unlinking
+91252a1 HEAD@{1}: reset: moving to origin/main
+25d6b11 HEAD@{2}: commit: feat: Add GitHub Pages deployment workflow and remove Vercel and hint configurations.
+10fdb50 HEAD@{3}: rebase (abort): returning to refs/heads/main
+4901d15 HEAD@{4}: pull --rebase origin main (start): checkout 4901d153dcc17d01ed61cbd40df03f56d463c3d6
+10fdb50 HEAD@{5}: commit: Fix GitHub Action Environment Secrets mapping
+01229cd HEAD@{6}: commit: feat: Integrate Supabase client, configure Vite build base path, and refine main application UI.
+1d7380e HEAD@{7}: commit: Fix Vercel permission denied error by using npx and adding .vercelignore
+be5c3d3 HEAD@{8}: Branch: renamed refs/heads/master to refs/heads/main
+be5c3d3 HEAD@{10}: commit: Update deployment workflow to trigger only on main branch
+b721199 HEAD@{11}: commit: feat: Integrate Supabase, localize app content to Dutch, and update build configuration.
+97473c4 HEAD@{12}: commit: feat: Implement a unified AI council service with multi-provider support, add staggered journey step animations, and localize project title and description.
+e626b48 HEAD@{13}: commit: feat: Implement a unified AI council service with multi-provider support and add new FAQ and Terms of Service pages.
+dbd034d HEAD@{14}: commit: Refactor: Streamline Mission Control, remove API key prompts, and migrate settings to My FAINLS page
+f59447b HEAD@{15}: checkout: moving from master to master
+f59447b HEAD@{16}: checkout: moving from gh-pages-temp to master
+5f18b9c HEAD@{17}: commit: Refactor: Streamline Mission Control, remove API key prompts, and migrate settings to My FAINLS page
+69c35c3 HEAD@{18}: commit: deploy: update production build
+f59447b HEAD@{19}: checkout: moving from master to gh-pages-temp
+f59447b HEAD@{20}: commit: fix: rebuild with real Supabase env vars (was using dummy due to UTF-16 .env encoding)
+651366c HEAD@{21}: commit: feat: redesign landing page replace API key gate with hero + 5-step journey
+48b5bf3 HEAD@{22}: commit: build: add production dist for GitHub Pages deployment
+f74bf79 HEAD@{23}: commit (initial): fix: replace obsolete setCurrentView with navigate() in footer links
