@@ -1,5 +1,4 @@
-﻿
-import { useState, useRef, useEffect, FC } from 'react';
+﻿import { useState, useRef, useEffect, FC } from "react";
 import {
   Send,
   Settings as SettingsIcon,
@@ -13,23 +12,39 @@ import {
   AlertTriangle,
   Lock,
   Globe,
-  CircleCheck
-} from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import { DEFAULT_COUNCIL, DEFAULT_CHAIRMAN, USAGE_LIMITS, PRICING } from './constants';
-import { CouncilResponse, PeerReview, WorkflowStage, SessionState, AppConfig, ModelProvider, AppView } from './types';
-import { UnifiedCouncilService } from './services/councilService';
-import { SettingsModal } from './components/SettingsModal';
-import { CouncilCard } from './components/CouncilCard';
-import { PaywallModal } from './components/PaywallModal';
-import { PricingPage } from './components/PricingPage';
-import { AccountPage } from './components/AccountPage';
-import { CookbookPage } from './components/CookbookPage';
-import { FAQPage } from './components/FAQPage';
-import { ContactPage } from './components/ContactPage';
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { TermsOfServicePage } from './components/TermsOfServicePage';
-import { DebateRoom } from './components/DebateRoom';
+  CircleCheck,
+  Eye,
+  Swords,
+  PenLine,
+  CheckCircle2,
+} from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import {
+  DEFAULT_COUNCIL,
+  DEFAULT_CHAIRMAN,
+  USAGE_LIMITS,
+  PRICING,
+} from "./constants";
+import {
+  CouncilResponse,
+  PeerReview,
+  WorkflowStage,
+  SessionState,
+  AppConfig,
+  ModelProvider,
+} from "./types";
+import { UnifiedCouncilService } from "./services/councilService";
+import { CouncilCard } from "./components/CouncilCard";
+import { PaywallModal } from "./components/PaywallModal";
+import { TrialChoiceModal } from "./components/TrialChoiceModal";
+import { PricingPage } from "./components/PricingPage";
+import { AccountPage } from "./components/AccountPage";
+import { CookbookPage } from "./components/CookbookPage";
+import { FAQPage } from "./components/FAQPage";
+import { ContactPage } from "./components/ContactPage";
+import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
+import { TermsOfServicePage } from "./components/TermsOfServicePage";
+import { DebateRoom } from "./components/DebateRoom";
 import {
   Menu,
   X as CloseIcon,
@@ -40,18 +55,38 @@ import {
   Mail,
   Zap as ZapIcon,
   Sun,
-  Moon
-} from 'lucide-react';
-import { supabase } from './services/supabaseClient';
-import { LoginPage } from './components/LoginPage';
-import { Session } from '@supabase/supabase-js';
-import { LogOut } from 'lucide-react';
-import { ScrambleText } from './components/ScrambleText';
-import { WelcomePopup } from './components/WelcomePopup';
-import { useLanguage } from './contexts/LanguageContext';
+  Moon,
+} from "lucide-react";
+import { supabase } from "./services/supabaseClient";
+import {
+  useNavigate,
+  useLocation,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom";
+import { SEO } from "./components/SEO";
+import { LoginPage } from "./components/LoginPage";
+import { QuestionPage } from "./components/QuestionPage";
+import { Session } from "@supabase/supabase-js";
+import { LogOut } from "lucide-react";
+import { ScrambleText } from "./components/ScrambleText";
+import { WelcomePopup } from "./components/WelcomePopup";
+import { CookieConsent } from "./components/CookieConsent";
 
+const FadingPlaceholder: FC<{ isFocused: boolean }> = ({
+  isFocused,
+}: {
+  isFocused: boolean;
+}) => {
+  const examples = [
+    "Welke programmeertaal moet ik leren?",
+    "Kopen of huren in 2026?",
+    "Zijn of niet zijn?",
+    "Wat kwam eerst: de kip of het ei?",
+  ];
 
-const FadingPlaceholder: FC<{ isFocused: boolean; examples: string[] }> = ({ isFocused, examples }) => {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
@@ -72,7 +107,9 @@ const FadingPlaceholder: FC<{ isFocused: boolean; examples: string[] }> = ({ isF
   if (isFocused) return null;
 
   return (
-    <span className={`transition-opacity duration-500 ${fade ? 'opacity-100' : 'opacity-0'}`}>
+    <span
+      className={`transition-opacity duration-500 ${fade ? "opacity-100" : "opacity-0"}`}
+    >
       {examples[index]}
     </span>
   );
@@ -94,7 +131,9 @@ const AnimatedSendIcon: FC = () => {
 
   return (
     <div className="relative">
-      <Send className={`w-6 h-6 md:w-10 md:h-10 transition-transform duration-100 ${glitch ? 'translate-x-0.5 -translate-y-0.5 opacity-80' : ''}`} />
+      <Send
+        className={`w-6 h-6 md:w-10 md:h-10 transition-transform duration-100 ${glitch ? "translate-x-0.5 -translate-y-0.5 opacity-80" : ""}`}
+      />
       {glitch && (
         <Send className="w-6 h-6 md:w-10 md:h-10 absolute top-0 left-0 text-red-500 opacity-50 -translate-x-0.5 translate-y-0.5 mix-blend-screen" />
       )}
@@ -130,51 +169,42 @@ const CyberLogo: FC<{ isAnimated?: boolean }> = ({ isAnimated = true }) => {
 };
 
 const App: FC = () => {
-  const { t, language, setLanguage } = useLanguage();
-
   // Initialization with Persistent Config
   const [config, setConfig] = useState<AppConfig>(() => {
-    const saved = localStorage.getItem('fainl_config_v2');
-    return saved ? JSON.parse(saved) : {
-      googleKey: '',
-      openRouterKey: '',
-      openaiKey: '',
-      anthropicKey: '',
-      deepseekKey: '',
-      groqKey: '',
-      mistralKey: '',
-      customKey: '',
-      mimoKey: '',
-      devstralKey: '',
-      katKey: '',
-      olmoKey: '',
-      nemotronKey: '',
-      gemmaKey: '',
-      glmKey: '',
-      activeCouncil: DEFAULT_COUNCIL,
-      chairmanId: DEFAULT_CHAIRMAN.id,
-      turnsUsed: 0,
-      creditsRemaining: 0,
-      isLifetime: false,
-      totalTurnsAllowed: 2, // 2 free turns for new users
-    };
+    const saved = localStorage.getItem("fainl_config_v2");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          activeCouncil: DEFAULT_COUNCIL,
+          chairmanId: DEFAULT_CHAIRMAN.id,
+          turnsUsed: 0,
+          creditsRemaining: 0,
+          isLifetime: false,
+          totalTurnsAllowed: 1, // Default to 1 free turn
+          hasWatchedAd: false,
+          hasSubscribed: false,
+        };
   });
 
-  const [currentView, setCurrentView] = useState<AppView>(AppView.HOME);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [authSession, setAuthSession] = useState<Session | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('fainl_theme') === 'dark' ||
-        (!localStorage.getItem('fainl_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (typeof window !== "undefined") {
+      return (
+        localStorage.getItem("fainl_theme") === "dark" ||
+        (!localStorage.getItem("fainl_theme") &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      );
     }
     return false;
   });
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-    localStorage.setItem('fainl_theme', isDarkMode ? 'dark' : 'light');
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("fainl_theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
   useEffect(() => {
@@ -193,11 +223,11 @@ const App: FC = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setCurrentView(AppView.HOME);
+    navigate("/");
   };
 
   const [history, setHistory] = useState<SessionState[]>(() => {
-    const saved = localStorage.getItem('fainl_history');
+    const saved = localStorage.getItem("fainl_history");
     if (!saved) return [];
     try {
       const parsed = JSON.parse(saved);
@@ -205,7 +235,7 @@ const App: FC = () => {
       const migrated = parsed.map((s: any) => ({
         ...s,
         id: s.id || crypto.randomUUID(),
-        isArchived: !!s.isArchived
+        isArchived: !!s.isArchived,
       }));
       return migrated;
     } catch (e) {
@@ -213,14 +243,14 @@ const App: FC = () => {
     }
   });
 
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isDebateOpen, setIsDebateOpen] = useState(false);
+  const [isTrialChoiceOpen, setIsTrialChoiceOpen] = useState(false);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => {
-    const seen = localStorage.getItem('fainl_visited');
+    const seen = localStorage.getItem("fainl_visited");
     if (!seen) {
       // Delay popup slightly so page loads first
-      setTimeout(() => { }, 0);
+      setTimeout(() => {}, 0);
       return true;
     }
     return false;
@@ -229,23 +259,22 @@ const App: FC = () => {
   const [session, setSession] = useState<SessionState>({
     id: crypto.randomUUID(),
     stage: WorkflowStage.IDLE,
-    query: '',
+    query: "",
     councilResponses: [],
     debateMessages: [],
     reviews: [],
-    synthesis: ''
+    synthesis: "",
   });
-
 
   const councilService = useRef(new UnifiedCouncilService(config));
 
   useEffect(() => {
     councilService.current = new UnifiedCouncilService(config);
-    localStorage.setItem('fainl_config_v2', JSON.stringify(config));
+    localStorage.setItem("fainl_config_v2", JSON.stringify(config));
   }, [config]);
 
   useEffect(() => {
-    localStorage.setItem('fainl_history', JSON.stringify(history));
+    localStorage.setItem("fainl_history", JSON.stringify(history));
   }, [history]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -255,44 +284,34 @@ const App: FC = () => {
     if (!input.trim()) return;
 
     // Usage check
-    const hasOwnKeys = config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey;
-    const canUseCredits = hasOwnKeys && config.creditsRemaining > 0;
     const hasTurnsRemaining = config.turnsUsed < config.totalTurnsAllowed;
+    const canUseCredits = config.creditsRemaining > 0;
     const isAllowed = config.isLifetime || hasTurnsRemaining || canUseCredits;
 
     if (!isAllowed) {
-      setIsPaywallOpen(true);
+      if (config.turnsUsed === 1 && !config.hasWatchedAd) {
+        setIsTrialChoiceOpen(true);
+      } else {
+        setIsPaywallOpen(true);
+      }
       return;
     }
 
     // Detect active nodes
-    const readyMembers = councilService.current.getReadyMembers(config.activeCouncil);
+    const readyMembers = councilService.current.getReadyMembers(
+      config.activeCouncil,
+    );
 
     // Ensure we meet the minimum requirement for consensus logic
     if (readyMembers.length < 2) {
       setSession((prev: SessionState) => ({
         ...prev,
         stage: WorkflowStage.ERROR,
-        error: "Insufficient active nodes for consensus protocol. Minimum 2 nodes required."
+        error:
+          "Insufficient active nodes for consensus protocol. Minimum 2 nodes required.",
       }));
       return;
     }
-
-    // IMPORTANT: Deduct turn IMMEDIATELY upon starting to prevent infinite free loops
-    setConfig((current: AppConfig) => {
-      const hasOwnKeys = current.googleKey || current.openaiKey || current.anthropicKey || current.groqKey || current.deepseekKey;
-      if (hasOwnKeys && current.creditsRemaining > 0) {
-        return {
-          ...current,
-          creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN
-        };
-      } else {
-        return {
-          ...current,
-          turnsUsed: current.turnsUsed + 1
-        };
-      }
-    });
 
     setSession({
       id: crypto.randomUUID(),
@@ -301,44 +320,48 @@ const App: FC = () => {
       councilResponses: [],
       debateMessages: [],
       reviews: [],
-      synthesis: ''
+      synthesis: "",
     });
 
     try {
       // 1. Council Analysis Phase
-      const responses = await councilService.current.getCouncilResponses(input, readyMembers);
+      const responses = await councilService.current.getCouncilResponses(
+        input,
+        readyMembers,
+      );
 
       // Council done — stage stays at PROCESSING_COUNCIL until user opens debate
       setSession((prev: SessionState) => ({
         ...prev,
         councilResponses: responses,
         stage: WorkflowStage.COMPLETED,
-        debateMessages: []
+        debateMessages: [],
       }));
-
     } catch (err: any) {
       console.error(err);
       setSession((prev: SessionState) => ({
         ...prev,
         stage: WorkflowStage.ERROR,
-        error: err.message || "Autonomous consensus protocol interrupted."
+        error: err.message || "Autonomous consensus protocol interrupted.",
       }));
     }
   };
 
-
-
-  const handleEndDebate = async (debateMessages: import('./types').DebateMessage[]) => {
+  const handleEndDebate = async (
+    debateMessages: import("./types").DebateMessage[],
+  ) => {
     setIsDebateOpen(false);
 
     setSession((prev: SessionState) => ({
       ...prev,
       debateMessages,
       stage: WorkflowStage.SYNTHESIZING,
-      synthesis: ''
+      synthesis: "",
     }));
 
-    const readyMembers = councilService.current.getReadyMembers(config.activeCouncil);
+    const readyMembers = councilService.current.getReadyMembers(
+      config.activeCouncil,
+    );
 
     try {
       const synthesis = await councilService.current.synthesizeStream(
@@ -351,101 +374,171 @@ const App: FC = () => {
         (chunk) => {
           setSession((prev: SessionState) => ({
             ...prev,
-            synthesis: (prev.synthesis || '') + chunk
+            synthesis: (prev.synthesis || "") + chunk,
           }));
-        }
+        },
       );
 
       setSession((prev: SessionState) => {
-        const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED };
+        const completedSession = {
+          ...prev,
+          synthesis,
+          stage: WorkflowStage.COMPLETED,
+        };
         setHistory((h: SessionState[]) => [completedSession, ...h]);
+
+        // Update Usage Tracking
+        setConfig((current: AppConfig) => {
+          if (current.creditsRemaining > 0) {
+            return {
+              ...current,
+              creditsRemaining:
+                current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN,
+            };
+          } else {
+            return {
+              ...current,
+              turnsUsed: current.turnsUsed + 1,
+            };
+          }
+        });
+
         return completedSession;
       });
     } catch (err: any) {
       setSession((prev: SessionState) => ({
         ...prev,
         stage: WorkflowStage.ERROR,
-        error: err.message || "Synthesis failed."
+        error: err.message || "Synthesis failed.",
       }));
     }
   };
 
-  const handleAddDebateMessage = (msg: import('./types').DebateMessage) => {
+  const handleAddDebateMessage = (msg: import("./types").DebateMessage) => {
     setSession((prev: SessionState) => ({
       ...prev,
-      debateMessages: [...prev.debateMessages, msg]
+      debateMessages: [...prev.debateMessages, msg],
     }));
   };
 
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
-  const handlePurchaseTurns = (count: number) => {
-    const pkg = PRICING.TURNS.find(p => p.count === count);
-    if (!pkg?.stripeUrl) {
-      console.error("No Stripe Payment Link found for count:", count);
-      return;
+  const handlePurchase = async (
+    type: "turns" | "subscription" | "credits",
+    count: number,
+  ) => {
+    setIsPaymentLoading(true);
+    try {
+      const pkg =
+        type === "turns" || type === "credits"
+          ? PRICING.TOKENS.find((p) => p.count === count)
+          : PRICING.SUBSCRIPTIONS[0];
+
+      if (pkg?.url) {
+        window.location.href = pkg.url;
+        return;
+      }
+      throw new Error("Invalid package or URL");
+    } catch (err: any) {
+      console.error("Payment initialization failed:", err);
+      setIsPaywallOpen(false);
+      setIsPaymentLoading(false);
     }
-    // Append success redirect so Stripe returns the user with turn count info
-    const successUrl = encodeURIComponent(
-      `${window.location.origin}${window.location.pathname}?payment_confirm=true&type=turns&count=${count}`
-    );
-    window.location.href = `${pkg.stripeUrl}?success_url=${successUrl}`;
+  };
+
+  const handleWatchAd = () => {
+    setConfig((prev) => ({
+      ...prev,
+      hasWatchedAd: true,
+      totalTurnsAllowed: prev.totalTurnsAllowed + 1,
+    }));
   };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('payment_confirm') === 'true') {
-      const type = params.get('type');
-      const countStr = params.get('count');
-      const count = countStr === 'infinity' ? Infinity : parseInt(countStr || '0', 10);
 
-      if (type === 'turns') {
-        setConfig(prev => ({
+    // Handle mission query param
+    const queryParam = params.get("q");
+    if (queryParam && location.pathname === "/mission") {
+      setInput(queryParam);
+    }
+
+    if (params.get("payment_confirm") === "true") {
+      const type = params.get("type");
+      const countStr = params.get("count");
+      const count =
+        countStr === "infinity" ? Infinity : parseInt(countStr || "0", 10);
+
+      if (type === "turns") {
+        setConfig((prev) => ({
           ...prev,
-          isLifetime: count === Infinity ? true : prev.isLifetime,
-          totalTurnsAllowed: count === Infinity ? prev.totalTurnsAllowed : prev.totalTurnsAllowed + count
+          totalTurnsAllowed: prev.totalTurnsAllowed + count,
         }));
-      } else if (type === 'credits') {
-        setConfig(prev => ({
+      } else if (type === "subscription") {
+        setConfig((prev) => ({
           ...prev,
-          creditsRemaining: prev.creditsRemaining + (count as number)
+          isLifetime: true, // Treat subscription as unlimited for now or handle appropriately
         }));
       }
 
       // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, []);
+  }, [location]);
 
   const NavLinks = [
-    { id: AppView.HOME, label: t.nav.protocols, icon: ZapIcon },
-    { id: AppView.PRICING, label: t.nav.access, icon: Coins },
-    { id: AppView.ACCOUNT, label: t.nav.myFainls, icon: LayoutDashboard },
-    { id: AppView.COOKBOOK, label: t.nav.cookbook, icon: BookOpen },
-    { id: AppView.FAQ, label: t.nav.faq, icon: HelpCircle },
-    { id: AppView.CONTACT, label: t.nav.contact, icon: Mail },
+    { id: "/", label: "Protocols", icon: ZapIcon },
+    { id: "/tokens", label: "Tokens", icon: Coins },
+    { id: "/dashboard", label: "My FAINLS", icon: LayoutDashboard },
+    { id: "/cookbook", label: "Cookbook", icon: BookOpen },
+    { id: "/faq", label: "FAQ", icon: HelpCircle },
+    { id: "/contact", label: "Contact", icon: Mail },
   ];
 
   const renderStageIndicator = () => {
     const stages = [
-      { id: WorkflowStage.PROCESSING_COUNCIL, label: "Neural Deliberation", icon: Users },
+      {
+        id: WorkflowStage.PROCESSING_COUNCIL,
+        label: "Neural Deliberation",
+        icon: Users,
+      },
       { id: WorkflowStage.DEBATE, label: "Live Debate", icon: MessageSquare },
-      { id: WorkflowStage.SYNTHESIZING, label: "Verdict Synthesis", icon: Gavel },
+      {
+        id: WorkflowStage.SYNTHESIZING,
+        label: "Verdict Synthesis",
+        icon: Gavel,
+      },
     ];
-    if (session.stage === WorkflowStage.IDLE || session.stage === WorkflowStage.ERROR) return null;
+    if (
+      session.stage === WorkflowStage.IDLE ||
+      session.stage === WorkflowStage.ERROR
+    )
+      return null;
     return (
       <div className="flex justify-center mb-8 md:mb-16 w-full">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 bg-white/20 dark:bg-white/5 p-2.5 rounded-3xl sm:rounded-full border border-black/10 dark:border-white/10 backdrop-blur-sm w-full sm:w-auto overflow-x-auto">
           {stages.map((s, idx) => {
             const isActive = session.stage === s.id;
-            const isCompleted = [WorkflowStage.COMPLETED, ...stages.slice(idx + 1).map(st => st.id)].includes(session.stage);
+            const isCompleted = [
+              WorkflowStage.COMPLETED,
+              ...stages.slice(idx + 1).map((st) => st.id),
+            ].includes(session.stage);
             return (
-              <div key={s.id} className="flex items-center gap-3 w-full sm:w-auto">
-                <div className={`flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] font-black tracking-[0.2em] uppercase transition-all border-2 w-full sm:w-auto justify-center sm:justify-start ${isActive ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] sm:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] dark:sm:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.1)]' : isCompleted ? 'bg-white dark:bg-zinc-800 text-black dark:text-white border-black dark:border-white/20' : 'text-black/20 dark:text-white/20 border-transparent'}`}>
-                  <s.icon className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isActive ? 'animate-pulse' : ''}`} />
+              <div
+                key={s.id}
+                className="flex items-center gap-3 w-full sm:w-auto"
+              >
+                <div
+                  className={`flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] font-black tracking-[0.2em] uppercase transition-all border-2 w-full sm:w-auto justify-center sm:justify-start ${isActive ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] sm:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] dark:sm:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.1)]" : isCompleted ? "bg-white dark:bg-zinc-800 text-black dark:text-white border-black dark:border-white/20" : "text-black/20 dark:text-white/20 border-transparent"}`}
+                >
+                  <s.icon
+                    className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isActive ? "animate-pulse" : ""}`}
+                  />
                   <span className="whitespace-nowrap">{s.label}</span>
                 </div>
-                {idx < stages.length - 1 && <ArrowRight className="hidden sm:block w-4 h-4 text-black/10 dark:text-white/10" />}
+                {idx < stages.length - 1 && (
+                  <ArrowRight className="hidden sm:block w-4 h-4 text-black/10 dark:text-white/10" />
+                )}
               </div>
             );
           })}
@@ -461,50 +554,51 @@ const App: FC = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           <div className="flex items-center gap-4 md:gap-8">
             <button
-              onClick={() => setCurrentView(AppView.HOME)}
+              type="button"
+              onClick={() => navigate("/")}
+              aria-label="Go to homepage"
               className="flex items-center gap-3 md:gap-5 group"
             >
-              <CyberLogo isAnimated={currentView !== AppView.HOME} />
-              <span className="text-2xl font-black tracking-tighter hidden sm:block text-black dark:text-white">FAINL</span>
+              <CyberLogo isAnimated={location.pathname !== "/"} />
+              <div className="text-2xl font-black tracking-tighter hidden sm:block text-black dark:text-white relative top-[2px]">
+                <ScrambleText text="FAINL" />
+              </div>
             </button>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
-              {NavLinks.map(link => (
-                <button
+              {NavLinks.map((link) => (
+                <Link
                   key={link.id}
-                  onClick={() => setCurrentView(link.id)}
-                  className={`px-4 py-2 font-black text-[10px] uppercase tracking-widest transition-all rounded-lg ${currentView === link.id ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-black/60 dark:text-white/70 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'}`}
+                  to={link.id}
+                  className={`px-4 py-2 font-black text-[10px] uppercase tracking-widest transition-all rounded-lg ${
+                    location.pathname === link.id
+                      ? "bg-black text-white dark:bg-white dark:text-black"
+                      : "text-black/60 dark:text-white/70 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10"
+                  }`}
                 >
                   {link.label}
-                </button>
+                </Link>
               ))}
             </nav>
           </div>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setLanguage(language === 'nl' ? 'en' : 'nl')}
-              className="px-3 py-1 font-black text-[10px] uppercase tracking-widest bg-black/5 dark:bg-white/10 rounded-lg hover:bg-black/10 dark:hover:bg-white/20 transition-colors text-black dark:text-white"
-            >
-              {language === 'nl' ? 'EN' : 'NL'}
-            </button>
-            <button
+              type="button"
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="p-2.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-black dark:text-white"
             >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="group flex items-center gap-3 px-3 py-2.5 sm:px-5 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded font-black text-[10px] uppercase tracking-widest hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:-translate-y-0.5 active:translate-y-px transition-all"
-            >
-              <Lock className="w-4 h-4 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors" />
-              <span className="hidden sm:inline">Settings</span>
+              {isDarkMode ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </button>
 
             {/* Mobile Menu Toggle */}
             <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2.5 bg-black dark:bg-white text-white dark:text-black rounded-lg active:scale-95 transition-all"
             >
@@ -513,6 +607,7 @@ const App: FC = () => {
 
             {authSession && (
               <button
+                type="button"
                 onClick={handleLogout}
                 className="hidden sm:flex items-center gap-2 p-2.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all border border-red-200"
                 title="Sign Out"
@@ -526,11 +621,15 @@ const App: FC = () => {
         {/* Mobile Navigation Dropdown */}
         {isMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-900 border-b-4 border-black dark:border-zinc-700 p-4 space-y-2 shadow-2xl animate-in slide-in-from-top-4 duration-300">
-            {NavLinks.map(link => (
+            {NavLinks.map((link) => (
               <button
+                type="button"
                 key={link.id}
-                onClick={() => { setCurrentView(link.id); setIsMenuOpen(false); }}
-                className={`w-full flex items-center gap-4 p-4 font-black text-xs uppercase tracking-[0.2em] rounded-xl transition-all ${currentView === link.id ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-50 dark:bg-zinc-800 text-black/40 dark:text-white/40'}`}
+                onClick={() => {
+                  navigate(link.id);
+                  setIsMenuOpen(false);
+                }}
+                className={`w-full flex items-center gap-4 p-4 font-black text-xs uppercase tracking-[0.2em] rounded-xl transition-all ${location.pathname === link.id ? "bg-black text-white dark:bg-white dark:text-black" : "bg-zinc-50 dark:bg-zinc-800 text-black/40 dark:text-white/40"}`}
               >
                 <link.icon className="w-5 h-5" />
                 {link.label}
@@ -539,11 +638,15 @@ const App: FC = () => {
 
             {authSession && (
               <button
-                onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                type="button"
+                onClick={() => {
+                  handleLogout();
+                  setIsMenuOpen(false);
+                }}
                 className="w-full flex items-center gap-4 p-4 font-black text-xs uppercase tracking-[0.2em] rounded-xl transition-all bg-red-50 text-red-600 border border-red-200 mt-4"
               >
                 <LogOut className="w-5 h-5" />
-                {t.nav.signOut}
+                Sign Out
               </button>
             )}
           </div>
@@ -551,433 +654,480 @@ const App: FC = () => {
       </header>
 
       <main className="flex-1 w-full mx-auto">
-        {currentView === AppView.HOME ? (
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 flex flex-col items-center justify-center min-h-[calc(100vh-120px)]">
-            {renderStageIndicator()}
-            {/* Protocol Error Display */}
-            {session.stage === WorkflowStage.ERROR && (
-              <div className="w-full max-w-xl bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-6 md:p-12 rounded-xl md:rounded rounded shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.1)] text-center animate-fade-in-up">
-                <AlertTriangle className="w-12 h-12 md:w-20 md:h-20 text-black dark:text-white mb-6 md:mb-8 mx-auto" />
-                <h3 className="text-xl md:text-3xl font-black uppercase mb-3 md:mb-4 tracking-tighter">Protocol Halt</h3>
-                <p className="text-black/50 dark:text-white/50 font-bold mb-6 md:mb-10 leading-relaxed text-sm md:text-lg">{session.error}</p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button onClick={() => setIsSettingsOpen(true)} className="px-6 py-3 md:px-10 md:py-5 bg-black dark:bg-white text-white dark:text-black font-black rounded uppercase tracking-[0.2em] text-[9px] md:text-[10px] hover:bg-zinc-800 dark:hover:bg-zinc-200 shadow-lg md:shadow-xl transition-all">Resolve Keys</button>
-                  <button onClick={() => setSession({ ...session, stage: WorkflowStage.IDLE })} className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-700 font-black rounded uppercase tracking-[0.2em] text-[9px] md:text-[10px] transition-all text-black dark:text-white">Recalibrate</button>
-                </div>
-              </div>
-            )}
+        <Routes>
+          {/* Home / Landing Page */}
+          <Route
+            path="/"
+            element={
+              <>
+                <SEO
+                  title="Revolutionaire AI Consensus"
+                  description="Krijg antwoorden met de gecombineerde kracht van meerdere AI-systemen. FAINL biedt diepgaande reflectie en gewogen oordelen."
+                  canonical="/"
+                />
 
-            {/* Rest of home content logic */}
-            {session.stage === WorkflowStage.IDLE ? (
-              /* Mission Input Stage */
-              <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto w-full text-center space-y-8 md:space-y-16 animate-fade-in-up">
-                <div className="space-y-4 md:space-y-8">
-                  <h3 className="text-5xl sm:text-7xl md:text-9xl lg:text-[10rem] font-black text-black dark:text-white tracking-tighter uppercase leading-[0.9] md:leading-[0.8] select-none">
-                    <ScrambleText text="FAINL" />
-                  </h3>
-                  <p className="max-w-2xl mx-auto text-base font-semibold text-black/70 dark:text-white/70 leading-relaxed tracking-[0.06em]">
-                    {t.hero.description}
+                {/* ── HERO ── */}
+                <section className="w-full max-w-5xl mx-auto px-4 md:px-6 pt-16 md:pt-28 pb-12 md:pb-20 text-center animate-fade-in-up">
+                  <h1 className="text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.95] max-w-4xl mx-auto mb-6 md:mb-8">
+                    Eén antwoord.
+                    <br />
+                    <span className="text-black/30 dark:text-white/30">
+                      Meerdere intelligenties.
+                    </span>
+                  </h1>
+                  <p className="max-w-2xl mx-auto text-base md:text-xl font-semibold text-black/60 dark:text-white/60 leading-relaxed mb-10 md:mb-14">
+                    FAINL laat meerdere AI-modellen tegelijk jouw vraag
+                    analyseren, elkaars redenering controleren en samen tot één
+                    scherp, gewogen oordeel komen.
                   </p>
-                </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/mission")}
+                    className="inline-flex items-center gap-3 px-8 py-5 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] active:scale-95 transition-all shadow-lg"
+                  >
+                    Start nu gratis
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                  <p className="mt-5 text-[10px] font-black uppercase tracking-[0.2em] text-black/20 dark:text-white/20">
+                    Geen account nodig · Jouw data blijft op jouw apparaat
+                  </p>
+                </section>
 
-                {!config.googleKey ? (
-                  <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 border-4 border-black dark:border-zinc-700 p-8 md:p-16 rounded-3xl shadow-[32px_32px_0px_0px_rgba(0,0,0,1)] dark:shadow-[32px_32px_0px_0px_rgba(255,255,255,0.1)] text-left animate-in zoom-in-95 duration-500">
-                    <div className="flex items-center gap-6 mb-10 pb-6 border-b-4 border-black dark:border-zinc-700">
-                      <div className="p-4 bg-black dark:bg-white rounded-2xl">
-                        <ZapIcon className="w-8 h-8 text-white dark:text-black" />
+                {/* ── 5-STEP JOURNEY ── */}
+                <section className="w-full max-w-3xl mx-auto px-4 md:px-6 pb-16 md:pb-28 space-y-4">
+                  <p className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-black/20 dark:text-white/20 mb-8">
+                    Hoe het werkt
+                  </p>
+
+                  {[
+                    {
+                      step: "01",
+                      icon: PenLine,
+                      title: "Voer je vraag in",
+                      desc: "Stel elke vraag — zakelijk, filosofisch of persoonlijk. FAINL verwerkt hem direct.",
+                    },
+                    {
+                      step: "02",
+                      icon: Users,
+                      title: "AI's gaan head-to-head",
+                      desc: "Meerdere modellen analyseren jouw vraag tegelijk en controleren elkaars redenering op fouten en blinde vlekken.",
+                    },
+                    {
+                      step: "03",
+                      icon: Eye,
+                      title: "Bekijk elke AI apart",
+                      desc: "Volledig transparant: zie exact wat elk AI-model individueel heeft geconcludeerd — zonder filters.",
+                    },
+                    {
+                      step: "04",
+                      icon: Swords,
+                      title: "Live debat — doe zelf mee",
+                      desc: "De modellen debatteren live met elkaar. Wil jij ook de ring in? Dat kan — gooi jouw perspectief ertussen.",
+                    },
+                    {
+                      step: "05",
+                      icon: Gavel,
+                      title: "Het ultieme eindoordeel",
+                      desc: "FAINL analyseert alle resultaten, voegt samen en geeft jou het meest complete, gewogen antwoord.",
+                    },
+                  ].map(({ step, icon: Icon, title, desc }, i) => (
+                    <div
+                      key={step}
+                      className="group flex items-start gap-5 p-6 md:p-8 bg-white dark:bg-zinc-900 border-2 border-black/5 dark:border-white/5 rounded-2xl hover:border-black dark:hover:border-white hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)] transition-all duration-200 journey-step"
+                    >
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-black dark:bg-white rounded-xl group-hover:scale-110 transition-transform">
+                        <Icon className="w-5 h-5 md:w-6 md:h-6 text-white dark:text-black" />
                       </div>
-                      <div>
-                        <h3 className="text-3xl font-black uppercase tracking-tighter text-black dark:text-white">{t.hero.quickStartTitle}</h3>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-1.5">
+                          <span className="text-[10px] font-black tracking-[0.25em] text-black/20 dark:text-white/20">
+                            {step}
+                          </span>
+                          <h3 className="text-base md:text-lg font-black uppercase tracking-tight text-black dark:text-white">
+                            {title}
+                          </h3>
+                        </div>
+                        <p className="text-sm font-medium text-black/50 dark:text-white/50 leading-relaxed">
+                          {desc}
+                        </p>
+                      </div>
+                      <ArrowRight className="flex-shrink-0 w-4 h-4 text-black/10 dark:text-white/10 group-hover:text-black dark:group-hover:text-white group-hover:translate-x-1 transition-all mt-1" />
+                    </div>
+                  ))}
+
+                  {/* Bottom CTA */}
+                  <div className="pt-8 flex flex-col items-center gap-4">
+                    <button
+                      type="button"
+                      onClick={() => navigate("/mission")}
+                      className="inline-flex items-center gap-3 px-8 py-5 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] active:scale-95 transition-all shadow-lg"
+                    >
+                      Start je eerste sessie
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-black/20 dark:text-white/20 text-center">
+                      Gratis · Geen account nodig · Ondersteund door 5+ AI
+                      modellen
+                    </p>
+                  </div>
+                </section>
+              </>
+            }
+          />
+
+          {/* Mission / Chat Area */}
+          <Route
+            path="/mission"
+            element={
+              <>
+                <SEO
+                  title="Missie Controle"
+                  description="Start je AI-sessie en zie hoe meerdere modellen tot een consensus komen."
+                  canonical="/mission"
+                />
+                <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 flex flex-col items-center justify-center min-h-[calc(100vh-120px)]">
+                  {renderStageIndicator()}
+                  {session.stage === WorkflowStage.ERROR && (
+                    <div className="w-full max-w-xl bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-6 md:p-12 rounded-xl text-center animate-fade-in-up">
+                      <AlertTriangle className="w-12 h-12 md:w-20 md:h-20 text-black dark:text-white mb-6 md:mb-8 mx-auto" />
+                      <h3 className="text-xl md:text-3xl font-black uppercase mb-3 md:mb-4 tracking-tighter">
+                        Protocol Halt
+                      </h3>
+                      <p className="text-black/50 dark:text-white/50 font-bold mb-6 md:mb-10 leading-relaxed text-sm md:text-lg">
+                        {session.error}
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSession({
+                              ...session,
+                              stage: WorkflowStage.IDLE,
+                            })
+                          }
+                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-700 font-black rounded uppercase tracking-[0.2em] text-[9px] md:text-[10px] transition-all text-black dark:text-white"
+                        >
+                          Recalibrate
+                        </button>
                       </div>
                     </div>
+                  )}
 
-                    <div className="space-y-8">
-                      <div>
-                        <div className="flex justify-between items-center mb-4">
-                          <label className="text-xs font-black uppercase tracking-[0.2em] text-black dark:text-white">{t.hero.pasteKey}</label>
-                          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline">{t.hero.getFreeKey}</a>
-                        </div>
-                        <div className="flex gap-4">
-                          <input
-                            type="password"
-                            placeholder={t.hero.apiKeyPlaceholder}
-                            className="flex-1 bg-zinc-100 dark:bg-zinc-800 border-4 border-black dark:border-zinc-700 p-5 rounded-2xl font-mono text-sm focus:bg-white dark:focus:bg-zinc-700 transition-all shadow-inner text-black dark:text-white"
-                            onChange={(e) => {
-                              const val = e.target.value.trim();
-                              if (val.startsWith('AIza')) {
-                                setConfig(prev => ({ ...prev, googleKey: val }));
-                              }
-                            }}
+                  {session.stage === WorkflowStage.IDLE ? (
+                    <div className="w-full relative">
+                      <div className="relative bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl p-6 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] focus-within:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:focus-within:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] md:focus-within:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] dark:md:focus-within:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] transition-all">
+                        <div className="relative w-full min-h-[200px] md:min-h-[350px]">
+                          {!input && !isInputFocused && (
+                            <div className="absolute top-0 left-0 pointer-events-none text-xl sm:text-2xl md:text-4xl font-black text-black/20 dark:text-white/20 font-serif italic">
+                              <FadingPlaceholder isFocused={isInputFocused} />
+                            </div>
+                          )}
+                          <textarea
+                            value={input}
+                            onChange={(e) =>
+                              setInput(e.target.value.slice(0, MAX_CHARS))
+                            }
+                            onFocus={() => setIsInputFocused(true)}
+                            onBlur={() => setIsInputFocused(false)}
+                            aria-label="Enter your mission or directive"
+                            placeholder="Stel je vraag..."
+                            className="w-full h-full bg-transparent border-none p-0 text-xl sm:text-2xl md:text-4xl font-black text-black dark:text-white placeholder-transparent focus:ring-0 transition-all resize-none font-serif italic absolute top-0 left-0"
                           />
                         </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="p-5 border-2 border-black/5 dark:border-white/5 rounded-2xl bg-zinc-50 dark:bg-zinc-800">
-                          <div className="flex items-center gap-3 mb-2 font-black text-[10px] uppercase tracking-widest">
-                            <Shield className="w-4 h-4" /> {t.hero.zeroDataTitle}
-                          </div>
-                          <p className="text-[9px] text-black/40 dark:text-white/40 font-bold uppercase leading-tight">{t.hero.zeroDataDesc}</p>
+                        <div className="absolute bottom-4 left-4 md:bottom-12 md:left-12 pointer-events-none">
+                          <span
+                            className={`text-[10px] md:text-xs font-black uppercase tracking-widest ${input.length >= MAX_CHARS ? "text-red-500" : "text-black/40 dark:text-white/40"}`}
+                          >
+                            {input.length} / {MAX_CHARS}
+                          </span>
                         </div>
-                        <div className="p-5 border-2 border-black/5 dark:border-white/5 rounded-2xl bg-zinc-50 dark:bg-zinc-800">
-                          <div className="flex items-center gap-3 mb-2 font-black text-[10px] uppercase tracking-widest">
-                            <Globe className="w-4 h-4" /> {t.hero.pureLogicTitle}
-                          </div>
-                          <p className="text-[9px] text-black/40 dark:text-white/40 font-bold uppercase leading-tight">{t.hero.pureLogicDesc}</p>
-                        </div>
+                        <button
+                          onClick={handleStart}
+                          disabled={!input.trim()}
+                          title="Send mission"
+                          className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-20 disabled:grayscale text-white dark:text-black rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden"
+                        >
+                          <AnimatedSendIcon />
+                        </button>
                       </div>
+                      <p className="mt-4 md:mt-8 text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] block text-center">
+                        Versleutelde sessie. Data wordt alleen lokaal
+                        opgeslagen.
+                      </p>
                     </div>
-                  </div>
-                ) : (
-                  <div className="w-full relative">
-                    <div className="relative bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl p-6 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] focus-within:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:focus-within:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] md:focus-within:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] dark:md:focus-within:shadow-[20px_20px_0px_0px_rgba(255,255,255,0.1)] transition-all">
-                      <div className="relative w-full min-h-[200px] md:min-h-[350px]">
-                        {!input && !isInputFocused && (
-                          <div className="absolute top-0 left-0 pointer-events-none text-xl sm:text-2xl md:text-4xl font-black text-black/20 dark:text-white/20 font-serif italic">
-                            <FadingPlaceholder isFocused={isInputFocused} examples={t.hero.placeholders} />
+                  ) : (
+                    session.stage !== WorkflowStage.ERROR && (
+                      <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12">
+                        <div className="bg-white/40 dark:bg-zinc-900/40 border-2 border-black/5 dark:border-white/5 rounded-xl p-6 md:p-12 text-center backdrop-blur-sm">
+                          <span className="text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em] mb-4 block border-b border-black/5 pb-2 mx-auto w-fit italic">
+                            Deliberation Protocol Active
+                          </span>
+                          <p className="text-2xl sm:text-3xl md:text-5xl text-black dark:text-white font-serif italic font-medium tracking-tight leading-tight">
+                            "{session.query}"
+                          </p>
+                        </div>
+
+                        {(session.stage === WorkflowStage.SYNTHESIZING ||
+                          session.stage === WorkflowStage.COMPLETED) && (
+                          <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl overflow-hidden shadow-2xl">
+                            <div className="bg-black dark:bg-white text-white dark:text-black p-4 md:p-8 flex items-center gap-4 border-b-2">
+                              <Gavel className="w-6 h-6 md:w-8 md:h-8" />
+                              <h3 className="font-black text-lg md:text-2xl uppercase tracking-widest">
+                                Chairman's Verdict
+                              </h3>
+                            </div>
+                            <div className="p-6 md:p-16 prose prose-base md:prose-2xl max-w-none bg-white dark:bg-zinc-900 leading-relaxed">
+                              {session.synthesis ? (
+                                <ReactMarkdown>
+                                  {session.synthesis}
+                                </ReactMarkdown>
+                              ) : (
+                                <div className="h-40 flex flex-col items-center justify-center gap-4">
+                                  <Loader2 className="animate-spin w-10 h-10" />
+                                  <span className="font-black text-center uppercase tracking-widest">
+                                    Merging Neural Logic States
+                                  </span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         )}
-                        <textarea
-                          value={input}
-                          onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
-                          onFocus={() => setIsInputFocused(true)}
-                          onBlur={() => setIsInputFocused(false)}
-                          aria-label={t.hero.fainlInputPlaceholder}
-                          placeholder={t.hero.fainlInputPlaceholder}
-                          className="w-full h-full bg-transparent border-none p-0 text-xl sm:text-2xl md:text-4xl font-black text-black dark:text-white placeholder-transparent focus:ring-0 transition-all resize-none font-serif italic absolute top-0 left-0"
-                        />
-                      </div>
-                      <div className="absolute bottom-4 left-4 md:bottom-12 md:left-12 pointer-events-none">
-                        <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest ${input.length >= MAX_CHARS ? 'text-red-500' : 'text-black/40 dark:text-white/40'}`}>
-                          {input.length} / {MAX_CHARS}
-                        </span>
-                      </div>
-                      <button
-                        onClick={handleStart}
-                        disabled={!input.trim()}
-                        title="Send mission"
-                        aria-label="Send mission"
-                        className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed text-white dark:text-black rounded-xl md:rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] dark:shadow-[4px_4px_0px_1px_rgba(0,0,0,0.1)] md:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] dark:md:shadow-[8px_8px_0px_1px_rgba(0,0,0,0.1)] overflow-hidden"
-                      >
-                        <AnimatedSendIcon />
-                      </button>
-                    </div>
-                    <p className="mt-4 md:mt-8 text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] md:tracking-[0.3em]">Encrypted Session. Data persistent locally only.</p>
-                  </div>
-                )}
 
-                {/* --- MARKETING SECTIONS --- */}
-                <div className="w-full space-y-12 md:space-y-24 mt-16 md:mt-32 text-left">
-                  {/* Direct Uitleg */}
-                  <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-zinc-700 p-8 md:p-16 rounded-3xl shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-transform duration-500">
-                    <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-6">{t.marketing.directUitlegTitle}</h3>
-                    <p className="text-lg md:text-2xl font-bold text-black/70 dark:text-white/70 leading-relaxed">{t.marketing.directUitlegBody}</p>
-                  </div>
-
-                  {/* Waarom FAINL */}
-                  <div className="space-y-8">
-                    <div className="text-center mb-12">
-                      <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6">{t.marketing.waaromTitle}</h3>
-                      <p className="text-lg font-bold text-black/60 dark:text-white/60 max-w-2xl mx-auto">{t.marketing.waaromIntro}</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {[
-                        { title: t.marketing.waarom1Title, desc: t.marketing.waarom1Desc },
-                        { title: t.marketing.waarom2Title, desc: t.marketing.waarom2Desc },
-                        { title: t.marketing.waarom3Title, desc: t.marketing.waarom3Desc },
-                        { title: t.marketing.waarom4Title, desc: t.marketing.waarom4Desc }
-                      ].map((w, i) => (
-                        <div key={i} className="bg-zinc-50 dark:bg-zinc-800/50 border-2 border-black/10 dark:border-white/10 p-8 rounded-2xl hover:border-black dark:hover:border-white transition-colors">
-                          <h4 className="text-xl font-black uppercase tracking-tight mb-4">{w.title}</h4>
-                          <p className="text-sm font-bold text-black/60 dark:text-white/60">{w.desc}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Hoe Het Werkt */}
-                  <div className="bg-black dark:bg-white text-white dark:text-black p-8 md:p-16 rounded-3xl shadow-[16px_16px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.2)]">
-                    <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-12 text-center">{t.marketing.hoeWerktTitle}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      {[
-                        { title: t.marketing.hoeWerkt1Title, desc: t.marketing.hoeWerkt1Desc },
-                        { title: t.marketing.hoeWerkt2Title, desc: t.marketing.hoeWerkt2Desc },
-                        { title: t.marketing.hoeWerkt3Title, desc: t.marketing.hoeWerkt3Desc }
-                      ].map((step, i) => (
-                        <div key={i} className="flex flex-col items-center text-center space-y-4">
-                          <div className="w-12 h-12 rounded-full border-4 border-white dark:border-black flex items-center justify-center font-black text-xl">{i + 1}</div>
-                          <h4 className="text-lg font-black uppercase">{step.title}</h4>
-                          <p className="text-sm font-bold opacity-70">{step.desc}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="text-center mt-12 text-xs font-black uppercase tracking-widest opacity-50">{t.marketing.hoeWerktFooter}</p>
-                  </div>
-
-                  {/* Vergelijking */}
-                  <div className="space-y-8">
-                    <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 text-center">{t.marketing.vergelijkingTitle}</h3>
-                    <div className="overflow-x-auto rounded-2xl border-4 border-black dark:border-zinc-700">
-                      <table className="w-full text-left border-collapse min-w-[600px]">
-                        <thead>
-                          <tr className="bg-zinc-100 dark:bg-zinc-800 border-b-4 border-black dark:border-zinc-700">
-                            <th className="p-4 md:p-6 font-black uppercase tracking-wider">Eigenschap</th>
-                            <th className="p-4 md:p-6 font-black uppercase tracking-wider text-black/50 dark:text-white/50">Gewone AI</th>
-                            <th className="p-4 md:p-6 font-black uppercase tracking-wider bg-black dark:bg-white text-white dark:text-black">FAINL</th>
-                          </tr>
-                        </thead>
-                        <tbody className="font-bold text-sm md:text-base">
-                          {[
-                            [t.marketing.v1Label, t.marketing.v1Left, t.marketing.v1Right],
-                            [t.marketing.v2Label, t.marketing.v2Left, t.marketing.v2Right],
-                            [t.marketing.v3Label, t.marketing.v3Left, t.marketing.v3Right],
-                            [t.marketing.v4Label, t.marketing.v4Left, t.marketing.v4Right],
-                            [t.marketing.v5Label, t.marketing.v5Left, t.marketing.v5Right],
-                            [t.marketing.v6Label, t.marketing.v6Left, t.marketing.v6Right],
-                            [t.marketing.v7Label, t.marketing.v7Left, t.marketing.v7Right],
-                            [t.marketing.v8Label, t.marketing.v8Left, t.marketing.v8Right],
-                          ].map((row, i) => (
-                            <tr key={i} className="border-b border-black/10 dark:border-white/10 last:border-0 hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
-                              <td className="p-4 md:p-6 uppercase">{row[0]}</td>
-                              <td className="p-4 md:p-6 text-black/50 dark:text-white/50">{row[1]}</td>
-                              <td className="p-4 md:p-6 bg-black/5 dark:bg-white/5 font-black">{row[2]}</td>
-                            </tr>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                          {config.activeCouncil.map((member) => (
+                            <CouncilCard
+                              key={member.id}
+                              member={member}
+                              response={session.councilResponses.find(
+                                (r) => r.memberId === member.id,
+                              )}
+                              isLoading={
+                                session.stage ===
+                                  WorkflowStage.PROCESSING_COUNCIL &&
+                                !session.councilResponses.find(
+                                  (r) => r.memberId === member.id,
+                                )
+                              }
+                            />
                           ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Use Cases */}
-                  <div className="space-y-8">
-                    <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 text-center">{t.marketing.useCasesTitle}</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                      {[
-                        { title: t.marketing.uc1Title, desc: t.marketing.uc1Desc },
-                        { title: t.marketing.uc2Title, desc: t.marketing.uc2Desc },
-                        { title: t.marketing.uc3Title, desc: t.marketing.uc3Desc },
-                        { title: t.marketing.uc4Title, desc: t.marketing.uc4Desc },
-                        { title: t.marketing.uc5Title, desc: t.marketing.uc5Desc },
-                        { title: t.marketing.uc6Title, desc: t.marketing.uc6Desc }
-                      ].map((uc, i) => (
-                        <div key={i} className="bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-zinc-700 p-6 rounded-2xl hover:-translate-y-1 hover:shadow-lg transition-all">
-                          <h4 className="text-sm font-black uppercase tracking-widest mb-3">{uc.title}</h4>
-                          <p className="text-xs font-bold text-black/60 dark:text-white/60 leading-relaxed">{uc.desc}</p>
                         </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  {/* Conversie Block */}
-                  <div className="space-y-6 md:space-y-12 pb-12 text-center">
-                    <div className="p-8 md:p-12 border-y-4 border-black dark:border-white">
-                      <h4 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4">{t.marketing.conversie1Title}</h4>
-                      <p className="text-lg md:text-xl font-bold text-black/60 dark:text-white/60 max-w-3xl mx-auto">{t.marketing.conversie1Desc}</p>
-                    </div>
-                    <div className="p-8 md:p-12">
-                      <h4 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4">{t.marketing.conversie2Title}</h4>
-                      <p className="text-lg md:text-xl font-bold text-black/60 dark:text-white/60 max-w-3xl mx-auto">{t.marketing.conversie2Desc}</p>
-                    </div>
-                    <div className="p-8 md:p-12 border-y-4 border-black dark:border-white">
-                      <h4 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4">{t.marketing.conversie3Title}</h4>
-                      <p className="text-lg md:text-xl font-bold text-black/60 dark:text-white/60 max-w-3xl mx-auto">{t.marketing.conversie3Desc}</p>
-                    </div>
-
-                    <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="mt-8 px-10 py-5 bg-black dark:bg-white text-white dark:text-black font-black uppercase text-lg md:text-xl rounded-2xl shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] dark:shadow-[8px_8px_0px_1px_rgba(0,0,0,0.1)] hover:scale-105 active:scale-95 transition-all">
-                      {t.marketing.cta3}
-                    </button>
-                  </div>
-
-                </div>
-              </div>
-            ) : session.stage !== WorkflowStage.ERROR && (
-              <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12 md:pb-20">
-                {/* Active Context */}
-                <div className="bg-white/40 dark:bg-zinc-900/40 border-2 border-black/5 dark:border-white/5 rounded-xl md:rounded-2xl p-6 md:p-12 text-center backdrop-blur-sm">
-                  <span className="text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em] md:tracking-[0.5em] mb-4 md:mb-6 block border-b border-black/5 dark:border-white/5 pb-2 md:pb-3 mx-auto w-fit italic">Deliberation Protocol Active</span>
-                  <p className="text-2xl sm:text-3xl md:text-5xl text-black dark:text-white font-serif italic font-medium tracking-tight leading-tight">"{session.query}"</p>
-                </div>
-
-                {/* Synthesis Display */}
-                {(session.stage === WorkflowStage.SYNTHESIZING || session.stage === WorkflowStage.COMPLETED) && (
-                  <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl overflow-hidden shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[24px_24px_0px_0px_rgba(255,255,255,0.1)]">
-                    <div className="bg-black dark:bg-white text-white dark:text-black p-4 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-5 border-b-2 md:border-b-4 border-black dark:border-zinc-700">
-                      <div className="flex items-center gap-4 w-full sm:w-auto">
-                        <div className="p-2 md:p-3 bg-white/10 dark:bg-black/10 rounded-lg">
-                          <Gavel className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-black" />
-                        </div>
-                        <div>
-                          <h3 className="font-black text-lg md:text-2xl uppercase tracking-widest leading-none">Chairman's Verdict</h3>
-                          <p className="text-[8px] md:text-[10px] text-white/40 dark:text-black/40 font-black uppercase mt-1 md:mt-2 tracking-widest">Final Consolidated Synthesis</p>
-                        </div>
+                        {session.stage === WorkflowStage.COMPLETED && (
+                          <div className="flex justify-center pt-12">
+                            <button
+                              type="button"
+                              onClick={() => navigate("/")}
+                              className="px-10 py-6 bg-black dark:bg-white text-white dark:text-black rounded-xl font-black text-xl hover:scale-105 transition-all shadow-xl uppercase"
+                            >
+                              Initialize New Mission
+                            </button>
+                          </div>
+                        )}
                       </div>
-                      {session.stage === WorkflowStage.SYNTHESIZING && (
-                        <div className="ml-auto flex items-center gap-2 md:gap-3 bg-white/10 dark:bg-black/10 px-3 py-1.5 md:px-4 md:py-2 rounded font-black text-[8px] md:text-[10px] tracking-widest animate-pulse">
-                          <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
-                          SYNTHESIZING...
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-6 md:p-16 prose prose-base md:prose-2xl max-w-none prose-p:text-black dark:prose-p:text-white prose-headings:text-black dark:prose-headings:text-white prose-strong:text-black dark:prose-strong:text-white prose-li:text-black dark:prose-li:text-white bg-white dark:bg-zinc-900 leading-relaxed">
-                      {session.synthesis ? (
-                        <ReactMarkdown>{session.synthesis}</ReactMarkdown>
-                      ) : (
-                        <div className="h-40 md:h-80 flex flex-col items-center justify-center gap-4 md:gap-8 text-black/10 dark:text-white/10">
-                          <Loader2 className="animate-spin w-10 h-10 md:w-16 md:h-16 text-black dark:text-white" />
-                          <span className="font-black text-lg md:text-2xl uppercase tracking-[0.3em] md:tracking-[0.5em] text-center">Merging Neural Logic States</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Distributed Council Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12">
-                  {config.activeCouncil.map(member => {
-                    const response = session.councilResponses.find(r => r.memberId === member.id);
-                    const isLoading = session.stage === WorkflowStage.PROCESSING_COUNCIL && !response;
-                    return (
-                      <div key={member.id} className="flex flex-col gap-4 md:gap-8">
-                        <CouncilCard member={member} response={response} isLoading={isLoading} isExpanded={false} onToggle={() => { }} />
-                      </div>
-                    );
-                  })}
+                    )
+                  )}
                 </div>
-
-                {/* ── Debate CTA — shown after nodes finish ── */}
-                {session.councilResponses.length > 0 && session.stage !== WorkflowStage.PROCESSING_COUNCIL && session.stage !== WorkflowStage.SYNTHESIZING && (
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-6 py-4">
-                    <button
-                      onClick={() => setIsDebateOpen(true)}
-                      className="group flex items-center gap-4 px-10 py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:scale-105 active:scale-95 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.12)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)] dark:hover:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.1)]"
-                    >
-                      <MessageSquare className="w-5 h-5 group-hover:animate-pulse" />
-                      Open Debate Room
-                      {session.debateMessages.length > 0 && (
-                        <span className="bg-white/20 dark:bg-black/20 px-2 py-0.5 rounded-lg text-xs">{session.debateMessages.length} msgs</span>
-                      )}
-                    </button>
-                    {session.synthesis && (
-                      <span className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
-                        Debate completed
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {session.stage === WorkflowStage.COMPLETED && session.councilResponses.length > 0 && (
-                  <div className="flex justify-center pt-12 md:pt-24 pb-20 md:pb-40">
-                    <button
-                      onClick={() => setSession({ id: crypto.randomUUID(), stage: WorkflowStage.IDLE, query: '', synthesis: '', councilResponses: [], reviews: [], debateMessages: [] })}
-                      className="px-10 py-6 md:px-20 md:py-10 bg-black dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-xl md:rounded-2xl text-white dark:text-black transition-all hover:scale-105 flex items-center gap-4 md:gap-8 font-black text-xl md:text-3xl shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] dark:shadow-[8px_8px_0px_1px_rgba(0,0,0,0.1)] md:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.2)] dark:md:shadow-[16px_16px_0px_1px_rgba(0,0,0,0.1)] active:translate-y-2 active:shadow-none uppercase tracking-tighter"
-                    >
-                      <Send className="w-8 h-8 md:w-12 md:h-12" />
-                      Initialize New Mission
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ) : null}
-
-        {/* ── Debate Room Overlay ── */}
-        <DebateRoom
-          isOpen={isDebateOpen}
-          session={session}
-          config={config}
-          councilService={councilService.current}
-          onClose={() => setIsDebateOpen(false)}
-          onEndDebate={handleEndDebate}
-          onAddDebateMessage={handleAddDebateMessage}
-        />
-
-        {/* New Pages */}
-        {currentView === AppView.PRICING && (
-          <PricingPage
-            hasOwnKeys={!!(config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey)}
-            onPurchaseTurns={(count: number) => handlePurchaseTurns(count)}
+              </>
+            }
           />
-        )}
-        {currentView === AppView.ACCOUNT && (
-          !authSession ? (
-            <LoginPage onLoginSuccess={() => setCurrentView(AppView.ACCOUNT)} />
-          ) : (
-            <AccountPage
-              config={config}
-              history={history}
-              onLoadSession={(sess: SessionState) => {
-                setSession(sess);
-                setCurrentView(AppView.HOME);
-              }}
-              onDeleteSessions={(ids: string[]) => {
-                setHistory(prev => prev.filter(s => !ids.includes(s.id)));
-              }}
-              onArchiveSessions={(ids: string[]) => {
-                setHistory(prev => prev.map(s => ids.includes(s.id) ? { ...s, isArchived: !s.isArchived } : s));
-              }}
-            />
-          )
-        )}
-        {currentView === AppView.COOKBOOK && (
-          <CookbookPage
-            onSelectMission={(q: string) => {
-              setInput(q);
-              setCurrentView(AppView.HOME);
-            }}
+
+          {/* Pricing / Tokens */}
+          <Route
+            path="/tokens"
+            element={
+              <>
+                <SEO
+                  title="Tokens & Abonnementen"
+                  description="Kies het pakket dat bij je past. Tokens voor incidentele vragen of een maandelijks abonnement voor onbeperkte toegang."
+                  canonical="/tokens"
+                />
+                <PricingPage
+                  hasOwnKeys={Object.values(ModelProvider).some((p) =>
+                    councilService.current.isProviderReady(p),
+                  )}
+                  onPurchaseTurns={(count: number | typeof Infinity) =>
+                    handlePurchase("turns", count)
+                  }
+                  onPurchaseCredits={(count: number) =>
+                    handlePurchase("credits", count)
+                  }
+                />
+              </>
+            }
           />
-        )}
-        {currentView === AppView.FAQ && <FAQPage />}
-        {currentView === AppView.CONTACT && <ContactPage />}
-        {currentView === AppView.PRIVACY && <PrivacyPolicyPage />}
-        {currentView === AppView.TERMS && <TermsOfServicePage />}
+
+          {/* Account / Dashboard */}
+          <Route
+            path="/dashboard"
+            element={
+              !authSession ? (
+                <LoginPage onLoginSuccess={() => navigate("/dashboard")} />
+              ) : (
+                <>
+                  <SEO
+                    title="Mijn Dashboard"
+                    description="Beheer je sessies, bekijk je geschiedenis en configureer je persoonlijke AI-raad."
+                    canonical="/dashboard"
+                  />
+                  <AccountPage
+                    config={config}
+                    history={history}
+                    onLoadSession={(sess: SessionState) => {
+                      setSession(sess);
+                      navigate("/mission");
+                    }}
+                    onDeleteSessions={(ids: string[]) => {
+                      setHistory((prev) =>
+                        prev.filter((s) => !ids.includes(s.id)),
+                      );
+                    }}
+                    onArchiveSessions={(ids: string[]) => {
+                      setHistory((prev) =>
+                        prev.map((s) =>
+                          ids.includes(s.id)
+                            ? { ...s, isArchived: !s.isArchived }
+                            : s,
+                        ),
+                      );
+                    }}
+                  />
+                </>
+              )
+            }
+          />
+
+          {/* Cookbook */}
+          <Route
+            path="/cookbook"
+            element={
+              <>
+                <SEO
+                  title="Het Kookboek"
+                  description="Een verzameling van 400 diepgaande levensvragen, geoptimaliseerd voor collectieve AI-reflectie."
+                  canonical="/cookbook"
+                />
+                <CookbookPage
+                  onSelectMission={(q: string) => {
+                    setInput(q);
+                    navigate("/mission");
+                  }}
+                />
+              </>
+            }
+          />
+
+          <Route path="/cookbook/:id" element={<QuestionPage />} />
+
+          {/* Static Pages */}
+          <Route
+            path="/faq"
+            element={
+              <>
+                <SEO
+                  title="Veelgestelde Vragen"
+                  description="Antwoorden op al je vragen over FAINL, AI-consensus en privacy."
+                  canonical="/faq"
+                />
+                <FAQPage />
+              </>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <>
+                <SEO
+                  title="Contact"
+                  description="Neem contact met ons op voor vragen, suggesties of ondersteuning."
+                  canonical="/contact"
+                />
+                <ContactPage />
+              </>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <>
+                <SEO
+                  title="Privacybeleid"
+                  description="Hoe wij omgaan met jouw data. Bij FAINL staat jouw privacy centraal."
+                  canonical="/privacy"
+                />
+                <PrivacyPolicyPage />
+              </>
+            }
+          />
+          <Route
+            path="/terms"
+            element={
+              <>
+                <SEO
+                  title="Algemene Voorwaarden"
+                  description="De spelregels van FAINL. Transparant en eerlijk."
+                  canonical="/terms"
+                />
+                <TermsOfServicePage />
+              </>
+            }
+          />
+
+          {/* Catch-all Redirect */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
 
       {/* Modern Footer with Privacy Link */}
       <footer className="border-t border-black/5 dark:border-white/5 py-8 md:py-12 bg-white/50 dark:bg-zinc-950/50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <span className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
-            {t.common.madeBy} <span className="text-black dark:text-white">MNRV</span>
-          </span>
           <div className="flex items-center gap-8">
             <button
-              onClick={() => setCurrentView(AppView.PRIVACY)}
+              type="button"
+              onClick={() => navigate("/privacy")}
               className="text-[10px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
             >
-              {t.nav.privacyPolicy}
+              Privacy Policy
             </button>
             <button
-              onClick={() => setCurrentView(AppView.TERMS)}
+              type="button"
+              onClick={() => navigate("/terms")}
               className="text-[10px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
             >
-              {t.nav.termsOfService}
+              Terms of Service
             </button>
-            <span className="text-[10px] font-black uppercase tracking-widest text-black/10 dark:text-white/10">© 2026</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-black/10 dark:text-white/10">
+              © 2026
+            </span>
           </div>
         </div>
       </footer>
 
       <PaywallModal
         isOpen={isPaywallOpen}
-        hasOwnKeys={!!(config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey)}
-        onPurchaseTurns={(count: number) => handlePurchaseTurns(count)}
         onClose={() => setIsPaywallOpen(false)}
       />
-      <SettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        config={config}
-        onSave={setConfig}
-        history={history}
-        onImportHistory={setHistory}
-        onVerifyKey={(provider: ModelProvider, key: string) => councilService.current.verifyProviderKey(provider, key)}
+
+      <TrialChoiceModal
+        isOpen={isTrialChoiceOpen}
+        onClose={() => setIsTrialChoiceOpen(false)}
+        onWatchAd={handleWatchAd}
+        onBuyTokens={() => {
+          setIsTrialChoiceOpen(false);
+          navigate("/tokens");
+        }}
       />
+
       {isWelcomeOpen && (
-        <WelcomePopup onClose={() => {
-          localStorage.setItem('fainl_visited', '1');
-          setIsWelcomeOpen(false);
-        }} />
+        <WelcomePopup
+          onClose={() => {
+            localStorage.setItem("fainl_visited", "1");
+            setIsWelcomeOpen(false);
+          }}
+        />
       )}
+
+      {/* GDPR Cookie Consent Banner */}
+      <CookieConsent />
     </div>
   );
 };
