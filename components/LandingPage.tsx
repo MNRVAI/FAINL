@@ -120,82 +120,15 @@ const FAQItem: FC<{ q: string; a: string }> = ({ q, a }) => {
 
 // ── AI Ticker Models ─────────────────────────────────────────────────────────
 const AI_MODELS = [
-  {
-    name: "Google Gemini",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2C12 8.6 7.6 12 2 12C7.6 12 12 16.4 12 22C12 16.4 16.4 12 22 12C16.4 12 12 8.6 12 2Z" fill="#4285F4"/>
-      </svg>
-    ),
-  },
-  {
-    name: "OpenAI GPT-4",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
-        <path d="M12 2L13.8 8.2L20.2 8.2L15.2 12L17 18.2L12 14.4L7 18.2L8.8 12L3.8 8.2L10.2 8.2L12 2Z" fill="currentColor"/>
-      </svg>
-    ),
-  },
-  {
-    name: "Anthropic Claude",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
-        <path d="M12 3L21 20H3L12 3Z" fill="#CC785C"/>
-      </svg>
-    ),
-  },
-  {
-    name: "Meta Llama",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none">
-        <path d="M6 8.5C3.5 8.5 2 10.2 2 12C2 14 3.5 15.5 6 15.5C8 15.5 9.5 14 12 12C14.5 10 16 8.5 18 8.5C20.5 8.5 22 10 22 12C22 14 20.5 15.5 18 15.5C16 15.5 14.5 14 12 12C9.5 10 8 8.5 6 8.5Z" stroke="#0081FB" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-      </svg>
-    ),
-  },
-  {
-    name: "Mistral AI",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 21 21">
-        <rect x="0"  y="0"  width="6" height="6" fill="#FF6B35"/>
-        <rect x="7.5" y="0"  width="6" height="6" fill="#FF6B35" opacity="0.5"/>
-        <rect x="15" y="0"  width="6" height="6" fill="#FF6B35"/>
-        <rect x="0"  y="7.5" width="6" height="6" fill="#FF6B35" opacity="0.5"/>
-        <rect x="7.5" y="7.5" width="6" height="6" fill="#FF6B35"/>
-        <rect x="15" y="7.5" width="6" height="6" fill="#FF6B35" opacity="0.5"/>
-        <rect x="0"  y="15" width="6" height="6" fill="#FF6B35"/>
-        <rect x="15" y="15" width="6" height="6" fill="#FF6B35"/>
-      </svg>
-    ),
-  },
-  {
-    name: "DeepSeek",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none">
-        <circle cx="10" cy="10" r="5.5" stroke="#4D6BFE" strokeWidth="2.5"/>
-        <path d="M14.5 14.5L21 21" stroke="#4D6BFE" strokeWidth="2.5" strokeLinecap="round"/>
-      </svg>
-    ),
-  },
-  {
-    name: "Groq",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" fill="#111"/>
-        <path d="M16 10H11C10 10 9 10.9 9 12C9 13.1 10 14 11 14H14V12.5H12" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-  },
-  {
-    name: "Ollama",
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" fill="#374151"/>
-        <circle cx="9"  cy="10.5" r="1.5" fill="white"/>
-        <circle cx="15" cy="10.5" r="1.5" fill="white"/>
-        <path d="M9.5 15C10.5 16 13.5 16 14.5 15" stroke="white" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
-      </svg>
-    ),
-  },
+  { name: "Google Gemini",    icon: <img src="/Logo AI/gemini-color.svg" alt="Google Gemini"    className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "OpenAI",           icon: <img src="/Logo AI/openai.svg"        alt="OpenAI"           className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Anthropic Claude", icon: <img src="/Logo AI/claude.svg"        alt="Anthropic Claude" className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Mistral AI",       icon: <img src="/Logo AI/mistral.svg"       alt="Mistral AI"       className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "DeepSeek",         icon: <img src="/Logo AI/deepseek.svg"      alt="DeepSeek"         className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Groq",             icon: <img src="/Logo AI/groq.svg"          alt="Groq"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Grok",             icon: <img src="/Logo AI/grok.svg"          alt="Grok"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Perplexity",       icon: <img src="/Logo AI/perplexity.svg"    alt="Perplexity"       className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Qwen",             icon: <img src="/Logo AI/qwen.svg"          alt="Qwen"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
 ];
 
 // ── Main Component ───────────────────────────────────────────────────────────

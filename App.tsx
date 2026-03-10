@@ -549,9 +549,9 @@ const App: FC = () => {
           <div className="flex items-center gap-4 md:gap-8">
             <button onClick={() => navigate("/")} className="flex items-center gap-3 md:gap-4 group">
               <img
-                src="/FAINLLOGO.png"
+                src="/FAINLLOGO.svg.png"
                 alt="FAINL logo"
-                className="h-8 md:h-10 w-auto object-contain"
+                className="h-12 md:h-16 w-auto object-contain"
               />
               <span className="text-2xl font-black tracking-tighter hidden sm:block text-black">
                 <ScrambleText text="FAINL" />
