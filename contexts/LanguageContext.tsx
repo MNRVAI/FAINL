@@ -18,6 +18,12 @@ interface Translations {
     turns: string;
     moreSoon: string;
   };
+  common: {
+    madeBy: string;
+  };
+  nav: {
+    signOut: string;
+  };
 }
 
 const translations: Record<Language, Translations> = {
@@ -30,6 +36,12 @@ const translations: Record<Language, Translations> = {
       turns: "Credits",
       moreSoon: "Alle pakketten worden direct verwerkt via Stripe.",
     },
+    common: {
+      madeBy: "Gemaakt door",
+    },
+    nav: {
+      signOut: "Uitloggen",
+    },
   },
   en: {
     pricing: {
@@ -39,6 +51,12 @@ const translations: Record<Language, Translations> = {
       standardDesc: "One-time credits, never expire.",
       turns: "Credits",
       moreSoon: "All packages processed instantly via Stripe.",
+    },
+    common: {
+      madeBy: "Made by",
+    },
+    nav: {
+      signOut: "Sign out",
     },
   },
 };
