@@ -120,15 +120,15 @@ const FAQItem: FC<{ q: string; a: string }> = ({ q, a }) => {
 
 // ── AI Ticker Models ─────────────────────────────────────────────────────────
 const AI_MODELS = [
-  { name: "Google Gemini",    icon: <img src="/Logo%20AI/gemini-color.svg" alt="Google Gemini"    className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "OpenAI",           icon: <img src="/Logo%20AI/openai.svg"        alt="OpenAI"           className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "Anthropic Claude", icon: <img src="/Logo%20AI/claude.svg"        alt="Anthropic Claude" className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "Mistral AI",       icon: <img src="/Logo%20AI/mistral.svg"       alt="Mistral AI"       className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "DeepSeek",         icon: <img src="/Logo%20AI/deepseek.svg"      alt="DeepSeek"         className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "Groq",             icon: <img src="/Logo%20AI/groq.svg"          alt="Groq"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "Grok",             icon: <img src="/Logo%20AI/grok.svg"          alt="Grok"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "Perplexity",       icon: <img src="/Logo%20AI/perplexity.svg"    alt="Perplexity"       className="w-6 h-6 flex-shrink-0 object-contain" /> },
-  { name: "Qwen",             icon: <img src="/Logo%20AI/qwen.svg"          alt="Qwen"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Google Gemini",    icon: <img src="/ai-logos/gemini-color.svg" alt="Google Gemini"    className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "OpenAI",           icon: <img src="/ai-logos/openai.svg"        alt="OpenAI"           className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Anthropic Claude", icon: <img src="/ai-logos/claude.svg"        alt="Anthropic Claude" className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Mistral AI",       icon: <img src="/ai-logos/mistral.svg"       alt="Mistral AI"       className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "DeepSeek",         icon: <img src="/ai-logos/deepseek.svg"      alt="DeepSeek"         className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Groq",             icon: <img src="/ai-logos/groq.svg"          alt="Groq"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Grok",             icon: <img src="/ai-logos/grok.svg"          alt="Grok"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Perplexity",       icon: <img src="/ai-logos/perplexity.svg"    alt="Perplexity"       className="w-6 h-6 flex-shrink-0 object-contain" /> },
+  { name: "Qwen",             icon: <img src="/ai-logos/qwen.svg"          alt="Qwen"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
 ];
 
 // ── Main Component ───────────────────────────────────────────────────────────

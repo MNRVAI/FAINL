@@ -549,7 +549,7 @@ const App: FC = () => {
           <div className="flex items-center gap-4 md:gap-8">
             <button onClick={() => navigate("/")} className="flex items-center gap-3 md:gap-4 group">
               <img
-                src="/FAINLLOGO.svg.png"
+                src="/fainl-logo.png"
                 alt="FAINL logo"
                 className="h-12 md:h-16 w-auto object-contain"
               />
