@@ -23,18 +23,36 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
     const [activeDifficulty, setActiveDifficulty] = useState<string>('All');
     const [sortBy, setSortBy] = useState<'popularity' | 'rating' | 'newest'>('popularity');
 
-    // Local state for simulated rankings
-    const [localRatings, setLocalRatings] = useState<Record<string, number>>({});
+    // Persisted ratings and user vote tracking (prevent double voting)
+    const [localRatings, setLocalRatings] = useState<Record<string, number>>(() => {
+        try { return JSON.parse(localStorage.getItem('fainl_votes') || '{}'); } catch { return {}; }
+    });
+    const [userVotes, setUserVotes] = useState<Record<string, 1 | -1>>(() => {
+        try { return JSON.parse(localStorage.getItem('fainl_user_votes') || '{}'); } catch { return {}; }
+    });
 
     const categories = ['All', ...Array.from(new Set(DIRECTIVES.map(d => d.category)))];
     const difficulties = ['All', 'Alpha', 'Beta', 'Gamma'];
 
-    const handleVote = (id: string, delta: number, e: React.MouseEvent) => {
+    const handleVote = (id: string, delta: 1 | -1, e: React.MouseEvent) => {
         e.stopPropagation();
-        setLocalRatings(prev => ({
-            ...prev,
-            [id]: (prev[id] || 0) + delta
-        }));
+        const existing = userVotes[id];
+        // If same direction already voted: undo the vote
+        const actualDelta = existing === delta ? -delta : (existing ? delta - existing : delta);
+        const newUserVote = existing === delta ? undefined : delta;
+
+        setLocalRatings(prev => {
+            const next = { ...prev, [id]: (prev[id] || 0) + actualDelta };
+            localStorage.setItem('fainl_votes', JSON.stringify(next));
+            return next;
+        });
+        setUserVotes(prev => {
+            const next = { ...prev };
+            if (newUserVote === undefined) delete next[id];
+            else next[id] = newUserVote;
+            localStorage.setItem('fainl_user_votes', JSON.stringify(next));
+            return next;
+        });
     };
 
     const filteredDirectives = useMemo(() => {
@@ -155,23 +173,25 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                     </span>
                                     <span className="text-[8px] font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
                                 </div>
-                                <div className="flex items-center gap-1.5 p-1.5 bg-black/5 dark:bg-white/5 rounded-lg">
+                                <div className="flex items-center gap-1.5 p-1.5 bg-black/5 rounded-lg">
                                     <button
+                                        type="button"
                                         onClick={(e) => handleVote(directive.id, 1, e)}
-                                        title={language === 'nl' ? 'Upvote om community score te verhogen' : 'Upvote to increase community ranking'}
-                                        aria-label={language === 'nl' ? 'Upvote om community score te verhogen' : 'Upvote to increase community ranking'}
-                                        className="p-1 hover:bg-black/10 dark:hover:bg-white/10 rounded transition-colors text-black/40 dark:text-white/40 hover:text-green-500 flex items-center gap-1 group/vote"
+                                        title="Upvote"
+                                        aria-label="Upvote"
+                                        className={`p-1 rounded transition-colors flex items-center gap-1 group/vote ${userVotes[directive.id] === 1 ? 'text-green-600' : 'text-black/40 hover:text-green-500'}`}
                                     >
                                         <ChevronUp className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
                                     </button>
-                                    <span className="text-[10px] font-black text-black dark:text-white min-w-[16px] text-center" title={language === 'nl' ? 'Netto community score' : 'Net community ranking'}>
+                                    <span className="text-[10px] font-black text-black min-w-[16px] text-center">
                                         {(directive.rating + (localRatings[directive.id] || 0))}
                                     </span>
                                     <button
+                                        type="button"
                                         onClick={(e) => handleVote(directive.id, -1, e)}
-                                        title={language === 'nl' ? 'Downvote om community score te verlagen' : 'Downvote to decrease community ranking'}
-                                        aria-label={language === 'nl' ? 'Downvote om community score te verlagen' : 'Downvote to decrease community ranking'}
-                                        className="p-1 hover:bg-black/10 dark:hover:bg-white/10 rounded transition-colors text-black/40 dark:text-white/40 hover:text-red-500 flex items-center gap-1 group/vote"
+                                        title="Downvote"
+                                        aria-label="Downvote"
+                                        className={`p-1 rounded transition-colors flex items-center gap-1 group/vote ${userVotes[directive.id] === -1 ? 'text-red-600' : 'text-black/40 hover:text-red-500'}`}
                                     >
                                         <ChevronDown className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
                                     </button>

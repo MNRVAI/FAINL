@@ -145,6 +145,55 @@ const CyberLogo: FC<{ isAnimated?: boolean }> = ({ isAnimated = true }) => {
   );
 };
 
+// Shown after Stripe redirects back. Reads ?payment_confirm=true&type=credits&count=X
+// which must be configured as the success URL in each Stripe Payment Link dashboard.
+const PaymentSuccessPage: FC = () => {
+  const navigate = useNavigate();
+  const params = new URLSearchParams(window.location.search);
+  const count = params.get('count') || '?';
+  const type = params.get('type');
+  const isConfirmed = params.get('payment_confirm') === 'true';
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_black]">
+        <div className="w-16 h-16 bg-[#FDC700] border-4 border-black flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 className="w-8 h-8 text-black" />
+        </div>
+        <h1 className="text-3xl font-black uppercase tracking-tighter mb-3 text-black">
+          {isConfirmed ? 'Betaling Bevestigd' : 'Bedankt!'}
+        </h1>
+        <p className="font-bold text-black mb-2">
+          {isConfirmed && type === 'credits'
+            ? `${count} credits zijn toegevoegd aan jouw account.`
+            : isConfirmed && type === 'lifetime'
+            ? 'Onbeperkte toegang geactiveerd.'
+            : 'Je betaling is verwerkt. Ga terug naar het dashboard om je credits te bekijken.'}
+        </p>
+        <p className="text-xs font-black uppercase tracking-widest text-black/40 mb-8">
+          Credits worden opgeslagen in jouw browser.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            type="button"
+            onClick={() => navigate('/dashboard')}
+            className="px-8 py-4 bg-black text-white font-black text-xs uppercase tracking-widest hover:bg-zinc-800 transition-all"
+          >
+            Naar Dashboard
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/mission')}
+            className="px-8 py-4 bg-[#FDC700] border-2 border-black text-black font-black text-xs uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+          >
+            Nieuwe Missie
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const App: FC = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -356,7 +405,7 @@ const App: FC = () => {
       );
 
       setSession((prev: SessionState) => {
-        const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED };
+        const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED, timestamp: Date.now() };
         setHistory((h: SessionState[]) => [completedSession, ...h]);
         return completedSession;
       });
@@ -421,16 +470,18 @@ const App: FC = () => {
   };
 
   const handlePurchaseTurns = (count: number) => {
-    let pkg = PRICING.CREDITS.find(p => p.count === count);
-    if (!pkg) pkg = PRICING.SUBSCRIPTIONS.find(p => p.count === count);
-    if (!pkg?.stripeUrl || pkg.stripeUrl === '#') {
+    const creditPkg = PRICING.CREDITS.find(p => p.count === count);
+    const subPkg = PRICING.SUBSCRIPTIONS.find(p => p.count === count || p.creditsPerMonth === count);
+    const pkg = creditPkg || subPkg;
+    if (!pkg?.stripeUrl) {
       alert("Deze betaallink is nog niet actief.");
       return;
     }
-    const successUrl = encodeURIComponent(
-      `${window.location.origin}${window.location.pathname}?payment_confirm=true&type=${PRICING.CREDITS.find(p => p.count === count) ? 'credits' : 'turns'}&count=${count}`
-    );
-    window.location.href = `${pkg.stripeUrl}?success_url=${successUrl}`;
+    // Stripe Payment Links do not support ?success_url= overrides.
+    // Configure each Payment Link's success URL in the Stripe Dashboard to:
+    //   https://fainl.com/?payment_confirm=true&type=credits&count=X
+    // where X is the number of credits for that product.
+    window.location.href = pkg.stripeUrl;
   };
 
   useEffect(() => {
@@ -440,16 +491,14 @@ const App: FC = () => {
       const countStr = params.get('count');
       const count = countStr === 'infinity' ? Infinity : parseInt(countStr || '0', 10);
 
-      if (type === 'turns') {
+      if (type === 'lifetime') {
+        setConfig(prev => ({ ...prev, isLifetime: true }));
+      } else if (type === 'credits' || type === 'turns') {
+        // Both credits and subscription purchases add to creditsRemaining
         setConfig(prev => ({
           ...prev,
+          creditsRemaining: prev.creditsRemaining + (isFinite(count as number) ? (count as number) : 0),
           isLifetime: count === Infinity ? true : prev.isLifetime,
-          totalTurnsAllowed: count === Infinity ? prev.totalTurnsAllowed : prev.totalTurnsAllowed + count
-        }));
-      } else if (type === 'credits') {
-        setConfig(prev => ({
-          ...prev,
-          creditsRemaining: prev.creditsRemaining + (count as number)
         }));
       }
       window.history.replaceState({}, document.title, window.location.pathname);
@@ -801,6 +850,12 @@ const App: FC = () => {
           {/* Legal */}
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsOfServicePage />} />
+
+          {/* Payment Success — Stripe redirects here after checkout */}
+          <Route
+            path="/payment-success"
+            element={<PaymentSuccessPage />}
+          />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />

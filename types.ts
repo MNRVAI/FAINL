@@ -81,6 +81,7 @@ export interface SessionState {
   synthesis: string;
   error?: string;
   isArchived?: boolean;
+  timestamp?: number;
 }
 
 export interface AppConfig {
