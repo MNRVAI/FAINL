@@ -110,7 +110,7 @@ const FAQItem: FC<{ q: string; a: string }> = ({ q, a }) => {
         />
       </button>
       {open && (
-        <p className="pb-5 text-sm md:text-base text-black/60 dark:text-white/50 leading-relaxed">
+        <p className="pb-5 text-base md:text-lg text-black leading-relaxed">
           {a}
         </p>
       )}
@@ -224,7 +224,7 @@ export const LandingPage: FC = () => {
           <span className="text-[#d1b411]">AI-model.</span>
         </h1>
 
-        <p className="max-w-lg sm:max-w-xl mx-auto text-[0.95rem] sm:text-base md:text-lg font-semibold text-black/55 leading-relaxed mb-8 sm:mb-10 md:mb-14">
+        <p className="max-w-lg sm:max-w-xl mx-auto text-base sm:text-lg md:text-xl font-semibold text-black leading-relaxed mb-8 sm:mb-10 md:mb-14">
           Eén model geeft een antwoord. Meerdere modellen doorgronden de kern.
           Met FAINL krijg je het best haalbare antwoord — aangedreven door AI-modellen
           die concurreren, toetsen en samensmelten tot één superieur eindresultaat.
@@ -290,7 +290,7 @@ export const LandingPage: FC = () => {
         <h2 className="text-center text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4">
           Hoe werkt het?
         </h2>
-        <p className="text-center text-sm md:text-base text-black/40 dark:text-white/40 font-semibold mb-12 md:mb-16 max-w-xl mx-auto">
+        <p className="text-center text-base md:text-lg text-black font-semibold mb-12 md:mb-16 max-w-xl mx-auto">
           Van jouw vraag tot het meest onderbouwde antwoord — in vijf
           geautomatiseerde stappen.
         </p>
@@ -334,7 +334,7 @@ export const LandingPage: FC = () => {
                 <h3 className="text-base md:text-lg font-black uppercase tracking-tight text-black dark:text-white mb-1.5">
                   {title}
                 </h3>
-                <p className="text-sm font-medium text-black/50 dark:text-white/50 leading-relaxed">
+                <p className="text-base md:text-lg font-medium text-black leading-relaxed">
                   {desc}
                 </p>
               </div>
@@ -352,7 +352,7 @@ export const LandingPage: FC = () => {
           <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
             Waarom FAINL?
           </h2>
-          <p className="text-center text-sm md:text-base text-black/40 dark:text-white/40 font-semibold mb-12 md:mb-16 max-w-xl mx-auto">
+          <p className="text-center text-base md:text-lg text-black font-semibold mb-12 md:mb-16 max-w-xl mx-auto">
             Gebouwd voor wie niet genoeg heeft aan een gewoon AI-antwoord.
           </p>
 
@@ -399,7 +399,7 @@ export const LandingPage: FC = () => {
                 <h3 className="font-black text-sm uppercase tracking-tight text-black dark:text-white mb-2">
                   {title}
                 </h3>
-                <p className="text-sm text-black/50 dark:text-white/50 leading-relaxed">{desc}</p>
+                <p className="text-base text-black leading-relaxed">{desc}</p>
               </article>
             ))}
           </div>
@@ -414,7 +414,7 @@ export const LandingPage: FC = () => {
         <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
           Voor wie?
         </h2>
-        <p className="text-center text-sm md:text-base text-black/40 dark:text-white/40 font-semibold mb-12 md:mb-16 max-w-xl mx-auto">
+        <p className="text-center text-base md:text-lg text-black font-semibold mb-12 md:mb-16 max-w-xl mx-auto">
           FAINL werkt voor elke situatie waar één perspectief niet genoeg is.
         </p>
 
@@ -482,7 +482,7 @@ export const LandingPage: FC = () => {
                 {examples.map((ex) => (
                   <li
                     key={ex}
-                    className="flex items-start gap-2 text-sm text-black/60 dark:text-white/50"
+                    className="flex items-start gap-2 text-base text-black"
                   >
                     <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-black/30 dark:text-white/30" />
                     <span className="italic">"{ex}"</span>
@@ -510,7 +510,7 @@ export const LandingPage: FC = () => {
           <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
             FAINL vs. gewone AI
           </h2>
-          <p className="text-center text-sm text-black/40 dark:text-white/40 font-semibold mb-12">
+          <p className="text-center text-base md:text-lg text-black font-semibold mb-12">
             Waarom is één model nooit genoeg?
           </p>
 
@@ -582,7 +582,7 @@ export const LandingPage: FC = () => {
           <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
             Veelgestelde vragen
           </h2>
-          <p className="text-center text-sm text-black/40 dark:text-white/40 font-semibold mb-12">
+          <p className="text-center text-base md:text-lg text-black font-semibold mb-12">
             Alles wat je wil weten over FAINL.
           </p>
 
@@ -592,7 +592,7 @@ export const LandingPage: FC = () => {
             ))}
           </div>
 
-          <p className="text-center mt-8 text-xs text-black/30 dark:text-white/20 font-bold">
+          <p className="text-center mt-8 text-sm text-black font-bold">
             Meer vragen?{" "}
             <Link
               to="/faq"
@@ -620,7 +620,7 @@ export const LandingPage: FC = () => {
         <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
           Eerlijke prijs
         </h2>
-        <p className="text-center text-sm text-black/40 dark:text-white/40 font-semibold mb-12">
+        <p className="text-center text-base md:text-lg text-black font-semibold mb-12">
           Begin gratis. Betaal alleen als je meer wilt.
         </p>
 
@@ -681,7 +681,7 @@ export const LandingPage: FC = () => {
           {[...Array(5)].map((_, i) => (
             <Star key={i} className="w-4 h-4 fill-[#d1b411] text-[#d1b411]" />
           ))}
-          <span className="ml-2 text-xs font-black text-black/30 dark:text-white/30 uppercase tracking-widest">
+          <span className="ml-2 text-xs font-black text-black uppercase tracking-widest">
             4.8 / 5 — 247 gebruikers
           </span>
         </div>
@@ -689,7 +689,7 @@ export const LandingPage: FC = () => {
         <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.95] mb-6">
           Klaar voor het scherpste AI-oordeel?
         </h2>
-        <p className="text-base md:text-lg font-semibold text-black/50 dark:text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-xl font-semibold text-black mb-10 max-w-xl mx-auto leading-relaxed">
           Stel jouw vraag. Laat de modellen strijden. Ontvang de waarheid.
           Twee sessies gratis — geen account, geen creditcard.
         </p>
@@ -703,7 +703,7 @@ export const LandingPage: FC = () => {
           <ArrowRight className="w-6 h-6" />
         </button>
 
-        <p className="mt-6 text-[10px] font-black uppercase tracking-[0.2em] text-black/15 dark:text-white/15">
+        <p className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-black/50">
           Gebruik je eigen API-sleutels? Dan is FAINL altijd 100% gratis.
         </p>
       </section>
