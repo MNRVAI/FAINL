@@ -5,8 +5,7 @@ import {
     ChevronUp,
     ChevronDown,
     Layers,
-    Clock,
-    LayoutGrid
+    Clock
 } from 'lucide-react';
 import { FC, useState, useMemo } from 'react';
 import { DIRECTIVES, Directive } from '../data/directives';
@@ -20,7 +19,6 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
     const { language } = useLanguage();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState<string>('All');
-    const [activeDifficulty, setActiveDifficulty] = useState<string>('All');
     const [sortBy, setSortBy] = useState<'popularity' | 'rating' | 'newest'>('popularity');
 
     // Persisted ratings and user vote tracking (prevent double voting)
@@ -31,8 +29,11 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
         try { return JSON.parse(localStorage.getItem('fainl_user_votes') || '{}'); } catch { return {}; }
     });
 
-    const categories = ['All', ...Array.from(new Set(DIRECTIVES.map(d => d.category)))];
-    const difficulties = ['All', 'Alpha', 'Beta', 'Gamma'];
+    const categoryCounts = DIRECTIVES.reduce<Record<string, number>>((acc, d) => {
+        acc[d.category] = (acc[d.category] || 0) + 1;
+        return acc;
+    }, {});
+    const categories = ['All', ...Array.from(new Set(DIRECTIVES.map(d => d.category))).filter(c => categoryCounts[c] >= 100)];
 
     const handleVote = (id: string, delta: 1 | -1, e: React.MouseEvent) => {
         e.stopPropagation();
@@ -61,8 +62,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                 d.query.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 d.subject.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesCategory = activeCategory === 'All' || d.category === activeCategory;
-            const matchesDifficulty = activeDifficulty === 'All' || d.difficulty === activeDifficulty;
-            return matchesSearch && matchesCategory && matchesDifficulty;
+            return matchesSearch && matchesCategory;
         }).sort((a, b) => {
             if (sortBy === 'rating') {
                 const ratingA = a.rating + (localRatings[a.id] || 0);
@@ -70,9 +70,9 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                 return ratingB - ratingA;
             }
             if (sortBy === 'popularity') return b.popularity - a.popularity;
-            return 0; // Newest not implemented (no date field)
+            return 0;
         });
-    }, [searchQuery, activeCategory, activeDifficulty, sortBy, localRatings]);
+    }, [searchQuery, activeCategory, sortBy, localRatings]);
 
     return (
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -110,18 +110,6 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                 className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
                             >
                                 {categories.map(c => <option key={c} value={c}>{c === 'All' ? (language === 'nl' ? 'ALLE CATEGORIE\u00CBN' : 'ANY CATEGORY') : c.toUpperCase()}</option>)}
-                            </select>
-                            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
-                        </div>
-
-                        <div className="relative group min-w-[160px]">
-                            <select
-                                value={activeDifficulty}
-                                onChange={(e) => setActiveDifficulty(e.target.value)}
-                                title={language === 'nl' ? 'Filter op niveau' : 'Filter by Difficulty Tier'}
-                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
-                            >
-                                {difficulties.map(d => <option key={d} value={d}>{d === 'All' ? (language === 'nl' ? 'ALLE NIVEAUS' : 'ANY DIFFICULTY') : `TIER ${d.toUpperCase()}`}</option>)}
                             </select>
                             <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
                         </div>
