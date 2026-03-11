@@ -572,26 +572,32 @@ const App: FC = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-black dark:text-white flex flex-col font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black overflow-x-hidden transition-colors duration-300">
       <header className="border-b border-black/10 dark:border-white/10 bg-white/50 dark:bg-zinc-950/50 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4 md:gap-8">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 grid grid-cols-3 items-center">
+          {/* Left: logo */}
+          <div className="flex items-center">
             <button type="button" onClick={() => navigate("/")} aria-label="FAINL — naar startpagina" className="flex items-center group">
               <LogoSwitch />
             </button>
-            <nav className="hidden lg:flex items-center gap-1">
-              {NavLinks.map(link => (
-                <button
-                  type="button"
-                  key={link.id}
-                  onClick={() => navigate(link.id)}
-                  className={`px-4 py-2.5 font-black text-sm uppercase tracking-widest transition-all rounded-lg ${location.pathname === link.id ? 'bg-black text-white' : 'text-black/60 hover:text-black hover:bg-black/5'}`}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </nav>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Center: nav links */}
+          <nav className="hidden lg:flex items-center justify-center gap-1">
+            {NavLinks.map(link => (
+              <button
+                type="button"
+                key={link.id}
+                onClick={() => navigate(link.id)}
+                className={`px-4 py-2.5 font-black text-sm uppercase tracking-widest transition-all rounded-lg ${location.pathname === link.id ? 'bg-black text-white' : 'text-black/60 hover:text-black hover:bg-black/5'}`}
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+          {/* placeholder for centering on mobile */}
+          <div className="lg:hidden" />
+
+          {/* Right: actions */}
+          <div className="flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
