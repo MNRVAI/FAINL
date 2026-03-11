@@ -94,7 +94,7 @@ export const UseCaseLegalPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
           <li className="text-black/60 dark:text-white/50">Gebruik</li>
@@ -104,7 +104,7 @@ export const UseCaseLegalPage: FC = () => {
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-[10px] font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Use case — Juridisch
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -136,7 +136,7 @@ export const UseCaseLegalPage: FC = () => {
               </div>
               <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed mb-4">{uc.desc}</p>
               <div className="bg-black/5 dark:bg-white/5 rounded-xl px-4 py-3">
-                <p className="text-[11px] font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-1">Voorbeeldvraag</p>
+                <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-1">Voorbeeldvraag</p>
                 <p className="text-xs text-black/70 dark:text-white/60 italic leading-relaxed">{uc.example}</p>
               </div>
             </div>

@@ -202,7 +202,7 @@ export const LandingPage: FC = () => {
             {[...AI_MODELS, ...AI_MODELS].map((model, i) => (
               <div key={i} className="flex items-center gap-2.5 px-7">
                 {model.icon}
-                <span className="text-[11px] font-black uppercase tracking-[0.18em] text-black/50 dark:text-white/40 whitespace-nowrap">
+                <span className="text-sm font-black uppercase tracking-[0.18em] text-black/50 dark:text-white/40 whitespace-nowrap">
                   {model.name}
                 </span>
                 <span className="ml-4 text-black/15 dark:text-white/15 select-none text-sm">·</span>
@@ -563,7 +563,7 @@ export const LandingPage: FC = () => {
               className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl hover:border-[#d1b411] hover:shadow-[6px_6px_0px_0px_#d1b411] hover:-translate-y-0.5 transition-all text-black dark:text-white"
             >
               <div className="text-3xl font-black mb-0.5">{pkg.count}</div>
-              <div className="text-[9px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
+              <div className="text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
                 Credits
               </div>
               <div className="text-lg font-black">€{pkg.price}</div>
@@ -581,11 +581,11 @@ export const LandingPage: FC = () => {
             <div className="text-base font-black uppercase tracking-tight mb-0.5">
               {PRICING.SUBSCRIPTIONS[0].name}
             </div>
-            <div className="text-[9px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
+            <div className="text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
               {PRICING.SUBSCRIPTIONS[0].creditsPerMonth} credits/mo
             </div>
             <div className="text-lg font-black">€{PRICING.SUBSCRIPTIONS[0].price}</div>
-            <div className="text-[9px] font-black text-black/30 dark:text-white/30 mt-0.5">
+            <div className="text-xs font-black text-black/30 dark:text-white/30 mt-0.5">
               / maand
             </div>
           </button>

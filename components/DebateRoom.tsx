@@ -327,7 +327,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
         <div className="bg-black dark:bg-zinc-900 border-b-2 dark:border-white/10 text-white px-5 py-3.5 flex items-center gap-3 shrink-0">
           <Zap className="w-4 h-4 shrink-0 opacity-70" />
           <div className="flex-1 min-w-0">
-            <p className="font-black text-[9px] uppercase tracking-[0.35em] text-white/40">Live Debat</p>
+            <p className="font-black text-xs uppercase tracking-[0.35em] text-white/40">Live Debat</p>
             <p className="font-serif italic text-sm truncate text-white/80 leading-tight">"{session.query}"</p>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
@@ -343,7 +343,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 <button type="button" onClick={togglePause} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors" title={isPaused ? 'Hervatten' : 'Pauzeren'}>
                   {isPaused ? <Play className="w-4 h-4 text-green-400" /> : <Pause className="w-4 h-4" />}
                 </button>
-                <button type="button" onClick={handleEnd} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-400 text-white font-black text-[9px] uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
+                <button type="button" onClick={handleEnd} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
                   <Gavel className="w-3 h-3" /> Oordeel
                 </button>
               </>
@@ -392,7 +392,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-zinc-50 dark:bg-zinc-900">
 
               {isPaused && (
-                <div className="sticky top-0 text-center py-1.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg text-[10px] font-black uppercase tracking-[0.3em] text-amber-600 dark:text-amber-400">
+                <div className="sticky top-0 text-center py-1.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg text-sm font-black uppercase tracking-[0.3em] text-amber-600 dark:text-amber-400">
                   ⏸ Gepauzeerd — hervat of typ hieronder
                 </div>
               )}
@@ -456,7 +456,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
 
               {messages.length === 0 && !isGenerating && (
                 <div className="text-center py-12 text-black/20 dark:text-white/20">
-                  <p className="font-black text-[10px] uppercase tracking-widest animate-pulse">Deelnemers formuleren hun openingsstandpunt...</p>
+                  <p className="font-black text-sm uppercase tracking-widest animate-pulse">Deelnemers formuleren hun openingsstandpunt...</p>
                 </div>
               )}
             </div>

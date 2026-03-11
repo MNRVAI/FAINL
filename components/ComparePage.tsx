@@ -187,7 +187,7 @@ export const ComparePage: FC = () => {
 
       {/* ── Breadcrumb ── */}
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li>
             <button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">
               Home
@@ -202,7 +202,7 @@ export const ComparePage: FC = () => {
 
       {/* ── Hero ── */}
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-[10px] font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Vergelijking 2026
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -241,7 +241,7 @@ export const ComparePage: FC = () => {
                 <img src={model.logo} alt={model.name} className="w-7 h-7 object-contain shrink-0" />
                 <div>
                   <p className={`font-black text-lg leading-none ${model.headerText}`}>{model.name}</p>
-                  <p className={`text-[10px] font-bold uppercase tracking-widest opacity-60 ${model.headerText}`}>{model.maker}</p>
+                  <p className={`text-sm font-bold uppercase tracking-widest opacity-60 ${model.headerText}`}>{model.maker}</p>
                 </div>
               </div>
               <div className="bg-white dark:bg-zinc-900 px-5 py-4">
@@ -277,10 +277,10 @@ export const ComparePage: FC = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-black dark:bg-zinc-800">
-                <th className="text-left px-5 py-3.5 text-white text-[10px] font-black uppercase tracking-widest w-1/2">Criterium</th>
-                <th className="px-4 py-3.5 text-white text-[10px] font-black uppercase tracking-widest text-center">ChatGPT</th>
-                <th className="px-4 py-3.5 text-white text-[10px] font-black uppercase tracking-widest text-center">Gemini</th>
-                <th className="px-4 py-3.5 text-white text-[10px] font-black uppercase tracking-widest text-center">Claude</th>
+                <th className="text-left px-5 py-3.5 text-white text-sm font-black uppercase tracking-widest w-1/2">Criterium</th>
+                <th className="px-4 py-3.5 text-white text-sm font-black uppercase tracking-widest text-center">ChatGPT</th>
+                <th className="px-4 py-3.5 text-white text-sm font-black uppercase tracking-widest text-center">Gemini</th>
+                <th className="px-4 py-3.5 text-white text-sm font-black uppercase tracking-widest text-center">Claude</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/10 dark:divide-white/10 bg-white dark:bg-zinc-900">
@@ -324,7 +324,7 @@ export const ComparePage: FC = () => {
               { step: '03', label: "Chairman's Verdict", desc: 'Eén gewogen eindoordeel met nuance' },
             ].map(item => (
               <div key={item.step} className="bg-white/10 dark:bg-black/10 rounded-xl p-4">
-                <p className="text-[#d1b411] font-black text-[10px] uppercase tracking-[0.3em] mb-1">{item.step}</p>
+                <p className="text-[#d1b411] font-black text-sm uppercase tracking-[0.3em] mb-1">{item.step}</p>
                 <p className="font-black text-sm uppercase tracking-tight text-white dark:text-black mb-1">{item.label}</p>
                 <p className="text-white/50 dark:text-black/40 text-xs leading-relaxed">{item.desc}</p>
               </div>

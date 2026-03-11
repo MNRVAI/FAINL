@@ -37,7 +37,7 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
             <div className="p-2 bg-yellow-400 rounded-xl">
               <Gift className="w-5 h-5 text-black" />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60 dark:text-black/60">First-Time User Protocol</span>
+            <span className="text-sm font-black uppercase tracking-[0.3em] text-white/60 dark:text-black/60">First-Time User Protocol</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white dark:text-black leading-tight">
             Unlock 15%<br/>Neural Discount
@@ -58,17 +58,17 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="YOUR_EMAIL@NODE.LOCAL"
-                  className="w-full bg-zinc-50 dark:bg-zinc-800 border-4 border-black/10 dark:border-white/10 rounded-xl md:rounded-2xl px-5 py-4 font-black uppercase tracking-widest text-[10px] text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all"
+                  className="w-full bg-zinc-50 dark:bg-zinc-800 border-4 border-black/10 dark:border-white/10 rounded-xl md:rounded-2xl px-5 py-4 font-black uppercase tracking-widest text-sm text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all"
                 />
                 <button
                   type="submit"
-                  className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl md:rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl"
+                  className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl md:rounded-2xl font-black uppercase tracking-[0.4em] text-sm flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl"
                 >
                   <Mail className="w-4 h-4" />
                   Claim Discount
                 </button>
               </form>
-              <button onClick={onClose} className="w-full mt-3 py-3 font-black text-[10px] uppercase tracking-[0.3em] text-black/30 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors">
+              <button onClick={onClose} className="w-full mt-3 py-3 font-black text-sm uppercase tracking-[0.3em] text-black/30 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors">
                 Skip for now
               </button>
             </>

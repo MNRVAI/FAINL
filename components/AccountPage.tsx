@@ -247,7 +247,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 )}
                 <button
                   onClick={() => setIsAddingNode(!isAddingNode)}
-                  className="px-4 py-2 bg-black text-white font-black text-[10px] uppercase tracking-widest hover:bg-zinc-800 transition-all"
+                  className="px-4 py-2 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
                 >
                   {isAddingNode ? 'Annuleren' : '+ Nieuwe Node'}
                 </button>
@@ -347,7 +347,7 @@ export const AccountPage: FC<AccountPageProps> = ({
             )}
 
             {(!config.customNodes || config.customNodes.length === 0) && !isAddingNode && (
-              <p className="text-center py-6 text-[10px] font-black uppercase tracking-widest text-black/20 italic border-2 border-dashed border-black/10">
+              <p className="text-center py-6 text-sm font-black uppercase tracking-widest text-black/20 italic border-2 border-dashed border-black/10">
                 Nog geen persoonlijke nodes aangemaakt
               </p>
             )}
@@ -408,7 +408,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                   </button>
                 </div>
               )}
-              <span className="px-4 py-1.5 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest">
+              <span className="px-4 py-1.5 bg-black text-white text-sm font-black rounded-full uppercase tracking-widest">
                 {activeHistory.length}
               </span>
             </div>
@@ -419,7 +419,7 @@ export const AccountPage: FC<AccountPageProps> = ({
               <div className="flex items-center justify-between px-2 pb-2">
                 <button
                   onClick={toggleSelectAll}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors"
+                  className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors"
                 >
                   {selectedIds.length === currentHistory.length && currentHistory.length > 0 ? (
                     <CheckSquare className="w-4 h-4 text-black" />
@@ -438,7 +438,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-black/40">{currentPage} / {totalPages}</span>
+                    <span className="text-sm font-black uppercase tracking-widest text-black/40">{currentPage} / {totalPages}</span>
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
@@ -456,7 +456,7 @@ export const AccountPage: FC<AccountPageProps> = ({
               <div className="py-16 text-center bg-zinc-50 border-4 border-dashed border-black/10 rounded-lg">
                 <Database className="w-12 h-12 text-black/10 mx-auto mb-4" />
                 <p className="font-black uppercase tracking-widest text-black/20 text-sm mb-2">Lokale Kluis Leeg</p>
-                <p className="text-[10px] font-bold text-black/30 uppercase tracking-widest">Start je eerste missie om hem hier te zien</p>
+                <p className="text-sm font-bold text-black/30 uppercase tracking-widest">Start je eerste missie om hem hier te zien</p>
                 <button
                   onClick={() => navigate('/mission')}
                   className="mt-6 px-6 py-3 bg-black text-white font-black text-xs uppercase tracking-widest hover:bg-zinc-800 transition-all"
@@ -500,7 +500,7 @@ export const AccountPage: FC<AccountPageProps> = ({
 
           {/* Archived sessions count */}
           {history.filter(s => s.isArchived).length > 0 && (
-            <p className="text-[10px] font-black uppercase tracking-widest text-black/30 text-center">
+            <p className="text-sm font-black uppercase tracking-widest text-black/30 text-center">
               {history.filter(s => s.isArchived).length} gearchiveerde sessie(s) verborgen
             </p>
           )}

@@ -108,7 +108,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                             placeholder={language === 'nl' ? 'DATABASE SCANNEN OP MISSIES...' : 'SCAN DATABASE FOR DIRECTIVES...'}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-16 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none focus:border-yellow-400 dark:focus:border-yellow-400 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)]"
+                            className="w-full bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-16 py-5 font-black uppercase tracking-widest text-sm focus:outline-none focus:border-yellow-400 dark:focus:border-yellow-400 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)]"
                         />
                     </div>
 
@@ -118,7 +118,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                 value={activeCategory}
                                 onChange={(e) => setActiveCategory(e.target.value)}
                                 title={language === 'nl' ? 'Filter op categorie' : 'Filter by Category'}
-                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
+                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-sm focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
                             >
                                 {categories.map(c => <option key={c} value={c}>{c === 'All' ? (language === 'nl' ? 'ALLE CATEGORIE\u00CBN' : 'ANY CATEGORY') : c.toUpperCase()}</option>)}
                             </select>
@@ -130,7 +130,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value as any)}
                                 title={language === 'nl' ? 'Sorteer resultaten' : 'Sort Results'}
-                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
+                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-sm focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
                             >
                                 <option value="popularity">{language === 'nl' ? 'OP POPULARITEIT' : 'BY POPULARITY'}</option>
                                 <option value="rating">{language === 'nl' ? 'OP BEOORDELING' : 'BY RANKING'}</option>
@@ -143,7 +143,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
             {/* Results count */}
             <div className="mb-6 flex items-center justify-between">
-                <p className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
                     {filteredDirectives.length} {language === 'nl' ? 'resultaten' : 'results'}
                     {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
                 </p>
@@ -190,7 +190,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                     >
                                         <ChevronUp className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
                                     </button>
-                                    <span className="text-[10px] font-black text-black min-w-[16px] text-center">
+                                    <span className="text-sm font-black text-black min-w-[16px] text-center">
                                         {(directive.rating + (localRatings[directive.id] || 0))}
                                     </span>
                                     <button
@@ -206,7 +206,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                             </div>
 
                             <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 text-black dark:text-white line-clamp-1">{directive.title}</h3>
-                            <p className="text-[11px] md:text-xs font-bold text-black/60 dark:text-white/60 leading-relaxed italic mb-6 border-l-4 border-yellow-400 pl-4 bg-yellow-400/5 py-3 rounded-r-xl line-clamp-2">
+                            <p className="text-sm md:text-xs font-bold text-black/60 dark:text-white/60 leading-relaxed italic mb-6 border-l-4 border-yellow-400 pl-4 bg-yellow-400/5 py-3 rounded-r-xl line-clamp-2">
                                 "{directive.query}"
                             </p>
 
@@ -221,7 +221,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                         <span className="text-[7px] font-black uppercase">{directive.length}</span>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
+                                <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
                                     INIT <ArrowRight className="w-3.5 h-3.5" />
                                 </div>
                             </div>
@@ -237,7 +237,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         type="button"
                         onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                         disabled={currentPage === 1}
-                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-[11px] uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-sm uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                     >
                         <ChevronLeft className="w-4 h-4" />
                         {language === 'nl' ? 'Vorige' : 'Prev'}
@@ -249,7 +249,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                 key={page}
                                 type="button"
                                 onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                className={`w-9 h-9 border-4 font-black text-[11px] transition-all ${page === currentPage ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white'}`}
+                                className={`w-9 h-9 border-4 font-black text-sm transition-all ${page === currentPage ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white'}`}
                             >
                                 {page}
                             </button>
@@ -260,7 +260,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         type="button"
                         onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                         disabled={currentPage === totalPages}
-                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-[11px] uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-sm uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                     >
                         {language === 'nl' ? 'Volgende' : 'Next'}
                         <ChevronRight className="w-4 h-4" />

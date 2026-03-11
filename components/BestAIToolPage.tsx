@@ -120,7 +120,7 @@ export const BestAIToolPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
           <li className="text-black/60 dark:text-white/50">Vergelijk</li>
@@ -130,7 +130,7 @@ export const BestAIToolPage: FC = () => {
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-[10px] font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Vergelijking — Lokale SEO
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -162,7 +162,7 @@ export const BestAIToolPage: FC = () => {
               {tool.highlight && (
                 <div className="absolute -top-3 left-6 flex items-center gap-1.5 px-3 py-1 bg-[#d1b411] rounded-full">
                   <Crown className="w-3 h-3 text-black" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black">Aanbevolen</span>
+                  <span className="text-sm font-black uppercase tracking-widest text-black">Aanbevolen</span>
                 </div>
               )}
               <h3 className={`font-black text-xl uppercase tracking-tight mb-1 ${tool.highlight ? 'text-[#d1b411]' : 'text-black dark:text-white'}`}>{tool.name}</h3>
@@ -185,11 +185,11 @@ export const BestAIToolPage: FC = () => {
 
               <div className="bg-black/5 dark:bg-white/5 rounded-xl px-4 py-3 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">Prijs</span>
+                  <span className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">Prijs</span>
                   <span className="text-xs font-bold text-black dark:text-white">{tool.price}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">Beste voor</span>
+                  <span className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">Beste voor</span>
                   <span className="text-xs text-black/60 dark:text-white/50">{tool.best}</span>
                 </div>
               </div>
@@ -204,9 +204,9 @@ export const BestAIToolPage: FC = () => {
           <table className="w-full text-sm bg-white dark:bg-zinc-900">
             <thead>
               <tr className="border-b-2 border-black dark:border-white/20">
-                <th className="text-left px-5 py-4 font-black uppercase tracking-tight text-[11px] text-black/50 dark:text-white/40">Eigenschap</th>
+                <th className="text-left px-5 py-4 font-black uppercase tracking-tight text-sm text-black/50 dark:text-white/40">Eigenschap</th>
                 {['ChatGPT', 'Gemini', 'Claude', 'FAINL'].map(name => (
-                  <th key={name} className={`px-4 py-4 font-black uppercase tracking-tight text-[11px] text-center ${name === 'FAINL' ? 'text-[#d1b411]' : 'text-black dark:text-white'}`}>{name}</th>
+                  <th key={name} className={`px-4 py-4 font-black uppercase tracking-tight text-sm text-center ${name === 'FAINL' ? 'text-[#d1b411]' : 'text-black dark:text-white'}`}>{name}</th>
                 ))}
               </tr>
             </thead>

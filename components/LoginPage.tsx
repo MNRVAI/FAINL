@@ -57,7 +57,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
             <Shield className="text-white dark:text-black w-8 h-8" />
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-2 text-black dark:text-white">Neural Vault</h2>
-          <p className="text-black/40 dark:text-white/40 font-bold uppercase text-[10px] tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
+          <p className="text-black/40 dark:text-white/40 font-bold uppercase text-sm tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
         </div>
 
         {message && (
@@ -88,7 +88,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
         <div className="my-10 flex items-center gap-4">
           <div className="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
-          <span className="text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em]">OR</span>
+          <span className="text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em]">OR</span>
           <div className="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
         </div>
 

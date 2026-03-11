@@ -144,7 +144,7 @@ export const ContactPage: FC = () => {
                     <Github className="w-6 h-6 md:w-8 md:h-8 text-black/20 dark:text-white/20 hover:text-black dark:hover:text-white transition-colors cursor-pointer" />
                     <Globe className="w-6 h-6 md:w-8 md:h-8 text-black/20 dark:text-white/20 hover:text-black dark:hover:text-white transition-colors cursor-pointer" />
                 </div>
-                <p className="text-[10px] font-black text-black/40 dark:text-white/40 uppercase tracking-[0.4em] text-center">\u00A9 2026 FAINL PROTOCOL \u2022 ALL RIGHTS RESERVED</p>
+                <p className="text-sm font-black text-black/40 dark:text-white/40 uppercase tracking-[0.4em] text-center">\u00A9 2026 FAINL PROTOCOL \u2022 ALL RIGHTS RESERVED</p>
             </div>
         </div>
     );

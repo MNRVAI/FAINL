@@ -84,7 +84,7 @@ export const PrivacyPolicyPage: FC = () => {
           </section>
 
           <div className="pt-16 border-t-4 border-black dark:border-white/20">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 dark:text-white/20 text-center">
+            <p className="text-sm font-black uppercase tracking-[0.4em] text-black/20 dark:text-white/20 text-center">
               End of Protocol • Secure Transmission Confirmed
             </p>
           </div>

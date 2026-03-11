@@ -43,7 +43,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
               <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none text-black dark:text-white">
                 {language === 'nl' ? 'Toegang Vereist' : 'Intelligence Access Required'}
               </h2>
-              <p className="text-[10px] md:text-xs font-black text-black/40 dark:text-white/40 uppercase mt-1 tracking-widest flex items-center gap-2">
+              <p className="text-sm md:text-xs font-black text-black/40 dark:text-white/40 uppercase mt-1 tracking-widest flex items-center gap-2">
                 <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                 {language === 'nl' ? 'Premium Neuraal Consensus Link' : 'Premium Neural Consensus Link'}
               </p>
@@ -80,7 +80,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
                 </div>
                 <div className="flex justify-between items-end mb-4">
                   <span className="card__title !text-2xl !mb-0 !border-b-2">€{pkg.price}</span>
-                  <span className="text-[10px] font-black uppercase text-black/40 dark:text-white/40 mb-1">{pkg.label}</span>
+                  <span className="text-sm font-black uppercase text-black/40 dark:text-white/40 mb-1">{pkg.label}</span>
                 </div>
 
                 <ul className="card__lists !mb-6 !gap-2">
@@ -117,22 +117,22 @@ export const PaywallModal: FC<PaywallModalProps> = ({
           <div className="bg-white/50 dark:bg-zinc-950/50 border-4 border-black dark:border-white/20 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-3 gap-6 text-black dark:text-white">
             <div className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{language === 'nl' ? 'Multi-Node Consensus' : 'Multi-Node Consensus'}</span>
+              <span className="text-sm font-black uppercase tracking-widest">{language === 'nl' ? 'Multi-Node Consensus' : 'Multi-Node Consensus'}</span>
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{language === 'nl' ? 'Versleutelde Logica' : 'Encrypted Local Logic'}</span>
+              <span className="text-sm font-black uppercase tracking-widest">{language === 'nl' ? 'Versleutelde Logica' : 'Encrypted Local Logic'}</span>
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              <span className="text-[10px] font-black uppercase tracking-widest">{language === 'nl' ? 'Zonder Data Training' : 'Zero Data Training'}</span>
+              <span className="text-sm font-black uppercase tracking-widest">{language === 'nl' ? 'Zonder Data Training' : 'Zero Data Training'}</span>
             </div>
           </div>
         </div>
 
         {/* Footer */}
         <div className="p-6 md:p-8 border-t-4 border-black dark:border-white/20 bg-white dark:bg-zinc-950 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[9px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em]">
+          <p className="text-xs font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em]">
             {language === 'nl' ? 'Veilig Afrekenen via Stripe • Versleuteld Protocol 2.5.1' : 'Secure Checkout via Stripe • Encrypted Protocol 2.5.1'}
           </p>
           <button
