@@ -4,10 +4,14 @@ import {
     Search,
     ChevronUp,
     ChevronDown,
+    ChevronLeft,
+    ChevronRight,
     Layers,
     Clock
 } from 'lucide-react';
-import { FC, useState, useMemo } from 'react';
+import { FC, useState, useMemo, useEffect } from 'react';
+
+const ITEMS_PER_PAGE = 12;
 import { DIRECTIVES, Directive } from '../data/directives';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -20,6 +24,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState<string>('All');
     const [sortBy, setSortBy] = useState<'popularity' | 'rating' | 'newest'>('popularity');
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Persisted ratings and user vote tracking (prevent double voting)
     const [localRatings, setLocalRatings] = useState<Record<string, number>>(() => {
@@ -73,6 +78,12 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             return 0;
         });
     }, [searchQuery, activeCategory, sortBy, localRatings]);
+
+    // Reset to page 1 whenever filters change
+    useEffect(() => { setCurrentPage(1); }, [searchQuery, activeCategory, sortBy]);
+
+    const totalPages = Math.ceil(filteredDirectives.length / ITEMS_PER_PAGE);
+    const pagedDirectives = filteredDirectives.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -130,6 +141,14 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                 </div>
             </div>
 
+            {/* Results count */}
+            <div className="mb-6 flex items-center justify-between">
+                <p className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                    {filteredDirectives.length} {language === 'nl' ? 'resultaten' : 'results'}
+                    {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
+                </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                 {filteredDirectives.length === 0 ? (
                     <div className="col-span-full py-20 text-center border-4 border-dashed border-black/10 dark:border-white/10 rounded-[3rem]">
@@ -138,7 +157,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         </p>
                     </div>
                 ) : (
-                    filteredDirectives.map((directive) => (
+                    pagedDirectives.map((directive) => (
                         <div
                             key={directive.id}
                             onClick={() => onSelectMission(directive.query)}
@@ -210,6 +229,44 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                     ))
                 )}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="mt-12 flex items-center justify-center gap-4">
+                    <button
+                        type="button"
+                        onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        disabled={currentPage === 1}
+                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-[11px] uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                    >
+                        <ChevronLeft className="w-4 h-4" />
+                        {language === 'nl' ? 'Vorige' : 'Prev'}
+                    </button>
+
+                    <div className="flex items-center gap-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                            <button
+                                key={page}
+                                type="button"
+                                onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                className={`w-9 h-9 border-4 font-black text-[11px] transition-all ${page === currentPage ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white'}`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        disabled={currentPage === totalPages}
+                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-[11px] uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                    >
+                        {language === 'nl' ? 'Volgende' : 'Next'}
+                        <ChevronRight className="w-4 h-4" />
+                    </button>
+                </div>
+            )}
 
             <div className="mt-32 p-12 md:p-20 bg-black dark:bg-zinc-900 text-white rounded-[3rem] text-center space-y-8 relative overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent pointer-events-none" />
