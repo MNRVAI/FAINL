@@ -136,7 +136,7 @@ const LogoSwitch: FC = () => (
     loop
     playsInline
     aria-label="FAINL logo animatie"
-    className="h-12 sm:h-14 md:h-16 w-auto max-w-[160px] sm:max-w-[200px] object-contain"
+    className="h-14 sm:h-16 md:h-20 w-auto max-w-[180px] sm:max-w-[240px] object-contain"
   />
 );
 
