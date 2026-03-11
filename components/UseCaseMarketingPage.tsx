@@ -117,7 +117,7 @@ export const UseCaseMarketingPage: FC = () => {
           <strong className="text-black dark:text-white">FAINL laat ze debatteren en synthetiseert het scherpste strategisch advies.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-xs uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
           Ontwikkel je strategie — gratis starten
           <ArrowRight className="w-4 h-4" />
         </button>
@@ -137,7 +137,7 @@ export const UseCaseMarketingPage: FC = () => {
               <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed mb-4">{uc.desc}</p>
               <div className="bg-black/5 dark:bg-white/5 rounded-xl px-4 py-3">
                 <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-1">Voorbeeldvraag</p>
-                <p className="text-xs text-black/70 dark:text-white/60 italic leading-relaxed">{uc.example}</p>
+                <p className="text-sm text-black/70 dark:text-white/60 italic leading-relaxed">{uc.example}</p>
               </div>
             </div>
           ))}
@@ -155,7 +155,7 @@ export const UseCaseMarketingPage: FC = () => {
             meest onderbouwde marketingadvies — in één sessie.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-xs uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — 2 sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>

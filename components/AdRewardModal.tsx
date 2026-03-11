@@ -58,7 +58,7 @@ export const AdRewardModal: FC<AdRewardModalProps> = ({ isOpen, onRewardEarned, 
             <div className="p-1.5 bg-yellow-400 rounded-lg">
               <Tv className="w-4 h-4 text-black" />
             </div>
-            <span className="text-xs font-black uppercase tracking-[0.25em] text-white/60">
+            <span className="text-sm font-black uppercase tracking-[0.25em] text-white/60">
               2e Gratis Sessie
             </span>
           </div>
@@ -87,14 +87,14 @@ export const AdRewardModal: FC<AdRewardModalProps> = ({ isOpen, onRewardEarned, 
             <button
               type="button"
               onClick={onRewardEarned}
-              className="w-full py-4 bg-black text-white font-black uppercase tracking-[0.4em] text-xs flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="w-full py-4 bg-black text-white font-black uppercase tracking-[0.4em] text-sm flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <CheckCircle className="w-4 h-4" />
               Start Sessie
             </button>
           ) : (
             <div className="py-2 text-center">
-              <p className="text-xs font-black uppercase tracking-widest text-black/40">
+              <p className="text-sm font-black uppercase tracking-widest text-black/40">
                 Nog {countdown} seconden
               </p>
             </div>
@@ -102,7 +102,7 @@ export const AdRewardModal: FC<AdRewardModalProps> = ({ isOpen, onRewardEarned, 
           <button
             type="button"
             onClick={onDismiss}
-            className="w-full mt-2 py-2 font-black text-xs uppercase tracking-[0.3em] text-black/25 hover:text-black/50 transition-colors"
+            className="w-full mt-2 py-2 font-black text-sm uppercase tracking-[0.3em] text-black/25 hover:text-black/50 transition-colors"
           >
             Annuleren
           </button>

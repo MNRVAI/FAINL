@@ -11,7 +11,7 @@ export const TermsOfServicePage: FC = () => {
           </div>
           <div>
             <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4 text-black dark:text-white">Terms of Protocol</h1>
-            <p className="text-black/40 dark:text-white/40 font-bold uppercase text-xs md:text-sm tracking-[0.3em]">Operational Governance & Usage Standards • Version 1.0.0</p>
+            <p className="text-black/40 dark:text-white/40 font-bold uppercase text-sm md:text-sm tracking-[0.3em]">Operational Governance & Usage Standards • Version 1.0.0</p>
           </div>
         </div>
 

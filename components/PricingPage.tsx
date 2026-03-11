@@ -56,7 +56,7 @@ export const PricingPage: FC<PricingPageProps> = ({
             <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-black dark:text-white">
               {language === 'nl' ? 'Credits Kopen' : 'Buy Credits'}
             </h2>
-            <p className="text-sm font-black uppercase tracking-[0.15em] text-black/50 dark:text-white/40">
+            <p className="text-base font-black uppercase tracking-[0.15em] text-black/50 dark:text-white/40">
               {language === 'nl' ? 'Eenmalige credits, verlopen nooit.' : 'One-time credits, never expire.'}
             </p>
           </div>
@@ -84,7 +84,7 @@ export const PricingPage: FC<PricingPageProps> = ({
           ))}
         </div>
 
-        <p className="mt-6 text-center text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/30">
+        <p className="mt-6 text-center text-base font-black uppercase tracking-widest text-black/40 dark:text-white/30">
           {language === 'nl'
             ? 'Alle pakketten worden direct verwerkt via Stripe.'
             : 'All packages processed instantly via Stripe.'}
@@ -102,7 +102,7 @@ export const PricingPage: FC<PricingPageProps> = ({
             <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-black dark:text-white">
               {language === 'nl' ? 'Maandelijks Abonnement' : 'Monthly Subscription'}
             </h2>
-            <p className="text-sm font-black uppercase tracking-[0.15em] text-black/50 dark:text-white/40">
+            <p className="text-base font-black uppercase tracking-[0.15em] text-black/50 dark:text-white/40">
               {language === 'nl' ? 'Automatisch hernieuwd elke maand.' : 'Automatically renewed each month.'}
             </p>
           </div>
@@ -131,7 +131,7 @@ export const PricingPage: FC<PricingPageProps> = ({
         </div>
       </div>
 
-      <p className="mt-16 text-center text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/30">
+      <p className="mt-16 text-center text-base font-black uppercase tracking-widest text-black/40 dark:text-white/30">
         {language === 'nl'
           ? 'Binnenkort meer niveaus · Veilig afrekenen via Stripe'
           : 'More tiers coming soon · Secure checkout via Stripe'}

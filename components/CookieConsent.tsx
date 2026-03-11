@@ -78,7 +78,7 @@ export const CookieConsent: FC = () => {
 
         {/* Body */}
         <div className="px-6 pb-4">
-          <p className="text-xs text-black/70 dark:text-white/60 leading-relaxed">
+          <p className="text-sm text-black/70 dark:text-white/60 leading-relaxed">
             Wij gebruiken{" "}
             <strong className="text-black dark:text-white">
               noodzakelijke cookies

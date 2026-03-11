@@ -143,7 +143,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
             {/* Results count */}
             <div className="mb-6 flex items-center justify-between">
-                <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                <p className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
                     {filteredDirectives.length} {language === 'nl' ? 'resultaten' : 'results'}
                     {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
                 </p>
@@ -175,10 +175,10 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
                             <div className="flex justify-between items-start mb-6">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className={`px-3 py-1 border-2 border-black dark:border-white/10 rounded-lg text-xs font-black uppercase tracking-widest ${directive.difficulty === 'Gamma' ? 'bg-red-400 text-black' : directive.difficulty === 'Beta' ? 'bg-blue-400 text-black' : 'bg-green-400 text-black'}`}>
+                                    <span className={`px-3 py-1 border-2 border-black dark:border-white/10 rounded-lg text-sm font-black uppercase tracking-widest ${directive.difficulty === 'Gamma' ? 'bg-red-400 text-black' : directive.difficulty === 'Beta' ? 'bg-blue-400 text-black' : 'bg-green-400 text-black'}`}>
                                         {directive.difficulty}
                                     </span>
-                                    <span className="text-xs font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
+                                    <span className="text-base font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 p-1.5 bg-black/5 rounded-lg">
                                     <button
@@ -214,14 +214,14 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                 <div className="flex items-center gap-4 opacity-40">
                                     <div className="flex items-center gap-1.5">
                                         <Layers className="w-3 h-3" />
-                                        <span className="text-xs font-black">{directive.nodesNeeded} NODES</span>
+                                        <span className="text-sm font-black">{directive.nodesNeeded} NODES</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
                                         <Clock className="w-3 h-3" />
-                                        <span className="text-xs font-black uppercase">{directive.length}</span>
+                                        <span className="text-sm font-black uppercase">{directive.length}</span>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
+                                <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
                                     INIT <ArrowRight className="w-3.5 h-3.5" />
                                 </div>
                             </div>

@@ -327,7 +327,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
         <div className="bg-black dark:bg-zinc-900 border-b-2 dark:border-white/10 text-white px-5 py-3.5 flex items-center gap-3 shrink-0">
           <Zap className="w-4 h-4 shrink-0 opacity-70" />
           <div className="flex-1 min-w-0">
-            <p className="font-black text-xs uppercase tracking-[0.35em] text-white/40">Live Debat</p>
+            <p className="font-black text-sm uppercase tracking-[0.35em] text-white/40">Live Debat</p>
             <p className="font-serif italic text-sm truncate text-white/80 leading-tight">"{session.query}"</p>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
@@ -343,7 +343,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 <button type="button" onClick={togglePause} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors" title={isPaused ? 'Hervatten' : 'Pauzeren'}>
                   {isPaused ? <Play className="w-4 h-4 text-green-400" /> : <Pause className="w-4 h-4" />}
                 </button>
-                <button type="button" onClick={handleEnd} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-400 text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
+                <button type="button" onClick={handleEnd} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-400 text-white font-black text-sm uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
                   <Gavel className="w-3 h-3" /> Oordeel
                 </button>
               </>
@@ -374,7 +374,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-black/25 dark:text-white/25">
+            <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-black/25 dark:text-white/25">
               <span>{readyMembers.length} deelnemers</span>
               <span>·</span>
               <span>{nlVoiceCount > 0 ? `${nlVoiceCount} Nederlandse stemmen` : 'Standaard stemmen'}</span>
@@ -411,7 +411,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                         : <img src={member?.avatar} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} max-w-[80%]`}>
-                      <span className="text-xs font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
+                      <span className="text-sm font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {isUser ? 'Jij' : member?.name}
                       </span>
                       <div
@@ -439,7 +439,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                   </div>
                   <div className="flex flex-col items-start">
                     {generatingSpeaker && (
-                      <span className="text-xs font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
+                      <span className="text-sm font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {generatingSpeaker.name}
                       </span>
                     )}

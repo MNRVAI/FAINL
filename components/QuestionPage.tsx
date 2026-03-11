@@ -55,10 +55,10 @@ export const QuestionPage: FC = () => {
       {/* Header Section */}
       <div className="mb-16 md:mb-24">
         <div className="flex items-center gap-3 mb-6">
-          <span className="px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-xs font-black uppercase tracking-widest rounded-lg">
+          <span className="px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-widest rounded-lg">
             {directive.category}
           </span>
-          <span className="text-xs font-black text-black/20 dark:text-white/20 uppercase tracking-widest">
+          <span className="text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-widest">
             ID: {directive.id}
           </span>
         </div>
@@ -87,7 +87,7 @@ export const QuestionPage: FC = () => {
               <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40">
                 <Shield className="w-3.5 h-3.5" /> Veiligheid
               </div>
-              <p className="text-xs font-bold text-black dark:text-white uppercase">
+              <p className="text-sm font-bold text-black dark:text-white uppercase">
                 100% Lokaal opgeslagen
               </p>
             </div>
@@ -95,7 +95,7 @@ export const QuestionPage: FC = () => {
               <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40">
                 <Globe className="w-3.5 h-3.5" /> Intelligentie
               </div>
-              <p className="text-xs font-bold text-black dark:text-white uppercase">
+              <p className="text-sm font-bold text-black dark:text-white uppercase">
                 Multi-Node Consensus
               </p>
             </div>
@@ -103,7 +103,7 @@ export const QuestionPage: FC = () => {
               <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40">
                 <MessageSquare className="w-3.5 h-3.5" /> Resultaat
               </div>
-              <p className="text-xs font-bold text-black dark:text-white uppercase">
+              <p className="text-sm font-bold text-black dark:text-white uppercase">
                 Gewogen Eindoordeel
               </p>
             </div>

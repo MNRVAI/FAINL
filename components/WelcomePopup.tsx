@@ -78,7 +78,7 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
                 <Zap className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-black uppercase tracking-tighter text-black dark:text-white mb-2">Protocol Synced</h3>
-              <p className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-widest">Your voucher will arrive shortly.</p>
+              <p className="text-sm font-bold text-black/50 dark:text-white/50 uppercase tracking-widest">Your voucher will arrive shortly.</p>
             </div>
           )}
         </div>

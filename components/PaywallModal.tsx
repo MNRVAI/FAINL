@@ -43,7 +43,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
               <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none text-black dark:text-white">
                 {language === 'nl' ? 'Toegang Vereist' : 'Intelligence Access Required'}
               </h2>
-              <p className="text-sm md:text-xs font-black text-black/40 dark:text-white/40 uppercase mt-1 tracking-widest flex items-center gap-2">
+              <p className="text-sm md:text-sm font-black text-black/40 dark:text-white/40 uppercase mt-1 tracking-widest flex items-center gap-2">
                 <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                 {language === 'nl' ? 'Premium Neuraal Consensus Link' : 'Premium Neural Consensus Link'}
               </p>
@@ -75,7 +75,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
               >
                 <Zap className="w-5 h-5 text-black/30 dark:text-white/30 mb-3 group-hover:text-black dark:group-hover:text-white transition-colors" />
                 <div className="text-3xl font-black mb-1 text-black dark:text-white">{pkg.count}</div>
-                <div className="text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
+                <div className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
                   {language === 'nl' ? 'Credits' : 'Credits'}
                 </div>
                 <div className="flex justify-between items-end mb-4">
@@ -88,13 +88,13 @@ export const PaywallModal: FC<PaywallModalProps> = ({
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0">
                       <path fill="#FDC700" d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z" clipRule="evenodd" fillRule="evenodd" />
                     </svg>
-                    <span className="!text-xs">Directe Beraadslaging</span>
+                    <span className="!text-sm">Directe Beraadslaging</span>
                   </li>
                   <li className="card__list !gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0">
                       <path fill="#FDC700" d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z" clipRule="evenodd" fillRule="evenodd" />
                     </svg>
-                    <span className="!text-xs">Multi-AI Consensus</span>
+                    <span className="!text-sm">Multi-AI Consensus</span>
                   </li>
                 </ul>
 
@@ -132,12 +132,12 @@ export const PaywallModal: FC<PaywallModalProps> = ({
 
         {/* Footer */}
         <div className="p-6 md:p-8 border-t-4 border-black dark:border-white/20 bg-white dark:bg-zinc-950 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em]">
+          <p className="text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em]">
             {language === 'nl' ? 'Veilig Afrekenen via Stripe • Versleuteld Protocol 2.5.1' : 'Secure Checkout via Stripe • Encrypted Protocol 2.5.1'}
           </p>
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-10 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-xs uppercase tracking-[0.2em] rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xl"
+            className="w-full sm:w-auto px-10 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-[0.2em] rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xl"
           >
             {language === 'nl' ? 'Ik beslis later' : "I'll decide later"}
           </button>

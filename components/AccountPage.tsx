@@ -193,7 +193,7 @@ export const AccountPage: FC<AccountPageProps> = ({
         </div>
         <button
           onClick={() => navigate('/tokens')}
-          className="flex items-center gap-2 px-6 py-3 bg-[#FDC700] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-xs uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_black] transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-[#FDC700] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_black] transition-all"
         >
           <CreditCard className="w-4 h-4" />
           Credits Kopen
@@ -205,22 +205,22 @@ export const AccountPage: FC<AccountPageProps> = ({
         <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] flex flex-col gap-1">
           <Zap className="w-5 h-5 mb-1 text-[#FDC700]" />
           <div className="text-3xl font-black">{creditsRemaining}</div>
-          <div className="text-xs font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
+          <div className="text-sm font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
         </div>
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] flex flex-col gap-1">
           <MessageSquare className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{freeSessiesResterend}</div>
-          <div className="text-xs font-black uppercase tracking-widest text-black/50">Gratis Sessies</div>
+          <div className="text-sm font-black uppercase tracking-widest text-black/50">Gratis Sessies</div>
         </div>
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] flex flex-col gap-1">
           <History className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{totalSessies}</div>
-          <div className="text-xs font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
+          <div className="text-sm font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
         </div>
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] flex flex-col gap-1">
           <Users className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{config.activeCouncil.length}</div>
-          <div className="text-xs font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>
+          <div className="text-sm font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>
         </div>
       </div>
 
@@ -240,7 +240,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 {config.activeCouncil.length !== DEFAULT_COUNCIL.length && (
                   <button
                     onClick={handleResetCouncil}
-                    className="px-3 py-1.5 bg-zinc-100 text-black font-black text-xs uppercase tracking-widest border-2 border-black hover:bg-zinc-200 transition-all"
+                    className="px-3 py-1.5 bg-zinc-100 text-black font-black text-sm uppercase tracking-widest border-2 border-black hover:bg-zinc-200 transition-all"
                   >
                     Reset
                   </button>
@@ -256,17 +256,17 @@ export const AccountPage: FC<AccountPageProps> = ({
 
             {/* Default Council Members (always visible) */}
             <div className="space-y-2">
-              <p className="text-xs font-black uppercase tracking-widest text-black/30">Standaard Raad</p>
+              <p className="text-base font-black uppercase tracking-widest text-black/30">Standaard Raad</p>
               {DEFAULT_COUNCIL.map(node => (
                 <div key={node.id} className="p-3 bg-zinc-50 border-2 border-black/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#FDC700] rounded-full" />
                     <div>
-                      <h4 className="font-black uppercase text-xs text-black">{node.name}</h4>
-                      <p className="text-xs font-bold text-black/40">{node.modelId}</p>
+                      <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
+                      <p className="text-base font-bold text-black/40">{node.modelId}</p>
                     </div>
                   </div>
-                  <span className="text-xs font-black uppercase tracking-widest text-black/30">Altijd Actief</span>
+                  <span className="text-base font-black uppercase tracking-widest text-black/30">Altijd Actief</span>
                 </div>
               ))}
             </div>
@@ -274,7 +274,7 @@ export const AccountPage: FC<AccountPageProps> = ({
             {/* Add Node Form */}
             {isAddingNode && (
               <div className="p-6 bg-zinc-50 border-4 border-black space-y-4 animate-in slide-in-from-top-2 duration-300">
-                <p className="text-xs font-black uppercase tracking-widest text-black/40">Nieuwe Node op Gemini (2.0 Flash)</p>
+                <p className="text-base font-black uppercase tracking-widest text-black/40">Nieuwe Node op Gemini (2.0 Flash)</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
                     type="text"
@@ -300,7 +300,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 <button
                   onClick={handleAddNode}
                   disabled={!newNode.name || !newNode.role}
-                  className="w-full py-3 bg-[#FDC700] text-black font-black uppercase tracking-widest text-xs border-2 border-black shadow-[4px_4px_0px_0px_black] active:shadow-none active:translate-y-1 transition-all disabled:opacity-40"
+                  className="w-full py-3 bg-[#FDC700] text-black font-black uppercase tracking-widest text-sm border-2 border-black shadow-[4px_4px_0px_0px_black] active:shadow-none active:translate-y-1 transition-all disabled:opacity-40"
                 >
                   Node Activeren
                 </button>
@@ -310,7 +310,7 @@ export const AccountPage: FC<AccountPageProps> = ({
             {/* Custom Nodes List */}
             {config.customNodes?.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-black uppercase tracking-widest text-black/30">Jouw Nodes</p>
+                <p className="text-base font-black uppercase tracking-widest text-black/30">Jouw Nodes</p>
                 {config.customNodes.map(node => {
                   const isActive = isNodeActiveInCouncil(node.id);
                   return (
@@ -318,15 +318,15 @@ export const AccountPage: FC<AccountPageProps> = ({
                       <div className="flex items-center gap-3">
                         <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-[#FDC700]' : 'bg-black/20'}`} />
                         <div>
-                          <h4 className="font-black uppercase text-xs text-black">{node.name}</h4>
-                          <p className="text-xs font-bold text-black/40">{node.role}</p>
+                          <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
+                          <p className="text-base font-bold text-black/40">{node.role}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleToggleNodeInCouncil(node)}
                           title={isActive ? 'Deactiveer in raad' : 'Activeer in raad'}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 font-black text-xs uppercase tracking-widest border transition-all ${isActive ? 'bg-[#FDC700] border-black text-black' : 'bg-zinc-100 border-black/20 text-black/50 hover:border-black hover:text-black'}`}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 font-black text-sm uppercase tracking-widest border transition-all ${isActive ? 'bg-[#FDC700] border-black text-black' : 'bg-zinc-100 border-black/20 text-black/50 hover:border-black hover:text-black'}`}
                         >
                           {isActive ? <ToggleRight className="w-3.5 h-3.5" /> : <ToggleLeft className="w-3.5 h-3.5" />}
                           {isActive ? 'Actief' : 'Inactief'}
@@ -347,7 +347,7 @@ export const AccountPage: FC<AccountPageProps> = ({
             )}
 
             {(!config.customNodes || config.customNodes.length === 0) && !isAddingNode && (
-              <p className="text-center py-6 text-sm font-black uppercase tracking-widest text-black/20 italic border-2 border-dashed border-black/10">
+              <p className="text-center py-6 text-base font-black uppercase tracking-widest text-black/20 italic border-2 border-dashed border-black/10">
                 Nog geen persoonlijke nodes aangemaakt
               </p>
             )}
@@ -366,15 +366,15 @@ export const AccountPage: FC<AccountPageProps> = ({
               >
                 <Download className="w-5 h-5 group-hover:animate-bounce" />
                 <div className="text-left">
-                  <span className="block font-black uppercase text-xs">Export Backup</span>
-                  <span className="text-xs font-bold opacity-50">Download je data als JSON</span>
+                  <span className="block font-black uppercase text-sm">Export Backup</span>
+                  <span className="text-sm font-bold opacity-50">Download je data als JSON</span>
                 </div>
               </button>
               <label className="flex items-center justify-center gap-3 p-6 bg-zinc-50 border-2 border-black hover:bg-black hover:text-white transition-all cursor-pointer group">
                 <Upload className="w-5 h-5 group-hover:animate-pulse" />
                 <div className="text-left">
-                  <span className="block font-black uppercase text-xs">Import Backup</span>
-                  <span className="text-xs font-bold opacity-50">Herstel vanuit JSON bestand</span>
+                  <span className="block font-black uppercase text-sm">Import Backup</span>
+                  <span className="text-sm font-bold opacity-50">Herstel vanuit JSON bestand</span>
                 </div>
                 <input type="file" accept=".json" onChange={handleImportData} className="hidden" />
               </label>
@@ -419,7 +419,7 @@ export const AccountPage: FC<AccountPageProps> = ({
               <div className="flex items-center justify-between px-2 pb-2">
                 <button
                   onClick={toggleSelectAll}
-                  className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors"
+                  className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors"
                 >
                   {selectedIds.length === currentHistory.length && currentHistory.length > 0 ? (
                     <CheckSquare className="w-4 h-4 text-black" />
@@ -438,7 +438,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <span className="text-sm font-black uppercase tracking-widest text-black/40">{currentPage} / {totalPages}</span>
+                    <span className="text-base font-black uppercase tracking-widest text-black/40">{currentPage} / {totalPages}</span>
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
@@ -456,10 +456,10 @@ export const AccountPage: FC<AccountPageProps> = ({
               <div className="py-16 text-center bg-zinc-50 border-4 border-dashed border-black/10 rounded-lg">
                 <Database className="w-12 h-12 text-black/10 mx-auto mb-4" />
                 <p className="font-black uppercase tracking-widest text-black/20 text-sm mb-2">Lokale Kluis Leeg</p>
-                <p className="text-sm font-bold text-black/30 uppercase tracking-widest">Start je eerste missie om hem hier te zien</p>
+                <p className="text-base font-bold text-black/30 uppercase tracking-widest">Start je eerste missie om hem hier te zien</p>
                 <button
                   onClick={() => navigate('/mission')}
-                  className="mt-6 px-6 py-3 bg-black text-white font-black text-xs uppercase tracking-widest hover:bg-zinc-800 transition-all"
+                  className="mt-6 px-6 py-3 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
                 >
                   Nieuwe Missie
                 </button>
@@ -483,10 +483,10 @@ export const AccountPage: FC<AccountPageProps> = ({
                         <MessageSquare className="w-4 h-4 text-black" />
                       </div>
                       <div className="text-left overflow-hidden">
-                        <h4 className="text-xs font-black uppercase tracking-tight truncate max-w-[160px] sm:max-w-xs text-black">
+                        <h4 className="text-sm font-black uppercase tracking-tight truncate max-w-[160px] sm:max-w-xs text-black">
                           "{session.query}"
                         </h4>
-                        <span className="text-xs font-bold text-black/40 uppercase tracking-widest">
+                        <span className="text-base font-bold text-black/40 uppercase tracking-widest">
                           {formatDate(session.timestamp)}
                         </span>
                       </div>
@@ -500,7 +500,7 @@ export const AccountPage: FC<AccountPageProps> = ({
 
           {/* Archived sessions count */}
           {history.filter(s => s.isArchived).length > 0 && (
-            <p className="text-sm font-black uppercase tracking-widest text-black/30 text-center">
+            <p className="text-base font-black uppercase tracking-widest text-black/30 text-center">
               {history.filter(s => s.isArchived).length} gearchiveerde sessie(s) verborgen
             </p>
           )}
