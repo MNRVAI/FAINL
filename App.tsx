@@ -69,8 +69,8 @@ import { QuestionPage } from "./components/QuestionPage";
 import { Session } from "@supabase/supabase-js";
 import { LogOut } from "lucide-react";
 import { ScrambleText } from "./components/ScrambleText";
-import { WelcomePopup } from "./components/WelcomePopup";
 import { CookieConsent } from "./components/CookieConsent";
+import { AdRewardModal } from "./components/AdRewardModal";
 import { LandingPage } from "./components/LandingPage";
 import { useLanguage } from "./contexts/LanguageContext";
 
@@ -257,6 +257,8 @@ const App: FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
+  const [isAdOpen, setIsAdOpen] = useState(false);
+  const pendingQueryRef = useRef<string>('');
   const [authSession, setAuthSession] = useState<Session | null>(null);
 
   useEffect(() => {
@@ -291,9 +293,8 @@ const App: FC = () => {
 
   const [input, setInput] = useState('');
   const [isDebateOpen, setIsDebateOpen] = useState(false);
-  const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => {
-    const seen = localStorage.getItem('fainl_visited');
-    return !seen;
+  const [isAnnouncementVisible, setIsAnnouncementVisible] = useState(() => {
+    return !localStorage.getItem('fainl_visited');
   });
 
   const [session, setSession] = useState<SessionState>({
@@ -320,53 +321,32 @@ const App: FC = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const MAX_CHARS = 4000;
 
-  const handleStart = async () => {
-    if (!input.trim()) return;
-
-    const hasCredits = config.creditsRemaining > 0;
-    const hasTurnsRemaining = config.turnsUsed < config.totalTurnsAllowed;
-    const isAllowed = config.isLifetime || hasTurnsRemaining || hasCredits;
-
-    if (!isAllowed) {
-      setIsPaywallOpen(true);
-      return;
-    }
-
-    // Use all active council members; individual nodes handle missing keys gracefully
+  const startSession = async (queryInput: string) => {
     const allMembers = config.activeCouncil;
     const readyMembers = councilService.current.getReadyMembers(allMembers);
-
-    // Fall back to all members if none pass the key-check (keys may be embedded via env)
     const membersToUse = readyMembers.length > 0 ? readyMembers : allMembers;
 
     if (membersToUse.length < 1) {
       setSession((prev: SessionState) => ({
         ...prev,
         stage: WorkflowStage.ERROR,
-        error:
-          "Geen nodes gevonden. Voeg minimaal één node toe aan je raad.",
+        error: "Geen nodes gevonden. Voeg minimaal één node toe aan je raad.",
       }));
       return;
     }
 
     setConfig((current: AppConfig) => {
       if (current.creditsRemaining > 0) {
-        return {
-          ...current,
-          creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN
-        };
+        return { ...current, creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN };
       } else {
-        return {
-          ...current,
-          turnsUsed: current.turnsUsed + 1
-        };
+        return { ...current, turnsUsed: current.turnsUsed + 1 };
       }
     });
 
     setSession({
       id: crypto.randomUUID(),
       stage: WorkflowStage.PROCESSING_COUNCIL,
-      query: input,
+      query: queryInput,
       councilResponses: [],
       debateMessages: [],
       reviews: [],
@@ -374,13 +354,8 @@ const App: FC = () => {
     });
 
     try {
-      // 1. Council Analysis Phase
-      const responses = await councilService.current.getCouncilResponses(
-        input,
-        membersToUse,
-      );
+      const responses = await councilService.current.getCouncilResponses(queryInput, membersToUse);
 
-      // 2. Immediately start chairman synthesis
       setSession((prev: SessionState) => ({
         ...prev,
         councilResponses: responses,
@@ -390,7 +365,7 @@ const App: FC = () => {
       }));
 
       const synthesis = await councilService.current.synthesizeStream(
-        input,
+        queryInput,
         responses,
         [],
         [],
@@ -418,6 +393,38 @@ const App: FC = () => {
         error: err.message || "Autonomous consensus protocol interrupted."
       }));
     }
+  };
+
+  const handleStart = async () => {
+    if (!input.trim()) return;
+
+    const hasCredits = config.creditsRemaining > 0;
+    const hasTurnsRemaining = config.turnsUsed < config.totalTurnsAllowed;
+    const isAllowed = config.isLifetime || hasTurnsRemaining || hasCredits;
+
+    if (!isAllowed) {
+      setIsPaywallOpen(true);
+      return;
+    }
+
+    // 2e gratis sessie vereist het bekijken van een advertentie
+    if (config.turnsUsed === 1 && !config.hasWatchedAd && !config.isLifetime && !hasCredits) {
+      pendingQueryRef.current = input;
+      setIsAdOpen(true);
+      return;
+    }
+
+    await startSession(input);
+  };
+
+  const handleAdReward = () => {
+    setConfig((prev: AppConfig) => {
+      const updated = { ...prev, hasWatchedAd: true };
+      localStorage.setItem('fainl_config_v2', JSON.stringify(updated));
+      return updated;
+    });
+    setIsAdOpen(false);
+    startSession(pendingQueryRef.current);
   };
 
   const handleEndDebate = async (debateMessages: import('./types').DebateMessage[]) => {
@@ -614,6 +621,31 @@ const App: FC = () => {
           </div>
         )}
       </header>
+
+      {isAnnouncementVisible && (
+        <div className="w-full bg-black text-white py-2.5 px-4 flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-widest relative">
+          <span className="text-yellow-400">★</span>
+          <span>15% korting op je eerste aankoop</span>
+          <span className="text-white/40 hidden sm:inline">—</span>
+          <a
+            href="mailto:info@fainl.com"
+            className="underline hover:text-yellow-400 transition-colors hidden sm:inline"
+          >
+            Aanmelden voor nieuwsbrief
+          </a>
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.setItem('fainl_visited', '1');
+              setIsAnnouncementVisible(false);
+            }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/50 hover:text-white transition-colors"
+            aria-label="Sluit aankondiging"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       <main className="flex-1 w-full mx-auto">
         <Routes>
@@ -874,12 +906,13 @@ const App: FC = () => {
       />
 
 
-      {isWelcomeOpen && (
-        <WelcomePopup onClose={() => {
-          localStorage.setItem('fainl_visited', '1');
-          setIsWelcomeOpen(false);
-        }} />
-      )}
+      <AdRewardModal
+        isOpen={isAdOpen}
+        onRewardEarned={handleAdReward}
+        onDismiss={() => setIsAdOpen(false)}
+      />
+
+      <CookieConsent />
     </div>
   );
 };

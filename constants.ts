@@ -157,3 +157,10 @@ export const USAGE_LIMITS = {
   FREE_TURNS: 2,
   CREDITS_PER_TURN: 1
 };
+
+// Google AdSense — vervang met jouw eigen publisher ID en rewarded ad unit slot ID
+// Aanmaken via: https://www.google.com/adsense → Advertenties → Per advertentie-eenheid → Beloonde interstitial
+export const ADSENSE = {
+  PUBLISHER_ID: 'ca-pub-PLACEHOLDER',
+  REWARDED_SLOT: 'PLACEHOLDER',
+};
