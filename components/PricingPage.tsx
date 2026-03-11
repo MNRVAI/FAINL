@@ -34,7 +34,7 @@ export const PricingPage: FC<PricingPageProps> = ({
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="text-center mb-10 md:mb-16">
         <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-3 text-black dark:text-white">
           {language === 'nl' ? 'Credits & Toegang' : 'Credits & Access'}
@@ -62,7 +62,7 @@ export const PricingPage: FC<PricingPageProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {PRICING.CREDITS.map((pkg, idx) => (
             <div key={idx} className="card-fainl">
               <div className="card__badge">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
