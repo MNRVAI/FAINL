@@ -36,7 +36,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-black dark:text-white text-xs md:text-sm uppercase tracking-wide truncate">{member.name}</h3>
             <div className="flex items-center mt-0.5">
-              <span className="text-[8px] md:text-sm font-mono font-bold text-black/50 dark:text-white/40 bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded truncate">
+              <span className="text-xs md:text-sm font-mono font-bold text-black/50 dark:text-white/40 bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded truncate">
                 {member.provider}
               </span>
             </div>

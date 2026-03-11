@@ -121,7 +121,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           </button>
         </form>
 
-        <p className="mt-8 text-center text-[8px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
+        <p className="mt-8 text-center text-xs font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
           Auth data is managed by Supabase. Your private missions remain encrypted on the server side.
         </p>
       </div>

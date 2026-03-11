@@ -411,7 +411,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                         : <img src={member?.avatar} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} max-w-[80%]`}>
-                      <span className="text-[8px] font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
+                      <span className="text-xs font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {isUser ? 'Jij' : member?.name}
                       </span>
                       <div
@@ -439,7 +439,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                   </div>
                   <div className="flex flex-col items-start">
                     {generatingSpeaker && (
-                      <span className="text-[8px] font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
+                      <span className="text-xs font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {generatingSpeaker.name}
                       </span>
                     )}

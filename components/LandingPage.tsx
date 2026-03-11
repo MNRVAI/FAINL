@@ -575,7 +575,7 @@ export const LandingPage: FC = () => {
             onClick={() => window.open(PRICING.SUBSCRIPTIONS[0].stripeUrl, "_blank")}
             className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-[#d1b411] rounded-2xl hover:shadow-[6px_6px_0px_0px_#d1b411] hover:-translate-y-0.5 transition-all text-black dark:text-white relative"
           >
-            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#d1b411] text-black text-[8px] font-black uppercase tracking-widest rounded-full whitespace-nowrap">
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#d1b411] text-black text-xs font-black uppercase tracking-widest rounded-full whitespace-nowrap">
               Abonnement
             </div>
             <div className="text-base font-black uppercase tracking-tight mb-0.5">

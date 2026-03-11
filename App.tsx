@@ -556,7 +556,7 @@ const App: FC = () => {
             const isCompleted = [WorkflowStage.COMPLETED, ...stages.slice(idx + 1).map(st => st.id)].includes(session.stage);
             return (
               <div key={s.id} className="flex items-center gap-3 w-full sm:w-auto">
-                <div className={`flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] font-black tracking-[0.2em] uppercase transition-all border-2 w-full sm:w-auto justify-center sm:justify-start ${isActive ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] sm:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] dark:sm:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.1)]' : isCompleted ? 'bg-white dark:bg-zinc-800 text-black dark:text-white border-black dark:border-white/20' : 'text-black/20 dark:text-white/20 border-transparent'}`}>
+                <div className={`flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-black tracking-[0.2em] uppercase transition-all border-2 w-full sm:w-auto justify-center sm:justify-start ${isActive ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] sm:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] dark:sm:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.1)]' : isCompleted ? 'bg-white dark:bg-zinc-800 text-black dark:text-white border-black dark:border-white/20' : 'text-black/20 dark:text-white/20 border-transparent'}`}>
                   <s.icon className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isActive ? 'animate-pulse' : ''}`} />
                   <span className="whitespace-nowrap">{s.label}</span>
                 </div>
@@ -649,7 +649,7 @@ const App: FC = () => {
       {isAnnouncementVisible && newsletterState !== 'success' && (
         <div className="w-full bg-black text-white px-4 py-2.5 relative">
           {newsletterState === 'banner' && (
-            <div className="flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-widest">
+            <div className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest">
               <span className="text-yellow-400">★</span>
               <span>15% korting op je eerste aankoop</span>
               <span className="text-white/40 hidden sm:inline">—</span>
@@ -664,19 +664,19 @@ const App: FC = () => {
           )}
           {(newsletterState === 'form' || newsletterState === 'submitting') && (
             <form onSubmit={handleNewsletterSubmit} className="flex items-center justify-center gap-2 flex-wrap">
-              <span className="text-yellow-400 text-[11px] font-black uppercase tracking-widest whitespace-nowrap">★ 15% korting</span>
+              <span className="text-yellow-400 text-xs font-black uppercase tracking-widest whitespace-nowrap">★ 15% korting</span>
               <input
                 type="email"
                 required
                 value={newsletterEmail}
                 onChange={e => setNewsletterEmail(e.target.value)}
                 placeholder="jouw@email.nl"
-                className="bg-white/10 border border-white/30 text-white placeholder-white/40 text-[11px] px-3 py-1.5 outline-none focus:border-yellow-400 transition-colors w-48"
+                className="bg-white/10 border border-white/30 text-white placeholder-white/40 text-xs px-3 py-1.5 outline-none focus:border-yellow-400 transition-colors w-48"
               />
               <button
                 type="submit"
                 disabled={newsletterState === 'submitting'}
-                className="bg-yellow-400 text-black text-[10px] font-black uppercase tracking-widest px-3 py-1.5 hover:bg-yellow-300 transition-colors disabled:opacity-60"
+                className="bg-yellow-400 text-black text-xs font-black uppercase tracking-widest px-3 py-1.5 hover:bg-yellow-300 transition-colors disabled:opacity-60"
               >
                 {newsletterState === 'submitting' ? '...' : 'Aanmelden'}
               </button>
@@ -696,7 +696,7 @@ const App: FC = () => {
         </div>
       )}
       {newsletterState === 'success' && (
-        <div className="w-full bg-yellow-400 text-black px-4 py-2.5 flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest relative">
+        <div className="w-full bg-yellow-400 text-black px-4 py-2.5 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-widest relative">
           <span>✓ Aangemeld!</span>
           <span className="text-black/60">Jouw kortingscode:</span>
           <span className="bg-black text-yellow-400 px-2 py-0.5 font-mono tracking-normal select-all">promo_1T9tKD2Z8WgVHOZM0xJIa5Py</span>
@@ -748,7 +748,7 @@ const App: FC = () => {
                               stage: WorkflowStage.IDLE,
                             })
                           }
-                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-700 font-black rounded uppercase tracking-[0.2em] text-[9px] md:text-[10px] transition-all text-black dark:text-white"
+                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-700 font-black rounded uppercase tracking-[0.2em] text-xs md:text-sm transition-all text-black dark:text-white"
                         >
                           Recalibrate
                         </button>
@@ -785,7 +785,7 @@ const App: FC = () => {
                         </div>
                         <div className="absolute bottom-4 left-4 md:bottom-12 md:left-12 pointer-events-none">
                           <span
-                            className={`text-[10px] md:text-xs font-black uppercase tracking-widest ${input.length >= MAX_CHARS ? "text-red-500" : "text-black/40 dark:text-white/40"}`}
+                            className={`text-sm md:text-xs font-black uppercase tracking-widest ${input.length >= MAX_CHARS ? "text-red-500" : "text-black/40 dark:text-white/40"}`}
                           >
                             {input.length} / {MAX_CHARS}
                           </span>
@@ -800,7 +800,7 @@ const App: FC = () => {
                           <AnimatedSendIcon />
                         </button>
                       </div>
-                      <p className="mt-4 md:mt-8 text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] block text-center">
+                      <p className="mt-4 md:mt-8 text-xs md:text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] block text-center">
                         Versleutelde sessie. Data wordt alleen lokaal
                         opgeslagen.
                       </p>
@@ -809,7 +809,7 @@ const App: FC = () => {
                     session.stage !== WorkflowStage.ERROR && (
                       <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12">
                         <div className="bg-white/40 dark:bg-zinc-900/40 border-2 border-black/5 dark:border-white/5 rounded-xl p-6 md:p-12 text-center backdrop-blur-sm">
-                          <span className="text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em] mb-4 block border-b border-black/5 pb-2 mx-auto w-fit italic">
+                          <span className="text-xs md:text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em] mb-4 block border-b border-black/5 pb-2 mx-auto w-fit italic">
                             Deliberation Protocol Active
                           </span>
                           <p className="text-2xl sm:text-3xl md:text-5xl text-black dark:text-white font-serif italic font-medium tracking-tight leading-tight">
@@ -867,7 +867,7 @@ const App: FC = () => {
                         {/* Debate or Verdict choice — shown after all nodes have responded */}
                         {session.stage === WorkflowStage.DEBATE && (
                           <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-8 md:p-10 animate-in fade-in duration-500">
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-2 text-center">
+                            <p className="text-sm font-black uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-2 text-center">
                               Alle nodes hebben geanalyseerd
                             </p>
                             <p className="text-center text-sm font-bold text-black/60 dark:text-white/60 mb-8">
@@ -877,7 +877,7 @@ const App: FC = () => {
                               <button
                                 type="button"
                                 onClick={() => setIsDebateOpen(true)}
-                                className="flex items-center justify-center gap-3 px-8 py-4 border-4 border-black dark:border-white bg-white dark:bg-zinc-900 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black dark:text-white font-black text-[10px] uppercase tracking-widest transition-all shadow-[4px_4px_0_0_black] dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.2)] hover:shadow-none"
+                                className="flex items-center justify-center gap-3 px-8 py-4 border-4 border-black dark:border-white bg-white dark:bg-zinc-900 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black dark:text-white font-black text-sm uppercase tracking-widest transition-all shadow-[4px_4px_0_0_black] dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.2)] hover:shadow-none"
                               >
                                 <Swords className="w-4 h-4" />
                                 Live Debat Starten
@@ -885,7 +885,7 @@ const App: FC = () => {
                               <button
                                 type="button"
                                 onClick={() => runSynthesis(session.query, session.councilResponses, [])}
-                                className="flex items-center justify-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-[10px] uppercase tracking-widest transition-all hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)]"
+                                className="flex items-center justify-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest transition-all hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)]"
                               >
                                 <Gavel className="w-4 h-4" />
                                 Chairman's Verdict
@@ -1011,7 +1011,7 @@ const App: FC = () => {
       </main>
 
       <footer className="border-t border-black/5 py-8 md:py-12 text-center">
-        <span className="text-[10px] font-black uppercase tracking-widest text-black/30">{t.common.madeBy} MNRV</span>
+        <span className="text-sm font-black uppercase tracking-widest text-black/30">{t.common.madeBy} MNRV</span>
       </footer>
 
       <PaywallModal

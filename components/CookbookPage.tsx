@@ -175,10 +175,10 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
                             <div className="flex justify-between items-start mb-6">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className={`px-3 py-1 border-2 border-black dark:border-white/10 rounded-lg text-[7px] font-black uppercase tracking-widest ${directive.difficulty === 'Gamma' ? 'bg-red-400 text-black' : directive.difficulty === 'Beta' ? 'bg-blue-400 text-black' : 'bg-green-400 text-black'}`}>
+                                    <span className={`px-3 py-1 border-2 border-black dark:border-white/10 rounded-lg text-xs font-black uppercase tracking-widest ${directive.difficulty === 'Gamma' ? 'bg-red-400 text-black' : directive.difficulty === 'Beta' ? 'bg-blue-400 text-black' : 'bg-green-400 text-black'}`}>
                                         {directive.difficulty}
                                     </span>
-                                    <span className="text-[8px] font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
+                                    <span className="text-xs font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 p-1.5 bg-black/5 rounded-lg">
                                     <button
@@ -206,7 +206,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                             </div>
 
                             <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 text-black dark:text-white line-clamp-1">{directive.title}</h3>
-                            <p className="text-sm md:text-xs font-bold text-black/60 dark:text-white/60 leading-relaxed italic mb-6 border-l-4 border-yellow-400 pl-4 bg-yellow-400/5 py-3 rounded-r-xl line-clamp-2">
+                            <p className="text-sm md:text-base font-bold text-black/60 dark:text-white/60 leading-relaxed italic mb-6 border-l-4 border-yellow-400 pl-4 bg-yellow-400/5 py-3 rounded-r-xl line-clamp-2">
                                 "{directive.query}"
                             </p>
 
@@ -214,11 +214,11 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                                 <div className="flex items-center gap-4 opacity-40">
                                     <div className="flex items-center gap-1.5">
                                         <Layers className="w-3 h-3" />
-                                        <span className="text-[7px] font-black">{directive.nodesNeeded} NODES</span>
+                                        <span className="text-xs font-black">{directive.nodesNeeded} NODES</span>
                                     </div>
                                     <div className="flex items-center gap-1.5">
                                         <Clock className="w-3 h-3" />
-                                        <span className="text-[7px] font-black uppercase">{directive.length}</span>
+                                        <span className="text-xs font-black uppercase">{directive.length}</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
@@ -275,7 +275,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                     <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">
                         {language === 'nl' ? 'Neurale Optimalisatie Geactiveerd' : 'Neural Optimization Engaged'}
                     </h2>
-                    <p className="text-xs md:text-sm font-bold text-white/50 uppercase tracking-[0.2em] leading-relaxed">
+                    <p className="text-sm md:text-base font-bold text-white/50 uppercase tracking-[0.2em] leading-relaxed">
                         {language === 'nl'
                             ? 'FAINL missies worden via onze consensus beoordeeld door de community. Hoe vaker een missie wordt gebruikt, hoe hoger de prioriteit in het neurale subnetwerk.'
                             : 'FAINL directives are crowd-indexed using our proof-of-logic consensus. The more a directive is reviewed and utilized, the higher its priority in the global neural subnet.'}
