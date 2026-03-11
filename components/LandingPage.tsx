@@ -147,17 +147,17 @@ export const LandingPage: FC = () => {
         aria-label="Introductie"
         className="w-full max-w-4xl mx-auto px-5 sm:px-8 md:px-10 pt-10 sm:pt-16 md:pt-28 pb-10 md:pb-20 text-center"
       >
-        <h1 className="text-[2.4rem] leading-[1.06] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] font-black uppercase tracking-tighter text-black dark:text-white max-w-3xl mx-auto mb-5 sm:mb-6 md:mb-8">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter leading-[1.05] text-black dark:text-white max-w-3xl mx-auto mb-5 md:mb-6">
           Jouw vraag verdient meer dan één{" "}
           <span className="text-[#d1b411]">AI-model.</span>
         </h1>
 
-        <p className="max-w-xl mx-auto text-lg sm:text-xl md:text-2xl font-semibold text-black dark:text-white/80 leading-snug mb-8 sm:mb-10 md:mb-14">
-          Eén model geeft <em>een</em> antwoord.{" "}
-          <span className="text-black dark:text-white font-black">FAINL geeft het <em>beste</em>.</span>
-          <span className="block mt-3 text-base sm:text-lg font-medium text-black/60 dark:text-white/50 leading-relaxed">
-            Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
-          </span>
+        <p className="max-w-lg mx-auto text-xl md:text-2xl font-black text-black dark:text-white leading-snug mb-4">
+          Eén model geeft een antwoord. FAINL geeft het beste.
+        </p>
+
+        <p className="max-w-xl mx-auto text-base md:text-lg font-medium text-black/55 dark:text-white/50 leading-relaxed mb-10 md:mb-14">
+          Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
         </p>
 
         <div className="flex flex-col xs:flex-row items-center justify-center gap-3 sm:gap-4 mb-8">
