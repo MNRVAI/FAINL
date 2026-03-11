@@ -69,11 +69,6 @@ const JSON_LD = {
         priceCurrency: "EUR",
         offerCount: "5",
       },
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.8",
-        reviewCount: "247",
-      },
     },
     {
       "@type": "Organization",

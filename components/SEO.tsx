@@ -48,6 +48,7 @@ export const SEO: FC<SEOProps> = ({
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="FAINL — AI Consensus Engine" />
       <meta property="og:locale" content="nl_NL" />
 
       {/* ── Twitter Card ────────────────────────── */}
