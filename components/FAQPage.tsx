@@ -57,7 +57,7 @@ export const FAQPage: FC = () => {
         <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
           {language === 'nl' ? 'Veelgestelde Vragen' : 'Internal Protocol'}
         </h1>
-        <p className="max-w-2xl mx-auto text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
+        <p className="max-w-2xl mx-auto text-black/60 dark:text-white/60 font-bold text-base md:text-lg leading-relaxed">
           {language === 'nl'
             ? 'Lees hier hoe FAINL precies werkt, wat het kost en hoe we jouw data beschermen.'
             : 'Access the foundational logic and operational guidelines of the FAINL Orchestration Layer. Understand the mechanics of decentralized consensus and neural governance.'}
@@ -86,7 +86,7 @@ export const FAQPage: FC = () => {
             </button>
             {openIndex === idx && (
               <div className="px-6 md:px-10 pb-6 md:pb-10 animate-in slide-in-from-top-4 duration-300">
-                <div className="pt-6 border-t-2 border-black/5 dark:border-white/5 text-xs md:text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed uppercase tracking-widest">
+                <div className="pt-6 border-t-2 border-black/5 dark:border-white/5 text-base md:text-lg font-medium text-black/70 dark:text-white/70 leading-relaxed">
                   {faq.a}
                 </div>
               </div>
