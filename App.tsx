@@ -45,6 +45,9 @@ const PrivacyPolicyPage = lazy(() => import("./components/PrivacyPolicyPage").th
 const TermsOfServicePage = lazy(() => import("./components/TermsOfServicePage").then(m => ({ default: m.TermsOfServicePage })));
 const DebateRoom = lazy(() => import("./components/DebateRoom").then(m => ({ default: m.DebateRoom })));
 const ComparePage = lazy(() => import("./components/ComparePage").then(m => ({ default: m.ComparePage })));
+const BestAIToolPage = lazy(() => import("./components/BestAIToolPage").then(m => ({ default: m.BestAIToolPage })));
+const UseCaseLegalPage = lazy(() => import("./components/UseCaseLegalPage").then(m => ({ default: m.UseCaseLegalPage })));
+const UseCaseMarketingPage = lazy(() => import("./components/UseCaseMarketingPage").then(m => ({ default: m.UseCaseMarketingPage })));
 import {
   Menu,
   X as CloseIcon,
@@ -68,7 +71,6 @@ const LoginPage = lazy(() => import("./components/LoginPage").then(m => ({ defau
 const QuestionPage = lazy(() => import("./components/QuestionPage").then(m => ({ default: m.QuestionPage })));
 import { Session } from "@supabase/supabase-js";
 import { LogOut } from "lucide-react";
-import { ScrambleText } from "./components/ScrambleText";
 import { CookieConsent } from "./components/CookieConsent";
 import { AdRewardModal } from "./components/AdRewardModal";
 const LandingPage = lazy(() => import("./components/LandingPage").then(m => ({ default: m.LandingPage })));
@@ -126,39 +128,17 @@ const AnimatedSendIcon: FC = () => {
   );
 };
 
-const LogoSwitch: FC = () => {
-  const [showText, setShowText] = useState(false);
-
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    const initial = setTimeout(() => {
-      setShowText(true);
-      interval = setInterval(() => setShowText(p => !p), 4200);
-    }, 3000);
-    return () => { clearTimeout(initial); clearInterval(interval); };
-  }, []);
-
-  return (
-    <div className="relative grid items-center h-12 md:h-16 min-w-12 overflow-hidden">
-      {/* Visual logo */}
-      <img
-        src="/fainl-logo.png"
-        alt="FAINL"
-        className={`[grid-area:1/1] h-full w-auto object-contain transition-all duration-500 ease-in-out ${
-          showText ? 'opacity-0 -translate-y-3 pointer-events-none' : 'opacity-100 translate-y-0'
-        }`}
-      />
-      {/* Text logo */}
-      <span
-        className={`[grid-area:1/1] text-[1.35rem] md:text-2xl font-black tracking-tighter text-black dark:text-white whitespace-nowrap transition-all duration-500 ease-in-out ${
-          showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
-        }`}
-      >
-        <ScrambleText text="FAINL" />
-      </span>
-    </div>
-  );
-};
+const LogoSwitch: FC = () => (
+  <video
+    src="/FAINLANI.mp4"
+    autoPlay
+    muted
+    loop
+    playsInline
+    aria-label="FAINL logo animatie"
+    className="h-12 md:h-16 w-auto object-contain"
+  />
+);
 
 const CyberLogo: FC<{ isAnimated?: boolean }> = ({ isAnimated = true }) => {
   return (
@@ -952,6 +932,11 @@ const App: FC = () => {
 
           {/* Vergelijkingspagina's */}
           <Route path="/vergelijk/chatgpt-vs-gemini-vs-claude" element={<ComparePage />} />
+          <Route path="/vergelijk/beste-ai-tool-nederland" element={<BestAIToolPage />} />
+
+          {/* Use-case pagina's */}
+          <Route path="/gebruik/juridisch-advies-ai" element={<UseCaseLegalPage />} />
+          <Route path="/gebruik/marketing-strategie-ai" element={<UseCaseMarketingPage />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
