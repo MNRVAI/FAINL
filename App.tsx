@@ -293,6 +293,12 @@ const App: FC = () => {
 
   const [input, setInput] = useState('');
   const [isDebateOpen, setIsDebateOpen] = useState(false);
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
+  const toggleCard = (memberId: string) => setExpandedCards(prev => {
+    const next = new Set(prev);
+    if (next.has(memberId)) next.delete(memberId); else next.add(memberId);
+    return next;
+  });
   const [isAnnouncementVisible, setIsAnnouncementVisible] = useState(() => {
     return !localStorage.getItem('fainl_visited');
   });
@@ -356,34 +362,14 @@ const App: FC = () => {
     try {
       const responses = await councilService.current.getCouncilResponses(queryInput, membersToUse);
 
+      // Stop at DEBATE stage — user chooses: Live Debate or direct Chairman's Verdict
       setSession((prev: SessionState) => ({
         ...prev,
         councilResponses: responses,
-        stage: WorkflowStage.SYNTHESIZING,
+        stage: WorkflowStage.DEBATE,
         synthesis: '',
         debateMessages: []
       }));
-
-      const synthesis = await councilService.current.synthesizeStream(
-        queryInput,
-        responses,
-        [],
-        [],
-        membersToUse,
-        DEFAULT_CHAIRMAN,
-        (chunk) => {
-          setSession((prev: SessionState) => ({
-            ...prev,
-            synthesis: (prev.synthesis || '') + chunk
-          }));
-        }
-      );
-
-      setSession((prev: SessionState) => {
-        const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED, timestamp: Date.now() };
-        setHistory((h: SessionState[]) => [completedSession, ...h]);
-        return completedSession;
-      });
 
     } catch (err: any) {
       console.error(err);
@@ -427,24 +413,17 @@ const App: FC = () => {
     startSession(pendingQueryRef.current);
   };
 
-  const handleEndDebate = async (debateMessages: import('./types').DebateMessage[]) => {
-    setIsDebateOpen(false);
-    setSession((prev: SessionState) => ({
-      ...prev,
-      debateMessages,
-      stage: WorkflowStage.SYNTHESIZING,
-      synthesis: ''
-    }));
-
+  // Single synthesis entry point — used by both "Get Verdict" and "After Debate"
+  const runSynthesis = async (query: string, responses: CouncilResponse[], debateMsgs: import('./types').DebateMessage[]) => {
     const readyForSynth = councilService.current.getReadyMembers(config.activeCouncil);
     const membersForSynth = readyForSynth.length > 0 ? readyForSynth : config.activeCouncil;
-
+    setSession((prev: SessionState) => ({ ...prev, stage: WorkflowStage.SYNTHESIZING, synthesis: '' }));
     try {
       const synthesis = await councilService.current.synthesizeStream(
-        session.query,
-        session.councilResponses,
+        query,
+        responses,
         [],
-        session.debateMessages,
+        debateMsgs,
         membersForSynth,
         DEFAULT_CHAIRMAN,
         (chunk) => {
@@ -454,19 +433,25 @@ const App: FC = () => {
           }));
         }
       );
-
       setSession((prev: SessionState) => {
-        const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED };
+        const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED, timestamp: Date.now() };
         setHistory((h: SessionState[]) => [completedSession, ...h]);
         return completedSession;
       });
     } catch (err: any) {
+      console.error(err);
       setSession((prev: SessionState) => ({
         ...prev,
         stage: WorkflowStage.ERROR,
         error: err.message || "Synthesis failed."
       }));
     }
+  };
+
+  const handleEndDebate = async (debateMessages: import('./types').DebateMessage[]) => {
+    setIsDebateOpen(false);
+    setSession((prev: SessionState) => ({ ...prev, debateMessages }));
+    await runSynthesis(session.query, session.councilResponses, debateMessages);
   };
 
   const handleAddDebateMessage = (msg: import('./types').DebateMessage) => {
@@ -792,17 +777,58 @@ const App: FC = () => {
                                   (r) => r.memberId === member.id,
                                 )
                               }
-                              isExpanded={false}
-                              onToggle={() => {}}
+                              isExpanded={expandedCards.has(member.id)}
+                              onToggle={() => toggleCard(member.id)}
                             />
                           ))}
                         </div>
+
+                        {/* Debate or Verdict choice — shown after all nodes have responded */}
+                        {session.stage === WorkflowStage.DEBATE && (
+                          <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-8 md:p-10 animate-in fade-in duration-500">
+                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-2 text-center">
+                              Alle nodes hebben geanalyseerd
+                            </p>
+                            <p className="text-center text-sm font-bold text-black/60 dark:text-white/60 mb-8">
+                              Wil je de AI's tegen elkaar laten debatteren, of direct het eindoordeel?
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                              <button
+                                type="button"
+                                onClick={() => setIsDebateOpen(true)}
+                                className="flex items-center justify-center gap-3 px-8 py-4 border-4 border-black dark:border-white bg-white dark:bg-zinc-900 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black text-black dark:text-white font-black text-[10px] uppercase tracking-widest transition-all shadow-[4px_4px_0_0_black] dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.2)] hover:shadow-none"
+                              >
+                                <Swords className="w-4 h-4" />
+                                Live Debat Starten
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => runSynthesis(session.query, session.councilResponses, [])}
+                                className="flex items-center justify-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-[10px] uppercase tracking-widest transition-all hover:bg-zinc-800 dark:hover:bg-zinc-100 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)]"
+                              >
+                                <Gavel className="w-4 h-4" />
+                                Chairman's Verdict
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
                         {session.stage === WorkflowStage.COMPLETED && (
                           <div className="flex justify-center pt-12">
                             <button
                               type="button"
-                              onClick={() => navigate("/")}
+                              onClick={() => {
+                                setSession({
+                                  id: crypto.randomUUID(),
+                                  stage: WorkflowStage.IDLE,
+                                  query: '',
+                                  councilResponses: [],
+                                  debateMessages: [],
+                                  reviews: [],
+                                  synthesis: ''
+                                });
+                                setInput('');
+                              }}
                               className="px-10 py-6 bg-black dark:bg-white text-white dark:text-black rounded-xl font-black text-xl hover:scale-105 transition-all shadow-xl uppercase"
                             >
                               Initialize New Mission
@@ -910,6 +936,16 @@ const App: FC = () => {
         isOpen={isAdOpen}
         onRewardEarned={handleAdReward}
         onDismiss={() => setIsAdOpen(false)}
+      />
+
+      <DebateRoom
+        isOpen={isDebateOpen}
+        session={session}
+        config={config}
+        councilService={councilService.current}
+        onClose={() => setIsDebateOpen(false)}
+        onEndDebate={handleEndDebate}
+        onAddDebateMessage={handleAddDebateMessage}
       />
 
       <CookieConsent />
