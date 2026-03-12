@@ -423,7 +423,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                     <div className={`w-8 h-8 rounded-full shrink-0 overflow-hidden border-2 ${isUser ? 'border-black dark:border-white bg-black dark:bg-white' : 'border-zinc-300 dark:border-zinc-600'} flex items-center justify-center`}>
                       {isUser
                         ? <Users className="w-4 h-4 text-white dark:text-black" />
-                        : <img src={member?.avatar} alt="" className="w-full h-full object-cover" />}
+                        : <img src={member?.avatar} alt={member?.name ?? ''} className="w-full h-full object-cover" />}
                     </div>
                     <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} max-w-[80%]`}>
                       <span className="text-sm font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
@@ -449,7 +449,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 <div className="flex gap-2.5 items-end">
                   <div className="w-8 h-8 rounded-full shrink-0 overflow-hidden border-2 border-zinc-300 dark:border-zinc-600">
                     {generatingSpeaker
-                      ? <img src={generatingSpeaker.avatar} alt="" className="w-full h-full object-cover" />
+                      ? <img src={generatingSpeaker.avatar} alt={generatingSpeaker.name} className="w-full h-full object-cover" />
                       : <div className="w-full h-full bg-zinc-200 dark:bg-zinc-700 animate-pulse" />}
                   </div>
                   <div className="flex flex-col items-start max-w-[80%]">

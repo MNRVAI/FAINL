@@ -184,9 +184,9 @@ export const AccountPage: FC<AccountPageProps> = ({
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12 md:mb-16">
         <div>
-          <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-3 text-black">
+          <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-3 text-black">
             Commandocentrum
-          </h1>
+          </h2>
           <p className="text-black/70 font-bold text-base md:text-lg leading-relaxed">
             Beheer je credits, nodes, datakluis en missiegeschiedenis.
           </p>
