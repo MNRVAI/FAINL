@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { useLanguage } from '../contexts/LanguageContext';
+import { SEO } from './SEO';
 
 export const ContactPage: FC = () => {
     const { language } = useLanguage();
@@ -51,11 +52,18 @@ export const ContactPage: FC = () => {
     };
 
     return (
+        <>
+        <SEO
+          title="Contact — FAINL AI Consensus"
+          description="Neem contact op met het FAINL-team. Vragen, feedback of samenwerking? Wij reageren binnen 12 uur."
+          canonical="/contact"
+          keywords="FAINL contact, support AI tool, contact multi-model AI"
+        />
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex flex-col lg:flex-row gap-12 md:gap-24">
                 <div className="lg:w-1/2 space-y-8 md:space-y-12">
                     <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-black dark:text-white">
-                        {language === 'nl' ? 'Bereik De Kern' : 'Reach The Core'}
+                        {language === 'nl' ? 'Contact' : 'Contact'}
                     </h1>
                     <p className="text-sm md:text-lg font-bold text-black/50 dark:text-white/50 uppercase tracking-[0.2em] leading-relaxed">
                         {language === 'nl'
@@ -147,5 +155,6 @@ export const ContactPage: FC = () => {
                 <p className="text-base font-black text-black/40 dark:text-white/40 uppercase tracking-[0.4em] text-center">\u00A9 2026 FAINL PROTOCOL \u2022 ALL RIGHTS RESERVED</p>
             </div>
         </div>
+        </>
     );
 };

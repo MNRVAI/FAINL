@@ -1010,8 +1010,47 @@ const App: FC = () => {
         </Suspense>
       </main>
 
-      <footer className="border-t border-black/5 py-8 md:py-12 text-center">
-        <span className="text-sm font-black uppercase tracking-widest text-black/30">{t.common.madeBy} MNRV</span>
+      <footer className="border-t border-black/5 dark:border-white/5 py-12 md:py-16 bg-white dark:bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-5 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Product</p>
+              <ul className="space-y-2.5">
+                <li><Link to="/" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Home</Link></li>
+                <li><Link to="/mission" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Start gratis</Link></li>
+                <li><Link to="/cookbook" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Voorbeeldvragen</Link></li>
+                <li><Link to="/tokens" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Prijzen</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Vergelijken</p>
+              <ul className="space-y-2.5">
+                <li><Link to="/vergelijk/chatgpt-vs-gemini-vs-claude" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">ChatGPT vs Gemini vs Claude</Link></li>
+                <li><Link to="/vergelijk/beste-ai-tool-nederland" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Beste AI tool Nederland</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Gebruik</p>
+              <ul className="space-y-2.5">
+                <li><Link to="/gebruik/juridisch-advies-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor juridisch advies</Link></li>
+                <li><Link to="/gebruik/marketing-strategie-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor marketingstrategie</Link></li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Info</p>
+              <ul className="space-y-2.5">
+                <li><Link to="/faq" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">FAQ</Link></li>
+                <li><Link to="/contact" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Contact</Link></li>
+                <li><Link to="/privacy" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Privacybeleid</Link></li>
+                <li><Link to="/terms" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Voorwaarden</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-black/5 dark:border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/20">© 2026 FAINL</span>
+            <span className="text-sm font-black uppercase tracking-widest text-black/20 dark:text-white/15">{t.common.madeBy} MNRV</span>
+          </div>
+        </div>
       </footer>
 
       <PaywallModal

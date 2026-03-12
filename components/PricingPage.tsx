@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { PRICING } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
+import { SEO } from './SEO';
 
 interface PricingPageProps {
   hasOwnKeys: boolean;
@@ -34,10 +35,17 @@ export const PricingPage: FC<PricingPageProps> = ({
   };
 
   return (
+    <>
+    <SEO
+      title="Prijzen & Credits — FAINL AI Consensus"
+      description="Betaal per credit of kies een maandelijks abonnement. Gebruik meerdere AI-modellen tegelijk voor één gewogen antwoord."
+      canonical="/tokens"
+      keywords="FAINL prijzen, AI credits kopen, AI abonnement Nederland, meerdere AI modellen prijs"
+    />
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="text-center mb-10 md:mb-16">
         <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-3 text-black dark:text-white">
-          {language === 'nl' ? 'Credits & Toegang' : 'Credits & Access'}
+          {language === 'nl' ? 'Prijzen & Credits' : 'Pricing & Credits'}
         </h1>
         <p className="max-w-xl mx-auto text-black/60 dark:text-white/60 font-bold text-base md:text-lg leading-relaxed">
           {language === 'nl'
@@ -137,5 +145,6 @@ export const PricingPage: FC<PricingPageProps> = ({
           : 'More tiers coming soon · Secure checkout via Stripe'}
       </p>
     </div>
+    </>
   );
 };

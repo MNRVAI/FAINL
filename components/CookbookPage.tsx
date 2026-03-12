@@ -14,6 +14,7 @@ import { FC, useState, useMemo, useEffect } from 'react';
 const ITEMS_PER_PAGE = 12;
 import { DIRECTIVES, Directive } from '../data/directives';
 import { useLanguage } from '../contexts/LanguageContext';
+import { SEO } from './SEO';
 
 interface CookbookPageProps {
     onSelectMission: (query: string) => void;
@@ -86,10 +87,17 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
     const pagedDirectives = filteredDirectives.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
+        <>
+        <SEO
+          title="Voorbeeldvragen voor AI Consensus — FAINL Kookboek"
+          description="Ontdek honderden voorbeeldvragen voor meerdere AI-modellen tegelijk. Van juridisch advies tot marketingstrategie — laat AI consensus voor je werken."
+          canonical="/cookbook"
+          keywords="AI voorbeeldvragen, AI consensus voorbeelden, meerdere AI modellen gebruiken, FAINL kookboek"
+        />
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="text-center mb-16 md:mb-24">
                 <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
-                    Kookboek
+                    {language === 'nl' ? 'Voorbeeldvragen voor AI Consensus' : 'Example Questions for AI Consensus'}
                 </h1>
                 <p className="max-w-2xl mx-auto text-black/60 dark:text-white/60 font-bold text-base md:text-lg leading-relaxed">
                     {language === 'nl'
@@ -314,5 +322,6 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                 </div>
             </div>
         </div>
+        </>
     );
 };

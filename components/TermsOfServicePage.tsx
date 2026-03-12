@@ -1,8 +1,16 @@
 import { FC } from 'react';
 import { Gavel, Scale, FileText, Zap, Users, AlertTriangle } from 'lucide-react';
+import { SEO } from './SEO';
 
 export const TermsOfServicePage: FC = () => {
   return (
+    <>
+    <SEO
+      title="Algemene Voorwaarden — FAINL"
+      description="De gebruiksvoorwaarden van FAINL: wat je mag verwachten, wat wij bieden en welke regels van toepassing zijn."
+      canonical="/terms"
+      keywords="FAINL algemene voorwaarden, gebruiksvoorwaarden AI tool, FAINL terms"
+    />
     <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-24 animate-fade-in">
       <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-16 shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)]">
         <div className="flex flex-col md:flex-row items-center gap-8 mb-16 pb-16 border-b-4 border-black/5 dark:border-white/5">
@@ -10,7 +18,7 @@ export const TermsOfServicePage: FC = () => {
             <Gavel className="text-white dark:text-black w-12 h-12" />
           </div>
           <div>
-            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4 text-black dark:text-white">Terms of Protocol</h1>
+            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4 text-black dark:text-white">Algemene Voorwaarden</h1>
             <p className="text-black/40 dark:text-white/40 font-bold uppercase text-sm md:text-sm tracking-[0.3em]">Operational Governance & Usage Standards • Version 1.0.0</p>
           </div>
         </div>
@@ -94,5 +102,6 @@ export const TermsOfServicePage: FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
