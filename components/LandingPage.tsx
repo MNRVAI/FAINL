@@ -13,7 +13,7 @@ import { PRICING } from "../constants";
 const FAQS = [
   {
     q: "Hoe werkt FAINL?",
-    a: "FAINL stuurt jouw vraag tegelijk naar meerdere AI-modellen (Gemini, GPT-4, Claude, Llama en meer). Elk model analyseert de vraag onafhankelijk en geeft zijn eigen perspectief. Vervolgens debatteren ze live met elkaar — en jij kunt zelfs meedoen. De Protocol Chairman synthetiseert alle inzichten tot één gewogen, gezaghebbend eindoordeel.",
+    a: "FAINL stuurt jouw vraag tegelijk naar meerdere AI-modellen (Gemini, GPT-4, Claude, Llama en meer). Elk model analyseert de vraag onafhankelijk en geeft zijn eigen perspectief. Vervolgens debatteren ze live met elkaar — en jij kunt zelfs meedoen. De Voorzitter Victor synthetiseert alle inzichten tot één gewogen, gezaghebbend eindoordeel.",
   },
   {
     q: "Welke AI-modellen gebruikt FAINL?",
@@ -250,7 +250,7 @@ export const LandingPage: FC = () => {
             {
               icon: Gavel,
               title: "Chairman's Verdict",
-              desc: "De Protocol Chairman analyseert alle argumenten en synthetiseert het meest complete, gewogen eindoordeel.",
+              desc: "Victor analyseert alle argumenten en synthetiseert het meest complete, gewogen eindoordeel.",
             },
           ].map(({ icon: Icon, title, desc }) => (
             <li
@@ -316,7 +316,7 @@ export const LandingPage: FC = () => {
               {
                 icon: BarChart3,
                 title: "Gewogen eindoordeel",
-                desc: "De Protocol Chairman synthetiseert alle bevindingen tot één Chairman's Verdict — gefocust op consensus en actionable insights.",
+                desc: "De Voorzitter Victor synthetiseert alle bevindingen tot één Chairman's Verdict — gefocust op consensus en actionable insights.",
               },
             ].map(({ icon: Icon, title, desc }) => (
               <article
