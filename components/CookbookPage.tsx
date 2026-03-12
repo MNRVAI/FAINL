@@ -231,42 +231,73 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-                <div className="mt-12 flex items-center justify-center gap-4">
-                    <button
-                        type="button"
-                        onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        disabled={currentPage === 1}
-                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-sm uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
-                    >
-                        <ChevronLeft className="w-4 h-4" />
-                        {language === 'nl' ? 'Vorige' : 'Prev'}
-                    </button>
+            {totalPages > 1 && (() => {
+                const goTo = (p: number) => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-                    <div className="flex items-center gap-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                // Build visible page slots: always show 1, last, current±1, with ellipsis gaps
+                const slots: (number | '…')[] = [];
+                const add = (p: number) => { if (!slots.includes(p)) slots.push(p); };
+                add(1);
+                if (currentPage > 3) slots.push('…');
+                for (let p = Math.max(2, currentPage - 1); p <= Math.min(totalPages - 1, currentPage + 1); p++) add(p);
+                if (currentPage < totalPages - 2) slots.push('…');
+                add(totalPages);
+
+                return (
+                    <div className="mt-12 flex flex-col items-center gap-4">
+                        {/* Page counter */}
+                        <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                            {language === 'nl' ? `Pagina ${currentPage} van ${totalPages}` : `Page ${currentPage} of ${totalPages}`}
+                        </p>
+
+                        <div className="flex items-center gap-2">
+                            {/* Prev */}
                             <button
-                                key={page}
                                 type="button"
-                                onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                className={`w-9 h-9 border-4 font-black text-sm transition-all ${page === currentPage ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white'}`}
+                                onClick={() => goTo(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-black/20 dark:border-white/20 font-black disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:border-black dark:hover:border-white transition-all"
+                                title={language === 'nl' ? 'Vorige' : 'Previous'}
                             >
-                                {page}
+                                <ChevronLeft className="w-4 h-4" />
                             </button>
-                        ))}
-                    </div>
 
-                    <button
-                        type="button"
-                        onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        disabled={currentPage === totalPages}
-                        className="flex items-center gap-2 px-5 py-3 border-4 border-black dark:border-white/20 font-black text-sm uppercase tracking-widest disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
-                    >
-                        {language === 'nl' ? 'Volgende' : 'Next'}
-                        <ChevronRight className="w-4 h-4" />
-                    </button>
-                </div>
-            )}
+                            {/* Page slots */}
+                            {slots.map((slot, i) =>
+                                slot === '…' ? (
+                                    <span key={`ellipsis-${i}`} className="w-10 h-10 flex items-center justify-center text-black/30 dark:text-white/30 font-black text-sm select-none">
+                                        …
+                                    </span>
+                                ) : (
+                                    <button
+                                        key={slot}
+                                        type="button"
+                                        onClick={() => goTo(slot)}
+                                        className={`w-10 h-10 flex items-center justify-center rounded-xl border-2 font-black text-sm transition-all ${
+                                            slot === currentPage
+                                                ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white scale-110 shadow-md'
+                                                : 'border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white hover:bg-black/5 dark:hover:bg-white/5'
+                                        }`}
+                                    >
+                                        {slot}
+                                    </button>
+                                )
+                            )}
+
+                            {/* Next */}
+                            <button
+                                type="button"
+                                onClick={() => goTo(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-black/20 dark:border-white/20 font-black disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:border-black dark:hover:border-white transition-all"
+                                title={language === 'nl' ? 'Volgende' : 'Next'}
+                            >
+                                <ChevronRight className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+                );
+            })()}
 
             <div className="mt-32 p-12 md:p-20 bg-black dark:bg-zinc-900 text-white rounded-[3rem] text-center space-y-8 relative overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent pointer-events-none" />
