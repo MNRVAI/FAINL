@@ -26,7 +26,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
       <div className="flex flex-col border-b-2 md:border-b-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900/50">
         {/* Identity Row */}
         <div className="p-3 md:p-4 pb-2 flex items-center gap-2 md:gap-3">
-          <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center ${member.color} shadow-sm border-2 border-black dark:border-white/40 shrink-0`}>
+          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center ${member.color} shadow-sm border-2 border-black dark:border-white/40 shrink-0`}>
             <img
               src={member.avatar}
               alt={member.name}
@@ -34,12 +34,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-black dark:text-white text-sm md:text-sm uppercase tracking-wide truncate">{member.name}</h3>
-            <div className="flex items-center mt-0.5">
-              <span className="text-sm md:text-sm font-mono font-bold text-black/50 dark:text-white/40 bg-black/5 dark:bg-white/5 px-1.5 py-0.5 rounded truncate">
-                {member.provider}
-              </span>
-            </div>
+            <h3 className="font-black text-black dark:text-white text-base md:text-lg uppercase tracking-wide truncate">{member.name}</h3>
           </div>
           {isLoading && (
             <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-black dark:text-white animate-spin shrink-0" />
@@ -58,26 +53,26 @@ export const CouncilCard: FC<CouncilCardProps> = ({
 
         {/* Description Row */}
         <div className="px-3 md:px-4 pb-3 md:pb-4 pt-1 md:pt-2">
-          <div className="text-sm md:text-sm text-black/80 dark:text-white/80 font-medium leading-relaxed border-l-2 border-black/20 dark:border-white/20 pl-2 md:pl-3 italic">
+          <div className="text-base md:text-base text-black/80 dark:text-white/80 font-medium leading-relaxed border-l-2 border-black/20 dark:border-white/20 pl-2 md:pl-3 italic">
             "{member.description}"
           </div>
         </div>
       </div>
 
       {/* Content Area */}
-      <div className={`flex-1 p-3 md:p-4 pr-2 md:pr-3 overflow-y-auto min-h-[150px] md:min-h-[200px] ${isExpanded ? '' : 'max-h-[300px] md:max-h-[400px]'} bg-white dark:bg-zinc-900/30 text-sm md:text-sm text-black dark:text-white border-t-2 border-black/5 dark:border-white/5 transition-all duration-300`}>
+      <div className={`flex-1 p-3 md:p-4 pr-2 md:pr-3 overflow-y-auto min-h-[150px] md:min-h-[200px] ${isExpanded ? '' : 'max-h-[300px] md:max-h-[400px]'} bg-white dark:bg-zinc-900/30 text-base md:text-base text-black dark:text-white border-t-2 border-black/5 dark:border-white/5 transition-all duration-300`}>
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-full gap-2 text-black/50 dark:text-white/40">
-            <span className="animate-pulse font-mono uppercase text-sm md:text-sm">Processing...</span>
+            <span className="animate-pulse font-mono uppercase text-base md:text-base">Verwerken...</span>
           </div>
         ) : response ? (
-          <div className="prose prose-xs md:prose-sm max-w-none prose-p:text-black dark:prose-p:text-white prose-headings:text-black dark:prose-headings:text-white prose-strong:text-black dark:prose-strong:text-white leading-relaxed">
+          <div className="prose prose-sm md:prose-base max-w-none prose-p:text-black dark:prose-p:text-white prose-headings:text-black dark:prose-headings:text-white prose-strong:text-black dark:prose-strong:text-white leading-relaxed">
             <ReactMarkdown>{response.content}</ReactMarkdown>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-black/30 dark:text-white/20">
             <Bot className="w-6 h-6 md:w-8 md:h-8 mb-2 opacity-50" />
-            <span className="font-mono text-sm md:text-sm uppercase">Standby</span>
+            <span className="font-mono text-base md:text-base uppercase">Standby</span>
           </div>
         )}
       </div>
