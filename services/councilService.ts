@@ -305,42 +305,42 @@ export class UnifiedCouncilService {
     return results.filter((r): r is PeerReview => r !== null);
   }
 
-  async generateDebateResponse(
+  private buildDebateContext(
     query: string,
     member: CouncilMember,
     councilResponses: CouncilResponse[],
     debateMessages: DebateMessage[],
     members: CouncilMember[]
-  ): Promise<string> {
+  ): { context: string; systemPrompt: string } {
     const ownStance = councilResponses.find(r => r.memberId === member.id);
 
-    let context = `DEBATE TOPIC: "${query}"\n\n`;
+    let context = `ONDERWERP: "${query}"\n\n`;
 
     if (ownStance) {
-      context += `=== YOUR ESTABLISHED POSITION (defend and evolve this) ===\n`;
-      context += `${ownStance.content.substring(0, 400).replace(/\n/g, ' ')}\n\n`;
+      context += `=== JOUW STANDPUNT (verdedig en verdiep dit) ===\n`;
+      context += `${ownStance.content.substring(0, 300).replace(/\n/g, ' ')}\n\n`;
     }
 
-    context += `=== OTHER NODES' POSITIONS ===\n`;
+    context += `=== STANDPUNTEN ANDEREN ===\n`;
     councilResponses.filter(r => r.memberId !== member.id).forEach(r => {
       const m = members.find(x => x.id === r.memberId);
-      if (m) context += `[${m.name}]: ${r.content.substring(0, 280).replace(/\n/g, ' ')}...\n`;
+      if (m) context += `[${m.name}]: ${r.content.substring(0, 200).replace(/\n/g, ' ')}...\n`;
     });
 
-    const recentMessages = debateMessages.slice(-10);
+    const recentMessages = debateMessages.slice(-6);
     const lastMsg = recentMessages.length > 0 ? recentMessages[recentMessages.length - 1] : null;
     const userSpokeRecently = lastMsg?.memberId === 'user';
     const lastSpeakerName = lastMsg
-      ? (lastMsg.memberId === 'user' ? 'the USER' : (members.find(x => x.id === lastMsg.memberId)?.name ?? 'someone'))
+      ? (lastMsg.memberId === 'user' ? 'de gebruiker' : (members.find(x => x.id === lastMsg.memberId)?.name ?? 'iemand'))
       : null;
 
     if (recentMessages.length > 0) {
-      context += `\n=== LIVE DEBATE TRANSCRIPT (last ${recentMessages.length} turns) ===\n`;
+      context += `\n=== LAATSTE ${recentMessages.length} DEBATBEURTEN ===\n`;
       recentMessages.forEach(m => {
         const isSelf = m.memberId === member.id;
-        const authorName = m.memberId === 'user' ? 'USER' : (members.find(x => x.id === m.memberId)?.name ?? 'Unknown');
-        const snippet = m.content.substring(0, 300).replace(/\n/g, ' ');
-        context += `${isSelf ? '[YOU]' : `[${authorName}]`}: ${snippet}\n`;
+        const authorName = m.memberId === 'user' ? 'GEBRUIKER' : (members.find(x => x.id === m.memberId)?.name ?? 'Onbekend');
+        const snippet = m.content.substring(0, 220).replace(/\n/g, ' ');
+        context += `${isSelf ? '[JIJ]' : `[${authorName}]`}: ${snippet}\n`;
       });
     }
 
@@ -355,54 +355,47 @@ export class UnifiedCouncilService {
 
     const otherNames = members.filter(m => m.id !== member.id).map(m => m.name);
 
-    const systemPrompt = `Jij bent ${member.name}. ${member.systemPrompt || member.description || ''}
+    const systemPrompt = `Jij bent ${member.name}. Jouw karakter: ${member.description || ''}
 
-🔴 ABSOLUUT VERPLICHT: ANTWOORD ALTIJD EN UITSLUITEND IN HET NEDERLANDS. Spreek in vloeiend, natuurlijk gesproken Nederlands. Geen Engels, nooit.
+TAAL: Antwoord UITSLUITEND in vloeiend, gesproken Nederlands. Geen Engels, nooit.
 
-Dit is een LIVE debat. Echte mensen kijken en luisteren. Elk woord telt.
+Dit is een live debat. Kort, direct, raak — alsof je echt in gesprek bent.
 
-=== JOUW DEBATIDENTITEIT ===
-Jij hebt een duidelijk standpunt (zie hierboven). Verdedig het. Je mag kleine punten strategisch toegeven, maar verlaat nooit je kernstandpunt zonder een overtuigend argument uit het debat.
-De andere deelnemers die je bij naam kunt aanspreken: ${otherNames.join(', ')}.
+Andere deelnemers: ${otherNames.join(', ')}.
 
-=== HOE JE SPREEKT — VERPLICHTE REGELS ===
+SPREEKREGELS:
+- Reageer direct op wat ${lastSpeakerName ?? 'de ander'} zei. Spreek ze bij naam aan.
+- Begin met een klap: "Nee —", "Wacht even ${lastSpeakerName ?? ''} —", "Precies, maar je mist het punt:", "Goed punt, maar hier is het echte probleem:"
+- MAX 3 zinnen. Geen opsommingen, geen kopjes, gewone spreektaal.
+- Ga nooit samenvatten — aanval, kaats terug, of stel de vraag die ze niet kunnen negeren.
+- ${stage === 'opening' ? 'Openingsfase: Sla de eerste klap. Zet je standpunt neer met lef.' : stage === 'clash' ? 'Clashfase: Zoek het zwakste punt in het laatste argument en val het direct aan.' : 'Slotfase: Eén memorabele zin. Dit is je laatste woord — laat het tellen.'}
+- ${userLevel === 'expert' ? 'Niveau: expert — geen handje vasthouden, dicht en scherp.' : userLevel === 'informed' ? 'Niveau: ingevoerd — vakjargon mag, kort.' : 'Niveau: algemeen — gewone taal, concrete voorbeelden, geen jargon.'}
+${userSpokeRecently ? `\nKRITIEK: De GEBRUIKER heeft net gesproken. Jouw EERSTE zin spreekt hen DIRECT aan. Dit is ook hún debat.` : ''}`.trim();
 
-1. BEGIN met een gesproken markering die jouw zet aangeeft. Kies er één die past:
-   - Aanvallen: "Nee — en hier is precies waarom:", "Wacht even, ${lastSpeakerName} —", "Dat klopt gewoon niet:", "Die redenering klopt van geen kanten:"
-   - Tegenwerpen: "Eigenlijk bewees ${lastSpeakerName} hiermee mijn punt:", "Laat me daarop reageren:", "Ik hoor je, maar je mist iets cruciaals:"
-   - Bevragen: "${lastSpeakerName}, je hebt dit niet beantwoord:", "Maar wat gebeurt er als...?", "Kan iemand hier uitleggen waarom...?"
-   - Toegeven om te draaien: "Goed punt — dat geef ik toe. Maar het bewijst juist het tegendeel:"
-   - Stellige bewering: "Wat nog niemand heeft gezegd:", "Kijk naar wat er echt gebeurt:", "Het echte probleem is niet X — het is Y:"
+    return { context, systemPrompt };
+  }
 
-2. SPREEK mensen AAN MET NAAM als je op hen reageert. Als ${lastSpeakerName} net sprak, begin dan met hun naam.
-
-3. LENGTE: 2–4 zinnen. Geen opvulling. Geen "samengevat". Elke zin moet raak zijn.
-
-4. DEBATZETTEN — wissel deze af door de beurten heen:
-   - DIRECTE WEERLEGGING: Citeer hun kernstelling, breek die dan in één scherpe beweging af
-   - ANALOGIEWAPEN: Gooi een levendige parallel uit de praktijk die alles herkaart
-   - TOEGEVEN + OMDRAAIEN: Geef hun kleine punt toe, laat dan zien hoe het jóuw argument ondersteunt
-   - RETORISCHE BOM: Stel de vraag die ze niet kunnen negeren — laat ze zweten
-   - BEWIJS-SPIKE: Verankert met een concreet feit, getal of voorbeeld dat ze niet kunnen wegwuiven
-
-5. DEBATFASE — dit is de ${stage === 'opening' ? 'openingsfase' : stage === 'clash' ? 'clashfase' : 'slotfase'}:
-${stage === 'opening' ? '   → Zet je positie neer. Formuleer je kernstandpunt met lef. Laat de eerste klap tellen.' : ''}${stage === 'clash' ? '   → Het debat is verhit. Zoek het zwakste punt in het laatste argument en val het direct aan. Wees agressief maar precies.' : ''}${stage === 'closing' ? '   → Geef je meest memorabele argument. Snijd door de ruis. Breng het met overtuiging — dit is je laatste woord.' : ''}
-
-6. WOORDENSCHAT — niveau van de gebruiker: ${userLevel === 'expert' ? 'expert' : userLevel === 'informed' ? 'ingevoerd' : 'algemeen'}
-   - algemeen → Begrijpelijke taal. Concrete voorbeelden. Geen jargon. Als praten met een scherpe vriend.
-   - ingevoerd → Vakjargon mag, kort uitleggen.
-   - expert → Volledige precisie. Geen handje vasthouden. Dicht en scherp.
-
-7. LES de emotionele lading van het onderwerp:
-   - Serieus/gevoelig → Beheerst, precies, empathisch. Overtuiging zonder wreedheid.
-   - Intellectueel/speels → Scherp gevat, zelfverzekerde energie, een beetje theatraal.
-
-8. GEBRUIK NOOIT markdown, koppen, opsommingstekens, vet, of cursief. Spreek in gewone, krachtige gesproken zinnen.
-9. BEGIN NOOIT met je eigen naam gevolgd door een dubbele punt.
-10. VATT NOOIT alleen samen wat er gezegd werd — ga altijd vooruit, valt aan, of herkaart.
-${userSpokeRecently ? `\n🔴 KRITIEK: De GEBRUIKER heeft net gesproken. Je EERSTE zin MOET hen direct aanspreken. Citeer of parafraseer wat ze zeiden en reageer er direct op. Dit is ook hún debat.` : ''}`.trim();
-
+  async generateDebateResponse(
+    query: string,
+    member: CouncilMember,
+    councilResponses: CouncilResponse[],
+    debateMessages: DebateMessage[],
+    members: CouncilMember[]
+  ): Promise<string> {
+    const { context, systemPrompt } = this.buildDebateContext(query, member, councilResponses, debateMessages, members);
     return this.generate(member, context, systemPrompt);
+  }
+
+  async generateDebateResponseStream(
+    query: string,
+    member: CouncilMember,
+    councilResponses: CouncilResponse[],
+    debateMessages: DebateMessage[],
+    members: CouncilMember[],
+    onChunk: (chunk: string) => void
+  ): Promise<string> {
+    const { context, systemPrompt } = this.buildDebateContext(query, member, councilResponses, debateMessages, members);
+    return this.generateStream(member, context, systemPrompt, onChunk);
   }
 
   async synthesize(

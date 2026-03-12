@@ -86,12 +86,14 @@ export const DebateRoom: FC<DebateRoomProps> = ({
   const [isPaused, setIsPaused]               = useState(false);
   const [isGenerating, setIsGenerating]       = useState(false);
   const [generatingSpeaker, setGeneratingSpeaker] = useState<CouncilMember | null>(null);
+  const [streamingText, setStreamingText]     = useState('');
   const [voiceEnabled, setVoiceEnabled]       = useState(true);
   const [micActive, setMicActive]             = useState(false);
   const [duration, setDuration]               = useState(300);
   const [timeLeft, setTimeLeft]               = useState(300);
   const [phase, setPhase]                     = useState<'pick' | 'live'>('pick');
   const [cachedVoices, setCachedVoices]       = useState<SpeechSynthesisVoice[]>([]);
+  const streamingTextRef                      = useRef('');
 
   const messagesRef      = useRef<DebateMessage[]>([]);
   const speakerIdxRef    = useRef(0);
@@ -138,7 +140,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, isGenerating]);
 
-  // ── Core turn runner — waits for TTS before scheduling next ──────────────
+  // ── Core turn runner — streams response token by token ───────────────────
   const runNextTurn = useCallback(async () => {
     if (!isRunningRef.current || isPausedRef.current) {
       if (isRunningRef.current) loopTimerRef.current = setTimeout(runNextTurn, 800);
@@ -149,17 +151,28 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     const speaker = readyMembers[speakerIdxRef.current % readyMembers.length];
     setIsGenerating(true);
     setGeneratingSpeaker(speaker);
+    streamingTextRef.current = '';
+    setStreamingText('');
 
     try {
-      const response = await councilService.generateDebateResponse(
+      const response = await councilService.generateDebateResponseStream(
         session.query,
         speaker,
         session.councilResponses,
         messagesRef.current,
-        readyMembers
+        readyMembers,
+        (chunk) => {
+          if (!isMountedRef.current || !isRunningRef.current) return;
+          streamingTextRef.current += chunk;
+          setStreamingText(streamingTextRef.current);
+        }
       );
 
       if (!isMountedRef.current || !isRunningRef.current) return;
+
+      // Move streaming text into the permanent messages list
+      setStreamingText('');
+      streamingTextRef.current = '';
 
       const msg: DebateMessage = {
         id: `${Date.now()}-${Math.random()}`,
@@ -186,12 +199,14 @@ export const DebateRoom: FC<DebateRoomProps> = ({
       if (isMountedRef.current) {
         setIsGenerating(false);
         setGeneratingSpeaker(null);
+        setStreamingText('');
+        streamingTextRef.current = '';
       }
     }
 
-    // Natural pause between turns (1.5s after TTS ends)
+    // Natural pause between turns (1.2s after TTS ends)
     if (isRunningRef.current && isMountedRef.current) {
-      loopTimerRef.current = setTimeout(runNextTurn, 1500);
+      loopTimerRef.current = setTimeout(runNextTurn, 1200);
     }
   }, [readyMembers, session, councilService, cachedVoices, onAddDebateMessage]);
 
@@ -437,18 +452,22 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                       ? <img src={generatingSpeaker.avatar} alt="" className="w-full h-full object-cover" />
                       : <div className="w-full h-full bg-zinc-200 dark:bg-zinc-700 animate-pulse" />}
                   </div>
-                  <div className="flex flex-col items-start">
+                  <div className="flex flex-col items-start max-w-[80%]">
                     {generatingSpeaker && (
                       <span className="text-sm font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {generatingSpeaker.name}
                       </span>
                     )}
-                    <div className="px-4 py-3 rounded-2xl rounded-bl-sm bg-white dark:bg-zinc-800 border-l-4 border-l-zinc-300 dark:border-l-zinc-500 shadow-sm">
-                      <div className="flex gap-1 items-center h-3">
-                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0ms]" />
-                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:150ms]" />
-                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:300ms]" />
-                      </div>
+                    <div className="px-4 py-2.5 rounded-2xl rounded-bl-sm bg-white dark:bg-zinc-800 border-l-4 border-l-zinc-300 dark:border-l-zinc-500 shadow-sm text-sm leading-relaxed text-black dark:text-white min-h-[2.5rem]">
+                      {streamingText ? (
+                        <span>{streamingText}<span className="inline-block w-0.5 h-4 bg-zinc-400 animate-pulse ml-0.5 align-middle" /></span>
+                      ) : (
+                        <div className="flex gap-1 items-center h-5">
+                          <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:0ms]" />
+                          <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:150ms]" />
+                          <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
