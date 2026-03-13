@@ -599,6 +599,22 @@ const App: FC = () => {
 
           {/* Right: actions */}
           <div className="flex items-center justify-end gap-3">
+            {/* Social icons — desktop only */}
+            <div className="hidden lg:flex items-center gap-2 mr-1">
+              {[
+                { src: '/social-icons/instagram-icon.png', label: 'Instagram' },
+                { src: '/social-icons/facebook-icon.png',  label: 'Facebook' },
+                { src: '/social-icons/linkedin-icon.png',  label: 'LinkedIn' },
+                { src: '/social-icons/whatsapp-icon.png',  label: 'WhatsApp' },
+                { src: '/social-icons/email-icon.png',     label: 'E-mail' },
+              ].map(({ src, label }) => (
+                <a key={label} href="#" aria-label={label}
+                  className="w-7 h-7 flex items-center justify-center opacity-30 hover:opacity-80 transition-opacity">
+                  <img src={src} alt={label} className="w-5 h-5 object-contain dark:invert" />
+                </a>
+              ))}
+            </div>
+
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -1084,8 +1100,22 @@ const App: FC = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-black/5 dark:border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="border-t border-black/5 dark:border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <span className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/20">© 2026 FAINL</span>
+            <div className="flex items-center gap-3">
+              {[
+                { src: '/social-icons/instagram-icon.png', label: 'Instagram' },
+                { src: '/social-icons/facebook-icon.png',  label: 'Facebook' },
+                { src: '/social-icons/linkedin-icon.png',  label: 'LinkedIn' },
+                { src: '/social-icons/whatsapp-icon.png',  label: 'WhatsApp' },
+                { src: '/social-icons/email-icon.png',     label: 'E-mail' },
+              ].map(({ src, label }) => (
+                <a key={label} href="#" aria-label={label}
+                  className="w-6 h-6 flex items-center justify-center opacity-25 hover:opacity-60 transition-opacity">
+                  <img src={src} alt={label} className="w-4 h-4 object-contain dark:invert" />
+                </a>
+              ))}
+            </div>
             <span className="text-sm font-black uppercase tracking-widest text-black/20 dark:text-white/15">{t.common.madeBy} MNRV</span>
           </div>
         </div>
