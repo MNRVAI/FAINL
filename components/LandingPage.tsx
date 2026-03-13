@@ -152,13 +152,20 @@ export const LandingPage: FC = () => {
           <span className="text-[#d1b411]">AI-model.</span>
         </h1>
 
-        <p className="max-w-lg mx-auto text-xl md:text-2xl font-black text-black dark:text-white leading-snug mb-4">
-          Eén model geeft een antwoord. FAINL geeft het beste.
-        </p>
-
-        <p className="max-w-xl mx-auto text-base md:text-lg font-medium text-black/55 dark:text-white/50 leading-relaxed mb-10 md:mb-14">
-          Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
-        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto mb-10 md:mb-14 mt-6">
+          <div className="flex flex-col justify-center bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl px-5 py-4 text-left">
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-black/30 dark:text-white/30 mb-1.5">Gewone AI</p>
+            <p className="text-base sm:text-lg font-black text-black dark:text-white leading-snug">
+              Eén model geeft een antwoord.
+            </p>
+          </div>
+          <div className="flex flex-col justify-center bg-black dark:bg-white border border-black dark:border-white rounded-2xl px-5 py-4 text-left">
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/40 dark:text-black/40 mb-1.5">FAINL</p>
+            <p className="text-base sm:text-lg font-black text-white dark:text-black leading-snug">
+              Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
+            </p>
+          </div>
+        </div>
 
         <div className="flex flex-col xs:flex-row items-center justify-center gap-3 sm:gap-4 mb-8">
           <button
