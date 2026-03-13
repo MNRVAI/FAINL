@@ -1,7 +1,7 @@
-// @ts-ignore: Deno-specific import
+/// <reference lib="deno.ns" />
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
-// @ts-ignore: Deno-specific global
 const SECRETS: Record<string, string | undefined> = {
   google:     Deno.env.get('GEMINI_API_KEY'),
   tts:        Deno.env.get('GOOGLE_TTS_KEY') || Deno.env.get('GEMINI_API_KEY'),
@@ -15,7 +15,6 @@ const SECRETS: Record<string, string | undefined> = {
   glm:        Deno.env.get('GLM_API_KEY'),
 }
 
-// @ts-ignore: Deno-specific global
 const TTS_SA_JSON: string | undefined = Deno.env.get('GOOGLE_TTS_SA_KEY')
 
 const BASE_URLS: Record<string, string> = {
