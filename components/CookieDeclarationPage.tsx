@@ -1,4 +1,4 @@
-import { FC } from 'lucide-react';
+import { FC } from 'react';
 import { Cookie } from 'lucide-react';
 import { SEO } from './SEO';
 

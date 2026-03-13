@@ -50,6 +50,8 @@ const ComparePage = lazy(() => import("./components/ComparePage").then(m => ({ d
 const BestAIToolPage = lazy(() => import("./components/BestAIToolPage").then(m => ({ default: m.BestAIToolPage })));
 const UseCaseLegalPage = lazy(() => import("./components/UseCaseLegalPage").then(m => ({ default: m.UseCaseLegalPage })));
 const UseCaseMarketingPage = lazy(() => import("./components/UseCaseMarketingPage").then(m => ({ default: m.UseCaseMarketingPage })));
+const UseCaseHRPage = lazy(() => import("./components/UseCaseHRPage").then(m => ({ default: m.UseCaseHRPage })));
+const UseCaseFinancePage = lazy(() => import("./components/UseCaseFinancePage").then(m => ({ default: m.UseCaseFinancePage })));
 import {
   Menu,
   X as CloseIcon,
@@ -1068,6 +1070,8 @@ const App: FC = () => {
           {/* Use-case pagina's */}
           <Route path="/gebruik/juridisch-advies-ai" element={<UseCaseLegalPage />} />
           <Route path="/gebruik/marketing-strategie-ai" element={<UseCaseMarketingPage />} />
+          <Route path="/gebruik/hr-recruitment-ai" element={<UseCaseHRPage />} />
+          <Route path="/gebruik/financiele-analyse-ai" element={<UseCaseFinancePage />} />
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
@@ -1099,6 +1103,8 @@ const App: FC = () => {
               <ul className="space-y-2.5">
                 <li><Link to="/gebruik/juridisch-advies-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor juridisch advies</Link></li>
                 <li><Link to="/gebruik/marketing-strategie-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor marketingstrategie</Link></li>
+                <li><Link to="/gebruik/hr-recruitment-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor HR & recruitment</Link></li>
+                <li><Link to="/gebruik/financiele-analyse-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor financiële analyse</Link></li>
               </ul>
             </div>
             <div>
