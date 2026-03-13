@@ -4,7 +4,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 // @ts-ignore: Deno-specific global
 const SECRETS: Record<string, string | undefined> = {
   google:     Deno.env.get('GEMINI_API_KEY'),
-  tts:        Deno.env.get('GOOGLE_TTS_KEY') || Deno.env.get('GEMINI_API_KEY'), // GCP key with TTS API enabled
+  tts:        Deno.env.get('GOOGLE_TTS_KEY') || Deno.env.get('GEMINI_API_KEY'),
   anthropic:  Deno.env.get('ANTHROPIC_API_KEY'),
   openai:     Deno.env.get('OPENAI_API_KEY'),
   groq:       Deno.env.get('GROQ_API_KEY'),
@@ -14,6 +14,9 @@ const SECRETS: Record<string, string | undefined> = {
   nemotron:   Deno.env.get('NEMOTRON_API_KEY'),
   glm:        Deno.env.get('GLM_API_KEY'),
 }
+
+// @ts-ignore: Deno-specific global
+const TTS_SA_JSON: string | undefined = Deno.env.get('GOOGLE_TTS_SA_KEY')
 
 const BASE_URLS: Record<string, string> = {
   openai:     'https://api.openai.com/v1',
@@ -42,6 +45,115 @@ interface ProxyRequest {
   maxTokens?: number
   // TTS-specific (provider='tts'): modelId=voiceName, prompt=text, temperature=speakingRate
 }
+
+// ─── Service Account JWT helpers ─────────────────────────────────────────────
+
+interface TokenCache {
+  token: string
+  expiresAt: number
+}
+
+let _tokenCache: TokenCache | null = null
+
+function pemToDer(pem: string): ArrayBuffer {
+  const b64 = pem
+    .replace(/-----BEGIN PRIVATE KEY-----/g, '')
+    .replace(/-----END PRIVATE KEY-----/g, '')
+    .replace(/\s/g, '')
+  const binary = atob(b64)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i)
+  }
+  return bytes.buffer
+}
+
+function b64url(input: ArrayBuffer | string): string {
+  let binary: string
+  if (typeof input === 'string') {
+    // encode UTF-8 string
+    binary = btoa(unescape(encodeURIComponent(input)))
+  } else {
+    const bytes = new Uint8Array(input)
+    binary = ''
+    for (const byte of bytes) binary += String.fromCharCode(byte)
+    binary = btoa(binary)
+  }
+  return binary.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+}
+
+async function getServiceAccountToken(): Promise<string | null> {
+  if (!TTS_SA_JSON) return null
+
+  const now = Math.floor(Date.now() / 1000)
+
+  // Return cached token if valid with 5-minute buffer
+  if (_tokenCache && _tokenCache.expiresAt > now + 300) {
+    return _tokenCache.token
+  }
+
+  let sa: any
+  try {
+    sa = JSON.parse(TTS_SA_JSON)
+  } catch {
+    console.error('GOOGLE_TTS_SA_KEY is not valid JSON')
+    return null
+  }
+
+  const iat = now
+  const exp = iat + 3600
+
+  const header  = b64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))
+  const payload = b64url(JSON.stringify({
+    iss:   sa.client_email,
+    scope: 'https://www.googleapis.com/auth/cloud-platform',
+    aud:   sa.token_uri || 'https://oauth2.googleapis.com/token',
+    exp,
+    iat,
+  }))
+
+  const signingInput = `${header}.${payload}`
+
+  let cryptoKey: CryptoKey
+  try {
+    const der = pemToDer(sa.private_key)
+    cryptoKey = await crypto.subtle.importKey(
+      'pkcs8', der,
+      { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+      false, ['sign']
+    )
+  } catch (e) {
+    console.error('Failed to import service account private key:', e)
+    return null
+  }
+
+  const signature = await crypto.subtle.sign(
+    'RSASSA-PKCS1-v1_5', cryptoKey,
+    new TextEncoder().encode(signingInput)
+  )
+
+  const jwt = `${signingInput}.${b64url(signature)}`
+
+  const tokenRes = await fetch(sa.token_uri || 'https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
+  })
+
+  if (!tokenRes.ok) {
+    console.error('Token exchange failed:', tokenRes.status, await tokenRes.text())
+    return null
+  }
+
+  const tokenData = await tokenRes.json()
+  const accessToken: string | undefined = tokenData.access_token
+  if (!accessToken) return null
+
+  _tokenCache = { token: accessToken, expiresAt: exp }
+  return accessToken
+}
+
+// ─── Main handler ─────────────────────────────────────────────────────────────
 
 serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
@@ -322,21 +434,30 @@ async function googleChirpTTS(
   voiceName: string,
   speakingRate: number
 ): Promise<Response> {
-  const apiKey = SECRETS.tts
-  if (!apiKey) return errRes('Google TTS API key not configured (set GOOGLE_TTS_KEY in Supabase secrets)', 503)
+  // Prefer service account auth; fall back to API key
+  const saToken = await getServiceAccountToken()
 
-  const res = await fetch(
-    `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        input: { text },
-        voice: { languageCode: 'nl-NL', name: voiceName },
-        audioConfig: { audioEncoding: 'MP3', speakingRate },
-      }),
-    }
-  )
+  let url: string
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+
+  if (saToken) {
+    url = 'https://texttospeech.googleapis.com/v1/text:synthesize'
+    headers['Authorization'] = `Bearer ${saToken}`
+  } else {
+    const apiKey = SECRETS.tts
+    if (!apiKey) return errRes('Google TTS: geen GOOGLE_TTS_SA_KEY of GOOGLE_TTS_KEY geconfigureerd', 503)
+    url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`
+  }
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      input: { text },
+      voice: { languageCode: 'nl-NL', name: voiceName },
+      audioConfig: { audioEncoding: 'MP3', speakingRate },
+    }),
+  })
   if (!res.ok) return errRes(`Google TTS ${res.status}: ${await res.text()}`, res.status)
   const data = await res.json()
   return okRes({ audioContent: data.audioContent ?? '' })

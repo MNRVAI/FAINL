@@ -263,7 +263,6 @@ export const AccountPage: FC<AccountPageProps> = ({
                     <div className="w-2 h-2 bg-[#FDC700] rounded-full" />
                     <div>
                       <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
-                      <p className="text-base font-bold text-black/40">{node.modelId}</p>
                     </div>
                   </div>
                   <span className="text-base font-black uppercase tracking-widest text-black/30">Altijd Actief</span>
