@@ -43,6 +43,8 @@ const FAQPage = lazy(() => import("./components/FAQPage").then(m => ({ default: 
 const ContactPage = lazy(() => import("./components/ContactPage").then(m => ({ default: m.ContactPage })));
 const PrivacyPolicyPage = lazy(() => import("./components/PrivacyPolicyPage").then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsOfServicePage = lazy(() => import("./components/TermsOfServicePage").then(m => ({ default: m.TermsOfServicePage })));
+const AiTermsPage = lazy(() => import("./components/AiTermsPage").then(m => ({ default: m.AiTermsPage })));
+const CookieDeclarationPage = lazy(() => import("./components/CookieDeclarationPage").then(m => ({ default: m.CookieDeclarationPage })));
 const DebateRoom = lazy(() => import("./components/DebateRoom").then(m => ({ default: m.DebateRoom })));
 const ComparePage = lazy(() => import("./components/ComparePage").then(m => ({ default: m.ComparePage })));
 const BestAIToolPage = lazy(() => import("./components/BestAIToolPage").then(m => ({ default: m.BestAIToolPage })));
@@ -1050,6 +1052,8 @@ const App: FC = () => {
           {/* Legal */}
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/ai-voorwaarden" element={<AiTermsPage />} />
+          <Route path="/cookies" element={<CookieDeclarationPage />} />
 
           {/* Payment Success — Stripe redirects here after checkout */}
           <Route
@@ -1102,8 +1106,10 @@ const App: FC = () => {
               <ul className="space-y-2.5">
                 <li><Link to="/faq" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">FAQ</Link></li>
                 <li><Link to="/contact" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Contact</Link></li>
-                <li><Link to="/privacy" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Privacybeleid</Link></li>
-                <li><Link to="/terms" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Voorwaarden</Link></li>
+                <li><Link to="/privacy" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Privacyverklaring</Link></li>
+                <li><Link to="/terms" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Algemene Voorwaarden</Link></li>
+                <li><Link to="/ai-voorwaarden" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI-Gebruiksvoorwaarden</Link></li>
+                <li><Link to="/cookies" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Cookieverklaring</Link></li>
               </ul>
             </div>
           </div>

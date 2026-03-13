@@ -1,101 +1,129 @@
 import { FC } from 'react';
-import { Shield, Lock, Eye, Server, Cpu, Globe } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { SEO } from './SEO';
 
 export const PrivacyPolicyPage: FC = () => {
   return (
     <>
     <SEO
-      title="Privacybeleid — FAINL"
-      description="Lees hoe FAINL omgaat met jouw gegevens, welke data we verwerken en hoe we jouw privacy beschermen."
+      title="Privacyverklaring — FAINL"
+      description="Hoe FAINL omgaat met jouw persoonsgegevens. Versie 03-2026."
       canonical="/privacy"
-      keywords="FAINL privacybeleid, data bescherming AI, AVG AI tool"
+      keywords="FAINL privacy, privacyverklaring AI tool, AVG FAINL"
     />
-    <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-24 animate-fade-in">
-      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-16 shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)]">
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-16 pb-16 border-b-4 border-black/5 dark:border-white/5">
-          <div className="w-24 h-24 bg-black dark:bg-white rounded flex items-center justify-center shrink-0 shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.05)]">
-            <Shield className="text-white dark:text-black w-12 h-12" />
+    <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-16 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-none">
+
+        {/* Header */}
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12 pb-10 border-b-4 border-black/10 dark:border-white/10">
+          <div className="w-16 h-16 bg-black dark:bg-white rounded-xl flex items-center justify-center shrink-0">
+            <ShieldCheck className="text-white dark:text-black w-8 h-8" />
           </div>
           <div>
-            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4 text-black dark:text-white">Privacybeleid</h1>
-            <p className="text-black/40 dark:text-white/40 font-bold uppercase text-sm md:text-sm tracking-[0.3em]">Compliance Standards & Data Transparency • Version 1.0.0</p>
+            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white leading-none mb-2">Privacyverklaring</h1>
+            <p className="text-sm font-bold text-black/40 dark:text-white/40 uppercase tracking-widest">FAINL — MNRV · Versie 03.2026 · Bijgewerkt 13-03-2026</p>
           </div>
         </div>
 
-        <div className="prose prose-xl max-w-none prose-headings:uppercase prose-headings:font-black prose-headings:tracking-tighter prose-p:text-black/70 dark:prose-p:text-white/70 prose-strong:text-black dark:prose-strong:text-white prose-li:text-black/70 dark:prose-li:text-white/70 leading-relaxed space-y-16">
-          
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Eye className="w-8 h-8" />
-              <h2 className="text-3xl m-0">01. Overview</h2>
-            </div>
-            <p>
-              FAINL (Fully Autonomous Intelligence Network & Logic) is designed with a **Privacy-First** architecture. 
-              Our mission is to provide high-complexity neural deliberation while ensuring that the user remains the sole owner of their data. 
-              This protocol outlines exactly how your information is handled within the neural corridors of our application.
-            </p>
-          </section>
+        {/* Body */}
+        <div className="prose prose-base max-w-none dark:prose-invert prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3 prose-p:text-black/70 dark:prose-p:text-white/60 prose-li:text-black/70 dark:prose-li:text-white/60 prose-strong:text-black dark:prose-strong:text-white">
 
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Server className="w-8 h-8" />
-              <h2 className="text-3xl m-0">02. Data Persistence</h2>
-            </div>
-            <p>
-              FAINL operates primarily on a **Local-Only Persistence** model. 
-            </p>
-            <ul>
-              <li>**Session History**: All mission logs, council deliberations, and verdicts are stored directly in your browser's `localStorage`.</li>
-              <li>**API Keys**: Credentials provided in the Settings terminal are encrypted and stored locally. We never transmit these keys to our own servers.</li>
-              <li>**No Cloud Database**: Unless explicitly stated (e.g., through Third-Party Social Auth), we do not maintain a centralized database of your mission strings.</li>
-            </ul>
-          </section>
+          <h2>Wie is verantwoordelijk?</h2>
+          <p>FAINL, MNRV, gevestigd te Haaren en ingeschreven bij de Kamer van Koophandel onder nummer 99723611, is verwerkingsverantwoordelijke voor de verwerking van persoonsgegevens zoals beschreven in deze privacyverklaring.</p>
+          <p>Contact: <a href="mailto:info@mnrv.nl">info@mnrv.nl</a></p>
 
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Cpu className="w-8 h-8" />
-              <h2 className="text-3xl m-0">03. Neural Processing</h2>
-            </div>
-            <p>
-              To initialize missions, your input is transmitted to third-party Large Language Model (LLM) providers (Google, OpenAI, Anthropic, etc.) as configured in your settings.
-            </p>
-            <ul>
-              <li>**Transient State**: Data sent to these providers is treated as transient. We do not use your inputs for model training.</li>
-              <li>**Managed Access**: If using our "Managed Access" tiers, your query is proxied through our secure encryption layer before reaching the processing nodes.</li>
-            </ul>
-          </section>
+          <h2>Op wie ziet deze verklaring?</h2>
+          <p>Deze privacyverklaring is van toepassing op alle bezoekers van de website, gebruikers van de applicatie, contactpersonen van klanten, prospects, leveranciers en andere betrokkenen van wie FAINL persoonsgegevens verwerkt.</p>
 
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Lock className="w-8 h-8" />
-              <h2 className="text-3xl m-0">04. Authentication (Neural Vault)</h2>
-            </div>
-            <p>
-              Authentication is managed via **Supabase**. When you connect via Google, GitHub, or Email:
-            </p>
-            <ul>
-              <li>We collect minimal metadata (Email/UID) to manage your neural access tiers and purchase history.</li>
-              <li>Access to the "My FAINLS" dashboard is gated by this identity verification to prevent unauthorized local terminal access.</li>
-            </ul>
-          </section>
+          <h2>Welke persoonsgegevens verwerkt FAINL?</h2>
+          <p>FAINL kan onder meer de volgende persoonsgegevens verwerken:</p>
+          <ul>
+            <li>account- en identificatiegegevens, zoals naam, e-mailadres, bedrijfsnaam, functietitel, gebruikersnaam en wachtwoordhash;</li>
+            <li>contactgegevens, zoals telefoonnummer, factuuradres en correspondentie;</li>
+            <li>betalings- en abonnementsgegevens, zoals factuurgegevens, betaalstatus, transactiereferenties en abonnementsvorm;</li>
+            <li>technische gegevens, zoals IP-adres, apparaatgegevens, browsergegevens, logbestanden, sessiegegevens, foutmeldingen en beveiligingsgegevens;</li>
+            <li>gebruiksgegevens, zoals interacties met de website of applicatie, voorkeuren, instellingen en gebruiksfrequentie;</li>
+            <li>Input en Output, voor zover daarin persoonsgegevens voorkomen;</li>
+            <li>communicatiegegevens, zoals e-mails, supportverzoeken, feedback en contacthistorie.</li>
+          </ul>
 
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Globe className="w-8 h-8" />
-              <h2 className="text-3xl m-0">05. Law & Compliance</h2>
-            </div>
-            <p>
-              FAINL adheres to decentralized privacy standards. By using this terminal, you acknowledge that you are responsible for the data you input. 
-              We strictly forbid the use of FAINL for illegal activities, as outlined in our Terms of Protocol.
-            </p>
-          </section>
+          <h2>Voor welke doeleinden verwerkt FAINL persoonsgegevens?</h2>
+          <p>FAINL verwerkt persoonsgegevens voor de volgende doeleinden:</p>
+          <ul>
+            <li>het aanmaken en beheren van accounts;</li>
+            <li>het leveren, beveiligen, verbeteren en onderhouden van de Dienst;</li>
+            <li>het genereren van Output op basis van Input van Gebruiker;</li>
+            <li>facturatie, administratie en betalingsverwerking;</li>
+            <li>klantenservice, support en afhandeling van vragen of klachten;</li>
+            <li>fraudepreventie, misbruikdetectie, monitoring en beveiliging;</li>
+            <li>naleving van wettelijke verplichtingen;</li>
+            <li>het verzenden van serviceberichten en, indien toegestaan, marketingcommunicatie;</li>
+            <li>analyse van gebruikspatronen om prestaties, gebruikerservaring en betrouwbaarheid te verbeteren.</li>
+          </ul>
 
-          <div className="pt-16 border-t-4 border-black dark:border-white/20">
-            <p className="text-sm font-black uppercase tracking-[0.4em] text-black/20 dark:text-white/20 text-center">
-              End of Protocol • Secure Transmission Confirmed
-            </p>
-          </div>
+          <h2>Op welke grondslagen verwerkt FAINL persoonsgegevens?</h2>
+          <p>FAINL verwerkt persoonsgegevens op basis van:</p>
+          <ul>
+            <li>de uitvoering van de overeenkomst;</li>
+            <li>het voldoen aan wettelijke verplichtingen;</li>
+            <li>gerechtvaardigde belangen, zoals beveiliging, productverbetering, support, fraudecontrole en verdediging van rechtsvorderingen;</li>
+            <li>toestemming, voor zover wettelijk vereist, bijvoorbeeld voor bepaalde cookies of marketingberichten.</li>
+          </ul>
+
+          <h2>Verwerkt FAINL bijzondere persoonsgegevens?</h2>
+          <p>FAINL beoogt niet om bijzondere persoonsgegevens of persoonsgegevens van kinderen doelgericht te verwerken. Gebruikers dienen dergelijke gegevens niet in te voeren, tenzij zij daartoe rechtmatig bevoegd zijn en dit strikt noodzakelijk is. Indien FAINL constateert dat zonder rechtsgrond bijzondere persoonsgegevens zijn verwerkt, kan zij deze verwijderen of afschermen.</p>
+
+          <h2>Hoe gaat FAINL om met Input en Output?</h2>
+          <p>De Dienst van FAINL is openbaar gepositioneerd als AI-gedreven omgeving waarin gebruikers vragen kunnen invoeren en AI-output ontvangen. FAINL verwerkt Input en genereert Output voor het uitvoeren van de Dienst. FAINL gebruikt Input en Output niet voor het trainen van algemene AI-modellen, tenzij dit uitdrukkelijk vooraf kenbaar is gemaakt en daarvoor een geldige grondslag bestaat.</p>
+
+          <h2>Met wie deelt FAINL persoonsgegevens?</h2>
+          <p>FAINL kan persoonsgegevens delen met:</p>
+          <ul>
+            <li>hosting- en infrastructuurleveranciers;</li>
+            <li>authenticatie-, database-, analytics- en beveiligingsleveranciers;</li>
+            <li>betaalproviders;</li>
+            <li>e-mail- en supportproviders;</li>
+            <li>AI-model- of API-leveranciers, voor zover noodzakelijk om de Dienst uit te voeren;</li>
+            <li>professionele adviseurs, toezichthouders of bevoegde autoriteiten, indien wettelijk vereist.</li>
+          </ul>
+          <p>FAINL sluit waar nodig verwerkersovereenkomsten en maakt afspraken over vertrouwelijkheid en beveiliging.</p>
+
+          <h2>Doorgifte buiten de EER</h2>
+          <p>Indien persoonsgegevens worden doorgegeven aan partijen buiten de Europese Economische Ruimte, treft FAINL passende waarborgen conform de AVG, zoals een adequaatheidsbesluit, standaardcontractbepalingen of een andere wettelijk toegestane grondslag.</p>
+
+          <h2>Bewaartermijnen</h2>
+          <p>FAINL bewaart persoonsgegevens niet langer dan noodzakelijk. In beginsel hanteert FAINL de volgende uitgangspunten:</p>
+          <ul>
+            <li>accountgegevens: zolang het account actief is en tot 2 maanden daarna;</li>
+            <li>factuur- en betaalgegevens: minimaal 7 jaar voor fiscale bewaarplichten;</li>
+            <li>supportcorrespondentie: tot 1 jaar na afhandeling;</li>
+            <li>beveiligings- en toegangslogs: tot 7 maanden;</li>
+            <li>Input en Output: 30 dagen of conform de gekozen productinstelling.</li>
+          </ul>
+
+          <h2>Beveiliging</h2>
+          <p>FAINL treft passende technische en organisatorische maatregelen om persoonsgegevens te beschermen tegen verlies, onbevoegde toegang, vernietiging, misbruik of onrechtmatige verwerking. Deze maatregelen kunnen omvatten: versleuteling, toegangsbeperking, logging, monitoring, patchmanagement, back-upmaatregelen en leveranciersscreening.</p>
+
+          <h2>Cookies en vergelijkbare technieken</h2>
+          <p>FAINL gebruikt cookies en vergelijkbare technieken voor functionele werking, beveiliging, analyse en, indien van toepassing, marketing. Voor niet-noodzakelijke cookies vraagt FAINL vooraf toestemming voor zover wettelijk vereist. Zie ook onze <a href="/cookies">Cookieverklaring</a>.</p>
+
+          <h2>Rechten van betrokkenen</h2>
+          <p>Betrokkenen hebben, voor zover wettelijk van toepassing, het recht op: inzage, rectificatie, verwijdering, beperking van verwerking, overdraagbaarheid van gegevens, bezwaar tegen verwerking op basis van gerechtvaardigd belang, intrekking van toestemming en het indienen van een klacht bij de Autoriteit Persoonsgegevens.</p>
+          <p>Verzoeken kunnen worden gericht aan <a href="mailto:info@mnrv.nl">info@mnrv.nl</a>. FAINL kan om aanvullende identificatie vragen voordat op een verzoek wordt beslist.</p>
+
+          <h2>Verwerkersovereenkomst voor zakelijke klanten</h2>
+          <p>Indien een zakelijke klant persoonsgegevens via FAINL laat verwerken en FAINL daarbij optreedt als verwerker, zal FAINL op verzoek een verwerkersovereenkomst beschikbaar stellen.</p>
+
+          <h2>Wijzigingen</h2>
+          <p>FAINL mag deze privacyverklaring wijzigen. De meest actuele versie wordt op de website gepubliceerd. Bij wezenlijke wijzigingen zal FAINL, indien passend, gebruikers actief informeren.</p>
+
+          <h2>Contact</h2>
+          <p>
+            MNRV — FAINL<br />
+            <a href="mailto:info@mnrv.nl">info@mnrv.nl</a><br />
+            KvK: 99723611
+          </p>
+
         </div>
       </div>
     </div>
