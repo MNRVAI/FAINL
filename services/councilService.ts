@@ -99,7 +99,8 @@ export class UnifiedCouncilService {
     member: CouncilMember,
     prompt: string,
     systemInstruction?: string,
-    onChunk?: (chunk: string) => void
+    onChunk?: (chunk: string) => void,
+    maxTokens?: number
   ): Promise<string> {
     const provider = PROVIDER_STRING[member.provider];
     if (!provider) throw new Error(`Provider ${member.provider} not supported by proxy`);
@@ -111,7 +112,7 @@ export class UnifiedCouncilService {
         'apikey': SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       },
-      body: JSON.stringify({ provider, modelId: member.modelId, prompt, systemInstruction, stream: true }),
+      body: JSON.stringify({ provider, modelId: member.modelId, prompt, systemInstruction, stream: true, ...(maxTokens ? { maxTokens } : {}) }),
     });
 
     if (!res.ok) {
@@ -250,7 +251,8 @@ export class UnifiedCouncilService {
     member: CouncilMember,
     prompt: string,
     systemInstruction?: string,
-    onChunk?: (chunk: string) => void
+    onChunk?: (chunk: string) => void,
+    maxTokens?: number
   ): Promise<string> {
     if (!this.isProviderReady(member.provider)) {
       const msg = `[Skipped] ${member.name}: Provider not configured.`;
@@ -259,7 +261,7 @@ export class UnifiedCouncilService {
     }
     try {
       if (PROXIED_PROVIDERS.has(member.provider)) {
-        return await this.callProxyStream(member, prompt, systemInstruction, onChunk);
+        return await this.callProxyStream(member, prompt, systemInstruction, onChunk, maxTokens);
       }
       return await this.callLocalStream(member, prompt, systemInstruction, onChunk);
     } catch (error: any) {
@@ -440,7 +442,8 @@ ${userSpokeRecently ? `\nKRITIEK: De GEBRUIKER heeft net gesproken. Jouw EERSTE 
     onChunk: (chunk: string) => void
   ): Promise<string> {
     const context = this.buildContext(query, responses, reviews, debateMessages, members);
-    return this.generateStream(chairman, SYSTEM_PROMPTS.CHAIRMAN(query, context), chairman.systemPrompt, onChunk);
+    // Use 8192 tokens for the chairman synthesis so the full verdict is never truncated
+    return this.generateStream(chairman, SYSTEM_PROMPTS.CHAIRMAN(query, context), chairman.systemPrompt, onChunk, 8192);
   }
 
   private buildContext(

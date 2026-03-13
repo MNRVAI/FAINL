@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { CouncilMember, CouncilResponse } from '../types';
-import { Bot, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { NodeLoader } from './NodeLoader';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface CouncilCardProps {
   member: CouncilMember;
@@ -18,64 +19,90 @@ export const CouncilCard: FC<CouncilCardProps> = ({
   isExpanded,
   onToggle
 }) => {
-  return (
-    <div
-      className={`relative flex flex-col bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-white/20 rounded-xl overflow-hidden transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)] md:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)]`}
-    >
-      {/* Header Section */}
-      <div className="flex flex-col border-b-2 md:border-b-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900/50">
-        {/* Identity Row */}
-        <div className="p-3 md:p-4 pb-2 flex items-center gap-2 md:gap-3">
-          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center ${member.color} shadow-sm border-2 border-black dark:border-white/40 shrink-0`}>
-            <img
-              src={member.avatar}
-              alt={member.name}
-              className="w-full h-full rounded-full object-cover"
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-black text-black dark:text-white text-base md:text-lg uppercase tracking-wide truncate">{member.name}</h3>
-          </div>
-          {isLoading && (
-            <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-black dark:text-white animate-spin shrink-0" />
-          )}
-          {response && (
-            <button
-              type="button"
-              onClick={onToggle}
-              title={isExpanded ? 'Inklappen' : 'Volledig lezen'}
-              className="p-1 rounded text-black/30 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors shrink-0"
-            >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-          )}
-        </div>
+  const [localExpanded, setLocalExpanded] = useState(false);
+  const showFull = isExpanded || localExpanded;
 
-        {/* Description Row */}
-        <div className="px-3 md:px-4 pb-3 md:pb-4 pt-1 md:pt-2">
-          <div className="text-base md:text-base text-black/80 dark:text-white/80 font-medium leading-relaxed border-l-2 border-black/20 dark:border-white/20 pl-2 md:pl-3 italic">
-            "{member.description}"
-          </div>
+  return (
+    <div className="relative flex flex-col bg-white dark:bg-zinc-900 border-2 border-black dark:border-white/20 rounded-2xl overflow-hidden transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]">
+
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-3 border-b-2 border-black dark:border-white/20 bg-black dark:bg-zinc-800">
+        <div className={`w-9 h-9 rounded-full shrink-0 border-2 border-white/30 overflow-hidden ${member.color}`}>
+          <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
         </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-black text-sm uppercase tracking-widest text-white truncate leading-none">{member.name}</h3>
+          <p className="text-xs text-white/40 mt-0.5 font-medium truncate italic">{member.description}</p>
+        </div>
+        {isLoading && (
+          <div className="shrink-0">
+            <NodeLoader shape="circle" />
+          </div>
+        )}
+        {response && (
+          <button
+            type="button"
+            onClick={() => { setLocalExpanded(e => !e); onToggle(); }}
+            className="shrink-0 p-1.5 rounded-lg text-white/40 hover:text-white transition-colors"
+            title={showFull ? 'Inklappen' : 'Volledig lezen'}
+          >
+            {showFull ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+        )}
       </div>
 
-      {/* Content Area */}
-      <div className={`flex-1 p-3 md:p-4 pr-2 md:pr-3 overflow-y-auto min-h-[150px] md:min-h-[200px] ${isExpanded ? '' : 'max-h-[300px] md:max-h-[400px]'} bg-white dark:bg-zinc-900/30 text-base md:text-base text-black dark:text-white border-t-2 border-black/5 dark:border-white/5 transition-all duration-300`}>
+      {/* Content */}
+      <div
+        className={`overflow-hidden transition-all duration-300 ${
+          !showFull && response ? 'max-h-[280px]' : ''
+        }`}
+      >
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center h-full gap-2 text-black/50 dark:text-white/40">
-            <span className="animate-pulse font-mono uppercase text-base md:text-base">Verwerken...</span>
+          <div className="flex flex-col items-center justify-center py-12 gap-3 text-black/40 dark:text-white/30">
+            <NodeLoader shape="circle" />
+            <span className="text-xs font-black uppercase tracking-widest animate-pulse">Analyseert…</span>
           </div>
         ) : response ? (
-          <div className="prose prose-sm md:prose-base max-w-none prose-p:text-black dark:prose-p:text-white prose-headings:text-black dark:prose-headings:text-white prose-strong:text-black dark:prose-strong:text-white leading-relaxed">
-            <ReactMarkdown>{response.content}</ReactMarkdown>
+          <div className="px-5 py-4">
+            <div className="prose prose-sm max-w-none
+              prose-p:text-zinc-700 dark:prose-p:text-zinc-300 prose-p:leading-relaxed prose-p:my-2
+              prose-strong:text-black dark:prose-strong:text-white prose-strong:font-black
+              prose-headings:text-black dark:prose-headings:text-white prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
+              prose-ul:my-2 prose-li:text-zinc-700 dark:prose-li:text-zinc-300 prose-li:my-1 prose-li:leading-relaxed
+              prose-hr:border-zinc-200 dark:prose-hr:border-zinc-700">
+              <ReactMarkdown>{response.content}</ReactMarkdown>
+            </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-black/30 dark:text-white/20">
-            <Bot className="w-6 h-6 md:w-8 md:h-8 mb-2 opacity-50" />
-            <span className="font-mono text-base md:text-base uppercase">Standby</span>
+          <div className="flex flex-col items-center justify-center py-12 text-black/20 dark:text-white/15">
+            <span className="text-xs font-black uppercase tracking-widest">Standby</span>
           </div>
         )}
       </div>
+
+      {/* Gradient + expand button when truncated */}
+      {response && !showFull && (
+        <div className="relative">
+          <div className="absolute -top-12 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-zinc-900 to-transparent pointer-events-none" />
+          <button
+            type="button"
+            onClick={() => { setLocalExpanded(true); onToggle(); }}
+            className="w-full py-2.5 text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/30 hover:text-black dark:hover:text-white border-t border-black/5 dark:border-white/5 transition-colors bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-center gap-1"
+          >
+            <ChevronDown className="w-3 h-3" /> Lees volledig antwoord
+          </button>
+        </div>
+      )}
+
+      {response && showFull && (
+        <button
+          type="button"
+          onClick={() => { setLocalExpanded(false); onToggle(); }}
+          className="w-full py-2.5 text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/20 hover:text-black dark:hover:text-white border-t border-black/5 dark:border-white/5 transition-colors bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-center gap-1"
+        >
+          <ChevronUp className="w-3 h-3" /> Inklappen
+        </button>
+      )}
     </div>
   );
 };
