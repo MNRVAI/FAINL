@@ -275,6 +275,13 @@ const App: FC = () => {
 
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isAdOpen, setIsAdOpen] = useState(false);
   const pendingQueryRef = useRef<string>('');
@@ -1120,6 +1127,19 @@ const App: FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Back to top */}
+      <a
+        href="#"
+        aria-label="Terug naar boven"
+        onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        className={`scroll-up${showScrollTop ? ' _show-scroll' : ''}`}
+      >
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path fill="rgba(255,255,255,1)" d="M11.9997 10.8284L7.04996 15.7782L5.63574 14.364L11.9997 8L18.3637 14.364L16.9495 15.7782L11.9997 10.8284Z" />
+        </svg>
+      </a>
 
       <PaywallModal
         isOpen={isPaywallOpen}

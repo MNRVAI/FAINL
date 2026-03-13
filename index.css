@@ -261,6 +261,46 @@
   pointer-events: none;
 }
 
+/* ── Back to top ─────────────────────────────────────────────────────────── */
+.scroll-up {
+  position: fixed;
+  right: 3rem;
+  bottom: -50%;
+  z-index: 50;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: bottom 0.4s, transform 0.4s, background-color 0.2s;
+  text-decoration: none;
+}
+
+.dark .scroll-up {
+  background-color: #fff;
+}
+
+.dark .scroll-up svg path[fill] {
+  fill: rgba(0, 0, 0, 1);
+}
+
+.scroll-up:hover {
+  transform: translateY(-0.25rem);
+}
+
+.scroll-up._show-scroll {
+  bottom: 3rem;
+}
+
+@media (max-width: 1199.98px) {
+  .scroll-up {
+    right: 1rem;
+  }
+}
+
 /* ── Node loaders (circle / rect / triangle) ─────────────────────────────── */
 .node-loader {
   --path: #d4d4d8;   /* zinc-300 */
