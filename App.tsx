@@ -820,27 +820,64 @@ const App: FC = () => {
 
                         {(session.stage === WorkflowStage.SYNTHESIZING ||
                           session.stage === WorkflowStage.COMPLETED) && (
-                          <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl overflow-hidden shadow-2xl">
-                            <div className="bg-black dark:bg-white text-white dark:text-black p-4 md:p-8 flex items-center gap-4 border-b-2">
-                              <Gavel className="w-6 h-6 md:w-8 md:h-8" />
-                              <h3 className="font-black text-lg md:text-2xl uppercase tracking-widest">
-                                Chairman's Verdict
-                              </h3>
-                            </div>
-                            <div className="p-6 md:p-16 prose prose-base md:prose-2xl max-w-none bg-white dark:bg-zinc-900 leading-relaxed">
-                              {session.synthesis ? (
-                                <ReactMarkdown>
-                                  {session.synthesis}
-                                </ReactMarkdown>
-                              ) : (
-                                <div className="h-40 flex flex-col items-center justify-center gap-4">
-                                  <Loader2 className="animate-spin w-10 h-10" />
-                                  <span className="font-black text-center uppercase tracking-widest">
-                                    Merging Neural Logic States
-                                  </span>
+                          <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                            {/* Verdict header */}
+                            <div className="bg-black dark:bg-zinc-800 text-white px-6 md:px-10 py-5 md:py-7 flex items-center gap-4 border-b-2 border-black/20">
+                              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/20 shrink-0 bg-zinc-700">
+                                <img src={DEFAULT_CHAIRMAN.avatar} alt="Victor" className="w-full h-full object-cover" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-black uppercase tracking-[0.35em] text-white/40 leading-none mb-1">Eindoordeel van de Raad</p>
+                                <h3 className="font-black text-xl md:text-2xl uppercase tracking-tight text-white leading-none flex items-center gap-3">
+                                  <Gavel className="w-5 h-5 shrink-0 text-white/60" />
+                                  Voorzitter Victor
+                                </h3>
+                              </div>
+                              {session.stage === WorkflowStage.SYNTHESIZING && (
+                                <div className="flex items-center gap-2 text-white/50 text-xs font-black uppercase tracking-widest shrink-0">
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  <span className="hidden sm:inline">Verwerken…</span>
                                 </div>
                               )}
                             </div>
+
+                            {/* Verdict body */}
+                            <div className="px-6 md:px-12 py-8 md:py-12 bg-white dark:bg-zinc-900">
+                              {session.synthesis ? (
+                                <div className="prose prose-zinc dark:prose-invert prose-base md:prose-lg max-w-none
+                                  prose-headings:font-black prose-headings:tracking-tight prose-headings:uppercase
+                                  prose-h2:text-2xl prose-h2:border-b prose-h2:border-zinc-200 dark:prose-h2:border-zinc-700 prose-h2:pb-3 prose-h2:mb-6 prose-h2:mt-10 first:prose-h2:mt-0
+                                  prose-h3:text-lg prose-h3:text-zinc-700 dark:prose-h3:text-zinc-300 prose-h3:mt-8 prose-h3:mb-3
+                                  prose-p:leading-relaxed prose-p:text-zinc-700 dark:prose-p:text-zinc-300
+                                  prose-strong:text-black dark:prose-strong:text-white prose-strong:font-black
+                                  prose-blockquote:border-l-4 prose-blockquote:border-black dark:prose-blockquote:border-white prose-blockquote:bg-zinc-50 dark:prose-blockquote:bg-zinc-800 prose-blockquote:px-6 prose-blockquote:py-3 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
+                                  prose-li:text-zinc-700 dark:prose-li:text-zinc-300 prose-li:my-1
+                                  prose-hr:border-zinc-200 dark:prose-hr:border-zinc-700">
+                                  <ReactMarkdown>{session.synthesis}</ReactMarkdown>
+                                </div>
+                              ) : (
+                                <div className="h-52 flex flex-col items-center justify-center gap-5">
+                                  <div className="relative">
+                                    <div className="w-16 h-16 rounded-full border-4 border-black/10 dark:border-white/10" />
+                                    <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-transparent border-t-black dark:border-t-white animate-spin" />
+                                  </div>
+                                  <div className="text-center">
+                                    <p className="font-black text-sm uppercase tracking-[0.3em] text-black dark:text-white">Victor verwerkt alle inzichten</p>
+                                    <p className="text-xs text-black/40 dark:text-white/40 mt-1">Het definitieve oordeel wordt opgesteld…</p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Verdict footer — only when complete */}
+                            {session.stage === WorkflowStage.COMPLETED && session.synthesis && (
+                              <div className="px-6 md:px-12 py-4 bg-zinc-50 dark:bg-zinc-800/50 border-t border-zinc-100 dark:border-zinc-700 flex items-center gap-2">
+                                <CircleCheck className="w-4 h-4 text-green-500 shrink-0" />
+                                <span className="text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40">
+                                  Consensusprotocol voltooid — {config.activeCouncil.length} nodes · Voorzitter Victor
+                                </span>
+                              </div>
+                            )}
                           </div>
                         )}
 

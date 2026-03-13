@@ -17,13 +17,20 @@ interface DebateRoomProps {
   onAddDebateMessage: (msg: DebateMessage) => void;
 }
 
+// Natural-sounding profiles: pitch near 1.0, rate 1.05–1.2 (faster = less robotic)
 const VOICE_PROFILES = [
-  { pitch: 0.85, rate: 0.95 },
-  { pitch: 1.15, rate: 1.0  },
-  { pitch: 0.7,  rate: 0.9  },
-  { pitch: 1.3,  rate: 1.0  },
-  { pitch: 0.9,  rate: 0.95 },
-  { pitch: 1.05, rate: 0.98 },
+  { pitch: 1.0,  rate: 1.12 },  // Perplexi Pieter — kalm, helder, direct
+  { pitch: 0.92, rate: 1.08 },  // Deep See Karst — lager, analytisch, zeker
+  { pitch: 1.1,  rate: 1.18 },  // Open Aïsha — energiek, vlot, expressief
+  { pitch: 0.96, rate: 1.1  },
+  { pitch: 1.05, rate: 1.15 },
+  { pitch: 1.0,  rate: 1.1  },
+];
+
+// Prefer high-quality Dutch voices by name
+const PREFERRED_NL_VOICE_NAMES = [
+  'Microsoft Lotte', 'Microsoft Femke', 'Microsoft Frank',
+  'Google Nederlands', 'nl-NL-Standard',
 ];
 
 const DURATION_OPTIONS = [
@@ -43,7 +50,7 @@ function getVoices(): Promise<SpeechSynthesisVoice[]> {
   });
 }
 
-// Speak text in Dutch and return a Promise that resolves when TTS finishes
+// Speak the first 1-2 sentences of text in Dutch — keeps TTS short and snappy
 function speakNL(
   text: string,
   nodeIdx: number,
@@ -54,21 +61,30 @@ function speakNL(
     if (!window.speechSynthesis) { resolve(); return; }
     window.speechSynthesis.cancel();
 
-    const clean = text
-      .replace(/[#*`_>~\[\]]/g, ' ')
+    // Strip markdown and extract first 2 sentences (max ~180 chars for fast TTS)
+    const stripped = text
+      .replace(/[#*`_>~\[\]]/g, '')
       .replace(/\s+/g, ' ')
-      .substring(0, 400);
+      .trim();
+    const sentences = stripped.split(/(?<=[.!?])\s+/);
+    const ttsText = sentences.slice(0, 2).join(' ').substring(0, 180);
 
-    const utter = new SpeechSynthesisUtterance(clean);
+    if (!ttsText) { resolve(); return; }
+
+    const utter = new SpeechSynthesisUtterance(ttsText);
     utter.lang = 'nl-NL';
 
-    // Prefer Dutch voices; fall back to any available
     const nlVoices = voices.filter(v => v.lang.startsWith('nl'));
     const pool = nlVoices.length > 0 ? nlVoices : voices;
-    if (pool.length > 0) utter.voice = pool[nodeIdx % pool.length];
 
+    // Prefer named high-quality voices, assign different voice per node
+    const preferred = pool.filter(v => PREFERRED_NL_VOICE_NAMES.some(n => v.name.includes(n)));
+    const voicePool = preferred.length >= 2 ? preferred : pool;
+    if (voicePool.length > 0) utter.voice = voicePool[nodeIdx % voicePool.length];
+
+    // Slight random jitter on rate makes speech sound more natural
     utter.pitch  = profile.pitch;
-    utter.rate   = profile.rate;
+    utter.rate   = profile.rate + (Math.random() - 0.5) * 0.08;
     utter.volume = 1;
     utter.onend  = () => resolve();
     utter.onerror = () => resolve();
@@ -95,16 +111,19 @@ export const DebateRoom: FC<DebateRoomProps> = ({
   const [cachedVoices, setCachedVoices]       = useState<SpeechSynthesisVoice[]>([]);
   const streamingTextRef                      = useRef('');
 
-  const messagesRef      = useRef<DebateMessage[]>([]);
-  const speakerIdxRef    = useRef(0);
-  const isRunningRef     = useRef(false);
-  const isPausedRef      = useRef(false);
-  const voiceEnabledRef  = useRef(true);
-  const isMountedRef     = useRef(true);
-  const scrollRef        = useRef<HTMLDivElement>(null);
-  const loopTimerRef     = useRef<NodeJS.Timeout | null>(null);
-  const countdownRef     = useRef<NodeJS.Timeout | null>(null);
-  const recognitionRef   = useRef<any>(null);
+  const messagesRef         = useRef<DebateMessage[]>([]);
+  const speakerIdxRef       = useRef(0);
+  const isRunningRef        = useRef(false);
+  const isPausedRef         = useRef(false);
+  const voiceEnabledRef     = useRef(true);
+  const isMountedRef        = useRef(true);
+  const scrollRef           = useRef<HTMLDivElement>(null);
+  const loopTimerRef        = useRef<NodeJS.Timeout | null>(null);
+  const countdownRef        = useRef<NodeJS.Timeout | null>(null);
+  const recognitionRef      = useRef<any>(null);
+  // Pre-generated next turn (ready while current TTS plays)
+  const preGenRef           = useRef<{ memberIdx: number; response: string } | null>(null);
+  const isPreGenningRef     = useRef(false);
 
   const readyMembers = councilService.getReadyMembers(config.activeCouncil);
 
@@ -133,6 +152,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     setPhase('pick');
     speakerIdxRef.current = 0;
     isRunningRef.current = false;
+    preGenRef.current = null;
+    isPreGenningRef.current = false;
     window.speechSynthesis?.cancel();
   }, [isOpen]);
 
@@ -140,37 +161,51 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, isGenerating]);
 
-  // ── Core turn runner — streams response token by token ───────────────────
+  // ── Core turn runner — streams response, pre-generates next during TTS ──────
   const runNextTurn = useCallback(async () => {
     if (!isRunningRef.current || isPausedRef.current) {
-      if (isRunningRef.current) loopTimerRef.current = setTimeout(runNextTurn, 800);
+      if (isRunningRef.current) loopTimerRef.current = setTimeout(runNextTurn, 500);
       return;
     }
     if (!isMountedRef.current) return;
 
-    const speaker = readyMembers[speakerIdxRef.current % readyMembers.length];
+    const currentIdx = speakerIdxRef.current % readyMembers.length;
+    const speaker = readyMembers[currentIdx];
+
+    // ── Check for pre-generated response (silently prepared during last TTS) ──
+    const preGen = preGenRef.current;
+    const hasPreGen = preGen && preGen.memberIdx === currentIdx;
+
     setIsGenerating(true);
     setGeneratingSpeaker(speaker);
     streamingTextRef.current = '';
     setStreamingText('');
 
+    let response = '';
     try {
-      const response = await councilService.generateDebateResponseStream(
-        session.query,
-        speaker,
-        session.councilResponses,
-        messagesRef.current,
-        readyMembers,
-        (chunk) => {
-          if (!isMountedRef.current || !isRunningRef.current) return;
-          streamingTextRef.current += chunk;
-          setStreamingText(streamingTextRef.current);
-        }
-      );
+      if (hasPreGen) {
+        // Instant — no API wait, simulate brief "thinking" flicker
+        response = preGen!.response;
+        preGenRef.current = null;
+        // Show text immediately as streaming for visual continuity
+        setStreamingText(response);
+        streamingTextRef.current = response;
+        await new Promise(r => setTimeout(r, 120)); // tiny flicker
+      } else {
+        // Normal streaming generation
+        response = await councilService.generateDebateResponseStream(
+          session.query, speaker, session.councilResponses,
+          messagesRef.current, readyMembers,
+          (chunk) => {
+            if (!isMountedRef.current || !isRunningRef.current) return;
+            streamingTextRef.current += chunk;
+            setStreamingText(streamingTextRef.current);
+          }
+        );
+      }
 
       if (!isMountedRef.current || !isRunningRef.current) return;
 
-      // Move streaming text into the permanent messages list
       setStreamingText('');
       streamingTextRef.current = '';
 
@@ -186,11 +221,27 @@ export const DebateRoom: FC<DebateRoomProps> = ({
       onAddDebateMessage(msg);
       speakerIdxRef.current += 1;
 
-      // Speak and wait — only then schedule next turn
+      // ── Pre-generate NEXT speaker's response while TTS plays ──────────────
+      const nextIdx = speakerIdxRef.current % readyMembers.length;
+      const nextSpeaker = readyMembers[nextIdx];
+      if (isRunningRef.current && !isPausedRef.current && !isPreGenningRef.current) {
+        isPreGenningRef.current = true;
+        const snapshotMessages = [...messagesRef.current];
+        councilService.generateDebateResponseStream(
+          session.query, nextSpeaker, session.councilResponses,
+          snapshotMessages, readyMembers,
+          () => {} // silent — no streaming UI for pre-gen
+        ).then(r => {
+          if (isMountedRef.current && isRunningRef.current && !isPausedRef.current) {
+            preGenRef.current = { memberIdx: nextIdx, response: r };
+          }
+        }).catch(() => {}).finally(() => { isPreGenningRef.current = false; });
+      }
+
+      // ── TTS ───────────────────────────────────────────────────────────────
       if (voiceEnabledRef.current) {
-        const speakerIdx = readyMembers.findIndex(m => m.id === speaker.id);
-        const profile = VOICE_PROFILES[(speakerIdx >= 0 ? speakerIdx : 0) % VOICE_PROFILES.length];
-        await speakNL(response, speakerIdx >= 0 ? speakerIdx : 0, cachedVoices, profile);
+        const profile = VOICE_PROFILES[currentIdx % VOICE_PROFILES.length];
+        await speakNL(response, currentIdx, cachedVoices, profile);
       }
 
     } catch (err) {
@@ -204,9 +255,9 @@ export const DebateRoom: FC<DebateRoomProps> = ({
       }
     }
 
-    // Natural pause between turns (1.2s after TTS ends)
+    // Short pause after TTS — pre-gen likely already done
     if (isRunningRef.current && isMountedRef.current) {
-      loopTimerRef.current = setTimeout(runNextTurn, 1200);
+      loopTimerRef.current = setTimeout(runNextTurn, 250);
     }
   }, [readyMembers, session, councilService, cachedVoices, onAddDebateMessage]);
 
@@ -255,11 +306,11 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     const next = !isPausedRef.current;
     isPausedRef.current = next;
     setIsPaused(next);
-    if (!next && isRunningRef.current) {
-      window.speechSynthesis?.cancel();
+    window.speechSynthesis?.cancel();
+    if (next) {
+      preGenRef.current = null; // discard stale pre-gen on pause
+    } else if (isRunningRef.current) {
       loopTimerRef.current = setTimeout(runNextTurn, 200);
-    } else {
-      window.speechSynthesis?.cancel();
     }
   };
 
