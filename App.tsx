@@ -550,12 +550,12 @@ const App: FC = () => {
   }, []);
 
   const NavLinks = [
-    { id: "/", label: "Protocols", icon: ZapIcon },
-    { id: "/tokens", label: "Credits", icon: Coins },
-    { id: "/dashboard", label: "My FAINLS", icon: LayoutDashboard },
-    { id: "/cookbook", label: "Kookboek", icon: BookOpen },
-    { id: "/faq", label: "FAQ", icon: HelpCircle },
-    { id: "/contact", label: "Contact", icon: Mail },
+    { id: "/",          label: "Home",               img: "/icons-navbar/home-icons.png" },
+    { id: "/tokens",    label: "Credits",             img: "/icons-navbar/Euro-icon.png" },
+    { id: "/dashboard", label: "Mijn Account",        img: "/icons-navbar/settings-icon.png" },
+    { id: "/cookbook",  label: "Voorbeeldvragen",     img: "/icons-navbar/question-icon.png" },
+    { id: "/faq",       label: "Veelgestelde vragen", img: "/icons-navbar/faq-icon.png" },
+    { id: "/contact",   label: "Contact",             img: "/icons-navbar/contact-icon.png" },
   ];
 
 
@@ -577,8 +577,14 @@ const App: FC = () => {
                 type="button"
                 key={link.id}
                 onClick={() => navigate(link.id)}
-                className={`px-4 py-2.5 font-black text-sm uppercase tracking-widest transition-all rounded-lg ${location.pathname === link.id ? 'bg-black text-white' : 'text-black/60 hover:text-black hover:bg-black/5'}`}
+                className={`flex items-center gap-2 px-4 py-2.5 font-black text-sm uppercase tracking-widest transition-all rounded-lg ${location.pathname === link.id ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'}`}
               >
+                <img
+                  src={link.img}
+                  alt=""
+                  aria-hidden="true"
+                  className={`w-4 h-4 object-contain ${location.pathname === link.id ? 'invert dark:invert-0' : 'dark:invert'}`}
+                />
                 {link.label}
               </button>
             ))}
@@ -632,9 +638,14 @@ const App: FC = () => {
                 type="button"
                 key={link.id}
                 onClick={() => { navigate(link.id); setIsMenuOpen(false); }}
-                className={`w-full flex items-center gap-4 p-4 font-black text-sm md:text-base uppercase tracking-[0.15em] rounded-xl transition-all ${location.pathname === link.id ? 'bg-black text-white' : 'bg-zinc-50 text-black/60'}`}
+                className={`w-full flex items-center gap-4 p-4 font-black text-sm md:text-base uppercase tracking-[0.15em] rounded-xl transition-all ${location.pathname === link.id ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-50 dark:bg-zinc-800 text-black/60 dark:text-white/60'}`}
               >
-                <link.icon className="w-5 h-5" />
+                <img
+                  src={link.img}
+                  alt=""
+                  aria-hidden="true"
+                  className={`w-5 h-5 object-contain ${location.pathname === link.id ? 'invert dark:invert-0' : 'dark:invert'}`}
+                />
                 {link.label}
               </button>
             ))}
