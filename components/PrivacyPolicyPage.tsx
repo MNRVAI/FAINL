@@ -94,10 +94,10 @@ export const PrivacyPolicyPage: FC = () => {
           <h2>Bewaartermijnen</h2>
           <p>FAINL bewaart persoonsgegevens niet langer dan noodzakelijk. In beginsel hanteert FAINL de volgende uitgangspunten:</p>
           <ul>
-            <li>accountgegevens: zolang het account actief is en tot 2 maanden daarna;</li>
-            <li>factuur- en betaalgegevens: minimaal 7 jaar voor fiscale bewaarplichten;</li>
-            <li>supportcorrespondentie: tot 1 jaar na afhandeling;</li>
-            <li>beveiligings- en toegangslogs: tot 7 maanden;</li>
+            <li>accountgegevens: zolang het account actief is en tot twee maanden daarna;</li>
+            <li>factuur- en betaalgegevens: minimaal zeven jaar voor fiscale bewaarplichten;</li>
+            <li>supportcorrespondentie: tot één jaar na afhandeling;</li>
+            <li>beveiligings- en toegangslogs: tot zeven maanden;</li>
             <li>Input en Output: 30 dagen of conform de gekozen productinstelling.</li>
           </ul>
 

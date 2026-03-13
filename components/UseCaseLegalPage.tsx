@@ -172,7 +172,7 @@ export const UseCaseLegalPage: FC = () => {
           </p>
           <button type="button" onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
-            Stel je vraag — 2 gratis sessies
+            Stel je vraag — twee gratis sessies
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

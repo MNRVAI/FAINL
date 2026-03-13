@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
-  ArrowRight, Users, Gavel, Globe,
-  CheckCircle2, Eye, Swords, PenLine, Brain,
+  ArrowRight,
+  CheckCircle2, Eye, Swords, Brain,
   Lock, Star, ChevronDown, Mic, BarChart3,
-  BookOpen, Lightbulb, Building2, GraduationCap,
+  BookOpen,
 } from "lucide-react";
 import { SEO } from "./SEO";
 import { PRICING } from "../constants";
@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "Is FAINL gratis te gebruiken?",
-    a: "Ja! Nieuwe bezoekers krijgen 2 volledige FAINL-sessies gratis — zonder account, zonder creditcard. Daarna kies je een creditpakket (vanaf €2,99 per credit) of een maandelijks abonnement.",
+    a: "Ja! Nieuwe bezoekers krijgen twee volledige FAINL-sessies gratis — zonder account, zonder creditcard. Daarna kies je een creditpakket (vanaf €2,99 per credit) of een maandelijks abonnement.",
   },
   {
     q: "Waarom is FAINL beter dan één AI gebruiken?",
@@ -134,7 +134,7 @@ export const LandingPage: FC = () => {
     <>
       <SEO
         title="FAINL — AI Consensus Engine | Meerdere AI's. Één Antwoord."
-        description="FAINL laat Gemini, GPT-4, Claude en Llama tegelijk jouw vraag analyseren, live debatteren en samen één scherp, gewogen eindoordeel geven. 2 sessies gratis, geen account nodig."
+        description="FAINL laat Gemini, GPT-4, Claude en Llama tegelijk jouw vraag analyseren, live debatteren en samen één scherp, gewogen eindoordeel geven. Twee sessies gratis, geen account nodig."
         canonical="/"
         keywords="AI consensus engine, meerdere AI modellen vergelijken, AI debat tool, ChatGPT alternatief Nederland, Gemini GPT-4 Claude samen, AI beslissingstool, kunstmatige intelligentie tool gratis, multi-model AI"
         ogTitle="FAINL — Laat meerdere AI's voor jou debatteren"
@@ -228,37 +228,37 @@ export const LandingPage: FC = () => {
         <ol className="space-y-4">
           {[
             {
-              icon: PenLine,
+              img: "/general icons/question-icon.png",
               title: "Stel je vraag",
               desc: "Elke vraag werkt — zakelijk, filosofisch, juridisch, persoonlijk. FAINL verwerkt alles tot 4.000 tekens.",
             },
             {
-              icon: Users,
+              img: "/general icons/AI-Analyse-icon.png",
               title: "AI's analyseren parallel",
               desc: "Meerdere modellen analyseren jouw vraag tegelijk en onafhankelijk. Geen beïnvloeding, geen tunnelvisie.",
             },
             {
-              icon: Eye,
+              img: "/general icons/reading-icon.png",
               title: "Lees elk model apart",
               desc: "Volledig transparant: zie exact wat elk AI-model heeft geconcludeerd, zonder filters of aggregatie.",
             },
             {
-              icon: Swords,
+              img: "/general icons/live-debate-icon.png",
               title: "Live debat — doe mee",
               desc: "De modellen debatteren live met elkaar. Jij kunt meeschrijven of -spreken en jouw perspectief direct inbrengen.",
             },
             {
-              icon: Gavel,
+              img: "/general icons/verdict-icon.png",
               title: "Chairman's Verdict",
               desc: "Victor analyseert alle argumenten en synthetiseert het meest complete, gewogen eindoordeel.",
             },
-          ].map(({ icon: Icon, title, desc }) => (
+          ].map(({ img, title, desc }) => (
             <li
               key={title}
               className="group flex items-start gap-5 p-6 md:p-8 bg-white dark:bg-zinc-900 border-2 border-black/5 dark:border-white/10 rounded-2xl hover:border-[#d1b411] hover:shadow-[6px_6px_0px_0px_#d1b411] transition-all duration-200"
             >
               <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black dark:bg-white rounded-xl group-hover:scale-110 transition-transform">
-                <Icon className="w-6 h-6 md:w-7 md:h-7 text-white dark:text-black" />
+                <img src={img} alt={title} className="w-6 h-6 md:w-7 md:h-7 object-contain invert dark:invert-0" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-2">
@@ -336,101 +336,6 @@ export const LandingPage: FC = () => {
         </div>
       </section>
 
-      {/* ══ USE CASES ══ */}
-      <section
-        aria-label="Toepassingen van FAINL"
-        className="w-full max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-28"
-      >
-        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
-          Voor wie?
-        </h2>
-        <p className="text-center text-xl md:text-2xl text-black dark:text-white/80 font-semibold mb-12 md:mb-16 max-w-xl mx-auto leading-relaxed">
-          FAINL werkt voor elke situatie waar één perspectief niet genoeg is.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              icon: Building2,
-              label: "Zakelijk",
-              title: "Strategische beslissingen",
-              examples: [
-                "Welke markt moet ik betreden in 2026?",
-                "Kopen of huren voor ons kantoor?",
-                "Is deze businesscase realistisch?",
-              ],
-              color: "border-blue-500",
-            },
-            {
-              icon: GraduationCap,
-              label: "Onderzoek",
-              title: "Academisch & journalistiek",
-              examples: [
-                "Wat zijn de ethische implicaties van AGI?",
-                "Klopt deze statistiek over klimaatverandering?",
-                "Vergelijk drie filosofische stromingen over vrije wil.",
-              ],
-              color: "border-purple-500",
-            },
-            {
-              icon: Lightbulb,
-              label: "Persoonlijk",
-              title: "Grote levensvragen",
-              examples: [
-                "Moet ik van baan wisselen?",
-                "Is een vegan dieet gezonder?",
-                "Zijn of niet zijn — dat is de vraag.",
-              ],
-              color: "border-amber-500",
-            },
-            {
-              icon: Globe,
-              label: "Maatschappij",
-              title: "Complexe maatschappelijke kwesties",
-              examples: [
-                "Is kernenergie de oplossing voor de energiecrisis?",
-                "Wat is het eerlijkste belastingsysteem?",
-                "Hoe pakt Europa migratie het best aan?",
-              ],
-              color: "border-emerald-500",
-            },
-          ].map(({ icon: Icon, label, title, examples, color }) => (
-            <article
-              key={title}
-              className={`bg-white dark:bg-zinc-900 border-2 ${color} rounded-2xl p-6 md:p-8`}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <Icon className="w-6 h-6 text-black dark:text-white" />
-                <span className="text-sm font-black uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
-                  {label}
-                </span>
-              </div>
-              <h3 className="font-black text-xl md:text-2xl uppercase tracking-tight text-black dark:text-white mb-4">
-                {title}
-              </h3>
-              <ul className="space-y-3">
-                {examples.map((ex) => (
-                  <li
-                    key={ex}
-                    className="flex items-start gap-2 text-lg md:text-xl text-black dark:text-white/70"
-                  >
-                    <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-black/30 dark:text-white/30" />
-                    <span className="italic">"{ex}"</span>
-                  </li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                onClick={() => navigate("/mission")}
-                className="mt-6 text-sm font-black uppercase tracking-widest text-black dark:text-white border-b-2 border-black/20 dark:border-white/20 hover:border-[#d1b411] hover:text-[#d1b411] transition-colors pb-0.5"
-              >
-                Probeer gratis →
-              </button>
-            </article>
-          ))}
-        </div>
-      </section>
-
       {/* ══ VERGELIJKING ══ */}
       <section
         aria-label="FAINL versus gewone AI-tools"
@@ -444,61 +349,52 @@ export const LandingPage: FC = () => {
             Waarom is één model nooit genoeg?
           </p>
 
-          <div className="overflow-x-auto rounded-2xl border-2 border-black dark:border-white/20 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_1px_rgba(255,255,255,0.1)]">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-black dark:bg-zinc-800 text-white">
-                  <th className="text-left px-6 py-4 font-black uppercase tracking-widest text-sm">
-                    Eigenschap
-                  </th>
-                  <th className="px-6 py-4 font-black uppercase tracking-widest text-sm text-center">
-                    ChatGPT / Gemini alleen
-                  </th>
-                  <th className="px-6 py-4 font-black uppercase tracking-widest text-sm text-center text-[#d1b411]">
-                    FAINL
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-black/10 dark:divide-white/10 bg-white dark:bg-zinc-900">
-                {[
-                  ["Meerdere AI-modellen parallel", false, true],
-                  ["Live debat tussen modellen", false, true],
-                  ["Blinde vlekken gecorrigeerd", false, true],
-                  ["Transparantie per model", false, true],
-                  ["Eigen perspectief inbrengen", false, true],
-                  ["Gewogen eindvonnis", false, true],
-                  ["Privacy (geen server-opslag)", "Wisselend", true],
-                  ["Gratis te proberen", true, true],
-                ].map(([label, single, fainl]) => (
-                  <tr
-                    key={String(label)}
-                    className="hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <td className="px-6 py-4 font-bold text-black dark:text-white text-base md:text-lg">
-                      {label}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      {single === true ? (
-                        <CheckCircle2 className="w-6 h-6 text-green-500 mx-auto" />
-                      ) : single === false ? (
-                        <span className="text-red-400 font-black text-xl">✕</span>
-                      ) : (
-                        <span className="text-sm text-black/40 font-bold">
-                          {single}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      {fainl ? (
-                        <CheckCircle2 className="w-6 h-6 text-green-500 mx-auto" />
-                      ) : (
-                        <span className="text-red-400 font-black text-xl">✕</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="rounded-2xl border-2 border-black dark:border-white/20 overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_1px_rgba(255,255,255,0.1)]">
+            {/* Column headers */}
+            <div className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] bg-black dark:bg-zinc-800 text-white px-4 sm:px-6 py-4 gap-2">
+              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-white/60">Eigenschap</span>
+              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-white/60 leading-tight">Gewone<br/>AI</span>
+              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-[#d1b411] leading-tight">FAINL</span>
+            </div>
+
+            {/* Rows */}
+            <div className="divide-y divide-black/8 dark:divide-white/8 bg-white dark:bg-zinc-900">
+              {([
+                ["Meerdere AI-modellen parallel", false, true],
+                ["Live debat tussen modellen", false, true],
+                ["Blinde vlekken gecorrigeerd", false, true],
+                ["Transparantie per model", false, true],
+                ["Eigen perspectief inbrengen", false, true],
+                ["Gewogen eindvonnis", false, true],
+                ["Privacy (geen server-opslag)", "Wisselend", true],
+                ["Gratis te proberen", true, true],
+              ] as [string, boolean | string, boolean][]).map(([label, single, fainl]) => (
+                <div
+                  key={label}
+                  className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] items-center px-4 sm:px-6 py-4 gap-2 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-colors"
+                >
+                  <span className="font-semibold text-sm sm:text-base text-black dark:text-white leading-snug pr-2">
+                    {label}
+                  </span>
+                  <span className="flex items-center justify-center">
+                    {single === true ? (
+                      <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                    ) : single === false ? (
+                      <span className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 font-black text-xs">✕</span>
+                    ) : (
+                      <span className="text-[11px] sm:text-xs text-black/40 dark:text-white/40 font-bold text-center leading-tight">{single}</span>
+                    )}
+                  </span>
+                  <span className="flex items-center justify-center">
+                    {fainl ? (
+                      <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                    ) : (
+                      <span className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 font-black text-xs">✕</span>
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -634,7 +530,7 @@ export const LandingPage: FC = () => {
         </button>
 
         <p className="mt-6 text-sm md:text-base font-black uppercase tracking-[0.2em] text-black/50 dark:text-white/30">
-          Geen creditcard nodig — 2 volledige sessies direct gratis.
+          Geen creditcard nodig — twee volledige sessies direct gratis.
         </p>
       </section>
     </>

@@ -99,7 +99,7 @@ export const CompareMultiModelPage: FC = () => {
     <>
       <SEO
         title="AI Modellen Vergelijken: GPT-4, Claude en Gemini Tegelijk Inzetten"
-        description="GPT-4, Claude en Gemini hebben elk sterke en zwakke punten. Ontdek waarom je ze niet apart moet bevragen maar tegelijk — en hoe FAINL dat voor je regelt. 2 sessies gratis."
+        description="GPT-4, Claude en Gemini hebben elk sterke en zwakke punten. Ontdek waarom je ze niet apart moet bevragen maar tegelijk — en hoe FAINL dat voor je regelt. Twee sessies gratis."
         canonical="/vergelijken/ai-modellen-vergelijken"
         keywords="AI modellen vergelijken, GPT-4 vs Claude vs Gemini, beste AI model 2026, multi-model AI Nederland, AI vergelijken, ChatGPT Gemini Claude vergelijking"
         ogTitle="GPT-4, Claude en Gemini Vergelijken — Gebruik Ze Tegelijk"
@@ -206,9 +206,9 @@ export const CompareMultiModelPage: FC = () => {
           </div>
           <ol className="space-y-4">
             {[
-              { step: '01', label: 'Onafhankelijke analyse', desc: 'Elk model beantwoordt jouw vraag zonder de output van de andere modellen te kennen. Zo vermijd je groepsdenken en behoud je echte divergentie.' },
-              { step: '02', label: 'Onderlinge toetsing', desc: 'De modellen beoordelen elkaars antwoorden. Zwakke argumenten, ontbrekende nuances en feitelijke inconsistenties worden hier zichtbaar — vóór je het eindantwoord ziet.' },
-              { step: '03', label: 'Synthese tot één antwoord', desc: 'FAINL combineert de sterkste elementen uit elke bijdrage tot één gewogen eindantwoord. Geen drie losse outputs die je zelf moet wegen — één gecheckte conclusie.' },
+              { step: 'Één', label: 'Onafhankelijke analyse', desc: 'Elk model beantwoordt jouw vraag zonder de output van de andere modellen te kennen. Zo vermijd je groepsdenken en behoud je echte divergentie.' },
+              { step: 'Twee', label: 'Onderlinge toetsing', desc: 'De modellen beoordelen elkaars antwoorden. Zwakke argumenten, ontbrekende nuances en feitelijke inconsistenties worden hier zichtbaar — vóór je het eindantwoord ziet.' },
+              { step: 'Drie', label: 'Synthese tot één antwoord', desc: 'FAINL combineert de sterkste elementen uit elke bijdrage tot één gewogen eindantwoord. Geen drie losse outputs die je zelf moet wegen — één gecheckte conclusie.' },
             ].map(s => (
               <li key={s.step} className="flex gap-4 items-start">
                 <span className="text-2xl font-black text-[#d1b411] shrink-0 leading-none mt-0.5">{s.step}</span>
@@ -235,7 +235,7 @@ export const CompareMultiModelPage: FC = () => {
           </p>
           <button type="button" onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
-            Start gratis — 2 sessies, geen account nodig
+            Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

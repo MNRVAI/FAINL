@@ -32,7 +32,7 @@ export const FAQPage: FC = () => {
     },
     {
       q: language === 'nl' ? "Hoeveel kost het?" : "How much does it cost?",
-      a: language === 'nl' ? "De eerste 2 opdrachten zijn helemaal gratis — zonder account. Daarna kun je credits kopen vanaf €2,99. Geen abonnement verplicht, je betaalt alleen voor wat je gebruikt." : "The first 2 missions are completely free — no account required. After that, you can purchase credits from €2.99. No subscription required, pay only for what you use.",
+      a: language === 'nl' ? "De eerste twee opdrachten zijn helemaal gratis — zonder account. Daarna kun je credits kopen vanaf €2,99. Geen abonnement verplicht, je betaalt alleen voor wat je gebruikt." : "The first two missions are completely free — no account required. After that, you can purchase credits from €2.99. No subscription required, pay only for what you use.",
       icon: Coins
     },
     {
@@ -107,7 +107,7 @@ export const FAQPage: FC = () => {
     },
     {
       q: language === 'nl' ? "Kan ik ook klein beginnen?" : "Can I start small?",
-      a: language === 'nl' ? "Ja. De site noemt ook een optie met 1 credit. Dat maakt de drempel laag voor gebruikers die FAINL eerst willen testen op een enkele vraag of use case." : "Yes. The site also mentions an option with 1 credit. This lowers the barrier for users who want to test FAINL on a single question or use case first.",
+      a: language === 'nl' ? "Ja. De site noemt ook een optie met één credit. Dat maakt de drempel laag voor gebruikers die FAINL eerst willen testen op een enkele vraag of use case." : "Yes. The site also mentions an option with one credit. This lowers the barrier for users who want to test FAINL on a single question or use case first.",
       icon: Coins
     },
     {

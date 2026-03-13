@@ -85,7 +85,7 @@ export const UseCaseFinancePage: FC = () => {
     <>
       <SEO
         title="AI voor Financiële Analyse: Scherpere Beslissingen met Multi-Model AI"
-        description="Gebruik meerdere AI-modellen voor investeringsanalyse, risicomodellering en financiële strategie. FAINL combineert drie perspectieven tot één gewogen financieel advies. 2 sessies gratis."
+        description="Gebruik meerdere AI-modellen voor investeringsanalyse, risicomodellering en financiële strategie. FAINL combineert drie perspectieven tot één gewogen financieel advies. Twee sessies gratis."
         canonical="/gebruik/financiele-analyse-ai"
         keywords="AI financiële analyse, AI voor finance Nederland, AI investeringsanalyse, AI risicoanalyse, kunstmatige intelligentie financieel, AI business case, multi-model AI finance"
         ogTitle="AI voor Financiële Analyse — Drie Modellen, Eén Scherp Financieel Advies"
@@ -157,7 +157,7 @@ export const UseCaseFinancePage: FC = () => {
           </p>
           <button type="button" onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
-            Start gratis — 2 sessies, geen account nodig
+            Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

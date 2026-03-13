@@ -107,7 +107,7 @@ const FAQS = [
   },
   {
     q: 'Kan ik ChatGPT, Gemini en Claude gratis proberen?',
-    a: 'Alle drie bieden gratis basisversies. Met FAINL krijg je 2 gratis sessies waarin alle modellen parallel werken — zonder dat je drie aparte accounts nodig hebt.',
+    a: 'Alle drie bieden gratis basisversies. Met FAINL krijg je twee gratis sessies waarin alle modellen parallel werken — zonder dat je drie aparte accounts nodig hebt.',
   },
   {
     q: 'Wat als de modellen het niet eens zijn?',
@@ -335,7 +335,7 @@ export const ComparePage: FC = () => {
             onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
           >
-            Start gratis — 2 sessies, geen account nodig
+            Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

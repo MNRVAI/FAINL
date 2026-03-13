@@ -288,6 +288,10 @@ const App: FC = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [location.pathname]);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isAdOpen, setIsAdOpen] = useState(false);
   const pendingQueryRef = useRef<string>('');
@@ -1008,6 +1012,15 @@ const App: FC = () => {
               <CookbookPage
                 onSelectMission={(query) => {
                   setInput(query);
+                  setSession({
+                    id: crypto.randomUUID(),
+                    stage: WorkflowStage.IDLE,
+                    query: '',
+                    councilResponses: [],
+                    debateMessages: [],
+                    reviews: [],
+                    synthesis: '',
+                  });
                   navigate('/mission');
                 }}
               />

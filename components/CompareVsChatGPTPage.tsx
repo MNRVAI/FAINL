@@ -6,8 +6,8 @@ import { SEO } from './SEO';
 const COMPARISON = [
   {
     kenmerk: 'Aantal AI-modellen per vraag',
-    fainl: { label: '3 modellen tegelijk', positive: true },
-    chatgpt: { label: '1 model', positive: false },
+    fainl: { label: 'Drie modellen tegelijk', positive: true },
+    chatgpt: { label: 'Één model', positive: false },
   },
   {
     kenmerk: 'Modellen toetsen elkaars output',
@@ -31,7 +31,7 @@ const COMPARISON = [
   },
   {
     kenmerk: 'Gratis proberen',
-    fainl: { label: '2 sessies gratis', positive: true },
+    fainl: { label: 'Twee sessies gratis', positive: true },
     chatgpt: { label: 'Gratis basisversie', positive: true },
   },
   {
@@ -74,7 +74,7 @@ const SCENARIOS = [
 const FAQS = [
   {
     q: 'Is FAINL beter dan ChatGPT?',
-    a: 'Niet per se beter — anders ingezet. ChatGPT is snel en breed bruikbaar. FAINL is ontworpen voor situaties waar één AI-perspectief onvoldoende is: complexe vraagstukken, strategische beslissingen of analyses waarbij blinde vlekken en hallucinaties serieuze risico's vormen. De meerwaarde van FAINL zit in de consensuslaag, niet in de individuele modellen.',
+    a: "Niet per se beter — anders ingezet. ChatGPT is snel en breed bruikbaar. FAINL is ontworpen voor situaties waar één AI-perspectief onvoldoende is: complexe vraagstukken, strategische beslissingen of analyses waarbij blinde vlekken en hallucinaties serieuze risico's vormen. De meerwaarde van FAINL zit in de consensuslaag, niet in de individuele modellen.",
   },
   {
     q: 'Gebruikt FAINL ook GPT-4 van OpenAI?',
@@ -86,7 +86,7 @@ const FAQS = [
   },
   {
     q: 'Wat kost FAINL in vergelijking met ChatGPT Plus?',
-    a: 'FAINL start gratis met 2 sessies zonder account. Daarna betaal je per credit, vanaf €2,99. Je hoeft geen maandabonnement af te sluiten. Voor gebruikers die FAINL alleen bij complexe beslissingen inzetten, is dat vaak voordeliger dan een vast maandtarief.',
+    a: 'FAINL start gratis met twee sessies zonder account. Daarna betaal je per credit, vanaf €2,99. Je hoeft geen maandabonnement af te sluiten. Voor gebruikers die FAINL alleen bij complexe beslissingen inzetten, is dat vaak voordeliger dan een vast maandtarief.',
   },
 ];
 
@@ -126,7 +126,7 @@ export const CompareVsChatGPTPage: FC = () => {
     <>
       <SEO
         title="FAINL vs ChatGPT: Wanneer Heb je Meer dan Één AI Nodig?"
-        description="Eerlijke vergelijking tussen FAINL (multi-model AI-consensus) en ChatGPT (single-model). Ontdek wanneer meerdere AI's samenbrengen meer oplevert dan één chatbot. 2 sessies gratis."
+        description="Eerlijke vergelijking tussen FAINL (multi-model AI-consensus) en ChatGPT (single-model). Ontdek wanneer meerdere AI's samenbrengen meer oplevert dan één chatbot. Twee sessies gratis."
         canonical="/vergelijken/fainl-vs-chatgpt"
         keywords="FAINL vs ChatGPT, ChatGPT alternatief Nederland, meerdere AI modellen vergelijken, AI consensus vs chatbot, beste AI tool 2026, multi-model AI vergelijking"
         ogTitle="FAINL vs ChatGPT — Één Model of AI-Consensus?"
@@ -252,7 +252,7 @@ export const CompareVsChatGPTPage: FC = () => {
           </p>
           <button type="button" onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
-            Start gratis — 2 sessies, geen account nodig
+            Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

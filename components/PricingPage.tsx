@@ -79,7 +79,7 @@ export const PricingPage: FC<PricingPageProps> = ({
 
               <ul className="card__lists">
                 <li className="card__list"><CheckIcon /> <span>Standaard</span></li>
-                <li className="card__list"><CheckIcon /> <span>{pkg.count} {pkg.count === 1 ? 'credit = 1 vraag' : `credits = ${pkg.count} vragen`}</span></li>
+                <li className="card__list"><CheckIcon /> <span>{pkg.count} {pkg.count === 1 ? 'credit = één vraag' : `credits = ${pkg.count} vragen`}</span></li>
                 <li className="card__list"><CheckIcon /> <span>Complete analyse</span></li>
                 <li className="card__list"><CheckIcon /> <span>Multi AI inzet</span></li>
                 <li className="card__list"><CheckIcon /> <span>Opslaan &amp; delen</span></li>

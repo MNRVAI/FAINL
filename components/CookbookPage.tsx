@@ -1,5 +1,4 @@
 import {
-    Book,
     ArrowRight,
     Search,
     ChevronUp,
@@ -7,9 +6,11 @@ import {
     ChevronLeft,
     ChevronRight,
     Layers,
-    Clock
+    Clock,
+    Sparkles,
+    X,
 } from 'lucide-react';
-import { FC, useState, useMemo, useEffect } from 'react';
+import { FC, useState, useMemo, useEffect, useRef } from 'react';
 
 const ITEMS_PER_PAGE = 12;
 import { DIRECTIVES, Directive } from '../data/directives';
@@ -20,14 +21,15 @@ interface CookbookPageProps {
     onSelectMission: (query: string) => void;
 }
 
+
 export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
     const { language } = useLanguage();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState<string>('All');
-    const [sortBy, setSortBy] = useState<'popularity' | 'rating' | 'newest'>('popularity');
+    const [sortBy, setSortBy] = useState<'popularity' | 'rating'>('popularity');
     const [currentPage, setCurrentPage] = useState(1);
+    const categoryBarRef = useRef<HTMLDivElement>(null);
 
-    // Persisted ratings and user vote tracking (prevent double voting)
     const [localRatings, setLocalRatings] = useState<Record<string, number>>(() => {
         try { return JSON.parse(localStorage.getItem('fainl_votes') || '{}'); } catch { return {}; }
     });
@@ -39,12 +41,11 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
         acc[d.category] = (acc[d.category] || 0) + 1;
         return acc;
     }, {});
-    const categories = ['All', ...Array.from(new Set(DIRECTIVES.map(d => d.category))).filter(c => categoryCounts[c] >= 100)];
+    const categories = ['All', ...Array.from(new Set(DIRECTIVES.map(d => d.category))).filter(c => categoryCounts[c] >= 1)];
 
     const handleVote = (id: string, delta: 1 | -1, e: React.MouseEvent) => {
         e.stopPropagation();
         const existing = userVotes[id];
-        // If same direction already voted: undo the vote
         const actualDelta = existing === delta ? -delta : (existing ? delta - existing : delta);
         const newUserVote = existing === delta ? undefined : delta;
 
@@ -71,20 +72,21 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             return matchesSearch && matchesCategory;
         }).sort((a, b) => {
             if (sortBy === 'rating') {
-                const ratingA = a.rating + (localRatings[a.id] || 0);
-                const ratingB = b.rating + (localRatings[b.id] || 0);
-                return ratingB - ratingA;
+                return ((b.rating + (localRatings[b.id] || 0)) - (a.rating + (localRatings[a.id] || 0)));
             }
-            if (sortBy === 'popularity') return b.popularity - a.popularity;
-            return 0;
+            return b.popularity - a.popularity;
         });
     }, [searchQuery, activeCategory, sortBy, localRatings]);
 
-    // Reset to page 1 whenever filters change
     useEffect(() => { setCurrentPage(1); }, [searchQuery, activeCategory, sortBy]);
 
     const totalPages = Math.ceil(filteredDirectives.length / ITEMS_PER_PAGE);
     const pagedDirectives = filteredDirectives.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+    const goTo = (p: number) => {
+        setCurrentPage(p);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <>
@@ -94,155 +96,145 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
           canonical="/cookbook"
           keywords="AI voorbeeldvragen, AI consensus voorbeelden, meerdere AI modellen gebruiken, FAINL kookboek"
         />
-        <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="text-center mb-16 md:mb-24">
-                <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
-                    {language === 'nl' ? 'Voorbeeldvragen voor AI Consensus' : 'Example Questions for AI Consensus'}
+
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-16">
+
+            {/* ── Hero ── */}
+            <div className="mb-10 md:mb-14">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-yellow-400 text-black text-xs font-black uppercase tracking-widest rounded-full mb-4">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    {language === 'nl' ? 'Voorbeeldvragen' : 'Example Questions'}
+                </div>
+                <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 leading-none">
+                    {language === 'nl' ? 'Waar wil jij\nAI-consensus over?' : 'What do you want\nAI consensus on?'}
                 </h1>
-                <p className="max-w-2xl mx-auto text-black/60 dark:text-white/60 font-bold text-base md:text-lg leading-relaxed">
+                <p className="text-base md:text-lg text-black/50 dark:text-white/50 font-medium max-w-2xl leading-relaxed mb-8">
                     {language === 'nl'
-                        ? 'Een high-integrity database met neurale missies, geoptimaliseerd voor autonome multi-agent orkestratie en strategische vervulling.'
-                        : 'A high-integrity database of neural directives optimized for autonomous multi-agent orchestration and strategic logic fulfillment.'}
+                        ? 'Kies een vraag die je aanspreekt en laat meerdere AI-modellen er tegelijk naar kijken. Je ontvangt één gefundeerd consensus-antwoord.'
+                        : 'Pick a question that interests you and let multiple AI models analyze it simultaneously. You receive one well-founded consensus answer.'}
                 </p>
-            </div>
 
-            {/* Control Bar */}
-            <div className="mb-12 space-y-6">
-                <div className="flex flex-col lg:flex-row gap-4 items-center">
-                    <div className="relative w-full lg:flex-1 group">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-black/20 dark:text-white/20 group-focus-within:text-black dark:group-focus-within:text-white transition-colors" />
-                        <input
-                            type="text"
-                            placeholder={language === 'nl' ? 'DATABASE SCANNEN OP MISSIES...' : 'SCAN DATABASE FOR DIRECTIVES...'}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-16 py-5 font-black uppercase tracking-widest text-sm focus:outline-none focus:border-yellow-400 dark:focus:border-yellow-400 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)]"
-                        />
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
-                        <div className="relative group min-w-[160px]">
-                            <select
-                                value={activeCategory}
-                                onChange={(e) => setActiveCategory(e.target.value)}
-                                title={language === 'nl' ? 'Filter op categorie' : 'Filter by Category'}
-                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-sm focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
-                            >
-                                {categories.map(c => <option key={c} value={c}>{c === 'All' ? (language === 'nl' ? 'ALLE CATEGORIE\u00CBN' : 'ANY CATEGORY') : c.toUpperCase()}</option>)}
-                            </select>
-                            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
+                {/* Step flow */}
+                <div className="flex flex-col sm:flex-row gap-0 sm:gap-0 max-w-lg">
+                    {[
+                        { n: '1', label: language === 'nl' ? 'Kies een vraag' : 'Pick a question' },
+                        { n: '2', label: language === 'nl' ? 'Klik op Probeer dit' : 'Click Try this' },
+                        { n: '3', label: language === 'nl' ? 'Ontvang consensus' : 'Receive consensus' },
+                    ].map((step, i, arr) => (
+                        <div key={step.n} className="flex items-center gap-0">
+                            <div className="flex items-center gap-2 px-3 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg">
+                                <span className="text-xs font-black text-yellow-400 dark:text-yellow-600">{step.n}</span>
+                                <span className="text-xs font-black uppercase tracking-wide whitespace-nowrap">{step.label}</span>
+                            </div>
+                            {i < arr.length - 1 && (
+                                <ArrowRight className="w-4 h-4 text-black/20 dark:text-white/20 mx-1 shrink-0" />
+                            )}
                         </div>
-
-                        <div className="relative group min-w-[160px]">
-                            <select
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value as any)}
-                                title={language === 'nl' ? 'Sorteer resultaten' : 'Sort Results'}
-                                className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-sm focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
-                            >
-                                <option value="popularity">{language === 'nl' ? 'OP POPULARITEIT' : 'BY POPULARITY'}</option>
-                                <option value="rating">{language === 'nl' ? 'OP BEOORDELING' : 'BY RANKING'}</option>
-                            </select>
-                            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
 
-            {/* Results count */}
-            <div className="mb-6 flex items-center justify-between">
-                <p className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
-                    {filteredDirectives.length} {language === 'nl' ? 'resultaten' : 'results'}
-                    {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
-                </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                {filteredDirectives.length === 0 ? (
-                    <div className="col-span-full py-20 text-center border-4 border-dashed border-black/10 dark:border-white/10 rounded-[3rem]">
-                        <p className="font-black uppercase tracking-widest text-black/20 dark:text-white/20">
-                            {language === 'nl' ? 'Nul overeenkomstige neurale patronen gevonden' : 'Zero matching neural patterns found'}
-                        </p>
-                    </div>
-                ) : (
-                    pagedDirectives.map((directive) => (
-                        <div
-                            key={directive.id}
-                            onClick={() => onSelectMission(directive.query)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    onSelectMission(directive.query);
-                                }
-                            }}
-                            role="button"
-                            tabIndex={0}
-                            className="group text-left bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 p-5 md:p-6 rounded-2xl md:rounded-[2rem] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.05)] hover:-translate-y-1 transition-all relative overflow-hidden cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-400"
+            {/* ── Search + Sort ── */}
+            <div className="mb-6 flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/30 dark:text-white/30" />
+                    <input
+                        type="text"
+                        placeholder={language === 'nl' ? 'Zoek een vraag of onderwerp…' : 'Search a question or topic…'}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-white dark:bg-zinc-900 border-2 border-black/15 dark:border-white/10 rounded-xl pl-10 pr-10 py-3 text-sm font-medium focus:outline-none focus:border-black dark:focus:border-white transition-colors placeholder:text-black/30 dark:placeholder:text-white/30 text-black dark:text-white"
+                    />
+                    {searchQuery && (
+                        <button
+                            type="button"
+                            onClick={() => setSearchQuery('')}
+                            title={language === 'nl' ? 'Zoekopdracht wissen' : 'Clear search'}
+                            aria-label={language === 'nl' ? 'Zoekopdracht wissen' : 'Clear search'}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-black/30 hover:text-black dark:text-white/30 dark:hover:text-white transition-colors"
                         >
-                            {/* Recommended ribbon removed */}
-
-                            <div className="flex justify-between items-start mb-6">
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <span className={`px-3 py-1 border-2 border-black dark:border-white/10 rounded-lg text-sm font-black uppercase tracking-widest ${directive.difficulty === 'Gamma' ? 'bg-red-400 text-black' : directive.difficulty === 'Beta' ? 'bg-blue-400 text-black' : 'bg-green-400 text-black'}`}>
-                                        {directive.difficulty}
-                                    </span>
-                                    <span className="text-base font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
-                                </div>
-                                <div className="flex items-center gap-1.5 p-1.5 bg-black/5 rounded-lg">
-                                    <button
-                                        type="button"
-                                        onClick={(e) => handleVote(directive.id, 1, e)}
-                                        title="Upvote"
-                                        aria-label="Upvote"
-                                        className={`p-1 rounded transition-colors flex items-center gap-1 group/vote ${userVotes[directive.id] === 1 ? 'text-green-600' : 'text-black/40 hover:text-green-500'}`}
-                                    >
-                                        <ChevronUp className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
-                                    </button>
-                                    <span className="text-sm font-black text-black min-w-[16px] text-center">
-                                        {(directive.rating + (localRatings[directive.id] || 0))}
-                                    </span>
-                                    <button
-                                        type="button"
-                                        onClick={(e) => handleVote(directive.id, -1, e)}
-                                        title="Downvote"
-                                        aria-label="Downvote"
-                                        className={`p-1 rounded transition-colors flex items-center gap-1 group/vote ${userVotes[directive.id] === -1 ? 'text-red-600' : 'text-black/40 hover:text-red-500'}`}
-                                    >
-                                        <ChevronDown className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
-                                    </button>
-                                </div>
-                            </div>
-
-                            <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 text-black dark:text-white line-clamp-1">{directive.title}</h3>
-                            <p className="text-sm md:text-base font-bold text-black/60 dark:text-white/60 leading-relaxed italic mb-6 border-l-4 border-yellow-400 pl-4 bg-yellow-400/5 py-3 rounded-r-xl line-clamp-2">
-                                "{directive.query}"
-                            </p>
-
-                            <div className="flex items-center justify-between mt-auto">
-                                <div className="flex items-center gap-4 opacity-40">
-                                    <div className="flex items-center gap-1.5">
-                                        <Layers className="w-3 h-3" />
-                                        <span className="text-sm font-black">{directive.nodesNeeded} NODES</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5">
-                                        <Clock className="w-3 h-3" />
-                                        <span className="text-sm font-black uppercase">{directive.length}</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
-                                    INIT <ArrowRight className="w-3.5 h-3.5" />
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                            <X className="w-3.5 h-3.5" />
+                        </button>
+                    )}
+                </div>
+                <div className="relative">
+                    <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as any)}
+                        title={language === 'nl' ? 'Sorteren op' : 'Sort by'}
+                        aria-label={language === 'nl' ? 'Sorteren op' : 'Sort by'}
+                        className="appearance-none bg-white dark:bg-zinc-900 border-2 border-black/15 dark:border-white/10 rounded-xl px-4 py-3 pr-9 text-sm font-bold focus:outline-none cursor-pointer text-black dark:text-white focus:border-black dark:focus:border-white transition-colors"
+                    >
+                        <option value="popularity">{language === 'nl' ? 'Meest gebruikt' : 'Most used'}</option>
+                        <option value="rating">{language === 'nl' ? 'Hoogst beoordeeld' : 'Top rated'}</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-black/40 dark:text-white/40" />
+                </div>
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (() => {
-                const goTo = (p: number) => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+            {/* ── Category pills ── */}
+            <div
+                ref={categoryBarRef}
+                className="flex gap-2 overflow-x-auto pb-3 mb-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap"
+            >
+                {categories.map(cat => (
+                    <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setActiveCategory(cat)}
+                        className={`shrink-0 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all whitespace-nowrap ${
+                            activeCategory === cat
+                                ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white'
+                                : 'bg-white dark:bg-zinc-900 text-black/50 dark:text-white/50 border-black/15 dark:border-white/10 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white'
+                        }`}
+                    >
+                        {cat === 'All' ? (language === 'nl' ? 'Alles' : 'All') : cat}
+                        {cat !== 'All' && (
+                            <span className="ml-1.5 opacity-50">{categoryCounts[cat]}</span>
+                        )}
+                    </button>
+                ))}
+            </div>
 
-                // Build visible page slots: always show 1, last, current±1, with ellipsis gaps
+            {/* ── Results count ── */}
+            <p className="text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-5">
+                {filteredDirectives.length} {language === 'nl' ? 'vragen' : 'questions'}
+                {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
+            </p>
+
+            {/* ── Grid ── */}
+            {filteredDirectives.length === 0 ? (
+                <div className="py-20 text-center border-2 border-dashed border-black/10 dark:border-white/10 rounded-2xl">
+                    <Search className="w-8 h-8 mx-auto mb-3 text-black/20 dark:text-white/20" />
+                    <p className="font-black uppercase tracking-widest text-black/30 dark:text-white/30 text-sm">
+                        {language === 'nl' ? 'Geen vragen gevonden' : 'No questions found'}
+                    </p>
+                    <button
+                        type="button"
+                        onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
+                        className="mt-4 text-xs font-black uppercase tracking-widest underline text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+                    >
+                        {language === 'nl' ? 'Filters wissen' : 'Clear filters'}
+                    </button>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                    {pagedDirectives.map((directive) => (
+                        <DirectiveCard
+                            key={directive.id}
+                            directive={directive}
+                            localRating={localRatings[directive.id] || 0}
+                            userVote={userVotes[directive.id]}
+                            onVote={handleVote}
+                            onSelect={() => onSelectMission(directive.query)}
+                            language={language}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* ── Pagination ── */}
+            {totalPages > 1 && (() => {
                 const slots: (number | '…')[] = [];
                 const add = (p: number) => { if (!slots.includes(p)) slots.push(p); };
                 add(1);
@@ -252,53 +244,46 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                 add(totalPages);
 
                 return (
-                    <div className="mt-12 flex flex-col items-center gap-4">
-                        {/* Page counter */}
-                        <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                    <div className="mt-10 flex flex-col items-center gap-4">
+                        <p className="text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/30">
                             {language === 'nl' ? `Pagina ${currentPage} van ${totalPages}` : `Page ${currentPage} of ${totalPages}`}
                         </p>
-
                         <div className="flex items-center gap-2">
-                            {/* Prev */}
                             <button
                                 type="button"
                                 onClick={() => goTo(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-black/20 dark:border-white/20 font-black disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:border-black dark:hover:border-white transition-all"
-                                title={language === 'nl' ? 'Vorige' : 'Previous'}
+                                title={language === 'nl' ? 'Vorige pagina' : 'Previous page'}
+                                aria-label={language === 'nl' ? 'Vorige pagina' : 'Previous page'}
+                                className="w-9 h-9 flex items-center justify-center rounded-lg border-2 border-black/15 dark:border-white/15 font-black disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:border-black dark:hover:border-white transition-all"
                             >
                                 <ChevronLeft className="w-4 h-4" />
                             </button>
-
-                            {/* Page slots */}
                             {slots.map((slot, i) =>
                                 slot === '…' ? (
-                                    <span key={`ellipsis-${i}`} className="w-10 h-10 flex items-center justify-center text-black/30 dark:text-white/30 font-black text-sm select-none">
-                                        …
-                                    </span>
+                                    <span key={`el-${i}`} className="w-9 h-9 flex items-center justify-center text-black/30 dark:text-white/30 font-black text-sm">…</span>
                                 ) : (
                                     <button
                                         key={slot}
                                         type="button"
                                         onClick={() => goTo(slot)}
-                                        className={`w-10 h-10 flex items-center justify-center rounded-xl border-2 font-black text-sm transition-all ${
+                                        className={`w-9 h-9 flex items-center justify-center rounded-lg border-2 font-black text-sm transition-all ${
                                             slot === currentPage
                                                 ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white scale-110 shadow-md'
-                                                : 'border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white hover:bg-black/5 dark:hover:bg-white/5'
+                                                : 'border-black/15 dark:border-white/15 hover:border-black dark:hover:border-white hover:bg-black/5 dark:hover:bg-white/5'
                                         }`}
                                     >
                                         {slot}
                                     </button>
                                 )
                             )}
-
-                            {/* Next */}
                             <button
                                 type="button"
                                 onClick={() => goTo(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-black/20 dark:border-white/20 font-black disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:border-black dark:hover:border-white transition-all"
-                                title={language === 'nl' ? 'Volgende' : 'Next'}
+                                title={language === 'nl' ? 'Volgende pagina' : 'Next page'}
+                                aria-label={language === 'nl' ? 'Volgende pagina' : 'Next page'}
+                                className="w-9 h-9 flex items-center justify-center rounded-lg border-2 border-black/15 dark:border-white/15 font-black disabled:opacity-25 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:border-black dark:hover:border-white transition-all"
                             >
                                 <ChevronRight className="w-4 h-4" />
                             </button>
@@ -307,21 +292,108 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                 );
             })()}
 
-            <div className="mt-32 p-12 md:p-20 bg-black dark:bg-zinc-900 text-white rounded-[3rem] text-center space-y-8 relative overflow-hidden group shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent pointer-events-none" />
-                <Book className="w-16 h-16 mx-auto text-yellow-400 animate-pulse-glow" />
-                <div className="relative z-10 max-w-2xl mx-auto">
-                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">
-                        {language === 'nl' ? 'Neurale Optimalisatie Geactiveerd' : 'Neural Optimization Engaged'}
+            {/* ── Bottom CTA ── */}
+            <div className="mt-20 p-10 md:p-16 bg-black dark:bg-zinc-900 text-white rounded-3xl text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 via-transparent to-transparent pointer-events-none" />
+                <div className="relative z-10 max-w-xl mx-auto space-y-5">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-yellow-400 text-black text-xs font-black uppercase tracking-widest rounded-full">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        {language === 'nl' ? 'Eigen vraag?' : 'Your own question?'}
+                    </div>
+                    <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none">
+                        {language === 'nl' ? 'Stel jouw eigen vraag' : 'Ask your own question'}
                     </h2>
-                    <p className="text-sm md:text-base font-bold text-white/50 uppercase tracking-[0.2em] leading-relaxed">
+                    <p className="text-white/50 text-sm md:text-base leading-relaxed">
                         {language === 'nl'
-                            ? 'FAINL missies worden via onze consensus beoordeeld door de community. Hoe vaker een missie wordt gebruikt, hoe hoger de prioriteit in het neurale subnetwerk.'
-                            : 'FAINL directives are crowd-indexed using our proof-of-logic consensus. The more a directive is reviewed and utilized, the higher its priority in the global neural subnet.'}
+                            ? 'Staat jouw vraag er niet bij? Ga naar de hoofdpagina en typ hem direct in. Elke vraag is welkom.'
+                            : "Don't see your question? Go to the home page and type it in directly. Any question is welcome."}
                     </p>
+                    <a
+                        href="/mission"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-yellow-400 text-black font-black uppercase tracking-widest text-sm rounded-xl hover:bg-yellow-300 transition-colors"
+                    >
+                        {language === 'nl' ? 'Begin hier' : 'Start here'} <ArrowRight className="w-4 h-4" />
+                    </a>
                 </div>
             </div>
         </div>
         </>
+    );
+};
+
+/* ────────────────────────────────────────────────────────── */
+interface DirectiveCardProps {
+    directive: Directive;
+    localRating: number;
+    userVote?: 1 | -1;
+    onVote: (id: string, delta: 1 | -1, e: React.MouseEvent) => void;
+    onSelect: () => void;
+    language: string;
+}
+
+const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVote, onVote, onSelect, language }) => {
+    const rating = directive.rating + localRating;
+
+    return (
+        <div className="group flex flex-col bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl overflow-hidden transition-all duration-200 hover:border-black dark:hover:border-white hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.9)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.1)] hover:-translate-y-0.5">
+
+            {/* Card header */}
+            <div className="flex items-center justify-between px-4 pt-4 pb-3 gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-[11px] font-bold text-black/40 dark:text-white/30 uppercase tracking-wide truncate">{directive.category}</span>
+                </div>
+                {/* Votes */}
+                <div className="flex items-center gap-1 shrink-0">
+                    <button
+                        type="button"
+                        onClick={(e) => onVote(directive.id, 1, e)}
+                        aria-label="Upvote"
+                        className={`p-1 rounded transition-colors ${userVote === 1 ? 'text-emerald-600' : 'text-black/25 dark:text-white/25 hover:text-emerald-500'}`}
+                    >
+                        <ChevronUp className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="text-xs font-black text-black/50 dark:text-white/50 min-w-[20px] text-center">{rating}</span>
+                    <button
+                        type="button"
+                        onClick={(e) => onVote(directive.id, -1, e)}
+                        aria-label="Downvote"
+                        className={`p-1 rounded transition-colors ${userVote === -1 ? 'text-red-500' : 'text-black/25 dark:text-white/25 hover:text-red-400'}`}
+                    >
+                        <ChevronDown className="w-3.5 h-3.5" />
+                    </button>
+                </div>
+            </div>
+
+            {/* Title + question */}
+            <div className="px-4 pb-4 flex-1 flex flex-col gap-3">
+                <h3 className="text-base md:text-lg font-black uppercase tracking-tight text-black dark:text-white leading-snug line-clamp-2">
+                    {directive.title}
+                </h3>
+                <blockquote className="border-l-4 border-yellow-400 pl-3 py-2 bg-yellow-400/5 rounded-r-lg">
+                    <p className="text-sm text-black/65 dark:text-white/60 leading-relaxed italic line-clamp-3">
+                        "{directive.query}"
+                    </p>
+                </blockquote>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t-2 border-black/5 dark:border-white/5 flex items-center justify-between px-4 py-3 bg-zinc-50 dark:bg-zinc-800/40">
+                <div className="flex items-center gap-3 text-[11px] font-black text-black/30 dark:text-white/30 uppercase tracking-wide">
+                    <span className="flex items-center gap-1">
+                        <Layers className="w-3 h-3" /> {directive.nodesNeeded} nodes
+                    </span>
+                    <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {directive.length}
+                    </span>
+                </div>
+                <button
+                    type="button"
+                    onClick={onSelect}
+                    className="flex items-center gap-1.5 px-3.5 py-2 bg-black dark:bg-white text-white dark:text-black text-xs font-black uppercase tracking-wider rounded-lg hover:bg-yellow-400 hover:text-black dark:hover:bg-yellow-400 dark:hover:text-black transition-all group-hover:gap-2.5"
+                >
+                    {language === 'nl' ? 'Probeer dit' : 'Try this'} <ArrowRight className="w-3 h-3" />
+                </button>
+            </div>
+        </div>
     );
 };

@@ -36,7 +36,7 @@ const TOOLS = [
     tagline: 'Alle drie tegelijk — één gewogen eindadvies',
     pros: ['ChatGPT + Gemini + Claude parallel', 'Live debat tussen modellen', 'Gewogen eindoordeel', 'Blinde vlekken blootgelegd'],
     cons: ['Geen directe ChatGPT-integratie (proxy)', 'Momenteel alleen tekst'],
-    price: 'Gratis (2 sessies) / tokens',
+    price: 'Gratis (twee sessies) / tokens',
     best: 'Strategische en complexe vragen',
     highlight: true,
   },
@@ -241,7 +241,7 @@ export const BestAIToolPage: FC = () => {
           </p>
           <button type="button" onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
-            Start gratis — 2 sessies, geen account nodig
+            Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

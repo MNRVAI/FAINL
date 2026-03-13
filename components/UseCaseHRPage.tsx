@@ -85,7 +85,7 @@ export const UseCaseHRPage: FC = () => {
     <>
       <SEO
         title="AI voor HR & Recruitment: Betere Werving met Multi-Model AI"
-        description="Gebruik meerdere AI-modellen voor vacatureteksten, interviewvragen en onboarding. FAINL combineert drie HR-perspectieven tot één gewogen advies. 2 sessies gratis."
+        description="Gebruik meerdere AI-modellen voor vacatureteksten, interviewvragen en onboarding. FAINL combineert drie HR-perspectieven tot één gewogen advies. Twee sessies gratis."
         canonical="/gebruik/hr-recruitment-ai"
         keywords="AI voor HR, AI recruitment Nederland, AI vacaturetekst, AI interviewvragen, kunstmatige intelligentie HR, AI onboarding, multi-model AI HR tool"
         ogTitle="AI voor HR & Recruitment — Drie Modellen, Eén Scherp HR-Advies"
@@ -156,7 +156,7 @@ export const UseCaseHRPage: FC = () => {
           </p>
           <button type="button" onClick={() => navigate('/mission')}
             className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
-            Start gratis — 2 sessies, geen account nodig
+            Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
