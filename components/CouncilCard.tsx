@@ -60,7 +60,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-12 gap-3 text-black/40 dark:text-white/30">
             <NodeLoader shape="circle" />
-            <span className="text-xs font-black uppercase tracking-widest animate-pulse">Analyseert…</span>
+            <span className="text-xs font-black uppercase tracking-widest animate-pulse">Analyseert jouw vraag…</span>
           </div>
         ) : response ? (
           <div className="px-5 py-4">
@@ -75,7 +75,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-12 text-black/20 dark:text-white/15">
-            <span className="text-xs font-black uppercase tracking-widest">Standby</span>
+            <span className="text-xs font-black uppercase tracking-widest">Wacht op analyse…</span>
           </div>
         )}
       </div>
@@ -89,7 +89,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
             onClick={() => { setLocalExpanded(true); onToggle(); }}
             className="w-full py-2.5 text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/30 hover:text-black dark:hover:text-white border-t border-black/5 dark:border-white/5 transition-colors bg-zinc-50 dark:bg-zinc-800/50 flex items-center justify-center gap-1"
           >
-            <ChevronDown className="w-3 h-3" /> Lees volledig antwoord
+            <ChevronDown className="w-3 h-3" /> Lees het volledige antwoord
           </button>
         </div>
       )}
