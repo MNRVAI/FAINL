@@ -597,7 +597,7 @@ const App: FC = () => {
           <div className="relative w-72 sm:w-80 h-full bg-white dark:bg-zinc-950 border-l-2 border-black/10 dark:border-white/10 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
             {/* Drawer header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-black/10 dark:border-white/10">
-              <button type="button" onClick={() => { navigate('/'); setIsMenuOpen(false); }} className="flex items-center group">
+              <button type="button" onClick={() => { navigate('/'); setIsMenuOpen(false); }} aria-label="Home" className="flex items-center group">
                 <LogoSwitch />
               </button>
               <button
