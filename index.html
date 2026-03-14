@@ -75,6 +75,58 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
 
+    <!-- Structured Data — Organisation + WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://fainl.com/#organization",
+          "name": "FAINL",
+          "url": "https://fainl.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://fainl.com/fainl-logo.png"
+          },
+          "sameAs": []
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://fainl.com/#website",
+          "url": "https://fainl.com/",
+          "name": "FAINL — AI Consensus Engine",
+          "description": "FAINL laat meerdere AI-modellen tegelijk jouw vraag analyseren, debatteren en samen één gewogen antwoord geven.",
+          "publisher": { "@id": "https://fainl.com/#organization" },
+          "inLanguage": "nl-NL",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://fainl.com/mission?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://fainl.com/#app",
+          "name": "FAINL",
+          "url": "https://fainl.com/",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR",
+            "description": "Twee gratis sessies — geen creditcard nodig"
+          },
+          "description": "AI Consensus Engine: meerdere grote taalmodellen (GPT-4, Gemini, Claude, Llama) analyseren parallel jouw vraag, debatteren live en produceren één gewogen eindoordeel."
+        }
+      ]
+    }
+    </script>
+
     <!-- GitHub Pages SPA redirect: restore path stored by 404.html -->
     <script>
       (function () {
@@ -89,7 +141,34 @@
 
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Statische fallback voor zoekmachines (wordt vervangen door React na hydration) -->
+      <noscript>
+        <header>
+          <h1>FAINL — AI Consensus Engine</h1>
+          <nav>
+            <a href="/">Home</a> |
+            <a href="/mission">Start sessie</a> |
+            <a href="/cookbook">Voorbeeldvragen</a> |
+            <a href="/tokens">Prijzen</a> |
+            <a href="/faq">FAQ</a> |
+            <a href="/contact">Contact</a>
+          </nav>
+        </header>
+        <main>
+          <h2>Meerdere AI-modellen. Één antwoord.</h2>
+          <p>FAINL laat Gemini, GPT-4, Claude en Llama tegelijk jouw vraag analyseren. Ze debatteren live en geven samen één scherp, gewogen eindoordeel. Twee sessies gratis — geen account nodig.</p>
+          <h2>Hoe werkt het?</h2>
+          <ol>
+            <li>Stel je vraag</li>
+            <li>Meerdere AI-modellen analyseren parallel</li>
+            <li>Live debat tussen de modellen</li>
+            <li>Chairman's Verdict: één gewogen eindoordeel</li>
+          </ol>
+          <p>JavaScript is vereist om FAINL te gebruiken. <a href="/faq">Meer informatie</a>.</p>
+        </main>
+      </noscript>
+    </div>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

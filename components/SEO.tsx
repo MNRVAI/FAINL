@@ -14,7 +14,7 @@ interface SEOProps {
 }
 
 const SITE_URL = "https://fainl.com";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/fainl-logo.png`;
 
 export const SEO: FC<SEOProps> = ({
   title,
