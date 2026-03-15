@@ -8,10 +8,12 @@ import {
   Zap
 } from 'lucide-react';
 import { PRICING } from '../constants';
+import { useNavigate } from 'react-router-dom';
 
 interface PaywallModalProps {
   isOpen: boolean;
   hasOwnKeys: boolean;
+  authSession?: any;
   isLoading?: boolean;
   onPurchaseTurns: (count: number) => void;
   onPurchaseCredits?: (count: number) => void;
@@ -23,10 +25,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 export const PaywallModal: FC<PaywallModalProps> = ({
   isOpen,
   isLoading,
+  authSession,
   onPurchaseTurns,
   onClose
 }) => {
   const { language } = useLanguage();
+  const navigate = useNavigate();
   if (!isOpen) return null;
 
   return (
@@ -59,16 +63,29 @@ export const PaywallModal: FC<PaywallModalProps> = ({
 
           <div className="space-y-4">
             <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black dark:text-white text-center">
-              {language === 'nl' ? 'Kies Je Capaciteit' : 'Select Your Capacity'}
+               {!authSession 
+                  ? (language === 'nl' ? 'Account Vereist' : 'Account Required')
+                  : (language === 'nl' ? 'Kies Je Capaciteit' : 'Select Your Capacity')}
             </h3>
             <p className="text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed text-center max-w-md mx-auto">
-              {language === 'nl' ? "Krijg direct toegang tot het volledige neurale consensus protocol. Geen abonnement nodig voor losse credits." : "Unlock the full neural consensus protocol instantly. No subscription required for single credit packs."}
+              {!authSession
+                 ? (language === 'nl' ? 'Log in om je resterende gratis sessies te gebruiken of nieuwe credits aan te schaffen. Zo raak je ze nooit kwijt.' : 'Sign in to use your remaining free sessions or purchase new credits. This ensures you never lose them.')
+                 : (language === 'nl' ? "Krijg direct toegang tot het volledige neurale consensus protocol. Geen abonnement nodig voor losse credits." : "Unlock the full neural consensus protocol instantly. No subscription required for single credit packs.")}
             </p>
           </div>
 
           {/* New Card grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-4">
-            {PRICING.CREDITS.map((pkg, idx) => (
+            {!authSession ? (
+                <div className="col-span-1 sm:col-span-2 flex justify-center py-6">
+                   <button
+                     onClick={() => { onClose(); navigate('/login'); }}
+                     className="px-10 py-5 bg-[#FDC700] text-black font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xl"
+                   >
+                     {language === 'nl' ? 'Inloggen / Registreren' : 'Sign in / Register'}
+                   </button>
+                </div>
+            ) : PRICING.CREDITS.map((pkg, idx) => (
               <div
                 key={idx}
                 className={`card-fainl !min-height-[auto] !p-5 ${isLoading ? 'loading' : ''}`}

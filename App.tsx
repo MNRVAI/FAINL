@@ -294,18 +294,45 @@ const App: FC = () => {
   }, [location.pathname]);
   const [isPaywallOpen, setIsPaywallOpen] = useState(false);
   const [isAdOpen, setIsAdOpen] = useState(false);
+  const [showOutofCreditsUpsell, setShowOutofCreditsUpsell] = useState(false);
   const pendingQueryRef = useRef<string>('');
   const [authSession, setAuthSession] = useState<Session | null>(null);
+  const [profile, setProfile] = useState<{ credits_remaining: number; total_turns_used: number; is_lifetime: boolean; has_watched_ad: boolean } | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setAuthSession(session);
+      fetchProfile(session?.user?.id);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setAuthSession(session);
+      fetchProfile(session?.user?.id);
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  const fetchProfile = async (userId?: string) => {
+    if (!userId) {
+      setProfile(null);
+      return;
+    }
+    const { data, error } = await supabase.from('user_profiles').select('*').eq('id', userId).single();
+    if (error) {
+      // If no profile exists yet, create one
+      if (error.code === 'PGRST116') {
+         const { data: newProfile } = await supabase.from('user_profiles').insert({
+           id: userId,
+           credits_remaining: 0,
+           total_turns_used: 0,
+           is_lifetime: false,
+           has_watched_ad: false
+         }).select().single();
+         if (newProfile) setProfile(newProfile);
+      }
+    } else if (data) {
+      setProfile(data);
+    }
+  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -395,13 +422,29 @@ const App: FC = () => {
       return;
     }
 
-    setConfig((current: AppConfig) => {
-      if (current.creditsRemaining > 0) {
-        return { ...current, creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN };
+    // Deduct credit Server-Side first if logged in
+    if (authSession?.user && profile) {
+      if (profile.credits_remaining > 0) {
+        const { error } = await supabase.from('user_profiles').update({
+          credits_remaining: profile.credits_remaining - USAGE_LIMITS.CREDITS_PER_TURN
+        }).eq('id', authSession.user.id);
+        if (!error) setProfile(p => p ? { ...p, credits_remaining: p.credits_remaining - USAGE_LIMITS.CREDITS_PER_TURN } : null);
       } else {
-        return { ...current, turnsUsed: current.turnsUsed + 1 };
+        const { error } = await supabase.from('user_profiles').update({
+          total_turns_used: profile.total_turns_used + 1
+        }).eq('id', authSession.user.id);
+        if (!error) setProfile(p => p ? { ...p, total_turns_used: p.total_turns_used + 1 } : null);
       }
-    });
+    } else {
+      // Fallback local storage for backward compat edge cases, though handleStart blocks it.
+      setConfig((current: AppConfig) => {
+        if (current.creditsRemaining > 0) {
+          return { ...current, creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN };
+        } else {
+          return { ...current, turnsUsed: current.turnsUsed + 1 };
+        }
+      });
+    }
 
     setSession({
       id: crypto.randomUUID(),
@@ -438,9 +481,20 @@ const App: FC = () => {
   const handleStart = async () => {
     if (!input.trim()) return;
 
-    const hasCredits = config.creditsRemaining > 0;
-    const hasTurnsRemaining = config.turnsUsed < config.totalTurnsAllowed;
-    const isAllowed = config.isLifetime || hasTurnsRemaining || hasCredits;
+    if (!authSession) {
+       // Force login to start session to prevent incognito abuse
+       setIsPaywallOpen(true);
+       return;
+    }
+
+    const currentCredits = profile ? profile.credits_remaining : config.creditsRemaining;
+    const currentTurns = profile ? profile.total_turns_used : config.turnsUsed;
+    const isLifetime = profile ? profile.is_lifetime : config.isLifetime;
+    const hasWatchedAd = profile ? profile.has_watched_ad : config.hasWatchedAd;
+
+    const hasCredits = currentCredits > 0;
+    const hasTurnsRemaining = currentTurns < config.totalTurnsAllowed;
+    const isAllowed = isLifetime || hasTurnsRemaining || hasCredits;
 
     if (!isAllowed) {
       setIsPaywallOpen(true);
@@ -448,7 +502,7 @@ const App: FC = () => {
     }
 
     // 2e gratis sessie vereist het bekijken van een advertentie
-    if (config.turnsUsed === 1 && !config.hasWatchedAd && !config.isLifetime && !hasCredits) {
+    if (currentTurns === 1 && !hasWatchedAd && !isLifetime && !hasCredits) {
       pendingQueryRef.current = input;
       setIsAdOpen(true);
       return;
@@ -457,12 +511,17 @@ const App: FC = () => {
     await startSession(input);
   };
 
-  const handleAdReward = () => {
-    setConfig((prev: AppConfig) => {
-      const updated = { ...prev, hasWatchedAd: true };
-      localStorage.setItem('fainl_config_v2', JSON.stringify(updated));
-      return updated;
-    });
+  const handleAdReward = async () => {
+    if (authSession?.user) {
+      await supabase.from('user_profiles').update({ has_watched_ad: true }).eq('id', authSession.user.id);
+      setProfile(p => p ? { ...p, has_watched_ad: true } : null);
+    } else {
+      setConfig((prev: AppConfig) => {
+        const updated = { ...prev, hasWatchedAd: true };
+        localStorage.setItem('fainl_config_v2', JSON.stringify(updated));
+        return updated;
+      });
+    }
     setIsAdOpen(false);
     startSession(pendingQueryRef.current);
   };
@@ -494,6 +553,16 @@ const App: FC = () => {
         setHistory((h: SessionState[]) => [completedSession, ...h]);
         return completedSession;
       });
+      
+      // Trigger Upsell if that was the last credit (and not on lifetime)
+      const isNowZero = profile ? profile.credits_remaining === 0 : config.creditsRemaining === 0;
+      const wasLifetime = profile ? profile.is_lifetime : config.isLifetime;
+      const wasGreaterThanZeroBefore = profile ? (profile.credits_remaining + USAGE_LIMITS.CREDITS_PER_TURN > 0) : (config.creditsRemaining + USAGE_LIMITS.CREDITS_PER_TURN > 0);
+
+      if (isNowZero && !wasLifetime && wasGreaterThanZeroBefore /* meaning it was > 0 before startSession */) {
+          setTimeout(() => setShowOutofCreditsUpsell(true), 3000);
+      }
+
     } catch (err: any) {
       console.error(err);
       setSession((prev: SessionState) => ({
@@ -1235,9 +1304,10 @@ const App: FC = () => {
 
       <PaywallModal
         isOpen={isPaywallOpen}
-        hasOwnKeys={config.creditsRemaining > 0}
+        hasOwnKeys={profile ? profile.credits_remaining > 0 : config.creditsRemaining > 0}
         onPurchaseTurns={handlePurchaseTurns}
         onClose={() => setIsPaywallOpen(false)}
+        authSession={authSession}
       />
 
 
@@ -1246,6 +1316,44 @@ const App: FC = () => {
         onRewardEarned={handleAdReward}
         onDismiss={() => setIsAdOpen(false)}
       />
+
+      {/* Upsell Modal when last credit is used */}
+      {showOutofCreditsUpsell && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-4 animate-in fade-in duration-300">
+          <div className="bg-[#f0f4f8] dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-[2rem] w-full max-w-lg shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)] overflow-hidden animate-in zoom-in-95 duration-500">
+            <div className="p-8 pb-6 text-center">
+              <div className="w-16 h-16 bg-[#d1b411] mx-auto rounded-full flex items-center justify-center border-4 border-black mb-6 animate-bounce">
+                <ZapIcon className="w-8 h-8 text-black" />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-black dark:text-white mb-2">
+                {t.language === 'nl' ? 'Dat was je laatste credit!' : 'That was your last credit!'}
+              </h3>
+              <p className="text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed mb-6">
+                {t.language === 'nl' 
+                  ? 'Je hebt zojuist je laatste premium FAINL vraag verbruikt. Tijd om op te waarderen voor je volgende diepe analyse?'
+                  : 'You just used your last premium FAINL question. Time to recharge for your next deep analysis?'}
+              </p>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    setShowOutofCreditsUpsell(false);
+                    navigate('/tokens');
+                  }}
+                  className="w-full py-4 bg-black text-white dark:bg-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-xl"
+                >
+                  {t.language === 'nl' ? 'Bekijk Pakketten' : 'View Packages'}
+                </button>
+                <button
+                  onClick={() => setShowOutofCreditsUpsell(false)}
+                  className="w-full py-3 bg-transparent text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white font-black text-xs uppercase tracking-widest transition-colors"
+                >
+                  {t.language === 'nl' ? 'Nu niet, bedankt' : 'Not now, thanks'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <DebateRoom
         isOpen={isDebateOpen}

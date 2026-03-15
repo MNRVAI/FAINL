@@ -127,145 +127,83 @@ const AI_MODELS = [
 ];
 
 // ── Hero Canvas Particles ────────────────────────────────────────────────────
+// ── Pure CSS Particles (Ultra Smooth) ───────────────────────────────────────
 const HeroParticles: FC = () => {
-  useEffect(() => {
-    const canvas = document.getElementById('hero-particles') as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let particles: Array<{
-      x: number; y: number; size: number; color: string; 
-      baseX: number; baseY: number; density: number;
-      vx: number; vy: number;
-    }> = [];
-
-    const colors = [
-      { r: 13, g: 19, b: 34 },     // Dark Navy #0d1322
-      { r: 209, g: 180, b: 17 },   // Gold/Yellow #d1b411
-      { r: 57, g: 70, b: 86 }      // Slate #394656
-    ];
-
-    let mouse = {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-      radius: 120 // Radius for mouse interaction
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-
-    const handleMouseLeave = () => {
-      mouse.x = window.innerWidth / 2;
-      mouse.y = -1000; // Move mouse out of range
-    };
-
-    const initParticles = () => {
-      particles = [];
-      const particleCount = Math.min(window.innerWidth / 8, 120); // Responsive amount
-      for (let i = 0; i < particleCount; i++) {
-        const size = Math.random() * 6 + 2;
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        const colorObj = colors[Math.floor(Math.random() * colors.length)];
-        const opacity = Math.random() * 0.5 + 0.2;
-        const color = `rgba(${colorObj.r}, ${colorObj.g}, ${colorObj.b}, ${opacity})`;
-        
-        particles.push({
-          x, y,
-          baseX: x, baseY: y,
-          size, color,
-          density: (Math.random() * 30) + 1,
-          vx: (Math.random() - 0.5) * 1,
-          vy: (Math.random() - 0.5) * 1
-        });
-      }
-    };
-
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (parent) {
-        canvas.width = parent.clientWidth;
-        canvas.height = parent.clientHeight;
-        initParticles();
-      }
-    };
-
-    window.addEventListener('resize', resize);
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-    resize();
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        
-        // Natural drift
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Bounce off edges smoothly
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        // Mouse interaction (repulse)
-        const dx = mouse.x - p.x;
-        const dy = mouse.y - p.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const forceDirectionX = dx / distance;
-        const forceDirectionY = dy / distance;
-        const maxDistance = mouse.radius;
-        let force = (maxDistance - distance) / maxDistance;
-        const directionX = forceDirectionX * force * p.density;
-        const directionY = forceDirectionY * force * p.density;
-
-        if (distance < mouse.radius) {
-          p.x -= directionX;
-          p.y -= directionY;
-        }
-
-        // Draw particle
-        ctx.beginPath();
-        // Slightly irregular shapes (ellipses)
-        ctx.ellipse(p.x, p.y, p.size, p.size * (0.8 + Math.random() * 0.4), Math.random() * Math.PI, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        
-        // Add subtle glow to larger particles
-        if (p.size > 5) {
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = p.color;
-        } else {
-          ctx.shadowBlur = 0;
-        }
-        
-        ctx.fill();
-        ctx.closePath();
-      }
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   return (
-    <canvas 
-      id="hero-particles" 
-      className="absolute inset-0 w-full h-full pointer-events-auto"
-      style={{ zIndex: 0 }}
-    />
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      <div className="absolute top-[10%] left-[20%] w-[2px] h-[2px] rounded-full bg-[#1e293b] shadow-[0_0_10px_2px_rgba(30,41,59,0.3)] animate-float-slow opacity-60"></div>
+      <div className="absolute top-[40%] left-[80%] w-[3px] h-[3px] rounded-full bg-[#d1b411] shadow-[0_0_15px_3px_rgba(209,180,17,0.4)] animate-float-medium opacity-70"></div>
+      <div className="absolute top-[70%] left-[15%] w-[4px] h-[4px] rounded-full bg-[#394656] shadow-[0_0_20px_4px_rgba(57,70,86,0.3)] animate-float-fast opacity-50"></div>
+      <div className="absolute top-[30%] left-[50%] w-[2px] h-[2px] rounded-full bg-[#1e293b] shadow-[0_0_8px_2px_rgba(30,41,59,0.2)] animate-float-slow-reverse opacity-40"></div>
+      <div className="absolute top-[80%] left-[60%] w-[3px] h-[3px] rounded-full bg-[#d1b411] shadow-[0_0_12px_3px_rgba(209,180,17,0.3)] animate-float-medium-reverse opacity-60"></div>
+      <div className="absolute top-[15%] left-[85%] w-[2px] h-[2px] rounded-full bg-[#0d1322] shadow-[0_0_10px_2px_rgba(13,19,34,0.4)] animate-float-fast-reverse opacity-50"></div>
+      <div className="absolute top-[50%] left-[5%] w-[3px] h-[3px] rounded-full bg-[#394656] shadow-[0_0_15px_3px_rgba(57,70,86,0.5)] animate-float-slow opacity-30"></div>
+      <div className="absolute top-[90%] left-[30%] w-[4px] h-[4px] rounded-full bg-[#d1b411] shadow-[0_0_18px_4px_rgba(209,180,17,0.4)] animate-float-medium opacity-80"></div>
+    </div>
+  );
+};
+
+// ── Immersive Neural Network Visual ──────────────────────────────────────────
+const HeroNeuralNetwork: FC<{ isFainl: boolean }> = ({ isFainl }) => {
+  return (
+    <div className="relative w-full max-w-lg mx-auto h-[280px] sm:h-[320px] md:h-[360px] flex items-center justify-center pointer-events-none select-none z-10 my-8">
+      
+      {/* State 1: Single AI */}
+      <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${!isFainl ? 'opacity-100 scale-100 blur-none' : 'opacity-0 scale-90 blur-sm'}`}>
+         <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+            <div className="absolute inset-0 bg-[#394656]/20 rounded-full animate-ping-slow"></div>
+            <div className="absolute inset-2 bg-[#394656]/40 rounded-full blur-md"></div>
+            <div className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-[#64748b] to-[#394656] rounded-full shadow-[0_0_20px_rgba(57,70,86,0.6)] flex items-center justify-center">
+               <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-white/90" />
+            </div>
+         </div>
+         <p className="mt-8 text-black/50 font-black uppercase tracking-[0.2em] text-xs sm:text-sm transition-opacity duration-1000 delay-300">
+           Eén model. Eén perspectief.
+         </p>
+      </div>
+
+      {/* State 2: FAINL Multi-Node */}
+      <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${isFainl ? 'opacity-100 scale-100 blur-none delay-300' : 'opacity-0 scale-110 blur-sm'}`}>
+         
+         {/* The 5 Outer Nodes */}
+         <div className="relative w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72">
+            {[
+              { color: 'from-blue-400 to-blue-600', shadow: 'rgba(59,130,246,0.5)', delay: '0ms', pos: 'top-0 left-1/2 -translate-x-1/2' },
+              { color: 'from-green-400 to-green-600', shadow: 'rgba(34,197,94,0.5)', delay: '150ms', pos: 'top-1/3 right-0' },
+              { color: 'from-red-400 to-red-600', shadow: 'rgba(239,68,68,0.5)', delay: '300ms', pos: 'bottom-0 right-1/4' },
+              { color: 'from-purple-400 to-purple-600', shadow: 'rgba(168,85,247,0.5)', delay: '450ms', pos: 'bottom-0 left-1/4' },
+              { color: 'from-orange-400 to-orange-600', shadow: 'rgba(249,115,22,0.5)', delay: '600ms', pos: 'top-1/3 left-0' },
+            ].map((node, i) => (
+              <div key={i} className={`absolute ${node.pos} w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center z-20 transition-all duration-700`} style={{ transitionDelay: node.delay }}>
+                 <div className="absolute inset-0 bg-white/20 rounded-full animate-ping-slow" style={{ animationDelay: node.delay }}></div>
+                 <div className={`w-full h-full bg-gradient-to-br ${node.color} rounded-full shadow-[0_0_15px_${node.shadow}] flex items-center justify-center`}>
+                    <Lightbulb className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/90" />
+                 </div>
+                 {/* Data beam to center */}
+                 <svg className="absolute w-[150%] h-[150%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 overflow-visible pointer-events-none rotate-data-beam">
+                    <line x1="50%" y1="50%" x2="50%" y2="150%" stroke="currentColor" strokeWidth="1.5" className="text-black/5 stroke-dasharray-[4_4] animate-data-stream" />
+                 </svg>
+              </div>
+            ))}
+
+            {/* Central Verdict Core */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-transform duration-1000 delay-[800ms] scale-100">
+               <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center group">
+                  <div className="absolute inset-[-50%] bg-[#d1b411]/20 rounded-full blur-xl animate-pulse-glow"></div>
+                  <div className="w-full h-full bg-gradient-to-br from-[#fde047] to-[#ca8a04] rounded-full shadow-[0_0_30px_rgba(209,180,17,0.8)] border-2 border-white/50 flex items-center justify-center relative overflow-hidden text-[#422006] font-black text-[10px] sm:text-xs tracking-widest uppercase">
+                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent -translate-x-[150%] animate-shimmer"></div>
+                     FAINL
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+         <p className="mt-8 text-black/70 font-black uppercase tracking-[0.1em] text-[10px] sm:text-xs text-center max-w-[280px] sm:max-w-xs transition-opacity duration-1000 delay-[1000ms]">
+           Meerdere modellen analyseren & debatteren tot <span className="text-[#d1b411]">één perfecte consensus.</span>
+         </p>
+      </div>
+
+    </div>
   );
 };
 
@@ -306,90 +244,9 @@ export const LandingPage: FC = () => {
           <span className="text-[#d1b411]">één AI-model.</span>
         </h1>
 
-        {/* The Animated Auto-Sliding Card */}
-        <div 
-          className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 mb-12 cursor-pointer group"
-          onClick={() => setIsFainl(!isFainl)}
-        >
-          {/* Outer glow just for the FAINL side */}
-          <div className={`absolute top-0 bottom-0 right-4 sm:right-6 w-1/2 rounded-r-3xl bg-[#d1b411]/15 blur-2xl pointer-events-none transition-opacity duration-1000 ${isFainl ? 'opacity-100' : 'opacity-0'}`}></div>
-          
-          <div className="relative bg-[#e8eef3] rounded-[24px] overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] ring-1 ring-black/5 flex flex-col md:flex-row min-h-[190px] md:min-h-[160px]">
-            
-            {/* Left Side (Gewone AI) - Base Layer */}
-            <div className="w-full flex p-6 md:p-8 items-center sm:items-start md:items-center gap-5 sm:gap-4 md:gap-5">
-              <div className="flex-shrink-0 relative w-16 h-16 sm:w-14 sm:h-14 md:w-20 md:h-20 flex items-center justify-center">
-                <div className={`absolute inset-0 bg-yellow-400/20 shadow-[0_0_30px_rgba(250,204,21,0.3)] rounded-full transition-opacity duration-700 ease-in-out ${!isFainl ? 'opacity-100' : 'opacity-0'}`}></div>
-                <Lightbulb className={`w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 text-yellow-500 relative z-10 transition-all duration-700 ease-in-out ${!isFainl ? 'scale-100 opacity-100' : 'scale-75 opacity-20'}`} />
-                <div className={`absolute bottom-1 w-6 h-1 bg-[#94a3b8] rounded-full z-10 transition-opacity duration-500 ${!isFainl ? 'opacity-100' : 'opacity-0'}`}></div>
-                <div className={`absolute bottom-0 w-4 h-0.5 bg-[#64748b] rounded-full z-10 transition-opacity duration-500 ${!isFainl ? 'opacity-100' : 'opacity-0'}`}></div>
-              </div>
-              <div className={`mt-1 transition-all duration-700 delay-75 ${!isFainl ? 'opacity-100 translate-x-0' : 'opacity-40 -translate-x-2'}`}>
-                <p className="text-[11px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-[#64748b] mb-1 md:mb-1.5">Gewone AI</p>
-                <p className="text-sm sm:text-xs md:text-base font-bold text-[#1e293b] leading-snug">
-                  Eén model geeft een antwoord.
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side (FAINL) - Sliding Overlay Layer */}
-            <div 
-              className="absolute inset-y-0 right-0 bg-[#394656] flex flex-col-reverse sm:flex-row md:flex-row items-center sm:items-center justify-center sm:justify-start gap-5 sm:gap-4 md:gap-6 overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
-              style={{ width: isFainl ? '100%' : '0%' }}
-            >
-              {/* Inner content wrapper with exact dimensions to prevent squishing during slide */}
-              <div className="absolute inset-0 w-full flex flex-col-reverse sm:flex-row md:flex-row items-center sm:items-center justify-center sm:justify-start gap-5 sm:gap-4 md:gap-8 p-6 md:p-8 min-w-[320px] md:min-w-[700px]">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
-                
-                {/* Text Content with Lazy Parallax */}
-                <div className={`flex-1 relative z-10 transition-all duration-[900ms] delay-100 ${isFainl ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-                  <p className="text-[11px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-white/50 mb-1 md:mb-2 text-center sm:text-left">FAINL</p>
-                  <p className="text-sm sm:text-xs md:text-[15px] font-medium text-white/90 leading-relaxed md:leading-relaxed drop-shadow-sm text-center sm:text-left">
-                    Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
-                  </p>
-                </div>
-
-                {/* Multi Node Illustration with Lazy Parallax */}
-                <div className={`flex-shrink-0 relative w-24 h-24 sm:w-20 sm:h-20 md:w-28 md:h-28 self-center sm:self-auto flex items-center justify-center z-10 transition-all duration-[1000ms] delay-150 ${isFainl ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-50 translate-x-20'}`}>
-                  <svg className="absolute inset-0 w-full h-full text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M50 75 L30 35 M50 75 L70 35 M30 35 L70 35" strokeDasharray="2 3" />
-                  </svg>
-                  <div className={`absolute top-2 left-1 w-8 h-8 sm:w-6 sm:h-6 md:w-10 md:h-10 flex items-center justify-center transition-transform duration-1000 delay-300 ${isFainl ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
-                     <div className="absolute inset-0 bg-blue-300/30 blur-md rounded-full shadow-[0_0_20px_rgba(147,197,253,0.3)]"></div>
-                     <Lightbulb className="w-6 h-6 sm:w-4 sm:h-4 md:w-7 md:h-7 text-blue-200 relative z-10" />
-                  </div>
-                  <div className={`absolute top-2 right-1 w-8 h-8 sm:w-6 sm:h-6 md:w-10 md:h-10 flex items-center justify-center transition-transform duration-1000 delay-400 ${isFainl ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
-                     <div className="absolute inset-0 bg-yellow-300/40 blur-md rounded-full shadow-[0_0_20px_rgba(253,224,71,0.4)]"></div>
-                     <Lightbulb className="w-6 h-6 sm:w-4 sm:h-4 md:w-7 md:h-7 text-yellow-300 relative z-10" />
-                  </div>
-                  <div className={`absolute top-4 left-1/2 -translate-x-1/2 w-8 h-8 sm:w-6 sm:h-6 md:w-10 md:h-10 flex items-center justify-center scale-90 opacity-80 transition-transform duration-1000 delay-[450ms] ${isFainl ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
-                     <div className="absolute inset-0 bg-emerald-300/30 blur-md rounded-full"></div>
-                     <Lightbulb className="w-5 h-5 sm:w-4 sm:h-4 md:w-6 md:h-6 text-emerald-200 relative z-10" />
-                  </div>
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-10 sm:w-8 md:w-12 h-6 sm:h-5 md:h-[26px] bg-[#1e293b] border border-white/20 rounded-md shadow-lg flex flex-col justify-evenly p-1 sm:p-[3px] md:p-1.5 z-20">
-                     <div className="w-full h-0.5 md:h-[3px] bg-white/40 rounded-sm"></div>
-                     <div className="w-3/4 h-0.5 md:h-[3px] bg-white/20 rounded-sm"></div>
-                     <div className="w-full h-0.5 md:h-[3px] bg-[#d1b411]/60 rounded-sm"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Slider Progress Bar / Hint */}
-            <div className="absolute bottom-0 left-0 h-1 bg-black/5 w-full z-20 overflow-hidden">
-               <div 
-                 className="h-full bg-[#d1b411] transition-all duration-[4500ms] ease-linear" 
-                 style={{ width: isFainl ? '100%' : '0%' }}
-                 key={isFainl ? 'fainl' : 'normal'}
-               ></div>
-            </div>
-            
-          </div>
-          
-          <div className="flex justify-center mt-3 gap-1.5">
-             <div className={`w-2 h-2 rounded-full transition-colors duration-500 ${!isFainl ? 'bg-black/40' : 'bg-black/10'}`}></div>
-             <div className={`w-2 h-2 rounded-full transition-colors duration-500 ${isFainl ? 'bg-[#d1b411]' : 'bg-black/10'}`}></div>
-          </div>
+        {/* The Animated Neural Network Chart */}
+        <div onClick={() => setIsFainl(!isFainl)} className="cursor-pointer">
+           <HeroNeuralNetwork isFainl={isFainl} />
         </div>
 
         {/* Action Buttons */}
