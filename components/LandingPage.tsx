@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -126,6 +126,54 @@ const AI_MODELS = [
   { name: "Qwen",             icon: <img src="/ai-logos/qwen.svg"          alt="Qwen"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
 ];
 
+// ── Hero Particles ───────────────────────────────────────────────────────────
+const HeroParticles: FC = () => {
+  const [particles, setParticles] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    const colors = ['bg-[#0d1322]', 'bg-[#b39b0d]'];
+    const newParticles = Array.from({ length: 60 }).map((_, i) => ({
+      id: i,
+      size: Math.random() * 5 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      tx: (Math.random() - 0.5) * 500,
+      ty: (Math.random() - 0.5) * 500,
+      duration: Math.random() * 15 + 15,
+      delay: Math.random() * -30,
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <style>{`
+        @keyframes drift-particle {
+          0% { transform: translate(0, 0); }
+          100% { transform: translate(var(--tx), var(--ty)); }
+        }
+      `}</style>
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className={"absolute rounded-full opacity-[0.35] " + p.color}
+          style={{
+            left: p.left + "%",
+            top: p.top + "%",
+            width: p.size + "px",
+            height: p.size + "px",
+            animation: "drift-particle " + p.duration + "s ease-in-out infinite alternate",
+            animationDelay: p.delay + "s",
+            ["--tx" as any]: p.tx + "px",
+            ["--ty" as any]: p.ty + "px",
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 // ── Main Component ───────────────────────────────────────────────────────────
 export const LandingPage: FC = () => {
   const navigate = useNavigate();
@@ -145,27 +193,22 @@ export const LandingPage: FC = () => {
       {/* ══ HERO ══ */}
       <section
         aria-label="Introductie"
-        className="relative w-full overflow-hidden bg-[#0d1322] text-white pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center"
+        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center"
       >
-        {/* Wavy Background Elements (Pure CSS approximation) */}
-        <div className="absolute inset-0 pointer-events-none opacity-40">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] aspect-square bg-[radial-gradient(ellipse_at_center,rgba(209,180,17,0.1)_0%,transparent_60%)]"></div>
-          {/* Subtle starfield or wave overlay */}
-          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at center, rgba(255,255,255,0.4) 1px, transparent 1px)', backgroundSize: '30px 10px', transform: 'rotate(-5deg) scale(1.5)' }}></div>
-        </div>
+        <HeroParticles />
 
         <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
           Jouw vraag<br />
           verdient meer dan<br />
-          <span className="text-[#d1b411] drop-shadow-[0_0_20px_rgba(209,180,17,0.4)]">één AI-model.</span>
+          <span className="text-[#d1b411]">één AI-model.</span>
         </h1>
 
         {/* The Card */}
         <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 mb-12">
           {/* Outer glow just for the right side */}
-          <div className="absolute top-0 bottom-0 right-4 sm:right-6 w-1/2 rounded-r-3xl bg-[#d1b411]/10 blur-2xl pointer-events-none"></div>
+          <div className="absolute top-0 bottom-0 right-4 sm:right-6 w-1/2 rounded-r-3xl bg-[#d1b411]/15 blur-2xl pointer-events-none"></div>
           
-          <div className="relative flex flex-col md:flex-row bg-[#e8eef3] rounded-[24px] overflow-hidden shadow-2xl ring-1 ring-white/5">
+          <div className="relative flex flex-col md:flex-row bg-[#e8eef3] rounded-[24px] overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
             {/* Left Side (Gewone AI) */}
             <div className="w-full md:w-[45%] p-6 md:p-8 flex items-center sm:items-start md:items-center gap-5 sm:gap-4 md:gap-5 border-b md:border-b-0 md:border-r border-[#cbd5e1]/50">
               <div className="flex-shrink-0 relative w-16 h-16 sm:w-14 sm:h-14 md:w-20 md:h-20 flex items-center justify-center">
