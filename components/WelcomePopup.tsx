@@ -1,6 +1,6 @@
-
 import { FC, useState } from 'react';
-import { Gift, Mail, X, Zap } from 'lucide-react';
+import { Gift, Mail, X, Zap, Loader2 } from 'lucide-react';
+import { supabase } from '../services/supabaseClient';
 
 interface WelcomePopupProps {
   onClose: () => void;
@@ -9,14 +9,44 @@ interface WelcomePopupProps {
 export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    setSubmitted(true);
-    setTimeout(() => {
-      onClose();
-    }, 2000);
+
+    try {
+      setIsLoading(true);
+      setErrorMsg('');
+
+      // Insert email into Supabase
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ email: email.trim() }]);
+
+      if (error) {
+        // Handle unique constraint error gracefully, otherwise throw
+        if (error.code === '23505') {
+          // Already subscribed, just show success anyway to not block them
+          setSubmitted(true);
+        } else {
+          throw error;
+        }
+      } else {
+        setSubmitted(true);
+      }
+      
+      setTimeout(() => {
+        onClose();
+      }, 3000);
+      
+    } catch (err: any) {
+      setErrorMsg('Er ging iets fout. Probeer het later opnieuw.');
+      console.error("Newsletter subscription error:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -60,15 +90,31 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
                   placeholder="YOUR_EMAIL@NODE.LOCAL"
                   className="w-full bg-zinc-50 dark:bg-zinc-800 border-4 border-black/10 dark:border-white/10 rounded-xl md:rounded-2xl px-5 py-4 font-black uppercase tracking-widest text-sm text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all"
                 />
+                {errorMsg && (
+                  <div className="bg-red-100 text-red-700 p-3 rounded-lg text-sm font-bold mt-2">
+                    {errorMsg}
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl md:rounded-2xl font-black uppercase tracking-[0.4em] text-sm flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl"
+                  disabled={isLoading}
+                  className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl md:rounded-2xl font-black uppercase tracking-[0.4em] text-sm flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl disabled:opacity-50"
                 >
-                  <Mail className="w-4 h-4" />
-                  Claim Discount
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4" />
+                      Claim Discount
+                    </>
+                  )}
                 </button>
               </form>
-              <button onClick={onClose} className="w-full mt-3 py-3 font-black text-sm uppercase tracking-[0.3em] text-black/30 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors">
+              <button 
+                onClick={onClose} 
+                disabled={isLoading}
+                className="w-full mt-3 py-3 font-black text-sm uppercase tracking-[0.3em] text-black/30 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors disabled:opacity-50"
+              >
                 Skip for now
               </button>
             </>

@@ -127,82 +127,68 @@ const AI_MODELS = [
 ];
 
 // ── Hero Canvas Particles ────────────────────────────────────────────────────
-// ── Pure CSS Particles (Ultra Smooth) ───────────────────────────────────────
-const HeroParticles: FC = () => {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-      <div className="absolute top-[10%] left-[20%] w-[2px] h-[2px] rounded-full bg-[#1e293b] shadow-[0_0_10px_2px_rgba(30,41,59,0.3)] animate-float-slow opacity-60"></div>
-      <div className="absolute top-[40%] left-[80%] w-[3px] h-[3px] rounded-full bg-[#d1b411] shadow-[0_0_15px_3px_rgba(209,180,17,0.4)] animate-float-medium opacity-70"></div>
-      <div className="absolute top-[70%] left-[15%] w-[4px] h-[4px] rounded-full bg-[#394656] shadow-[0_0_20px_4px_rgba(57,70,86,0.3)] animate-float-fast opacity-50"></div>
-      <div className="absolute top-[30%] left-[50%] w-[2px] h-[2px] rounded-full bg-[#1e293b] shadow-[0_0_8px_2px_rgba(30,41,59,0.2)] animate-float-slow-reverse opacity-40"></div>
-      <div className="absolute top-[80%] left-[60%] w-[3px] h-[3px] rounded-full bg-[#d1b411] shadow-[0_0_12px_3px_rgba(209,180,17,0.3)] animate-float-medium-reverse opacity-60"></div>
-      <div className="absolute top-[15%] left-[85%] w-[2px] h-[2px] rounded-full bg-[#0d1322] shadow-[0_0_10px_2px_rgba(13,19,34,0.4)] animate-float-fast-reverse opacity-50"></div>
-      <div className="absolute top-[50%] left-[5%] w-[3px] h-[3px] rounded-full bg-[#394656] shadow-[0_0_15px_3px_rgba(57,70,86,0.5)] animate-float-slow opacity-30"></div>
-      <div className="absolute top-[90%] left-[30%] w-[4px] h-[4px] rounded-full bg-[#d1b411] shadow-[0_0_18px_4px_rgba(209,180,17,0.4)] animate-float-medium opacity-80"></div>
-    </div>
-  );
-};
 
-// ── Immersive Neural Network Visual ──────────────────────────────────────────
-const HeroNeuralNetwork: FC<{ isFainl: boolean }> = ({ isFainl }) => {
+
+// ── Static Comparison Banner ────────────────────────────────────────────────
+const HeroComparisonBanner: FC = () => {
   return (
-    <div className="relative w-full max-w-lg mx-auto h-[280px] sm:h-[320px] md:h-[360px] flex items-center justify-center pointer-events-none select-none z-10 my-8">
-      
-      {/* State 1: Single AI */}
-      <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${!isFainl ? 'opacity-100 scale-100 blur-none' : 'opacity-0 scale-90 blur-sm'}`}>
-         <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
-            <div className="absolute inset-0 bg-[#394656]/20 rounded-full animate-ping-slow"></div>
-            <div className="absolute inset-2 bg-[#394656]/40 rounded-full blur-md"></div>
-            <div className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-[#64748b] to-[#394656] rounded-full shadow-[0_0_20px_rgba(57,70,86,0.6)] flex items-center justify-center">
-               <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-white/90" />
+    <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 mb-12">
+      <div className="relative flex flex-col md:flex-row bg-[#e8eef3] rounded-[32px] overflow-hidden shadow-sm border border-black/5">
+        
+        {/* VS Badge */}
+        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full items-center justify-center font-black text-[10px] text-black/30 shadow-sm z-20">
+          VS
+        </div>
+        
+        {/* Left Side: 1 AI Model */}
+        <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b border-black/5 md:border-b-0 md:border-r">
+          <div className="flex items-center justify-center mb-5">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-black/5">
+              <Lightbulb className="w-5 h-5 text-slate-400" />
             </div>
-         </div>
-         <p className="mt-8 text-black/50 font-black uppercase tracking-[0.2em] text-xs sm:text-sm transition-opacity duration-1000 delay-300">
-           Eén model. Eén perspectief.
-         </p>
-      </div>
+          </div>
+          <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#1e293b] mb-1">
+            1 AI model
+          </h3>
+          <p className="text-[#64748b] font-bold text-sm md:text-base uppercase tracking-widest">
+            = 1 Antwoord
+          </p>
+        </div>
 
-      {/* State 2: FAINL Multi-Node */}
-      <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${isFainl ? 'opacity-100 scale-100 blur-none delay-300' : 'opacity-0 scale-110 blur-sm'}`}>
-         
-         {/* The 5 Outer Nodes */}
-         <div className="relative w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72">
-            {[
-              { color: 'from-blue-400 to-blue-600', shadow: 'rgba(59,130,246,0.5)', delay: '0ms', pos: 'top-0 left-1/2 -translate-x-1/2' },
-              { color: 'from-green-400 to-green-600', shadow: 'rgba(34,197,94,0.5)', delay: '150ms', pos: 'top-1/3 right-0' },
-              { color: 'from-red-400 to-red-600', shadow: 'rgba(239,68,68,0.5)', delay: '300ms', pos: 'bottom-0 right-1/4' },
-              { color: 'from-purple-400 to-purple-600', shadow: 'rgba(168,85,247,0.5)', delay: '450ms', pos: 'bottom-0 left-1/4' },
-              { color: 'from-orange-400 to-orange-600', shadow: 'rgba(249,115,22,0.5)', delay: '600ms', pos: 'top-1/3 left-0' },
-            ].map((node, i) => (
-              <div key={i} className={`absolute ${node.pos} w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center z-20 transition-all duration-700`} style={{ transitionDelay: node.delay }}>
-                 <div className="absolute inset-0 bg-white/20 rounded-full animate-ping-slow" style={{ animationDelay: node.delay }}></div>
-                 <div className={`w-full h-full bg-gradient-to-br ${node.color} rounded-full shadow-[0_0_15px_${node.shadow}] flex items-center justify-center`}>
-                    <Lightbulb className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/90" />
-                 </div>
-                 {/* Data beam to center */}
-                 <svg className="absolute w-[150%] h-[150%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 overflow-visible pointer-events-none rotate-data-beam">
-                    <line x1="50%" y1="50%" x2="50%" y2="150%" stroke="currentColor" strokeWidth="1.5" className="text-black/5 stroke-dasharray-[4_4] animate-data-stream" />
-                 </svg>
-              </div>
-            ))}
+        {/* Right Side: 5 AI Models (FAINL) */}
+        <div className="w-full md:w-1/2 bg-[#1e293b] p-8 md:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+          {/* Background flair */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#d1b411]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-transform group-hover:scale-110 duration-700"></div>
 
-            {/* Central Verdict Core */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-transform duration-1000 delay-[800ms] scale-100">
-               <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center group">
-                  <div className="absolute inset-[-50%] bg-[#d1b411]/20 rounded-full blur-xl animate-pulse-glow"></div>
-                  <div className="w-full h-full bg-gradient-to-br from-[#fde047] to-[#ca8a04] rounded-full shadow-[0_0_30px_rgba(209,180,17,0.8)] border-2 border-white/50 flex items-center justify-center relative overflow-hidden text-[#422006] font-black text-[10px] sm:text-xs tracking-widest uppercase">
-                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent -translate-x-[150%] animate-shimmer"></div>
-                     FAINL
-                  </div>
+          <div className="flex justify-center items-center mb-5 relative z-10">
+            <div className="flex -space-x-3 items-center">
+               <div className="w-8 h-8 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-10 opacity-70">
+                 <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-4 h-4 object-contain brightness-0 invert opacity-50"/>
+               </div>
+               <div className="w-10 h-10 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-20 opacity-80">
+                 <img src="/ai-logos/claude.svg" alt="Claude" className="w-5 h-5 object-contain brightness-0 invert opacity-60"/>
+               </div>
+               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#d1b411] to-yellow-600 border-2 border-[#1e293b] flex items-center justify-center shadow-md shadow-[#d1b411]/20 z-30 font-black text-white text-[10px] sm:text-xs">
+                 FAINL
+               </div>
+               <div className="w-10 h-10 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-20 opacity-80">
+                 <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-5 h-5 object-contain brightness-0 invert opacity-60"/>
+               </div>
+               <div className="w-8 h-8 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-10 opacity-70">
+                 <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-4 h-4 object-contain brightness-0 invert opacity-50"/>
                </div>
             </div>
-         </div>
-         
-         <p className="mt-8 text-black/70 font-black uppercase tracking-[0.1em] text-[10px] sm:text-xs text-center max-w-[280px] sm:max-w-xs transition-opacity duration-1000 delay-[1000ms]">
-           Meerdere modellen analyseren & debatteren tot <span className="text-[#d1b411]">één perfecte consensus.</span>
-         </p>
-      </div>
+          </div>
+          
+          <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white mb-1 relative z-10">
+            5 AI Modellen
+          </h3>
+          <p className="text-[#d1b411] font-bold text-sm md:text-base uppercase tracking-widest relative z-10">
+            = Het beste antwoord
+          </p>
+        </div>
 
+      </div>
     </div>
   );
 };
@@ -210,14 +196,6 @@ const HeroNeuralNetwork: FC<{ isFainl: boolean }> = ({ isFainl }) => {
 // ── Main Component ───────────────────────────────────────────────────────────
 export const LandingPage: FC = () => {
   const navigate = useNavigate();
-  const [isFainl, setIsFainl] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsFainl((prev) => !prev);
-    }, 4500); // 4.5 seconds per slide
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
@@ -236,18 +214,14 @@ export const LandingPage: FC = () => {
         aria-label="Introductie"
         className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center"
       >
-        <HeroParticles />
-
         <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
           Jouw vraag<br />
           verdient meer dan<br />
           <span className="text-[#d1b411]">één AI-model.</span>
         </h1>
 
-        {/* The Animated Neural Network Chart */}
-        <div onClick={() => setIsFainl(!isFainl)} className="cursor-pointer">
-           <HeroNeuralNetwork isFainl={isFainl} />
-        </div>
+        {/* Static Comparison Banner */}
+        <HeroComparisonBanner />
 
         {/* Action Buttons */}
         <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-4 px-4 w-full flex-1 max-w-sm mx-auto">
