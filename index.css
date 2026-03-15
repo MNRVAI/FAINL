@@ -3,6 +3,10 @@
 
 :root {
   color-scheme: only light;
+  --color-gold-primary: #d4af37;
+  --color-gold-light: #f9d976;
+  --color-gold-dark: #b8860b;
+  --color-gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #d4af37 100%);
 }
 
 @layer base {
@@ -231,7 +235,7 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background: #FDC700;
+  background: var(--color-gold-primary);
   color: black;
   text-align: center;
   text-decoration: none;
@@ -253,12 +257,12 @@
 .card__cta:hover {
   transform: translate(-1px, -1px);
   box-shadow: 6px 6px 0 0 black;
-  background: #fde047;
+  background: var(--color-gold-light);
 }
 
 /* ── Gold Material Button ────────────────────────────────────────────────── */
 .gold-material-btn {
-  background: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #d4af37 100%);
+  background: var(--color-gold-gradient);
   background-size: 200% 100%;
   position: relative;
   overflow: hidden;
@@ -351,7 +355,7 @@
 /* ── Node loaders (circle / rect / triangle) ─────────────────────────────── */
 .node-loader {
   --path: #d4d4d8;   /* zinc-300 */
-  --dot:  #FDC700;   /* FAINL yellow */
+  --dot:  var(--color-gold-primary);   /* FAINL gold */
   --duration: 3s;
   width: 44px;
   height: 44px;

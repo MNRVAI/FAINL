@@ -124,7 +124,7 @@ export const CompareMultiModelPage: FC = () => {
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           GPT-4, Claude & Gemini:{' '}
-          <span className="text-[#d1b411]">sterk apart, sterker samen.</span>
+          <span className="text-[#d4af37]">sterk apart, sterker samen.</span>
         </h1>
         <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
           Elk toonaangevend AI-model heeft systematische sterktes én blinde vlekken.
@@ -211,7 +211,7 @@ export const CompareMultiModelPage: FC = () => {
               { step: 'Drie', label: 'Synthese tot één antwoord', desc: 'FAINL combineert de sterkste elementen uit elke bijdrage tot één gewogen eindantwoord. Geen drie losse outputs die je zelf moet wegen — één gecheckte conclusie.' },
             ].map(s => (
               <li key={s.step} className="flex gap-4 items-start">
-                <span className="text-2xl font-black text-[#d1b411] shrink-0 leading-none mt-0.5">{s.step}</span>
+                <span className="text-2xl font-black text-[#d4af37] shrink-0 leading-none mt-0.5">{s.step}</span>
                 <div>
                   <p className="font-black text-sm uppercase tracking-tight text-black dark:text-white mb-1">{s.label}</p>
                   <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">{s.desc}</p>
@@ -227,14 +227,14 @@ export const CompareMultiModelPage: FC = () => {
         <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
             Eén vraag.{' '}
-            <span className="text-[#d1b411]">Drie modellen. Één antwoord.</span>
+            <span className="text-[#d4af37]">Drie modellen. Één antwoord.</span>
           </h2>
           <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
             Stop met kiezen welk AI-model je vertrouwt. Laat ze samenwerken en elkaars redenering
             toetsen — zodat jij de sterkste conclusie krijgt, niet de luidste.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#d1b411] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#d4af37] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
@@ -249,7 +249,7 @@ export const CompareMultiModelPage: FC = () => {
             <div key={i} className="border-b border-black/10 dark:border-white/10 last:border-0">
               <button type="button" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-start justify-between py-5 text-left gap-4 group">
-                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-[#d1b411] transition-colors">{faq.q}</span>
+                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-[#d4af37] transition-colors">{faq.q}</span>
                 <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
               {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}

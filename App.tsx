@@ -178,7 +178,7 @@ const PaymentSuccessPage: FC = () => {
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_black]">
-        <div className="w-16 h-16 bg-[#FDC700] border-4 border-black flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-[#d4af37] border-4 border-black flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-black" />
         </div>
         <h1 className="text-3xl font-black uppercase tracking-tighter mb-3 text-black">
@@ -205,7 +205,7 @@ const PaymentSuccessPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="px-8 py-4 bg-[#FDC700] border-2 border-black text-black font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+            className="px-8 py-4 bg-[#d4af37] border-2 border-black text-black font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
           >
             Nieuwe Missie
           </button>
@@ -717,7 +717,7 @@ const App: FC = () => {
                       />
                     </span>
                     {link.label}
-                    {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#d1b411]" />}
+                    {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#d4af37]" />}
                   </button>
                 );
               })}
@@ -1325,7 +1325,7 @@ const App: FC = () => {
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-4 animate-in fade-in duration-300">
           <div className="bg-[#f0f4f8] dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-[2rem] w-full max-w-lg shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)] overflow-hidden animate-in zoom-in-95 duration-500">
             <div className="p-8 pb-6 text-center">
-              <div className="w-16 h-16 bg-[#d1b411] mx-auto rounded-full flex items-center justify-center border-4 border-black mb-6 animate-bounce">
+              <div className="w-16 h-16 bg-[#d4af37] mx-auto rounded-full flex items-center justify-center border-4 border-black mb-6 animate-bounce">
                 <ZapIcon className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-black dark:text-white mb-2">
