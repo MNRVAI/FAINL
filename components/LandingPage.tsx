@@ -148,6 +148,44 @@ const HeroAura: FC = () => {
           position: absolute;
           will-change: transform, opacity;
         }
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .gold-material-btn {
+          background: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #d4af37 100%);
+          background-size: 200% 100%;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(0,0,0,0.1);
+          box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.4), 0 8px 10px -6px rgba(212, 175, 55, 0.4);
+        }
+        .gold-material-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 20px 35px -5px rgba(212, 175, 55, 0.5), 0 10px 10px -5px rgba(212, 175, 55, 0.3);
+          background-position: 100% 0;
+        }
+        .gold-material-btn::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(
+            to right,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent
+          );
+          transform: skewX(-25deg);
+          transition: 0s;
+        }
+        .gold-material-btn:hover::after {
+          left: 150%;
+          transition: 0.7s;
+        }
       `}</style>
       
       {/* Primary Gold Aura */}
@@ -298,7 +336,7 @@ export const LandingPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="w-full flex items-center justify-center gap-3 px-8 py-4 sm:py-5 bg-black border sm:border-2 border-[#d1b411]/50 sm:border-[#d1b411] text-[#d1b411] font-black text-[13px] sm:text-[15px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-lg hover:bg-[#d1b411] hover:text-black transition-all shadow-[0_0_20px_rgba(209,180,17,0.15)] group"
+            className="w-full flex items-center justify-center gap-3 px-8 py-4 sm:py-5 gold-material-btn text-black font-black text-[13px] sm:text-[15px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-xl group"
           >
             Start gratis
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
@@ -649,10 +687,10 @@ export const LandingPage: FC = () => {
         <button
           type="button"
           onClick={() => navigate("/mission")}
-          className="inline-flex items-center gap-3 px-12 py-6 bg-black text-white font-black text-base uppercase tracking-[0.2em] rounded-xl hover:scale-105 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,0.15)] active:scale-95 transition-all shadow-xl"
+          className="inline-flex items-center gap-3 px-12 py-6 gold-material-btn text-black font-black text-lg uppercase tracking-[0.2em] rounded-xl group"
         >
-          Start nu gratis
-          <ArrowRight className="w-6 h-6" />
+          Start gratis sessie
+          <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
         </button>
 
       </section>
