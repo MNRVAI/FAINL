@@ -219,7 +219,7 @@ const HeroAura: FC = () => {
 // ── Static Comparison Banner ────────────────────────────────────────────────
 const HeroComparisonBanner: FC = () => {
   return (
-    <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 mb-12">
+    <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 mb-12">
       <div className="relative flex flex-col md:flex-row bg-[#e8eef3] rounded-[32px] overflow-hidden shadow-sm border border-black/5">
         
         {/* VS Badge */}
@@ -235,16 +235,27 @@ const HeroComparisonBanner: FC = () => {
             </div>
           </div>
           <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#1e293b] mb-1">
-            1 AI model
+            Beperkte Visie
           </h3>
-          <p className="text-[#64748b] font-bold text-sm md:text-base uppercase tracking-widest">
-            = 1 Antwoord
+          <p className="text-[#64748b] font-bold text-sm md:text-base uppercase tracking-widest mb-6">
+            1 AI Model = 1 Perspectief
           </p>
+          <div className="space-y-2 text-left w-full max-w-[200px] mx-auto opacity-70">
+            <div className="flex items-start gap-2 text-xs font-bold text-slate-600 uppercase tracking-tighter">
+              <span className="text-red-500">✕</span> Risico op hallucinaties
+            </div>
+            <div className="flex items-start gap-2 text-xs font-bold text-slate-600 uppercase tracking-tighter">
+              <span className="text-red-500">✕</span> Blinde vlekken
+            </div>
+            <div className="flex items-start gap-2 text-xs font-bold text-slate-600 uppercase tracking-tighter">
+              <span className="text-red-500">✕</span> Geen dubbel-check
+            </div>
+          </div>
         </div>
 
         {/* Right Side: 5 AI Models (FAINL) */}
         <div className="w-full md:w-1/2 bg-[#1e293b] p-8 md:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group">
-          {/* Background flair */}
+          {/* Background flair moved out of text container to not obscure content */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#d1b411]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-transform group-hover:scale-110 duration-700"></div>
 
           <div className="flex justify-center items-center mb-5 relative z-10">
@@ -268,11 +279,23 @@ const HeroComparisonBanner: FC = () => {
           </div>
           
           <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white mb-1 relative z-10">
-            5 AI Modellen
+            Gegarandeerde Consensus
           </h3>
-          <p className="text-[#d1b411] font-bold text-sm md:text-base uppercase tracking-widest relative z-10">
-            = Het beste antwoord
+          <p className="text-[#d1b411] font-bold text-sm md:text-base uppercase tracking-widest mb-6 relative z-10">
+            5 AI Modellen = De waarheid
           </p>
+          
+          <div className="space-y-2 text-left w-full max-w-[200px] mx-auto relative z-10">
+            <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
+              <span className="text-[#d1b411]">✓</span> Fouten gecorrigeerd
+            </div>
+            <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
+              <span className="text-[#d1b411]">✓</span> Gewogen oordeel
+            </div>
+            <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
+              <span className="text-[#d1b411]">✓</span> Consensus protocol
+            </div>
+          </div>
         </div>
 
       </div>
