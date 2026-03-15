@@ -152,20 +152,26 @@ const HeroAura: FC = () => {
       
       {/* Primary Gold Aura */}
       <div 
-        className="aura-blob w-[500px] h-[500px] bg-[#d1b411]/30 top-[-10%] left-[-10%]" 
-        style={{ animation: 'aura-float-1 25s ease-in-out infinite' }}
+        className="aura-blob w-[600px] h-[600px] bg-[#d1b411]/40 top-[-10%] left-[-10%]" 
+        style={{ animation: 'aura-float-1 20s ease-in-out infinite' }}
       />
       
       {/* Secondary Neutral Aura */}
       <div 
-        className="aura-blob w-[600px] h-[600px] bg-slate-200/40 bottom-[-20%] right-[-10%]" 
-        style={{ animation: 'aura-float-2 35s ease-in-out infinite' }}
+        className="aura-blob w-[800px] h-[800px] bg-slate-200/50 bottom-[-20%] right-[-10%]" 
+        style={{ animation: 'aura-float-2 30s ease-in-out infinite' }}
       />
 
       {/* Subtle Third Blob for depth */}
       <div 
-        className="aura-blob w-[400px] h-[400px] bg-[#d1b411]/10 top-[40%] right-[10%]" 
-        style={{ animation: 'aura-float-1 40s ease-in-out infinite reverse' }}
+        className="aura-blob w-[500px] h-[500px] bg-[#d1b411]/20 top-[40%] right-[10%]" 
+        style={{ animation: 'aura-float-1 35s ease-in-out infinite reverse' }}
+      />
+
+      {/* Extra Golden Flare */}
+      <div 
+        className="aura-blob w-[300px] h-[300px] bg-[#d1b411]/25 top-[20%] left-[40%]" 
+        style={{ animation: 'aura-float-2 15s ease-in-out infinite alternate' }}
       />
     </div>
   );
@@ -239,6 +245,16 @@ const HeroComparisonBanner: FC = () => {
 // ── Main Component ───────────────────────────────────────────────────────────
 export const LandingPage: FC = () => {
   const navigate = useNavigate();
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if ('touches' in e) {
+      const touch = e.touches[0];
+      setMousePos({ x: touch.clientX, y: touch.clientY });
+    } else {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    }
+  };
 
   return (
     <>
@@ -255,9 +271,19 @@ export const LandingPage: FC = () => {
       {/* ══ HERO ══ */}
       <section
         aria-label="Introductie"
-        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center"
+        onMouseMove={handleMouseMove}
+        onTouchMove={handleMouseMove}
+        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center group/hero"
       >
         <HeroAura />
+        
+        {/* Interactive Interactive Glow Layer */}
+        <div 
+          className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000 opacity-0 group-hover/hero:opacity-100"
+          style={{
+            background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(209, 180, 17, 0.12), transparent 80%)`
+          }}
+        />
         <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
           Jouw vraag<br />
           verdient meer dan<br />
