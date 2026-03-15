@@ -1274,8 +1274,8 @@ const App: FC = () => {
                 { src: '/social-icons/email-icon.png',     label: 'E-mail' },
               ].map(({ src, label }) => (
                 <a key={label} href="#" aria-label={label}
-                  className="w-6 h-6 flex items-center justify-center opacity-25 hover:opacity-60 transition-opacity">
-                  <img src={src} alt={label} className="w-4 h-4 object-contain dark:invert" />
+                  className="w-6 h-6 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity">
+                  <img src={src} alt={label} className="w-4 h-4 object-contain grayscale brightness-0" />
                 </a>
               ))}
             </div>

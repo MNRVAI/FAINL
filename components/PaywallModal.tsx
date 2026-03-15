@@ -44,12 +44,12 @@ export const PaywallModal: FC<PaywallModalProps> = ({
               <Shield className="w-8 h-8" />
             </div>
             <div>
-              <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none text-black dark:text-white">
-                {language === 'nl' ? 'Toegang Vereist' : 'Intelligence Access Required'}
+              <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none text-black dark:text-white" title="FAINL — Meerdere AI's. Één Eindoordeel.">
+                {language === 'nl' ? 'Gezamenlijk AI Oordeel' : 'Intelligence Access Required'}
               </h2>
               <p className="text-sm md:text-sm font-black text-black/40 dark:text-white/40 uppercase mt-1 tracking-widest flex items-center gap-2">
                 <Star className="w-3 h-3 text-white fill-white" />
-                {language === 'nl' ? 'Premium Neuraal Consensus Link' : 'Premium Neural Consensus Link'}
+                {language === 'nl' ? 'Premium Neuraal Eindoordeel Link' : 'Premium Neural Verdict Link'}
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
             <p className="text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed text-center max-w-md mx-auto">
               {!authSession
                  ? (language === 'nl' ? 'Log in om je resterende gratis sessies te gebruiken of nieuwe credits aan te schaffen. Zo raak je ze nooit kwijt.' : 'Sign in to use your remaining free sessions or purchase new credits. This ensures you never lose them.')
-                 : (language === 'nl' ? "Krijg direct toegang tot het volledige neurale consensus protocol. Geen abonnement nodig voor losse credits." : "Unlock the full neural consensus protocol instantly. No subscription required for single credit packs.")}
+                 : (language === 'nl' ? "Krijg direct toegang tot het volledige analyse protocol. Geen abonnement nodig voor losse credits." : "Unlock the full neural analysis protocol instantly. No subscription required for single credit packs.")}
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0">
                       <path fill="currentColor" d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z" clipRule="evenodd" fillRule="evenodd" />
                     </svg>
-                    <span className="!text-sm">Multi-AI Consensus</span>
+                    <span className="!text-sm">Multi-AI Eindoordeel</span>
                   </li>
                 </ul>
 
@@ -134,7 +134,7 @@ export const PaywallModal: FC<PaywallModalProps> = ({
           <div className="bg-white/50 dark:bg-zinc-950/50 border-4 border-black dark:border-white/20 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-3 gap-6 text-black dark:text-white">
             <div className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-600" />
-              <span className="text-sm font-black uppercase tracking-widest">{language === 'nl' ? 'Multi-Node Consensus' : 'Multi-Node Consensus'}</span>
+              <span className="text-sm font-black uppercase tracking-widest">{language === 'nl' ? 'Gezamenlijk Oordeel' : 'Joint Verdict'}</span>
             </div>
             <div className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-green-600" />

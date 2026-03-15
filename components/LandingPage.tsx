@@ -25,7 +25,7 @@ const FAQS = [
   },
   {
     q: "Waarom is FAINL beter dan één AI gebruiken?",
-    a: "Eén AI-model heeft altijd blinde vlekken, trainingsbias en beperkte perspectieven. FAINL laat meerdere modellen tegelijk jouw vraag aanpakken, elkaars fouten corrigeren en argumenten uitwisselen. Het resultaat is dieper, gebalanceerder en aantoonbaar betrouwbaarder dan welk single-model antwoord ook.",
+    a: "AI levert sterke structuur, frameworks en taalinspiratie — maar de specifieke context van jouw organisatie, sector en cultuur moet je zelf toevoegen. FAINL's gezamenlijke aanpak verhoogt betrouwbaarheid doordat modellen elkaars output kritisch toetsen, elkaars fouten corrigeren en argumenten uitwisselen. Het resultaat is dieper, gebalanceerder en aantoonbaar betrouwbaarder dan welk single-model antwoord ook.",
   },
   {
     q: "Worden mijn vragen en gegevens opgeslagen?",
@@ -53,9 +53,9 @@ const JSON_LD = {
       operatingSystem: "Web",
       browserRequirements: "Requires JavaScript",
       description:
-        "AI Consensus Engine die meerdere AI-modellen (Gemini, GPT-4, Claude, Llama) tegelijk inzet voor diepgaande analyse, live debat en gewogen eindoordelen.",
+        "AI-platform dat meerdere AI-modellen (Gemini, GPT-4, Claude, Llama) tegelijk inzet voor diepgaande analyse, live debat en gewogen eindoordelen.",
       featureList: [
-        "Multi-model AI consensus",
+        "Multi-model Gezamenlijk Oordeel",
         "Live AI debatroom",
         "Spraakherkenning",
         "Chairman's Verdict synthese",
@@ -133,7 +133,7 @@ const AI_MODELS = [
 const HeroComparisonBanner: FC = () => {  
   return (
     <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 mb-12">
-      <div className="relative flex flex-col md:flex-row bg-[#e8eef3] rounded-[32px] overflow-hidden shadow-sm border border-black/5">
+      <div className="relative flex flex-col md:flex-row bg-white border-2 border-black overflow-hidden shadow-sm">
         
         {/* VS Badge */}
         <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full items-center justify-center font-black text-[10px] text-black/30 shadow-sm z-20">
@@ -141,10 +141,10 @@ const HeroComparisonBanner: FC = () => {
         </div>
         
         {/* Left Side: 1 AI Model */}
-        <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b border-black/5 md:border-b-0 md:border-r">
+        <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col items-center justify-center text-center border-b-2 md:border-b-0 md:border-r-2 border-black">
           <div className="flex items-center justify-center mb-5">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-black/5">
-              <Lightbulb className="w-5 h-5 text-slate-400" />
+            <div className="w-12 h-12 bg-zinc-400 border-2 border-black flex items-center justify-center shadow-sm">
+              <Lightbulb className="w-5 h-5 text-white" />
             </div>
           </div>
           <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#1e293b] mb-1">
@@ -167,32 +167,32 @@ const HeroComparisonBanner: FC = () => {
         </div>
 
         {/* Right Side: 5 AI Models (FAINL) */}
-        <div className="w-full md:w-1/2 bg-[#1e293b] p-8 md:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+        <div className="w-full md:w-1/2 bg-black p-8 md:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group">
           {/* Background flair moved out of text container to not obscure content */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none transition-transform group-hover:scale-110 duration-700"></div>
 
           <div className="flex justify-center items-center mb-5 relative z-10">
             <div className="flex -space-x-3 items-center">
-               <div className="w-8 h-8 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-10 opacity-70">
-                 <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-4 h-4 object-contain brightness-0 invert opacity-50"/>
+               <div className="w-8 h-8 bg-zinc-500 border-2 border-black flex items-center justify-center z-10">
+                 <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-4 h-4 object-contain brightness-0"/>
                </div>
-               <div className="w-10 h-10 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-20 opacity-80">
-                 <img src="/ai-logos/claude.svg" alt="Claude" className="w-5 h-5 object-contain brightness-0 invert opacity-60"/>
+               <div className="w-10 h-10 bg-zinc-500 border-2 border-black flex items-center justify-center z-20">
+                 <img src="/ai-logos/claude.svg" alt="Claude" className="w-5 h-5 object-contain brightness-0"/>
                </div>
-               <div className="w-14 h-14 rounded-full bg-black border-2 border-[#1e293b] flex items-center justify-center shadow-md shadow-black/20 z-30 font-black text-white text-[10px] sm:text-xs">
+               <div className="w-14 h-14 bg-white border-2 border-black flex items-center justify-center shadow-md z-30 font-black text-black text-[10px] sm:text-xs">
                  FAINL
                </div>
-               <div className="w-10 h-10 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-20 opacity-80">
-                 <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-5 h-5 object-contain brightness-0 invert opacity-60"/>
+               <div className="w-10 h-10 bg-zinc-500 border-2 border-black flex items-center justify-center z-20">
+                 <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-5 h-5 object-contain brightness-0"/>
                </div>
-               <div className="w-8 h-8 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-10 opacity-70">
-                 <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-4 h-4 object-contain brightness-0 invert opacity-50"/>
+               <div className="w-8 h-8 bg-zinc-500 border-2 border-black flex items-center justify-center z-10">
+                 <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-4 h-4 object-contain brightness-0"/>
                </div>
             </div>
           </div>
           
           <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white mb-1 relative z-10">
-            Gegarandeerde Consensus
+            Gegarandeerd Eindoordeel
           </h3>
           <p className="text-zinc-400 font-bold text-sm md:text-base uppercase tracking-widest mb-6 relative z-10">
             5 AI Modellen = De waarheid
@@ -206,7 +206,7 @@ const HeroComparisonBanner: FC = () => {
               <span className="text-white">✓</span> Gewogen oordeel
             </div>
             <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
-              <span className="text-white">✓</span> Consensus protocol
+              <span className="text-white">✓</span> Eindoordeel protocol
             </div>
           </div>
         </div>
@@ -223,10 +223,10 @@ export const LandingPage: FC = () => {
   return (
     <>
       <SEO
-        title="FAINL — AI Consensus Engine | Meerdere AI's. Één Antwoord."
+        title="FAINL — AI Eindoordeel Engine | Meerdere AI's. Één Antwoord."
         description="FAINL laat Gemini, GPT-4, Claude en Llama tegelijk jouw vraag analyseren, live debatteren en samen één scherp, gewogen eindoordeel geven. Twee sessies gratis, geen account nodig."
         canonical="/"
-        keywords="AI consensus engine, meerdere AI modellen vergelijken, AI debat tool, ChatGPT alternatief Nederland, Gemini GPT-4 Claude samen, AI beslissingstool, kunstmatige intelligentie tool gratis, multi-model AI"
+        keywords="AI eindoordeel engine, meerdere AI modellen vergelijken, AI debat tool, ChatGPT alternatief Nederland, Gemini GPT-4 Claude samen, AI beslissingstool, kunstmatige intelligentie tool gratis, multi-model AI"
         ogTitle="FAINL — Laat meerdere AI's voor jou debatteren"
         ogDescription="Gemini, GPT-4, Claude én Llama analyseren tegelijk jouw vraag en debatteren live. FAINL synthetiseert het scherpste AI-oordeel. Gratis proberen."
         jsonLd={JSON_LD}
@@ -241,7 +241,7 @@ export const LandingPage: FC = () => {
         <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
           Jouw vraag<br />
           verdient meer dan<br />
-          <span className="text-black">één AI-model.</span>
+          Stop met gissen. <span className="text-black">Krijg een eindoordeel.</span>
         </h1>
 
         {/* Static Comparison Banner */}
@@ -379,7 +379,7 @@ export const LandingPage: FC = () => {
             {[
               {
                 icon: Brain,
-                title: "Multimodel-consensus",
+                title: "Multimodel-eindoordeel",
                 desc: "Geen enkel AI-model heeft altijd gelijk. FAINL bundelt de kracht van Gemini, Claude, GPT, Llama en andere modellen in één slim protocol dat antwoorden vergelijkt, aanscherpt en samenbrengt tot een sterker eindresultaat.",
               },
               {
@@ -405,15 +405,15 @@ export const LandingPage: FC = () => {
               {
                 icon: BarChart3,
                 title: "Gewogen eindoordeel",
-                desc: "Voorzitter Victor brengt alle inzichten samen tot één helder en onderbouwd eindoordeel, gericht op consensus, scherpte en direct toepasbare inzichten.",
+                desc: "Voorzitter Victor brengt alle inzichten samen tot één helder en onderbouwd eindoordeel, gericht op resultaat, scherpte en direct toepasbare inzichten.",
               },
             ].map(({ icon: Icon, title, desc }) => (
               <article
                 key={title}
-                className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl p-6 md:p-8 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black transition-all"
+                className="bg-zinc-50 dark:bg-zinc-900 border-2 border-black rounded-none p-6 md:p-8 hover:shadow-[6px_6px_0px_0px_black] transition-all"
               >
-                <div className="w-12 h-12 bg-black/10 dark:bg-white/10 rounded-xl flex items-center justify-center mb-4">
-                  <Icon className="w-6 h-6 text-black dark:text-white" />
+                <div className="w-12 h-12 bg-black rounded-none flex items-center justify-center mb-4">
+                  <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="font-black text-lg md:text-xl uppercase tracking-tight text-black dark:text-white mb-3">
                   {title}
