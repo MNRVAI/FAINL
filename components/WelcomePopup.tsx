@@ -23,7 +23,11 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
       // Insert email into Supabase
       const { error } = await supabase
         .from('newsletter_subscribers')
-        .insert([{ email: email.trim() }]);
+        .insert({ 
+          email: email.trim().toLowerCase(),
+          promo_code: 'fainl15',
+          source: 'welcome_popup'
+        });
 
       if (error) {
         // Handle unique constraint error gracefully, otherwise throw
@@ -42,7 +46,7 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
       }, 3000);
       
     } catch (err: any) {
-      setErrorMsg('Er ging iets fout. Probeer het later opnieuw.');
+      setErrorMsg(`Fout: ${err.message || 'Onbekende fout'}`);
       console.error("Newsletter subscription error:", err);
     } finally {
       setIsLoading(false);

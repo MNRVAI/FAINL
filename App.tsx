@@ -374,14 +374,28 @@ const App: FC = () => {
     if (!newsletterEmail.trim()) return;
     setNewsletterState('submitting');
     try {
-      await supabase.from('newsletter_subscribers').insert({
+      const { error } = await supabase.from('newsletter_subscribers').insert({
         email: newsletterEmail.trim().toLowerCase(),
         promo_code: 'promo_1T9tKD2Z8WgVHOZM0xJIa5Py',
         source: 'announcement_banner',
       });
-    } catch (_) { /* table may not exist yet, still show success */ }
-    setNewsletterState('success');
-    localStorage.setItem('fainl_visited', '1');
+      
+      if (error) {
+        if (error.code === '23505') {
+          setNewsletterState('success');
+        } else {
+          alert(`Fout bij aanmelden: ${error.message}`);
+          setNewsletterState('banner');
+        }
+        return;
+      }
+      
+      setNewsletterState('success');
+      localStorage.setItem('fainl_visited', '1');
+    } catch (err: any) {
+      alert(`Er ging iets mis: ${err.message}`);
+      setNewsletterState('banner');
+    }
   };
 
   const [session, setSession] = useState<SessionState>({
@@ -1127,30 +1141,7 @@ const App: FC = () => {
             }
           />
 
-          {/* Pricing / Tokens */}
-          <Route
-            path="/tokens"
-            element={
-              <>
-                <SEO
-                  title="Credits & Abonnementen"
-                  description="Kies het pakket dat bij je past. Credits voor incidentele vragen of een maandelijks abonnement voor onbeperkte toegang."
-                  canonical="/tokens"
-                />
-                <PricingPage
-                  hasOwnKeys={Object.values(ModelProvider).some((p) =>
-                    councilService.current.isProviderReady(p),
-                  )}
-                  onPurchaseTurns={(count: number | typeof Infinity) =>
-                    handlePurchaseTurns(count as number)
-                  }
-                  onPurchaseCredits={(count: number) =>
-                    handlePurchaseTurns(count)
-                  }
-                />
-              </>
-            }
-          />
+
 
           {/* Kookboek */}
           <Route
@@ -1185,6 +1176,18 @@ const App: FC = () => {
                 onLoadSession={(s) => { setSession(s); navigate('/mission'); }}
                 onDeleteSessions={(ids) => setHistory(h => h.filter(s => !ids.includes(s.id)))}
                 onArchiveSessions={(ids) => setHistory(h => h.map(s => ids.includes(s.id) ? { ...s, isArchived: true } : s))}
+              />
+            }
+          />
+
+          {/* Pricing / Tokens */}
+          <Route
+            path="/tokens"
+            element={
+              <PricingPage
+                hasOwnKeys={profile ? profile.credits_remaining > 0 : config.creditsRemaining > 0}
+                onPurchaseTurns={handlePurchaseTurns}
+                onPurchaseCredits={handlePurchaseTurns}
               />
             }
           />

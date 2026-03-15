@@ -126,7 +126,50 @@ const AI_MODELS = [
   { name: "Qwen",             icon: <img src="/ai-logos/qwen.svg"          alt="Qwen"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
 ];
 
-// ── Hero Canvas Particles ────────────────────────────────────────────────────
+// ── Hero Aura Background (Premium Dynamic Look) ──────────────────────────────
+const HeroAura: FC = () => {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      <style>{`
+        @keyframes aura-float-1 {
+          0%   { transform: translate(-10%, -10%) scale(1);   opacity: 0.4; }
+          33%  { transform: translate(10%, 15%) scale(1.1);  opacity: 0.6; }
+          66%  { transform: translate(-15%, 5%) scale(0.9);   opacity: 0.5; }
+          100% { transform: translate(-10%, -10%) scale(1);  opacity: 0.4; }
+        }
+        @keyframes aura-float-2 {
+          0%   { transform: translate(20%, 30%) scale(1.1);  opacity: 0.3; }
+          50%  { transform: translate(-10%, -10%) scale(1);  opacity: 0.5; }
+          100% { transform: translate(20%, 30%) scale(1.1);  opacity: 0.3; }
+        }
+        .aura-blob {
+          filter: blur(120px);
+          border-radius: 50%;
+          position: absolute;
+          will-change: transform, opacity;
+        }
+      `}</style>
+      
+      {/* Primary Gold Aura */}
+      <div 
+        className="aura-blob w-[500px] h-[500px] bg-[#d1b411]/30 top-[-10%] left-[-10%]" 
+        style={{ animation: 'aura-float-1 25s ease-in-out infinite' }}
+      />
+      
+      {/* Secondary Neutral Aura */}
+      <div 
+        className="aura-blob w-[600px] h-[600px] bg-slate-200/40 bottom-[-20%] right-[-10%]" 
+        style={{ animation: 'aura-float-2 35s ease-in-out infinite' }}
+      />
+
+      {/* Subtle Third Blob for depth */}
+      <div 
+        className="aura-blob w-[400px] h-[400px] bg-[#d1b411]/10 top-[40%] right-[10%]" 
+        style={{ animation: 'aura-float-1 40s ease-in-out infinite reverse' }}
+      />
+    </div>
+  );
+};
 
 
 // ── Static Comparison Banner ────────────────────────────────────────────────
@@ -214,6 +257,7 @@ export const LandingPage: FC = () => {
         aria-label="Introductie"
         className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center"
       >
+        <HeroAura />
         <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
           Jouw vraag<br />
           verdient meer dan<br />
