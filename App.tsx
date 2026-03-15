@@ -178,7 +178,7 @@ const PaymentSuccessPage: FC = () => {
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_black]">
-        <div className="w-16 h-16 bg-[#FF9900] border-4 border-black flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-[#003366] border-4 border-black flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-black" />
         </div>
         <h1 className="text-3xl font-black uppercase tracking-tighter mb-3 text-black">
@@ -205,7 +205,7 @@ const PaymentSuccessPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="px-8 py-4 bg-[#FF9900] border-2 border-black text-black font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+            className="px-8 py-4 bg-[#003366] border-2 border-black text-white font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
           >
             Nieuwe Missie
           </button>
@@ -716,7 +716,7 @@ const App: FC = () => {
                       />
                     </span>
                     {link.label}
-                    {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#fdee00]" />}
+                    {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#003366]" />}
                   </button>
                 );
               })}
@@ -760,13 +760,13 @@ const App: FC = () => {
         <div className="w-full bg-black text-white px-4 py-2.5 relative">
           {newsletterState === 'banner' && (
             <div className="flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest">
-              <span className="text-[#fdee00]">★</span>
+              <span className="text-[#FF9900]">★</span>
               <span>15% korting op je eerste aankoop</span>
               <span className="text-white/40 hidden sm:inline">—</span>
               <button
                 type="button"
                 onClick={() => setNewsletterState('form')}
-                className="underline hover:text-[#fdee00] transition-colors hidden sm:inline"
+                className="underline hover:text-[#003366] transition-colors hidden sm:inline"
               >
                 Aanmelden voor nieuwsbrief
               </button>
@@ -781,12 +781,12 @@ const App: FC = () => {
                 value={newsletterEmail}
                 onChange={e => setNewsletterEmail(e.target.value)}
                 placeholder="jouw@email.nl"
-                className="bg-white/10 border border-white/30 text-white placeholder-white/40 text-sm px-3 py-1.5 outline-none focus:border-[#fdee00] transition-colors w-48"
+                className="bg-white/10 border border-white/30 text-white placeholder-white/40 text-sm px-3 py-1.5 outline-none focus:border-[#FF9900] transition-colors w-48"
               />
               <button
                 type="submit"
                 disabled={newsletterState === 'submitting'}
-                className="bg-[#fdee00] text-black text-sm font-black uppercase tracking-widest px-3 py-1.5 hover:opacity-90 transition-colors disabled:opacity-60"
+                className="bg-[#003366] text-white text-sm font-black uppercase tracking-widest px-3 py-1.5 hover:opacity-90 transition-colors disabled:opacity-60"
               >
                 {newsletterState === 'submitting' ? '...' : 'Aanmelden'}
               </button>

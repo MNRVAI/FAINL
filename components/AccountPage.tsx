@@ -193,7 +193,7 @@ export const AccountPage: FC<AccountPageProps> = ({
         </div>
         <button
           onClick={() => navigate('/tokens')}
-          className="flex items-center gap-2 px-6 py-3 bg-[#FF9900] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#003366] transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-[#003366] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-white text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#FF9900] transition-all"
         >
           <CreditCard className="w-4 h-4" />
           Credits Kopen
@@ -202,22 +202,22 @@ export const AccountPage: FC<AccountPageProps> = ({
 
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 md:mb-16">
-        <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#FF9900] transition-all flex flex-col gap-1">
-          <Zap className="w-5 h-5 mb-1 text-[#FF9900]" />
+        <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
+          <Zap className="w-5 h-5 mb-1 text-[#003366]" />
           <div className="text-3xl font-black">{creditsRemaining}</div>
           <div className="text-sm font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#fdee00] transition-all flex flex-col gap-1">
+        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
           <MessageSquare className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{freeSessiesResterend}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Gratis Sessies</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#fdee00] transition-all flex flex-col gap-1">
+        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
           <History className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{totalSessies}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#fdee00] transition-all flex flex-col gap-1">
+        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
           <Users className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{config.activeCouncil.length}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>
@@ -260,7 +260,7 @@ export const AccountPage: FC<AccountPageProps> = ({
               {DEFAULT_COUNCIL.map(node => (
                 <div key={node.id} className="p-3 bg-zinc-50 border-2 border-black/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-[#fdee00] rounded-full" />
+                    <div className="w-2 h-2 bg-[#003366] rounded-full" />
                     <div>
                       <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
                     </div>

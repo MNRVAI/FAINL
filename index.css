@@ -3,12 +3,12 @@
 
 :root {
   color-scheme: only light;
-  --color-primary: #FF9900;
-  --color-secondary: #003366;
-  --color-primary-light: #FFB347;
-  --color-primary-dark: #cc7a00;
-  --color-secondary-light: #004D99;
-  --color-accent-gradient: linear-gradient(135deg, #FF9900 0%, #003366 100%);
+  --color-primary: #003366;
+  --color-secondary: #FF9900;
+  --color-primary-light: #004D99;
+  --color-primary-dark: #001A33;
+  --color-secondary-light: #FFB347;
+  --color-accent-gradient: linear-gradient(135deg, #003366 0%, #FF9900 100%);
   
   /* Legacy vars mapped to primary/secondary to avoid breakage */
   --color-lemon-primary: var(--color-primary);

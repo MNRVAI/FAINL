@@ -27,7 +27,7 @@ export const QuestionPage: FC = () => {
         </h1>
         <Link
           to="/cookbook"
-          className="text-[#FF9900] font-bold uppercase tracking-widest hover:underline"
+          className="text-[#003366] font-bold uppercase tracking-widest hover:underline"
         >
           Terug naar het Kookboek
         </Link>
@@ -65,7 +65,7 @@ export const QuestionPage: FC = () => {
         <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white leading-[1.1] mb-8">
           {directive.title}
         </h1>
-        <p className="text-lg md:text-xl font-medium text-black/60 dark:text-white/50 leading-relaxed italic border-l-4 border-[#FF9900] pl-6 py-2">
+        <p className="text-lg md:text-xl font-medium text-black/60 dark:text-white/50 leading-relaxed italic border-l-4 border-[#003366] pl-6 py-2">
           "Dit recept is zorgvuldig samengesteld om verschillende
           AI-perspectieven te laten botsen en te synthetiseren tot één
           overkoepelend inzicht."

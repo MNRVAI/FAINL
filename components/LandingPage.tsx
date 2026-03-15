@@ -97,7 +97,7 @@ const FAQItem: FC<{ q: string; a: string }> = ({ q, a }) => {
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between py-5 text-left gap-4 group"
       >
-        <span className="font-black text-base md:text-xl uppercase tracking-tight text-black group-hover:text-[#FF9900] transition-colors">
+        <span className="font-black text-base md:text-xl uppercase tracking-tight text-black group-hover:text-[#003366] transition-colors">
           {q}
         </span>
         <ChevronDown
@@ -179,7 +179,7 @@ const HeroComparisonBanner: FC = () => {
                <div className="w-10 h-10 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-20 opacity-80">
                  <img src="/ai-logos/claude.svg" alt="Claude" className="w-5 h-5 object-contain brightness-0 invert opacity-60"/>
                </div>
-               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#FF9900] to-[#003366] border-2 border-[#1e293b] flex items-center justify-center shadow-md shadow-[#FF9900]/20 z-30 font-black text-white text-[10px] sm:text-xs">
+               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#003366] to-[#FF9900] border-2 border-[#1e293b] flex items-center justify-center shadow-md shadow-[#003366]/20 z-30 font-black text-white text-[10px] sm:text-xs">
                  FAINL
                </div>
                <div className="w-10 h-10 rounded-full bg-[#283548] border-2 border-[#1e293b] flex items-center justify-center z-20 opacity-80">
@@ -241,7 +241,7 @@ export const LandingPage: FC = () => {
         <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
           Jouw vraag<br />
           verdient meer dan<br />
-          <span className="text-[#FF9900]">één AI-model.</span>
+          <span className="text-[#003366]">één AI-model.</span>
         </h1>
 
         {/* Static Comparison Banner */}
@@ -344,7 +344,7 @@ export const LandingPage: FC = () => {
           ].map(({ img, title, desc }) => (
             <li
               key={title}
-              className="group flex items-start gap-5 p-6 md:p-8 bg-white dark:bg-zinc-900 border-2 border-black/5 dark:border-white/10 rounded-2xl hover:border-[#FF9900] hover:shadow-[6px_6px_0px_0px_#FF9900] transition-all duration-200"
+              className="group flex items-start gap-5 p-6 md:p-8 bg-white dark:bg-zinc-900 border-2 border-black/5 dark:border-white/10 rounded-2xl hover:border-[#003366] hover:shadow-[6px_6px_0px_0px_#003366] transition-all duration-200"
             >
               <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black dark:bg-white rounded-xl group-hover:scale-110 transition-transform">
                 <img src={img} alt={title} className="w-6 h-6 md:w-7 md:h-7 object-contain invert dark:invert-0" />
@@ -410,7 +410,7 @@ export const LandingPage: FC = () => {
             ].map(({ icon: Icon, title, desc }) => (
               <article
                 key={title}
-                className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl p-6 md:p-8 hover:bg-black/10 dark:hover:bg-white/10 hover:border-[#FF9900] transition-all"
+                className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl p-6 md:p-8 hover:bg-black/10 dark:hover:bg-white/10 hover:border-[#003366] transition-all"
               >
                 <div className="w-12 h-12 bg-black/10 dark:bg-white/10 rounded-xl flex items-center justify-center mb-4">
                   <Icon className="w-6 h-6 text-black dark:text-white" />
@@ -443,7 +443,7 @@ export const LandingPage: FC = () => {
             <div className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] bg-black dark:bg-zinc-800 text-white px-4 sm:px-6 py-4 gap-2">
               <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-white/60">Eigenschap</span>
               <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-white/60 leading-tight">Gewone<br/>AI</span>
-              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-[#FF9900] leading-tight">FAINL</span>
+              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-[#003366] leading-tight">FAINL</span>
             </div>
 
             {/* Rows */}
@@ -511,7 +511,7 @@ export const LandingPage: FC = () => {
             Meer vragen?{" "}
             <Link
               to="/faq"
-              className="underline hover:text-[#FF9900] transition-colors"
+              className="underline hover:text-[#003366] transition-colors"
             >
               Bekijk de volledige FAQ
             </Link>{" "}
@@ -545,7 +545,7 @@ export const LandingPage: FC = () => {
               key={pkg.count}
               type="button"
               onClick={() => window.open(pkg.stripeUrl, "_blank")}
-              className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl hover:border-[#FF9900] hover:shadow-[6px_6px_0px_0px_#FF9900] hover:-translate-y-0.5 transition-all text-black dark:text-white"
+              className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl hover:border-[#003366] hover:shadow-[6px_6px_0px_0px_#003366] hover:-translate-y-0.5 transition-all text-black dark:text-white"
             >
               <div className="text-3xl font-black mb-0.5">{pkg.count}</div>
               <div className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
@@ -558,9 +558,9 @@ export const LandingPage: FC = () => {
           <button
             type="button"
             onClick={() => window.open(PRICING.SUBSCRIPTIONS[0].stripeUrl, "_blank")}
-            className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-[#fdee00] rounded-2xl hover:shadow-[6px_6px_0px_0px_#fdee00] hover:-translate-y-0.5 transition-all text-black dark:text-white relative"
+            className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-[#003366] rounded-2xl hover:shadow-[6px_6px_0px_0px_#003366] hover:-translate-y-0.5 transition-all text-black dark:text-white relative"
           >
-            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#fdee00] text-black text-sm font-black uppercase tracking-widest rounded-full whitespace-nowrap">
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#003366] text-white text-sm font-black uppercase tracking-widest rounded-full whitespace-nowrap">
               Abonnement
             </div>
             <div className="text-base font-black uppercase tracking-tight mb-0.5">
@@ -579,7 +579,7 @@ export const LandingPage: FC = () => {
         <p className="text-center text-sm text-black/30 dark:text-white/20 font-bold">
           <Link
             to="/tokens"
-            className="inline-flex items-center gap-1.5 underline hover:text-[#FF9900] transition-colors"
+            className="inline-flex items-center gap-1.5 underline hover:text-[#003366] transition-colors"
           >
             Bekijk alle pakketten
             <ArrowRight className="w-3 h-3" />
@@ -590,7 +590,7 @@ export const LandingPage: FC = () => {
       {/* ══ FINAL CTA ══ */}
       <section
         aria-label="Aan de slag met FAINL"
-        className="w-full max-w-3xl mx-auto px-4 md:px-6 py-20 md:py-32 text-center"
+        className="w-full max-w-3xl mx-auto px-4 md:px-6 py-20 md:py-32 flex flex-col items-center text-center"
       >
         <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.95] mb-6">
           Klaar voor het scherpste AI-oordeel?
