@@ -68,7 +68,7 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
             <X className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-[#fdee00] rounded-xl">
+            <div className="p-2 bg-[#FF9900] rounded-xl">
               <Gift className="w-5 h-5 text-black" />
             </div>
             <span className="text-sm font-black uppercase tracking-[0.3em] text-white/60 dark:text-black/60">First-Time User Protocol</span>

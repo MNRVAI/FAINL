@@ -207,7 +207,7 @@ export const ComparePage: FC = () => {
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           ChatGPT, Gemini of Claude:{' '}
-          <span className="text-[#fdee00]">welke AI wint?</span>
+          <span className="text-[#FF9900]">welke AI wint?</span>
         </h1>
         <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
           De drie populairste AI-modellen geven elk een ander antwoord op dezelfde vraag.
@@ -304,7 +304,7 @@ export const ComparePage: FC = () => {
       <section aria-label="Waarom FAINL" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
         <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
           <div className="flex items-start gap-4 mb-8">
-            <MinusCircle className="w-8 h-8 text-[#fdee00] shrink-0 mt-1" />
+            <MinusCircle className="w-8 h-8 text-[#FF9900] shrink-0 mt-1" />
             <div>
               <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-3">
                 Waarom kiezen als je alles kunt combineren?
@@ -324,7 +324,7 @@ export const ComparePage: FC = () => {
               { step: '03', label: "Chairman's Verdict", desc: 'Eén gewogen eindoordeel met nuance' },
             ].map(item => (
               <div key={item.step} className="bg-white/10 dark:bg-black/10 rounded-xl p-4">
-                <p className="text-[#fdee00] font-black text-sm uppercase tracking-[0.3em] mb-1">{item.step}</p>
+                <p className="text-[#FF9900] font-black text-sm uppercase tracking-[0.3em] mb-1">{item.step}</p>
                 <p className="font-black text-sm uppercase tracking-tight text-white dark:text-black mb-1">{item.label}</p>
                 <p className="text-white/50 dark:text-black/40 text-sm leading-relaxed">{item.desc}</p>
               </div>
@@ -333,7 +333,7 @@ export const ComparePage: FC = () => {
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#fdee00] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#FF9900] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
           >
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />

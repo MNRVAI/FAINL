@@ -178,7 +178,7 @@ const PaymentSuccessPage: FC = () => {
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_black]">
-        <div className="w-16 h-16 bg-[#fdee00] border-4 border-black flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-[#FF9900] border-4 border-black flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-black" />
         </div>
         <h1 className="text-3xl font-black uppercase tracking-tighter mb-3 text-black">
@@ -205,7 +205,7 @@ const PaymentSuccessPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="px-8 py-4 bg-[#fdee00] border-2 border-black text-black font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+            className="px-8 py-4 bg-[#FF9900] border-2 border-black text-black font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
           >
             Nieuwe Missie
           </button>

@@ -3,16 +3,23 @@
 
 :root {
   color-scheme: only light;
-  --color-lemon-primary: #fdee00;
-  --color-lemon-light: #ffff4d;
-  --color-lemon-dark: #ccbe00;
-  --color-lemon-gradient: linear-gradient(135deg, #fdee00 0%, #ffff4d 50%, #fdee00 100%);
+  --color-primary: #FF9900;
+  --color-secondary: #003366;
+  --color-primary-light: #FFB347;
+  --color-primary-dark: #cc7a00;
+  --color-secondary-light: #004D99;
+  --color-accent-gradient: linear-gradient(135deg, #FF9900 0%, #003366 100%);
   
-  /* Legacy gold vars mapped to lemon to avoid breakage during transition */
-  --color-gold-primary: var(--color-lemon-primary);
-  --color-gold-light: var(--color-lemon-light);
-  --color-gold-dark: var(--color-lemon-dark);
-  --color-gold-gradient: var(--color-lemon-gradient);
+  /* Legacy vars mapped to primary/secondary to avoid breakage */
+  --color-lemon-primary: var(--color-primary);
+  --color-lemon-light: var(--color-primary-light);
+  --color-lemon-dark: var(--color-primary-dark);
+  --color-lemon-gradient: var(--color-accent-gradient);
+  
+  --color-gold-primary: var(--color-primary);
+  --color-gold-light: var(--color-primary-light);
+  --color-gold-dark: var(--color-primary-dark);
+  --color-gold-gradient: var(--color-accent-gradient);
 }
 
 @layer base {

@@ -193,7 +193,7 @@ export const AccountPage: FC<AccountPageProps> = ({
         </div>
         <button
           onClick={() => navigate('/tokens')}
-          className="flex items-center gap-2 px-6 py-3 bg-[#fdee00] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#fdee00] transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-[#FF9900] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#003366] transition-all"
         >
           <CreditCard className="w-4 h-4" />
           Credits Kopen
@@ -202,8 +202,8 @@ export const AccountPage: FC<AccountPageProps> = ({
 
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 md:mb-16">
-        <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#fdee00] transition-all flex flex-col gap-1">
-          <Zap className="w-5 h-5 mb-1 text-[#fdee00]" />
+        <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#FF9900] transition-all flex flex-col gap-1">
+          <Zap className="w-5 h-5 mb-1 text-[#FF9900]" />
           <div className="text-3xl font-black">{creditsRemaining}</div>
           <div className="text-sm font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
         </div>
@@ -299,7 +299,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 <button
                   onClick={handleAddNode}
                   disabled={!newNode.name || !newNode.role}
-                  className="w-full py-3 bg-[#fdee00] text-black font-black uppercase tracking-widest text-sm border-2 border-black shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_#fdee00] active:shadow-none active:translate-y-1 transition-all disabled:opacity-40"
+                  className="w-full py-3 bg-[#FF9900] text-black font-black uppercase tracking-widest text-sm border-2 border-black shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_#003366] active:shadow-none active:translate-y-1 transition-all disabled:opacity-40"
                 >
                   Node Activeren
                 </button>
@@ -313,7 +313,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 {config.customNodes.map(node => {
                   const isActive = isNodeActiveInCouncil(node.id);
                   return (
-                    <div key={node.id} className={`p-4 bg-white border-2 border-black flex items-center justify-between group shadow-[2px_2px_0_0_black] hover:border-[#fdee00] hover:shadow-[4px_4px_0_0_#fdee00] transition-all ${isActive ? 'border-[#fdee00] shadow-[4px_4px_0_0_#fdee00]' : ''}`}>
+                    <div key={node.id} className={`p-4 bg-white border-2 border-black flex items-center justify-between group shadow-[2px_2px_0_0_black] hover:border-[#FF9900] hover:shadow-[4px_4px_0_0_#003366] transition-all ${isActive ? 'border-[#FF9900] shadow-[4px_4px_0_0_#003366]' : ''}`}>
                       <div className="flex items-center gap-3">
                         <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-[#fdee00]' : 'bg-black/20'}`} />
                         <div>
@@ -475,7 +475,7 @@ export const AccountPage: FC<AccountPageProps> = ({
 
                     <button
                       onClick={() => onLoadSession(session)}
-                      className="w-full flex items-center justify-between p-4 bg-white border-2 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#fdee00] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                      className="w-full flex items-center justify-between p-4 bg-white border-2 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#FF9900] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
                     >
                     <div className="flex items-center gap-3 overflow-hidden">
                       <div className="p-2 bg-zinc-100 rounded-lg flex-shrink-0">
