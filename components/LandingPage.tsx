@@ -126,69 +126,146 @@ const AI_MODELS = [
   { name: "Qwen",             icon: <img src="/ai-logos/qwen.svg"          alt="Qwen"             className="w-6 h-6 flex-shrink-0 object-contain" /> },
 ];
 
-// ── Hero Particles ───────────────────────────────────────────────────────────
+// ── Hero Canvas Particles ────────────────────────────────────────────────────
 const HeroParticles: FC = () => {
-  const [particles, setParticles] = useState<Array<any>>([]);
-
   useEffect(() => {
-    const colors = ['bg-[#0d1322]', 'bg-[#b39b0d]'];
-    // Meer partikels voor volume (90 i.p.v. 60)
-    const newParticles = Array.from({ length: 90 }).map((_, i) => {
-      // Willekeurige afmetingen voor minder perfect 'ronde' vormen (pilvormig / ovaal)
-      const w = Math.random() * 8 + 4;
-      const h = Math.random() * 8 + 4;
-      // Willekeurige border radius voor asymmetrische vormen ('kiezels'/'scherven')
-      const br = `${Math.floor(Math.random() * 50 + 20)}% ${Math.floor(Math.random() * 50 + 20)}% ${Math.floor(Math.random() * 50 + 20)}% ${Math.floor(Math.random() * 50 + 20)}%`;
-      return {
-        id: i,
-        width: w,
-        height: h,
-        borderRadius: br,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        // Grotere 'kracht'/afstand per beweging
-        tx: (Math.random() - 0.5) * 800,
-        ty: (Math.random() - 0.5) * 800,
-        // Sneller: kortere duration van 8-15 sec (voorheen 15-30)
-        duration: Math.random() * 7 + 8,
-        delay: Math.random() * -20,
-        // Geef party een willekeurige lichte blur-glow
-        blur: Math.random() > 0.5 ? 'blur-[1px]' : '',
-        opacity: Math.random() * 0.4 + 0.3, // 0.3 - 0.7 opacity
-      };
-    });
-    setParticles(newParticles);
+    const canvas = document.getElementById('hero-particles') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let particles: Array<{
+      x: number; y: number; size: number; color: string; 
+      baseX: number; baseY: number; density: number;
+      vx: number; vy: number;
+    }> = [];
+
+    const colors = [
+      { r: 13, g: 19, b: 34 },     // Dark Navy #0d1322
+      { r: 209, g: 180, b: 17 },   // Gold/Yellow #d1b411
+      { r: 57, g: 70, b: 86 }      // Slate #394656
+    ];
+
+    let mouse = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      radius: 120 // Radius for mouse interaction
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = window.innerWidth / 2;
+      mouse.y = -1000; // Move mouse out of range
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const particleCount = Math.min(window.innerWidth / 8, 120); // Responsive amount
+      for (let i = 0; i < particleCount; i++) {
+        const size = Math.random() * 6 + 2;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const colorObj = colors[Math.floor(Math.random() * colors.length)];
+        const opacity = Math.random() * 0.5 + 0.2;
+        const color = `rgba(${colorObj.r}, ${colorObj.g}, ${colorObj.b}, ${opacity})`;
+        
+        particles.push({
+          x, y,
+          baseX: x, baseY: y,
+          size, color,
+          density: (Math.random() * 30) + 1,
+          vx: (Math.random() - 0.5) * 1,
+          vy: (Math.random() - 0.5) * 1
+        });
+      }
+    };
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      if (parent) {
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+        initParticles();
+      }
+    };
+
+    window.addEventListener('resize', resize);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+    resize();
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        
+        // Natural drift
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off edges smoothly
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Mouse interaction (repulse)
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const forceDirectionX = dx / distance;
+        const forceDirectionY = dy / distance;
+        const maxDistance = mouse.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        const directionX = forceDirectionX * force * p.density;
+        const directionY = forceDirectionY * force * p.density;
+
+        if (distance < mouse.radius) {
+          p.x -= directionX;
+          p.y -= directionY;
+        }
+
+        // Draw particle
+        ctx.beginPath();
+        // Slightly irregular shapes (ellipses)
+        ctx.ellipse(p.x, p.y, p.size, p.size * (0.8 + Math.random() * 0.4), Math.random() * Math.PI, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        
+        // Add subtle glow to larger particles
+        if (p.size > 5) {
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = p.color;
+        } else {
+          ctx.shadowBlur = 0;
+        }
+        
+        ctx.fill();
+        ctx.closePath();
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <style>{`
-        @keyframes drift-particle {
-          0% { transform: translate(0, 0) rotate(0deg) scale(0.9); }
-          50% { transform: translate(calc(var(--tx) / 2), calc(var(--ty) / 2)) rotate(180deg) scale(1.1); }
-          100% { transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(0.9); }
-        }
-      `}</style>
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className={`absolute ${p.blur} ${p.color}`}
-          style={{
-            left: p.left + "%",
-            top: p.top + "%",
-            width: p.width + "px",
-            height: p.height + "px",
-            borderRadius: p.borderRadius,
-            opacity: p.opacity,
-            animation: "drift-particle " + p.duration + "s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate",
-            animationDelay: p.delay + "s",
-            ["--tx" as any]: p.tx + "px",
-            ["--ty" as any]: p.ty + "px",
-          }}
-        />
-      ))}
-    </div>
+    <canvas 
+      id="hero-particles" 
+      className="absolute inset-0 w-full h-full pointer-events-auto"
+      style={{ zIndex: 0 }}
+    />
   );
 };
 
