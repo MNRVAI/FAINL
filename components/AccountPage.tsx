@@ -217,7 +217,7 @@ export const AccountPage: FC<AccountPageProps> = ({
           <div className="text-3xl font-black text-black">{totalSessies}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
+        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <Users className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{config.activeCouncil.length}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>

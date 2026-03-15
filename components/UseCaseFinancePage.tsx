@@ -170,7 +170,7 @@ export const UseCaseFinancePage: FC = () => {
             <div key={i} className="border-b border-black/10 dark:border-white/10 last:border-0">
               <button type="button" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-start justify-between py-5 text-left gap-4 group">
-                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-[#003366] transition-colors">{faq.q}</span>
+                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">{faq.q}</span>
                 <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
               {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}

@@ -85,7 +85,7 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="card__list"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="gold-material-btn w-full p-4 text-black font-black text-sm sm:text-lg uppercase tracking-widest rounded-lg">
+              <button onClick={() => handlePurchase(pkg.count)} className="gold-material-btn w-full p-4 text-white font-black text-sm sm:text-lg uppercase tracking-widest rounded-lg">
                 {language === 'nl' ? `Koop ${pkg.count} ${pkg.count === 1 ? 'credit' : 'credits'}` : `Buy ${pkg.count} ${pkg.count === 1 ? 'credit' : 'credits'}`}
               </button>
             </div>
@@ -131,7 +131,7 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="card__list"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="gold-material-btn w-full p-5 text-black font-black text-sm sm:text-lg uppercase tracking-widest rounded-lg">
+              <button onClick={() => handlePurchase(pkg.count)} className="gold-material-btn w-full p-5 text-white font-black text-sm sm:text-lg uppercase tracking-widest rounded-lg">
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
               </button>
             </div>

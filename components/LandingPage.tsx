@@ -97,7 +97,7 @@ const FAQItem: FC<{ q: string; a: string }> = ({ q, a }) => {
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between py-5 text-left gap-4 group"
       >
-        <span className="font-black text-base md:text-xl uppercase tracking-tight text-black group-hover:text-black transition-colors">
+        <span className="font-black text-base md:text-xl uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">
           {q}
         </span>
         <ChevronDown
@@ -200,13 +200,13 @@ const HeroComparisonBanner: FC = () => {
           
           <div className="space-y-2 text-left w-full max-w-[200px] mx-auto relative z-10">
             <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
-              <span className="text-[#FF9900]">✓</span> Fouten gecorrigeerd
+              <span className="text-white">✓</span> Fouten gecorrigeerd
             </div>
             <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
-              <span className="text-[#FF9900]">✓</span> Gewogen oordeel
+              <span className="text-white">✓</span> Gewogen oordeel
             </div>
             <div className="flex items-start gap-2 text-xs font-bold text-white uppercase tracking-tighter">
-              <span className="text-[#FF9900]">✓</span> Consensus protocol
+              <span className="text-white">✓</span> Consensus protocol
             </div>
           </div>
         </div>
@@ -252,7 +252,7 @@ export const LandingPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="w-full flex items-center justify-center gap-3 px-8 py-4 sm:py-5 gold-material-btn text-black font-black text-[13px] sm:text-[15px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-xl group"
+            className="w-full flex items-center justify-center gap-3 px-8 py-4 sm:py-5 gold-material-btn text-white font-black text-[13px] sm:text-[15px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-xl group"
           >
             Start gratis
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
@@ -545,7 +545,7 @@ export const LandingPage: FC = () => {
               key={pkg.count}
               type="button"
               onClick={() => window.open(pkg.stripeUrl, "_blank")}
-              className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl hover:border-black hover:shadow-[6px_6px_0px_0px_black] hover:-translate-y-0.5 transition-all text-black dark:text-white"
+              className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl hover:border-black hover:shadow-[6px_6px_0px_0_black] hover:-translate-y-0.5 transition-all text-black dark:text-white"
             >
               <div className="text-3xl font-black mb-0.5">{pkg.count}</div>
               <div className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">

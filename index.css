@@ -253,8 +253,8 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background: var(--color-lemon-primary);
-  color: black;
+  background: black;
+  color: white;
   text-align: center;
   text-decoration: none;
   font-weight: 900;
@@ -274,14 +274,14 @@
 
 .card__cta:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 var(--color-lemon-primary);
-  background: var(--color-lemon-primary);
-  color: black;
+  box-shadow: 6px 6px 0 0 black;
+  background: black;
+  color: white;
 }
 
 /* ── Gold Material Button ────────────────────────────────────────────────── */
 .gold-material-btn {
-  background: var(--color-lemon-primary);
+  background: black;
   background-size: 200% 100%;
   position: relative;
   overflow: hidden;
@@ -291,14 +291,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
+  color: white;
   font-weight: 900;
 }
 
 .gold-material-btn:hover {
   transform: translate(-2px, -2px);
   box-shadow: 8px 8px 0px 0px black;
-  background: var(--color-lemon-primary);
+  background: black;
 }
 
 .gold-material-btn::after {
