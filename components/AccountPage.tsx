@@ -207,7 +207,6 @@ export const AccountPage: FC<AccountPageProps> = ({
           <div className="text-3xl font-black">{creditsRemaining}</div>
           <div className="text-sm font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] flex flex-col gap-1">
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#fdee00] transition-all flex flex-col gap-1">
           <MessageSquare className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{freeSessiesResterend}</div>
