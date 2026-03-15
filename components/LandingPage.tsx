@@ -4,7 +4,7 @@ import {
   ArrowRight,
   CheckCircle2, Eye, Swords, Brain,
   Lock, ChevronDown, Mic, BarChart3,
-  BookOpen,
+  BookOpen, Lightbulb,
 } from "lucide-react";
 import { SEO } from "./SEO";
 import { PRICING } from "../constants";
@@ -145,42 +145,97 @@ export const LandingPage: FC = () => {
       {/* ══ HERO ══ */}
       <section
         aria-label="Introductie"
-        className="w-full max-w-4xl mx-auto px-5 sm:px-8 md:px-10 pt-10 sm:pt-16 md:pt-28 pb-10 md:pb-20 text-center"
+        className="relative w-full overflow-hidden bg-[#0d1322] text-white pt-16 sm:pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center"
       >
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter leading-[1.05] text-black dark:text-white max-w-3xl mx-auto mb-5 md:mb-6">
-          Jouw vraag verdient meer dan één{" "}
-          <span className="text-[#d1b411]">AI-model.</span>
+        {/* Wavy Background Elements (Pure CSS approximation) */}
+        <div className="absolute inset-0 pointer-events-none opacity-40">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] aspect-square bg-[radial-gradient(ellipse_at_center,rgba(209,180,17,0.1)_0%,transparent_60%)]"></div>
+          {/* Subtle starfield or wave overlay */}
+          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at center, rgba(255,255,255,0.4) 1px, transparent 1px)', backgroundSize: '30px 10px', transform: 'rotate(-5deg) scale(1.5)' }}></div>
+        </div>
+
+        <h1 className="relative z-10 text-[32px] sm:text-[50px] md:text-[68px] font-black uppercase tracking-tighter leading-[1.02] text-center max-w-4xl mx-auto mb-10 md:mb-12">
+          Jouw vraag<br />
+          verdient meer dan<br />
+          <span className="text-[#d1b411] drop-shadow-[0_0_20px_rgba(209,180,17,0.4)]">één AI-model.</span>
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto mb-10 md:mb-14 mt-6">
-          <div className="flex flex-col justify-center bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl px-5 py-4 text-left">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-black/30 dark:text-white/30 mb-1.5">Gewone AI</p>
-            <p className="text-base sm:text-lg font-black text-black dark:text-white leading-snug">
-              Eén model geeft een antwoord.
-            </p>
-          </div>
-          <div className="flex flex-col justify-center bg-black dark:bg-white border border-black dark:border-white rounded-2xl px-5 py-4 text-left">
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/40 dark:text-black/40 mb-1.5">FAINL</p>
-            <p className="text-base sm:text-lg font-black text-white dark:text-black leading-snug">
-              Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
-            </p>
+        {/* The Card */}
+        <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 mb-12">
+          {/* Outer glow just for the right side */}
+          <div className="absolute top-0 bottom-0 right-4 sm:right-6 w-1/2 rounded-r-3xl bg-[#d1b411]/10 blur-2xl pointer-events-none"></div>
+          
+          <div className="relative flex flex-col md:flex-row bg-[#e8eef3] rounded-[24px] overflow-hidden shadow-2xl ring-1 ring-white/5">
+            {/* Left Side (Gewone AI) */}
+            <div className="w-full md:w-[45%] p-6 md:p-8 flex items-center sm:items-start md:items-center gap-5 sm:gap-4 md:gap-5 border-b md:border-b-0 md:border-r border-[#cbd5e1]/50">
+              <div className="flex-shrink-0 relative w-16 h-16 sm:w-14 sm:h-14 md:w-20 md:h-20 flex items-center justify-center">
+                <div className="absolute inset-0 bg-yellow-400/20 shadow-[0_0_30px_rgba(250,204,21,0.3)] rounded-full"></div>
+                <Lightbulb className="w-10 h-10 sm:w-8 sm:h-8 md:w-12 md:h-12 text-yellow-500 relative z-10" />
+                <div className="absolute bottom-1 w-6 h-1 bg-[#94a3b8] rounded-full z-10"></div>
+                <div className="absolute bottom-0 w-4 h-0.5 bg-[#64748b] rounded-full z-10"></div>
+              </div>
+              <div className="mt-1">
+                <p className="text-[11px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-[#64748b] mb-1 md:mb-1.5">Gewone AI</p>
+                <p className="text-sm sm:text-xs md:text-base font-bold text-[#1e293b] leading-snug">
+                  Eén model geeft een antwoord.
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side (FAINL) */}
+            <div className="w-full md:w-[55%] bg-[#394656] p-6 md:p-8 flex flex-col-reverse sm:flex-row md:flex-row items-start sm:items-center gap-5 sm:gap-4 md:gap-6 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+              
+              <div className="flex-1 relative z-10">
+                <p className="text-[11px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-white/50 mb-1 md:mb-2">FAINL</p>
+                <p className="text-sm sm:text-xs md:text-[15px] font-medium text-white/90 leading-relaxed md:leading-relaxed drop-shadow-sm">
+                  Meerdere AI-modellen analyseren parallel, bevragen elkaars redenering en smelten samen tot één gewogen eindoordeel.
+                </p>
+              </div>
+
+              {/* Multi Node Illustration */}
+              <div className="flex-shrink-0 relative w-24 h-24 sm:w-20 sm:h-20 md:w-28 md:h-28 self-center sm:self-auto flex items-center justify-center z-10">
+                <svg className="absolute inset-0 w-full h-full text-white/10" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M50 75 L30 35 M50 75 L70 35 M30 35 L70 35" strokeDasharray="2 3" />
+                </svg>
+                <div className="absolute top-2 left-1 w-8 h-8 sm:w-6 sm:h-6 md:w-10 md:h-10 flex items-center justify-center">
+                   <div className="absolute inset-0 bg-blue-300/30 blur-md rounded-full shadow-[0_0_20px_rgba(147,197,253,0.3)]"></div>
+                   <Lightbulb className="w-6 h-6 sm:w-4 sm:h-4 md:w-7 md:h-7 text-blue-200 relative z-10" />
+                </div>
+                <div className="absolute top-2 right-1 w-8 h-8 sm:w-6 sm:h-6 md:w-10 md:h-10 flex items-center justify-center">
+                   <div className="absolute inset-0 bg-yellow-300/40 blur-md rounded-full shadow-[0_0_20px_rgba(253,224,71,0.4)]"></div>
+                   <Lightbulb className="w-6 h-6 sm:w-4 sm:h-4 md:w-7 md:h-7 text-yellow-300 relative z-10" />
+                </div>
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-8 sm:w-6 sm:h-6 md:w-10 md:h-10 flex items-center justify-center scale-90 opacity-80">
+                   <div className="absolute inset-0 bg-emerald-300/30 blur-md rounded-full"></div>
+                   <Lightbulb className="w-5 h-5 sm:w-4 sm:h-4 md:w-6 md:h-6 text-emerald-200 relative z-10" />
+                </div>
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-10 sm:w-8 md:w-12 h-6 sm:h-5 md:h-[26px] bg-[#1e293b] border border-white/20 rounded-md shadow-lg flex flex-col justify-evenly p-1 sm:p-[3px] md:p-1.5 z-20">
+                   <div className="w-full h-0.5 md:h-[3px] bg-white/40 rounded-sm"></div>
+                   <div className="w-3/4 h-0.5 md:h-[3px] bg-white/20 rounded-sm"></div>
+                   <div className="w-full h-0.5 md:h-[3px] bg-[#d1b411]/60 rounded-sm"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col xs:flex-row items-center justify-center gap-3 sm:gap-4 mb-8">
+        {/* Action Buttons */}
+        <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-4 px-4 w-full flex-1 max-w-sm mx-auto">
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="w-full xs:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-black text-white font-black text-sm sm:text-sm uppercase tracking-widest rounded-xl hover:scale-105 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)] active:scale-95 transition-all shadow-lg"
+            className="w-full flex items-center justify-center gap-3 px-8 py-4 sm:py-5 bg-black border sm:border-2 border-[#d1b411]/50 sm:border-[#d1b411] text-[#d1b411] font-black text-[13px] sm:text-[15px] uppercase tracking-[0.15em] sm:tracking-[0.2em] rounded-lg hover:bg-[#d1b411] hover:text-black transition-all shadow-[0_0_20px_rgba(209,180,17,0.15)] group"
           >
             Start gratis
-            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
           </button>
+          
           <Link
             to="/cookbook"
-            className="w-full xs:w-auto inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-4 sm:py-5 border-2 border-black/20 text-black/60 font-black text-sm sm:text-sm uppercase tracking-widest rounded-xl hover:border-[#d1b411] hover:text-[#d1b411] transition-all"
+            className="w-full flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-[#1e2532] text-slate-400 font-bold text-xs sm:text-[13px] uppercase tracking-widest rounded-lg hover:bg-[#283243] hover:text-white transition-all shadow-md"
           >
-            <BookOpen className="w-4 h-4" />
+            <BookOpen className="w-4 h-4 opacity-70" />
             Voorbeeldvragen
           </Link>
         </div>
