@@ -556,7 +556,6 @@ export const LandingPage: FC = () => {
           ))}
 
           <button
-            key={pkg.count}
             type="button"
             onClick={() => window.open(PRICING.SUBSCRIPTIONS[0].stripeUrl, "_blank")}
             className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black rounded-2xl hover:shadow-[6px_6px_0px_0px_black] hover:-translate-y-0.5 transition-all text-black dark:text-white relative"
