@@ -71,7 +71,7 @@ export const ContactPage: FC = () => {
                                 <p className="text-xs font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-1">E-mail</p>
                                 <a
                                     href="mailto:info@fainl.com"
-                                    className="text-base font-bold text-black dark:text-white hover:text-[#fdee00] transition-colors"
+                                    className="text-base font-bold text-black dark:text-white hover:text-zinc-600 transition-colors"
                                 >
                                     info@fainl.com
                                 </a>

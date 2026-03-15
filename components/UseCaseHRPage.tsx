@@ -109,7 +109,7 @@ export const UseCaseHRPage: FC = () => {
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           AI voor HR:{' '}
-          <span className="text-[#003366]">minder bias, betere kandidaten.</span>
+          <span className="text-black">minder bias, betere kandidaten.</span>
         </h1>
         <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
           Wervingsprocessen zijn gebaat bij meerdere invalshoeken — niet één mening van één model.
@@ -148,14 +148,14 @@ export const UseCaseHRPage: FC = () => {
         <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
             Betere werving begint met{' '}
-            <span className="text-[#003366]">meerdere perspectieven.</span>
+            <span className="text-black">meerdere perspectieven.</span>
           </h2>
           <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
             Stel je HR-vraag aan FAINL. Drie modellen analyseren onafhankelijk, bekritiseren elkaars
             aannames op bias en kwaliteit, en Victor synthetiseert het sterkste HR-advies — in één sessie.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#003366] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>

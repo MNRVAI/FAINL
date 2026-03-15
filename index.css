@@ -3,12 +3,12 @@
 
 :root {
   color-scheme: only light;
-  --color-primary: #003366;
-  --color-secondary: #FF9900;
-  --color-primary-light: #004D99;
-  --color-primary-dark: #001A33;
-  --color-secondary-light: #FFB347;
-  --color-accent-gradient: linear-gradient(135deg, #003366 0%, #FF9900 100%);
+  --color-primary: #000000;
+  --color-secondary: #000000;
+  --color-primary-light: #27272a; /* zinc-800 */
+  --color-primary-dark: #000000;
+  --color-secondary-light: #3f3f46; /* zinc-700 */
+  --color-accent-gradient: linear-gradient(135deg, #000000 0%, #3f3f46 100%);
   
   /* Legacy vars mapped to primary/secondary to avoid breakage */
   --color-lemon-primary: var(--color-primary);
@@ -159,12 +159,12 @@
 
 .card-fainl:hover {
   transform: translate(-4px, -4px);
-  box-shadow: 12px 12px 0 0 var(--color-lemon-primary);
+  box-shadow: 12px 12px 0 0 black;
   border-color: var(--color-lemon-light);
 }
 
 .dark .card-fainl:hover {
-  box-shadow: 12px 12px 0 0 rgba(253, 238, 0, 0.3);
+  box-shadow: 12px 12px 0 0 rgba(0, 0, 0, 0.4);
 }
 
 .card__badge {
@@ -297,7 +297,7 @@
 
 .gold-material-btn:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0px 0px var(--color-lemon-primary);
+  box-shadow: 8px 8px 0px 0px black;
   background: var(--color-lemon-primary);
 }
 

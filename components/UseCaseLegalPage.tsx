@@ -109,7 +109,7 @@ export const UseCaseLegalPage: FC = () => {
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           AI voor juridisch advies:{' '}
-          <span className="text-[#003366]">drie modellen zien meer.</span>
+          <span className="text-black">drie modellen zien meer.</span>
         </h1>
         <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
           Juridische vragen hebben zelden één correct antwoord — ze kennen interpretaties,
@@ -163,7 +163,7 @@ export const UseCaseLegalPage: FC = () => {
       <section aria-label="CTA" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
         <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
-            Drie AI-modellen, <span className="text-[#003366]">één juridisch eindoordeel</span>
+            Drie AI-modellen, <span className="text-black">één juridisch eindoordeel</span>
           </h2>
           <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
             Stel je juridische vraag aan FAINL. ChatGPT, Gemini én Claude analyseren parallel,
@@ -171,7 +171,7 @@ export const UseCaseLegalPage: FC = () => {
             gewogen antwoord — inclusief de kanttekeningen.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#003366] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Stel je vraag — twee gratis sessies
             <ArrowRight className="w-4 h-4" />
           </button>

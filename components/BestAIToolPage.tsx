@@ -135,7 +135,7 @@ export const BestAIToolPage: FC = () => {
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           Beste AI-tool Nederland:{' '}
-          <span className="text-[#FF9900]">ChatGPT, Gemini, Claude of FAINL?</span>
+          <span className="text-black">ChatGPT, Gemini, Claude of FAINL?</span>
         </h1>
         <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
           De markt voor AI-tools groeit snel — maar welke past het best bij jouw gebruik?
@@ -156,16 +156,16 @@ export const BestAIToolPage: FC = () => {
             <div key={tool.name}
               className={`border-2 rounded-2xl p-6 bg-white dark:bg-zinc-900 relative ${
                 tool.highlight
-                  ? 'border-[#FF9900] shadow-[4px_4px_0px_0px_rgba(255,153,0,0.5)]'
+                  ? 'border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]'
                   : 'border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]'
               }`}>
               {tool.highlight && (
-                <div className="absolute -top-3 left-6 flex items-center gap-1.5 px-3 py-1 bg-[#FF9900] rounded-full">
+                <div className="absolute -top-3 left-6 flex items-center gap-1.5 px-3 py-1 bg-black text-white rounded-full">
                   <Crown className="w-3 h-3 text-black" />
                   <span className="text-sm font-black uppercase tracking-widest text-black">Aanbevolen</span>
                 </div>
               )}
-              <h3 className={`font-black text-xl uppercase tracking-tight mb-1 ${tool.highlight ? 'text-[#FF9900]' : 'text-black dark:text-white'}`}>{tool.name}</h3>
+              <h3 className={`font-black text-xl uppercase tracking-tight mb-1 ${tool.highlight ? 'text-black' : 'text-black dark:text-white'}`}>{tool.name}</h3>
               <p className="text-sm text-black/50 dark:text-white/40 mb-4">{tool.tagline}</p>
 
               <div className="space-y-1.5 mb-4">
@@ -206,7 +206,7 @@ export const BestAIToolPage: FC = () => {
               <tr className="border-b-2 border-black dark:border-white/20">
                 <th className="text-left px-5 py-4 font-black uppercase tracking-tight text-sm text-black/50 dark:text-white/40">Eigenschap</th>
                 {['ChatGPT', 'Gemini', 'Claude', 'FAINL'].map(name => (
-                  <th key={name} className={`px-4 py-4 font-black uppercase tracking-tight text-sm text-center ${name === 'FAINL' ? 'text-[#FF9900]' : 'text-black dark:text-white'}`}>{name}</th>
+                  <th key={name} className={`px-4 py-4 font-black uppercase tracking-tight text-sm text-center ${name === 'FAINL' ? 'text-black' : 'text-black dark:text-white'}`}>{name}</th>
                 ))}
               </tr>
             </thead>
@@ -217,7 +217,7 @@ export const BestAIToolPage: FC = () => {
                   {[row.chatgpt, row.gemini, row.claude, row.fainl].map((val, j) => (
                     <td key={j} className="px-4 py-3.5 text-center">
                       {val
-                        ? <Check className={`w-4 h-4 mx-auto ${j === 3 ? 'text-[#FF9900]' : 'text-green-600 dark:text-green-400'}`} />
+                        ? <Check className={`w-4 h-4 mx-auto ${j === 3 ? 'text-black' : 'text-green-600 dark:text-green-400'}`} />
                         : <X className="w-4 h-4 mx-auto text-black/20 dark:text-white/20" />
                       }
                     </td>
@@ -232,7 +232,7 @@ export const BestAIToolPage: FC = () => {
       <section aria-label="CTA" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
         <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
-            Niet kiezen. <span className="text-[#FF9900]">Alles tegelijk.</span>
+            Niet kiezen. <span className="text-black">Alles tegelijk.</span>
           </h2>
           <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
             Met FAINL hoef je niet te kiezen tussen ChatGPT, Gemini en Claude.
@@ -240,7 +240,7 @@ export const BestAIToolPage: FC = () => {
             Gratis starten, geen account nodig.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#FF9900] text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
@@ -254,7 +254,7 @@ export const BestAIToolPage: FC = () => {
             <div key={i} className="border-b border-black/10 dark:border-white/10 last:border-0">
               <button type="button" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-start justify-between py-5 text-left gap-4 group">
-                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-[#FF9900] transition-colors">{faq.q}</span>
+                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">{faq.q}</span>
                 <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
               {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}

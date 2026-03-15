@@ -193,7 +193,7 @@ export const AccountPage: FC<AccountPageProps> = ({
         </div>
         <button
           onClick={() => navigate('/tokens')}
-          className="flex items-center gap-2 px-6 py-3 bg-[#003366] border-4 border-black shadow-[4px_4px_0_0_black] font-black text-white text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#FF9900] transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-black border-4 border-black shadow-[4px_4px_0_0_black] font-black text-white text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_black] transition-all"
         >
           <CreditCard className="w-4 h-4" />
           Credits Kopen
@@ -202,17 +202,17 @@ export const AccountPage: FC<AccountPageProps> = ({
 
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 md:mb-16">
-        <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
-          <Zap className="w-5 h-5 mb-1 text-[#003366]" />
+        <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
+          <Zap className="w-5 h-5 mb-1 text-white" />
           <div className="text-3xl font-black">{creditsRemaining}</div>
           <div className="text-sm font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
+        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <MessageSquare className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{freeSessiesResterend}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Gratis Sessies</div>
         </div>
-        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#003366] transition-all flex flex-col gap-1">
+        <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <History className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{totalSessies}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
@@ -260,7 +260,7 @@ export const AccountPage: FC<AccountPageProps> = ({
               {DEFAULT_COUNCIL.map(node => (
                 <div key={node.id} className="p-3 bg-zinc-50 border-2 border-black/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-[#003366] rounded-full" />
+                    <div className="w-2 h-2 bg-black rounded-full" />
                     <div>
                       <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
                     </div>
@@ -299,7 +299,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 <button
                   onClick={handleAddNode}
                   disabled={!newNode.name || !newNode.role}
-                  className="w-full py-3 bg-[#FF9900] text-black font-black uppercase tracking-widest text-sm border-2 border-black shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_#003366] active:shadow-none active:translate-y-1 transition-all disabled:opacity-40"
+                  className="w-full py-3 bg-black text-white font-black uppercase tracking-widest text-sm border-2 border-black shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_black] active:shadow-none active:translate-y-1 transition-all disabled:opacity-40"
                 >
                   Node Activeren
                 </button>
@@ -313,9 +313,9 @@ export const AccountPage: FC<AccountPageProps> = ({
                 {config.customNodes.map(node => {
                   const isActive = isNodeActiveInCouncil(node.id);
                   return (
-                    <div key={node.id} className={`p-4 bg-white border-2 border-black flex items-center justify-between group shadow-[2px_2px_0_0_black] hover:border-[#FF9900] hover:shadow-[4px_4px_0_0_#003366] transition-all ${isActive ? 'border-[#FF9900] shadow-[4px_4px_0_0_#003366]' : ''}`}>
+                    <div key={node.id} className={`p-4 bg-white border-2 border-black flex items-center justify-between group shadow-[2px_2px_0_0_black] hover:border-black hover:shadow-[4px_4px_0_0_black] transition-all ${isActive ? 'border-black shadow-[4px_4px_0_0_black]' : ''}`}>
                       <div className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-[#fdee00]' : 'bg-black/20'}`} />
+                        <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-black' : 'bg-black/20'}`} />
                         <div>
                           <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
                           <p className="text-base font-bold text-black/40">{node.role}</p>
@@ -325,7 +325,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                         <button
                           onClick={() => handleToggleNodeInCouncil(node)}
                           title={isActive ? 'Deactiveer in raad' : 'Activeer in raad'}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 font-black text-sm uppercase tracking-widest border transition-all ${isActive ? 'bg-[#fdee00] border-black text-black' : 'bg-zinc-100 border-black/20 text-black/50 hover:border-black hover:text-black'}`}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 font-black text-sm uppercase tracking-widest border transition-all ${isActive ? 'bg-black border-black text-white' : 'bg-zinc-100 border-black/20 text-black/50 hover:border-black hover:text-black'}`}
                         >
                           {isActive ? <ToggleRight className="w-3.5 h-3.5" /> : <ToggleLeft className="w-3.5 h-3.5" />}
                           {isActive ? 'Actief' : 'Inactief'}
@@ -475,7 +475,7 @@ export const AccountPage: FC<AccountPageProps> = ({
 
                     <button
                       onClick={() => onLoadSession(session)}
-                      className="w-full flex items-center justify-between p-4 bg-white border-2 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_#FF9900] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                      className="w-full flex items-center justify-between p-4 bg-white border-2 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
                     >
                     <div className="flex items-center gap-3 overflow-hidden">
                       <div className="p-2 bg-zinc-100 rounded-lg flex-shrink-0">

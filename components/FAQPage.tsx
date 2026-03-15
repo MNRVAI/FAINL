@@ -176,7 +176,7 @@ export const FAQPage: FC = () => {
         {FAQS.map((faq, idx) => (
           <div
             key={idx}
-            className={`bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-2xl md:rounded-[2rem] overflow-hidden transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.05)] ${openIndex === idx ? 'ring-2 ring-[#fdee00]' : ''}`}
+            className={`bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-2xl md:rounded-[2rem] overflow-hidden transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.05)] ${openIndex === idx ? 'ring-2 ring-black' : ''}`}
           >
             <button
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}

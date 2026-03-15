@@ -151,7 +151,7 @@ export const CompareVsChatGPTPage: FC = () => {
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           Één AI of consensus?{' '}
-          <span className="text-[#003366]">dat hangt af van de inzet.</span>
+          <span className="text-black">dat hangt af van de inzet.</span>
         </h1>
         <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
           ChatGPT is snel en veelzijdig. FAINL laat meerdere AI-modellen tegelijk meedenken,
@@ -160,7 +160,7 @@ export const CompareVsChatGPTPage: FC = () => {
           <strong className="text-black dark:text-white">Geen reclame — een eerlijke vergelijking.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-[#003366] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
           Probeer zelf het verschil — gratis
           <ArrowRight className="w-4 h-4" />
         </button>
@@ -212,7 +212,7 @@ export const CompareVsChatGPTPage: FC = () => {
               <ul className="space-y-2.5">
                 {sc.items.map((item, i) => (
                   <li key={i} className="flex items-start gap-2.5">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#003366] shrink-0" />
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-black shrink-0" />
                     <span className="text-sm text-black/60 dark:text-white/50 leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -244,14 +244,14 @@ export const CompareVsChatGPTPage: FC = () => {
         <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
             Klaar om het{' '}
-            <span className="text-[#003366]">zelf te ervaren?</span>
+            <span className="text-black">zelf te ervaren?</span>
           </h2>
           <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
             Stel dezelfde vraag die je normaal aan ChatGPT stelt — en zie wat er gebeurt als drie
             AI-modellen onafhankelijk antwoorden en elkaars conclusies bekritiseren.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#003366] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>
@@ -266,7 +266,7 @@ export const CompareVsChatGPTPage: FC = () => {
             <div key={i} className="border-b border-black/10 dark:border-white/10 last:border-0">
               <button type="button" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-start justify-between py-5 text-left gap-4 group">
-                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-[#003366] transition-colors">{faq.q}</span>
+                <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">{faq.q}</span>
                 <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
               {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}

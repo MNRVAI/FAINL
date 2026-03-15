@@ -178,7 +178,7 @@ const PaymentSuccessPage: FC = () => {
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_black]">
-        <div className="w-16 h-16 bg-[#003366] border-4 border-black flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-black border-4 border-black flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-black" />
         </div>
         <h1 className="text-3xl font-black uppercase tracking-tighter mb-3 text-black">
@@ -205,7 +205,7 @@ const PaymentSuccessPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="px-8 py-4 bg-[#003366] border-2 border-black text-white font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+            className="px-8 py-4 bg-black border-2 border-black text-white font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
           >
             Nieuwe Missie
           </button>
@@ -716,7 +716,7 @@ const App: FC = () => {
                       />
                     </span>
                     {link.label}
-                    {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#003366]" />}
+                    {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-black" />}
                   </button>
                 );
               })}
@@ -760,13 +760,13 @@ const App: FC = () => {
         <div className="w-full bg-black text-white px-4 py-2.5 relative">
           {newsletterState === 'banner' && (
             <div className="flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest">
-              <span className="text-[#FF9900]">★</span>
+              <span className="text-zinc-400">★</span>
               <span>15% korting op je eerste aankoop</span>
               <span className="text-white/40 hidden sm:inline">—</span>
               <button
                 type="button"
                 onClick={() => setNewsletterState('form')}
-                className="underline hover:text-[#003366] transition-colors hidden sm:inline"
+                className="underline hover:text-white transition-colors hidden sm:inline"
               >
                 Aanmelden voor nieuwsbrief
               </button>
@@ -774,19 +774,19 @@ const App: FC = () => {
           )}
           {(newsletterState === 'form' || newsletterState === 'submitting') && (
             <form onSubmit={handleNewsletterSubmit} className="flex items-center justify-center gap-2 flex-wrap">
-              <span className="text-[#fdee00] text-sm font-black uppercase tracking-widest whitespace-nowrap">★ 15% korting</span>
+              <span className="text-zinc-300 text-sm font-black uppercase tracking-widest whitespace-nowrap">★ 15% korting</span>
               <input
                 type="email"
                 required
                 value={newsletterEmail}
                 onChange={e => setNewsletterEmail(e.target.value)}
                 placeholder="jouw@email.nl"
-                className="bg-white/10 border border-white/30 text-white placeholder-white/40 text-sm px-3 py-1.5 outline-none focus:border-[#FF9900] transition-colors w-48"
+                className="bg-white/10 border border-white/30 text-white placeholder-white/40 text-sm px-3 py-1.5 outline-none focus:border-white transition-colors w-48"
               />
               <button
                 type="submit"
                 disabled={newsletterState === 'submitting'}
-                className="bg-[#003366] text-white text-sm font-black uppercase tracking-widest px-3 py-1.5 hover:opacity-90 transition-colors disabled:opacity-60"
+                className="bg-white text-black text-sm font-black uppercase tracking-widest px-3 py-1.5 hover:bg-zinc-200 transition-colors disabled:opacity-60"
               >
                 {newsletterState === 'submitting' ? '...' : 'Aanmelden'}
               </button>
@@ -806,10 +806,10 @@ const App: FC = () => {
         </div>
       )}
       {newsletterState === 'success' && (
-        <div className="w-full bg-[#fdee00] text-black px-4 py-2.5 flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest relative">
+        <div className="w-full bg-white text-black px-4 py-2.5 flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest relative">
           <span>✓ Aangemeld!</span>
           <span className="text-black/60">Jouw kortingscode:</span>
-          <span className="bg-black text-[#fdee00] px-2 py-0.5 font-mono tracking-normal select-all">promo_1T9tKD2Z8WgVHOZM0xJIa5Py</span>
+          <span className="bg-black text-white px-2 py-0.5 font-mono tracking-normal select-all">promo_1T9tKD2Z8WgVHOZM0xJIa5Py</span>
           <button
             type="button"
             onClick={() => setIsAnnouncementVisible(false)}
