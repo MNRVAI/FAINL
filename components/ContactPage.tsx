@@ -49,11 +49,11 @@ export const ContactPage: FC = () => {
         <div className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-28 animate-in fade-in slide-in-from-bottom-4 duration-700">
 
             {/* Header */}
-            <div className="mb-16 md:mb-20">
-                <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-black dark:text-white leading-none mb-6">
-                    Contact
+            <div className="mb-20 md:mb-32">
+                <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-none mb-8">
+                    Contact <span className="text-[#03B390]">vraag?</span>
                 </h1>
-                <p className="text-base md:text-lg text-black/50 dark:text-white/50 max-w-xl leading-relaxed">
+                <p className="text-xl md:text-3xl text-black/70 dark:text-white/80 max-w-2xl leading-relaxed font-bold">
                     Vragen over FAINL, feedback of interesse in samenwerking? Stuur een bericht — we reageren binnen 12 uur.
                 </p>
             </div>
@@ -61,40 +61,40 @@ export const ContactPage: FC = () => {
             <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-start">
 
                 {/* Left — info */}
-                <div className="lg:w-2/5 space-y-8">
-                    <div className="space-y-6">
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-black dark:bg-white flex items-center justify-center flex-shrink-0">
-                                <Mail className="w-5 h-5 text-white dark:text-black" />
+                <div className="lg:w-2/5 space-y-12">
+                    <div className="space-y-8">
+                        <div className="flex items-start gap-6">
+                            <div className="w-14 h-14 rounded-none bg-black dark:bg-[#03B390] flex items-center justify-center flex-shrink-0">
+                                <Mail className="w-7 h-7 text-white dark:text-black" />
                             </div>
                             <div>
-                                <p className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-1">E-mail</p>
+                                <p className="text-base font-black uppercase tracking-widest text-[#03B390] dark:text-[#03B390] mb-1">E-mail</p>
                                 <a
                                     href="mailto:info@fainl.com"
-                                    className="text-base font-bold text-black dark:text-white hover:text-zinc-600 transition-colors"
+                                    className="text-xl md:text-2xl font-black text-black dark:text-white hover:text-[#03B390] transition-colors"
                                 >
                                     info@fainl.com
                                 </a>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-black dark:bg-white flex items-center justify-center flex-shrink-0">
-                                <Zap className="w-5 h-5 text-white dark:text-black" />
+                        <div className="flex items-start gap-6">
+                            <div className="w-14 h-14 rounded-none bg-black dark:bg-[#03B390] flex items-center justify-center flex-shrink-0">
+                                <Zap className="w-7 h-7 text-white dark:text-black" />
                             </div>
                             <div>
-                                <p className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-1">Reactietijd</p>
-                                <p className="text-base font-bold text-black dark:text-white">Binnen 12 uur</p>
+                                <p className="text-base font-black uppercase tracking-widest text-[#03B390] dark:text-[#03B390] mb-1">Reactietijd</p>
+                                <p className="text-xl md:text-2xl font-black text-black dark:text-white">Binnen 12 uur</p>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl bg-black dark:bg-white flex items-center justify-center flex-shrink-0">
-                                <MessageSquare className="w-5 h-5 text-white dark:text-black" />
+                        <div className="flex items-start gap-6">
+                            <div className="w-14 h-14 rounded-none bg-black dark:bg-[#03B390] flex items-center justify-center flex-shrink-0">
+                                <MessageSquare className="w-7 h-7 text-white dark:text-black" />
                             </div>
                             <div>
-                                <p className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-1">Onderwerpen</p>
-                                <p className="text-base font-bold text-black dark:text-white">Support · Feedback · Partnerships</p>
+                                <p className="text-base font-black uppercase tracking-widest text-[#03B390] dark:text-[#03B390] mb-1">Onderwerpen</p>
+                                <p className="text-xl md:text-2xl font-black text-black dark:text-white">Support · Feedback · Partnerships</p>
                             </div>
                         </div>
                     </div>
@@ -102,10 +102,10 @@ export const ContactPage: FC = () => {
 
                 {/* Right — form */}
                 <div className="lg:w-3/5 w-full">
-                    <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 p-8 md:p-12 rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none">
-                        <form className="space-y-6" onSubmit={handleSubmit}>
-                            <div className="space-y-2">
-                                <label className="block text-sm font-black text-black/50 dark:text-white/40 uppercase tracking-[0.2em]">
+                    <div className="bg-white dark:bg-black border-4 border-black dark:border-[#03B390] p-10 md:p-16 rounded-none shadow-[15px_15px_0_0_black] dark:shadow-[15px_15px_0_0_#03B390]">
+                        <form className="space-y-10" onSubmit={handleSubmit}>
+                            <div className="space-y-4">
+                                <label className="block text-base font-black text-[#03B390] dark:text-[#03B390] uppercase tracking-[0.2em]">
                                     Naam
                                 </label>
                                 <input
@@ -115,12 +115,12 @@ export const ContactPage: FC = () => {
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="Jouw naam"
                                     disabled={status !== 'idle'}
-                                    className="w-full bg-zinc-50 dark:bg-zinc-800 border-2 border-black/10 dark:border-white/10 p-4 rounded-xl font-medium text-base focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-zinc-700 transition-all outline-none text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/20 disabled:opacity-50"
+                                    className="w-full bg-white dark:bg-black border-4 border-black dark:border-white/20 p-6 rounded-none font-black text-xl focus:border-[#03B390] dark:focus:border-[#03B390] transition-all outline-none text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 disabled:opacity-50"
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="block text-sm font-black text-black/50 dark:text-white/40 uppercase tracking-[0.2em]">
+                            <div className="space-y-4">
+                                <label className="block text-base font-black text-[#03B390] dark:text-[#03B390] uppercase tracking-[0.2em]">
                                     Bericht
                                 </label>
                                 <textarea
@@ -129,35 +129,35 @@ export const ContactPage: FC = () => {
                                     onChange={(e) => setPayload(e.target.value)}
                                     placeholder="Schrijf je bericht..."
                                     disabled={status !== 'idle'}
-                                    rows={6}
-                                    className="w-full bg-zinc-50 dark:bg-zinc-800 border-2 border-black/10 dark:border-white/10 p-4 rounded-xl font-medium text-base focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-zinc-700 transition-all outline-none resize-none text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/20 disabled:opacity-50"
+                                    rows={8}
+                                    className="w-full bg-white dark:bg-black border-4 border-black dark:border-white/20 p-6 rounded-none font-black text-xl focus:border-[#03B390] dark:focus:border-[#03B390] transition-all outline-none resize-none text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 disabled:opacity-50"
                                 />
                             </div>
 
                             {errorMessage && (
-                                <p className="text-base font-bold text-red-500">{errorMessage}</p>
+                                <p className="text-xl font-black text-red-500 uppercase tracking-tight">{errorMessage}</p>
                             )}
 
                             <button
                                 type="submit"
                                 disabled={status !== 'idle' || !name || !payload}
-                                className={`w-full py-5 rounded-xl font-black uppercase tracking-[0.2em] text-base transition-all flex items-center justify-center gap-3 ${
+                                className={`w-full py-6 rounded-none font-black uppercase tracking-[0.2em] text-xl transition-all flex items-center justify-center gap-4 ${
                                     status === 'success'
                                         ? 'bg-green-500 text-white'
-                                        : 'bg-black dark:bg-white text-white dark:text-black hover:scale-[1.02] active:scale-[0.98] shadow-lg'
-                                } disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100`}
+                                        : 'bg-black dark:bg-[#03B390] text-white dark:text-black hover:bg-[#03B390] hover:text-black dark:hover:bg-white transition-all shadow-xl'
+                                } disabled:opacity-40 disabled:cursor-not-allowed`}
                             >
                                 {status === 'idle' && (
-                                    <><Send className="w-4 h-4" /> Verstuur bericht</>
+                                    <><Send className="w-5 h-5" /> Verstuur bericht</>
                                 )}
                                 {status === 'transmitting' && (
-                                    <><Loader2 className="w-4 h-4 animate-spin" /> Bezig met verzenden...</>
+                                    <><Loader2 className="w-5 h-5 animate-spin" /> Transmitting...</>
                                 )}
                                 {status === 'success' && (
-                                    <><CheckCircle2 className="w-4 h-4" /> Bericht verzonden!</>
+                                    <><CheckCircle2 className="w-5 h-5" /> Verzonden!</>
                                 )}
                                 {status === 'error' && (
-                                    <><Send className="w-4 h-4" /> Opnieuw proberen</>
+                                    <><Send className="w-5 h-5" /> Opnieuw proberen</>
                                 )}
                             </button>
                         </form>

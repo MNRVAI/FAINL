@@ -12,21 +12,21 @@ export const AiTermsPage: FC = () => {
       keywords="FAINL AI voorwaarden, AI gebruiksvoorwaarden, AI terms FAINL"
     />
     <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-16 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-none">
+      <div className="bg-white dark:bg-black border-4 border-black dark:border-[#03B390] p-10 md:p-20 shadow-[15px_15px_0_0_black] dark:shadow-[15px_15px_0_0_#03B390] rounded-none">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12 pb-10 border-b-4 border-black/10 dark:border-white/10">
-          <div className="w-16 h-16 bg-black dark:bg-white rounded-xl flex items-center justify-center shrink-0">
-            <Cpu className="text-white dark:text-black w-8 h-8" />
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-16 pb-12 border-b-4 border-black/10 dark:border-[#03B390]/20">
+          <div className="w-20 h-20 bg-black dark:bg-[#03B390] rounded-none flex items-center justify-center shrink-0">
+            <Cpu className="text-white dark:text-black w-10 h-10" />
           </div>
           <div>
-            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white leading-none mb-2">Aanvullende AI-Gebruiksvoorwaarden</h1>
-            <p className="text-base font-bold text-black/40 dark:text-white/40 uppercase tracking-widest">FAINL — MNRV · Versie 03.2026 · Bijgewerkt 13-03-2026</p>
+            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white leading-tight mb-4">Aanvullende AI-Gebruiksvoorwaarden</h1>
+            <p className="text-lg font-black text-[#03B390] dark:text-[#03B390] uppercase tracking-widest">FAINL — MNRV · Versie 03.2026 · Bijgewerkt 13-03-2026</p>
           </div>
         </div>
 
         {/* Body */}
-        <div className="prose prose-base max-w-none dark:prose-invert prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3 prose-p:text-black/70 dark:prose-p:text-white/60 prose-li:text-black/70 dark:prose-li:text-white/60 prose-strong:text-black dark:prose-strong:text-white">
+        <div className="prose prose-xl max-w-none dark:prose-invert prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-p:text-black/80 dark:prose-p:text-white/80 prose-li:text-black/80 dark:prose-li:text-white/80 prose-strong:text-black dark:prose-strong:text-[#03B390]">
 
           <h2>Toepasselijkheid</h2>
           <p>Deze aanvullende voorwaarden zijn van toepassing op ieder gebruik van AI-functionaliteiten binnen FAINL en vormen een aanvulling op de algemene voorwaarden. Bij strijdigheid prevaleren deze aanvullende voorwaarden voor zover het specifiek AI-functionaliteiten betreft.</p>

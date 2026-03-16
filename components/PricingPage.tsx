@@ -42,29 +42,29 @@ export const PricingPage: FC<PricingPageProps> = ({
       canonical="/tokens"
       keywords="FAINL prijzen, AI credits kopen, AI abonnement Nederland, meerdere AI modellen prijs"
     />
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-center mb-10 md:mb-16">
-        <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-3 text-black dark:text-white">
+    <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="text-center mb-16 md:mb-24">
+        <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-6 text-black dark:text-white leading-none">
           {language === 'nl' ? 'Prijzen & Credits' : 'Pricing & Credits'}
         </h1>
-        <p className="max-w-xl mx-auto text-black/60 dark:text-white/60 font-bold text-base md:text-lg leading-relaxed">
+        <p className="max-w-2xl mx-auto text-black/70 dark:text-white/70 font-bold text-xl md:text-3xl leading-tight">
           {language === 'nl'
-            ? 'Betaal per credit of kies een maandelijks abonnement.'
-            : 'Pay per credit or choose a monthly subscription.'}
+            ? 'Betaal per credit of kies een maandelijks abonnement voor onbeperkte mogelijkheden.'
+            : 'Pay per credit or choose a monthly subscription for unlimited possibilities.'}
         </p>
       </div>
 
       {/* One-time credits */}
-      <div className="mb-20">
-        <div className="flex items-center gap-4 mb-10 justify-center sm:justify-start">
-          <div className="bg-black dark:bg-[#03B390]/20 p-3 border-2 border-black dark:border-[#03B390]/40 shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_#03B390] transition-all">
-            <Shield className="w-6 h-6 text-white" />
+      <div className="mb-32">
+        <div className="flex items-center gap-6 mb-12 justify-center sm:justify-start">
+          <div className="bg-[#03B390] p-5 border-4 border-black shadow-[8px_8px_0_0_black] transition-all">
+            <Shield className="w-10 h-10 text-black" />
           </div>
           <div>
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-black dark:text-white">
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white">
               {language === 'nl' ? 'Credits Kopen' : 'Buy Credits'}
             </h2>
-            <p className="text-base font-black uppercase tracking-[0.15em] text-black/50 dark:text-white/40">
+            <p className="text-xl font-black uppercase tracking-[0.2em] text-[#03B390]">
               {language === 'nl' ? 'Eenmalige credits, verlopen nooit.' : 'One-time credits, never expire.'}
             </p>
           </div>
@@ -72,21 +72,21 @@ export const PricingPage: FC<PricingPageProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {PRICING.CREDITS.map((pkg, idx) => (
-            <div key={idx} className="card-fainl">
-              <div className="card__badge">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
-              <span className="card__title">€{pkg.price}</span>
-              <p className="card__subtitle">Multi-AI analyse.</p>
+            <div key={idx} className="card-fainl bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none p-8 shadow-[12px_12px_0_0_#03B390] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+              <div className="bg-black text-[#03B390] text-lg font-black px-4 py-2 uppercase tracking-widest inline-block mb-6">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
+              <div className="text-6xl font-black text-black dark:text-white mb-2">€{pkg.price}</div>
+              <p className="text-xl font-bold text-black/50 dark:text-white/40 mb-8 lowercase tracking-widest">Multi-AI analyse.</p>
 
-              <ul className="card__lists">
-                <li className="card__list"><CheckIcon /> <span>Standaard</span></li>
-                <li className="card__list"><CheckIcon /> <span>{pkg.count} {pkg.count === 1 ? 'credit = één vraag' : `credits = ${pkg.count} vragen`}</span></li>
-                <li className="card__list"><CheckIcon /> <span>Complete analyse</span></li>
-                <li className="card__list"><CheckIcon /> <span>Multi AI inzet</span></li>
-                <li className="card__list"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
+              <ul className="space-y-4 mb-10">
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Standaard</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{pkg.count} {pkg.count === 1 ? 'credit = één vraag' : `credits = ${pkg.count} vragen`}</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Complete analyse</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Multi AI inzet</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="gold-material-btn w-full p-4 text-white font-black text-sm sm:text-lg uppercase tracking-widest rounded-lg">
-                {language === 'nl' ? `Koop ${pkg.count} ${pkg.count === 1 ? 'credit' : 'credits'}` : `Buy ${pkg.count} ${pkg.count === 1 ? 'credit' : 'credits'}`}
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-[#03B390] hover:bg-[#03B390] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[6px_6px_0_0_black]">
+                {language === 'nl' ? `Koop ${pkg.count}` : `Buy ${pkg.count}`}
               </button>
             </div>
           ))}
@@ -102,15 +102,15 @@ export const PricingPage: FC<PricingPageProps> = ({
 
       {/* Subscriptions */}
       <div>
-        <div className="flex items-center gap-4 mb-10 justify-center sm:justify-start">
-          <div className="bg-black p-3 border-2 border-black shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_black] transition-all text-white">
-            <Zap className="w-6 h-6" />
+        <div className="flex items-center gap-6 mb-12 justify-center sm:justify-start">
+          <div className="bg-black p-5 border-4 border-[#03B390] shadow-[8px_8px_0_0_#03B390] transition-all text-[#03B390]">
+            <Zap className="w-10 h-10" />
           </div>
           <div>
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-black dark:text-white">
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white">
               {language === 'nl' ? 'Maandelijks Abonnement' : 'Monthly Subscription'}
             </h2>
-            <p className="text-base font-black uppercase tracking-[0.15em] text-black/50 dark:text-white/40">
+            <p className="text-xl font-black uppercase tracking-[0.2em] text-[#03B390]">
               {language === 'nl' ? 'Automatisch hernieuwd elke maand.' : 'Automatically renewed each month.'}
             </p>
           </div>
@@ -118,20 +118,20 @@ export const PricingPage: FC<PricingPageProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center sm:justify-start">
           {PRICING.SUBSCRIPTIONS.map((pkg, idx) => (
-            <div key={idx} className="card-fainl">
-              <div className="card__badge !bg-black !text-white">{pkg.label}</div>
-              <span className="card__title">€{pkg.price}<span className="text-sm lowercase ml-1">{pkg.period}</span></span>
-              <p className="card__subtitle">{language === 'nl' ? 'Onbeperkt archief.' : 'Unlimited archive.'}</p>
+            <div key={idx} className="card-fainl bg-black text-white border-4 border-[#03B390] rounded-none p-10 shadow-[15px_15px_0_0_#03B390] hover:scale-105 transition-all">
+              <div className="bg-[#03B390] text-black text-lg font-black px-6 py-2 uppercase tracking-widest inline-block mb-8">{pkg.label}</div>
+              <div className="text-7xl font-black text-white mb-3">€{pkg.price}<span className="text-xl font-bold lowercase opacity-40 ml-2">/{pkg.period}</span></div>
+              <p className="text-xl font-bold text-[#03B390] mb-10 tracking-widest uppercase">{language === 'nl' ? 'Onbeperkt archief.' : 'Unlimited archive.'}</p>
 
-              <ul className="card__lists">
-                <li className="card__list"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
-                <li className="card__list"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
-                <li className="card__list"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
-                <li className="card__list"><CheckIcon /> <span>Multi AI inzet</span></li>
-                <li className="card__list"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
+              <ul className="space-y-5 mb-12">
+                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
+                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
+                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
+                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>Multi AI inzet</span></li>
+                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="gold-material-btn w-full p-5 text-white font-black text-sm sm:text-lg uppercase tracking-widest rounded-lg">
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-[#03B390] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[10px_10px_0_0_black]">
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
               </button>
             </div>

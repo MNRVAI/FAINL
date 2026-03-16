@@ -161,40 +161,40 @@ export const FAQPage: FC = () => {
         keywords="FAINL FAQ, AI consensus vragen, meerdere AI modellen, AI vergelijken Nederland"
       />
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-center mb-16 md:mb-24">
-        <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
+      <div className="text-center mb-20 md:mb-32">
+        <h1 className="text-3xl md:text-6xl lg:text-8xl font-black uppercase tracking-tighter mb-8 text-black dark:text-white leading-tight">
           {language === 'nl' ? 'Veelgestelde Vragen over FAINL' : 'Frequently Asked Questions'}
         </h1>
-        <p className="max-w-2xl mx-auto text-black/60 dark:text-white/60 font-bold text-base md:text-lg leading-relaxed">
+        <p className="max-w-3xl mx-auto text-black/70 dark:text-white/80 font-bold text-xl md:text-2xl leading-relaxed">
           {language === 'nl'
             ? 'Lees hier hoe FAINL precies werkt, wat het kost en hoe we jouw data beschermen.'
             : 'Access the foundational logic and operational guidelines of the FAINL Orchestration Layer. Understand the mechanics of decentralized consensus and neural governance.'}
         </p>
       </div>
 
-      <div className="space-y-4 md:space-y-6 max-w-4xl mx-auto">
+      <div className="space-y-6 md:space-y-10 max-w-5xl mx-auto">
         {FAQS.map((faq, idx) => (
           <div
             key={idx}
-            className={`bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-2xl md:rounded-[2rem] overflow-hidden transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.05)] ${openIndex === idx ? 'ring-2 ring-black' : ''}`}
+            className={`bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none overflow-hidden transition-all shadow-[12px_12px_0_0_black] dark:shadow-[12px_12px_0_0_#03B390] ${openIndex === idx ? 'ring-4 ring-[#03B390]' : ''}`}
           >
             <button
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-              className="w-full text-left p-6 md:p-10 flex items-center justify-between group"
+              className="w-full text-left p-8 md:p-12 flex items-center justify-between group"
             >
-              <div className="flex items-center gap-4 md:gap-8">
-                <div className={`p-3 rounded-xl transition-colors ${openIndex === idx ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-black/5 dark:bg-white/5 text-black dark:text-white'}`}>
-                  <faq.icon className="w-5 h-5 md:w-6 md:h-6" />
+              <div className="flex items-center gap-6 md:gap-10">
+                <div className={`p-4 rounded-none transition-colors ${openIndex === idx ? 'bg-[#03B390] text-black' : 'bg-black dark:bg-[#03B390] text-white dark:text-black'}`}>
+                  <faq.icon className="w-6 h-6 md:w-8 md:h-8" />
                 </div>
-                <h3 className="text-lg md:text-xl font-black uppercase tracking-tight leading-tight text-black dark:text-white">{faq.q}</h3>
+                <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight leading-tight text-black dark:text-white">{faq.q}</h3>
               </div>
               <div className={`transition-transform duration-300 ${openIndex === idx ? 'rotate-180' : ''}`}>
-                <ChevronDown className="w-6 h-6 md:w-8 md:h-8 text-black dark:text-white opacity-20 group-hover:opacity-100" />
+                <ChevronDown className="w-8 h-8 md:w-12 md:h-12 text-black dark:text-[#03B390]" />
               </div>
             </button>
             {openIndex === idx && (
-              <div className="px-6 md:px-10 pb-6 md:pb-10 animate-in slide-in-from-top-4 duration-300">
-                <div className="pt-6 border-t-2 border-black/5 dark:border-white/5 text-base md:text-lg font-medium text-black/70 dark:text-white/70 leading-relaxed">
+              <div className="px-8 md:px-12 pb-10 md:pb-16 animate-in slide-in-from-top-4 duration-300">
+                <div className="pt-8 border-t-4 border-black/10 dark:border-[#03B390]/20 text-lg md:text-2xl font-bold text-black/70 dark:text-white/80 leading-relaxed">
                   {faq.a}
                 </div>
               </div>

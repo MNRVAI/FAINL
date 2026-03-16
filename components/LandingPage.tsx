@@ -136,7 +136,7 @@ const HeroComparisonBanner: FC = () => {
       <div className="relative flex flex-col md:flex-row bg-white border-y-2 md:border-2 border-black overflow-hidden shadow-2xl">
         
         {/* Central Transition Badge */}
-        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white border-4 border-[#03B390] rounded-full items-center justify-center shadow-[0_0_60px_rgba(3,179,144,0.3)] z-20 group/badge">
+        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white border-4 border-[#03B390] rounded-full items-center justify-center z-20 group/badge">
           <ArrowRight className="w-10 h-10 text-[#03B390] group-hover/badge:translate-x-2 transition-transform duration-300" />
         </div>
         
@@ -149,7 +149,7 @@ const HeroComparisonBanner: FC = () => {
           <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
             Beperkte Visie
           </h3>
-          <p className="text-[#03B390] font-black text-sm md:text-base uppercase tracking-[0.4em] mb-12">
+          <p className="text-[#03B390] font-black text-lg md:text-xl uppercase tracking-[0.4em] mb-12">
             Single AI-Model Beperking
           </p>
           <div className="space-y-8 text-left w-full max-w-md">
@@ -157,13 +157,13 @@ const HeroComparisonBanner: FC = () => {
               "Eén model klinkt vaak overtuigend, maar blijft een geïsoleerde mening — gevoelig voor fouten en onvolledigheid."
             </p>
             <div className="pt-10 space-y-5 border-t-2 border-black">
-              <div className="flex items-center gap-5 text-base font-black text-black uppercase tracking-widest">
+              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-black uppercase tracking-widest">
                 <span className="w-8 h-8 flex items-center justify-center bg-black text-white">01</span> Hallucinatie Risico
               </div>
-              <div className="flex items-center gap-5 text-base font-black text-black uppercase tracking-widest">
+              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-black uppercase tracking-widest">
                 <span className="w-8 h-8 flex items-center justify-center bg-black text-white">02</span> Gebrek aan verificatie
               </div>
-              <div className="flex items-center gap-5 text-base font-black text-black uppercase tracking-widest">
+              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-black uppercase tracking-widest">
                 <span className="w-8 h-8 flex items-center justify-center bg-black text-white">03</span> Inconsistente logica
               </div>
             </div>
@@ -176,20 +176,20 @@ const HeroComparisonBanner: FC = () => {
 
           <div className="flex justify-center items-center mb-12 relative z-10">
             <div className="flex -space-x-6 items-center">
-               <div className="w-14 h-14 bg-black border-2 border-[#03B390]/20 flex items-center justify-center z-10 opacity-60">
+               <div className="w-14 h-14 bg-black border-2 border-[#03B390] flex items-center justify-center z-10 opacity-60">
                  <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-7 h-7 object-contain invert"/>
                </div>
-               <div className="w-20 h-20 bg-black border-2 border-[#03B390]/40 flex items-center justify-center z-20">
+               <div className="w-20 h-20 bg-black border-2 border-[#03B390] flex items-center justify-center z-20">
                  <img src="/ai-logos/claude.svg" alt="Claude" className="w-10 h-10 object-contain invert"/>
                </div>
-               <div className="w-32 h-32 bg-[#03B390] border-8 border-black flex flex-col items-center justify-center shadow-[0_0_100px_rgba(3,179,144,0.4)] z-40 transform group-hover:scale-110 transition-transform duration-700">
+               <div className="w-32 h-32 bg-[#03B390] border-8 border-black flex flex-col items-center justify-center z-40 transform group-hover:scale-110 transition-transform duration-700">
                  <span className="font-black text-black text-5xl leading-none">90%</span>
-                 <span className="font-black text-black text-[14px] uppercase tracking-[0.2em] mt-2">Accuratie</span>
+                 <span className="font-black text-black text-[18px] uppercase tracking-[0.2em] mt-2">Accuratie</span>
                </div>
-               <div className="w-20 h-20 bg-black border-2 border-[#03B390]/40 flex items-center justify-center z-20">
+               <div className="w-20 h-20 bg-black border-2 border-[#03B390] flex items-center justify-center z-20">
                  <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-10 h-10 object-contain invert"/>
                </div>
-               <div className="w-14 h-14 bg-black border-2 border-[#03B390]/20 flex items-center justify-center z-10 opacity-60">
+               <div className="w-14 h-14 bg-black border-2 border-[#03B390] flex items-center justify-center z-10 opacity-60">
                  <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-7 h-7 object-contain invert"/>
                </div>
             </div>
@@ -198,7 +198,7 @@ const HeroComparisonBanner: FC = () => {
           <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4 relative z-10">
             De FAINL Standaard
           </h3>
-          <p className="text-[#03B390] font-black text-sm md:text-base uppercase tracking-[0.4em] mb-12 relative z-10">
+          <p className="text-[#03B390] font-black text-lg md:text-xl uppercase tracking-[0.4em] mb-12 relative z-10">
             Maximale Validatie Protocol
           </p>
           
@@ -207,13 +207,13 @@ const HeroComparisonBanner: FC = () => {
               Activeer 5 parallelle intelligenties. Laat ze debatteren. Krijg het best haalbare antwoord met 90% accuratie.
             </p>
             <div className="pt-10 space-y-5 border-t-2 border-[#03B390]">
-              <div className="flex items-center gap-5 text-base font-black text-[#03B390] uppercase tracking-widest">
+              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-[#03B390] uppercase tracking-widest">
                 <CheckCircle2 className="w-6 h-6" /> Maximale Validatie
               </div>
-              <div className="flex items-center gap-5 text-base font-black text-[#03B390] uppercase tracking-widest">
+              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-[#03B390] uppercase tracking-widest">
                 <CheckCircle2 className="w-6 h-6" /> Autonome Correctie
               </div>
-              <div className="flex items-center gap-5 text-base font-black text-[#03B390] uppercase tracking-widest">
+              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-[#03B390] uppercase tracking-widest">
                 <CheckCircle2 className="w-6 h-6" /> Gegarandeerde Focus
               </div>
             </div>
@@ -249,7 +249,7 @@ export const LandingPage: FC = () => {
 
         <h1 className="relative z-10 text-[clamp(40px,15vw,160px)] font-black uppercase tracking-[-0.04em] leading-[0.8] text-center max-w-[98%] mx-auto mb-10 sm:mb-12">
           EÉN AI IS<br />
-          <span className="text-[#03B390]/10">EEN MENING.</span><br />
+          <span className="text-black">EEN MENING.</span><br />
           <span className="text-black">FAINL <span className="text-[#03B390]">DE STANDAARD.</span></span>
         </h1>
         <p className="relative z-10 text-lg md:text-3xl font-black uppercase tracking-[0.2em] text-black/30 mb-16 md:mb-24 text-center max-w-5xl mx-auto px-6 leading-tight">
@@ -294,30 +294,30 @@ export const LandingPage: FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             <div className="group">
-              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">01</div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-black mb-4">De Limiet van Eén</h3>
-              <p className="text-base font-bold text-black/50 leading-relaxed">
+              <div className="text-7xl font-black text-black/10 group-hover:text-[#03B390] transition-colors duration-500 mb-4">01</div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">De Limiet van Eén</h3>
+              <p className="text-lg font-bold text-black/60 leading-relaxed">
                 Eén AI-model is een tunnelvisie. Zelfs de beste modellen hallucineren. FAINL doorbreekt de isolatie van single-model antwoorden.
               </p>
             </div>
             <div className="group">
-              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">02</div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-black mb-4">Collectieve Kracht</h3>
-              <p className="text-base font-bold text-black/50 leading-relaxed">
-                Wij zetten 5 top-modellen parallel aan het werk. Geen beïnvloeding, maar pure, rauwe intelligentie uit verschillende bronnen.
+              <div className="text-7xl font-black text-black/10 group-hover:text-[#03B390] transition-colors duration-500 mb-4">02</div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">Collectieve Kracht</h3>
+              <p className="text-lg font-bold text-black/60 leading-relaxed">
+                Wij zetten 5 top-modellen parallel aan het work. Geen beïnvloeding, maar pure, rauwe intelligentie uit verschillende bronnen.
               </p>
             </div>
             <div className="group">
-              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">03</div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-black mb-4">Het FAINL Protocol</h3>
-              <p className="text-base font-bold text-black/50 leading-relaxed">
+              <div className="text-7xl font-black text-black/10 group-hover:text-[#03B390] transition-colors duration-500 mb-4">03</div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">Het FAINL Protocol</h3>
+              <p className="text-lg font-bold text-black/60 leading-relaxed">
                 Debat en verificatie zitten in ons DNA. Modellen corrigeren elkaar live, nog voordat jij het antwoord ziet.
               </p>
             </div>
             <div className="group">
-              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">04</div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-[#03B390] mb-4">90% Accuratie</h3>
-              <p className="text-base font-bold text-black/50 leading-relaxed">
+              <div className="text-7xl font-black text-black/10 group-hover:text-[#03B390] transition-colors duration-500 mb-4">04</div>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-[#03B390] mb-4">90% Accuratie</h3>
+              <p className="text-lg font-bold text-black/60 leading-relaxed">
                 Een reductie van 80% op vage antwoorden en een sprong naar 90% correcte, diep gewogen en gemotiveerde beantwoording.
               </p>
             </div>
@@ -348,10 +348,10 @@ export const LandingPage: FC = () => {
             {[...AI_MODELS, ...AI_MODELS].map((model, i) => (
               <div key={i} className="flex items-center gap-2.5 px-7">
                 {model.icon}
-                <span className="text-sm font-black uppercase tracking-[0.18em] text-black/50 dark:text-white/40 whitespace-nowrap">
+                <span className="text-lg font-black uppercase tracking-[0.18em] text-black/60 dark:text-white/60 whitespace-nowrap">
                   {model.name}
                 </span>
-                <span className="ml-4 text-black/15 dark:text-white/15 select-none text-sm">·</span>
+                <span className="ml-4 text-black/30 dark:text-white/30 select-none text-lg">·</span>
               </div>
             ))}
           </div>
@@ -519,7 +519,7 @@ export const LandingPage: FC = () => {
                   key={label}
                   className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-[1fr_140px_140px] items-center px-6 py-6 gap-4 hover:bg-zinc-50 dark:hover:bg-[#03B390]/5 transition-colors duration-200"
                 >
-                  <span className="font-black uppercase tracking-tight text-sm sm:text-base text-black dark:text-white">
+                  <span className="font-black uppercase tracking-tight text-lg md:text-xl text-black dark:text-white">
                     {label}
                   </span>
                   <span className="flex items-center justify-center">
@@ -594,11 +594,11 @@ export const LandingPage: FC = () => {
                 onClick={() => window.open(pkg.stripeUrl, "_blank")}
                 className="flex flex-col items-center justify-center p-10 bg-white dark:bg-black border-2 border-black rounded-none hover:border-[#03B390] hover:shadow-[10px_10px_0_0_#03B390] hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className="text-5xl font-black mb-2 text-black dark:text-white">{pkg.count}</div>
-                <div className="text-xs font-black uppercase tracking-[0.3em] text-[#03B390] mb-6">
+                <div className="text-6xl font-black mb-2 text-black dark:text-white">{pkg.count}</div>
+                <div className="text-lg font-black uppercase tracking-[0.3em] text-[#03B390] mb-6">
                   CREDITS
                 </div>
-                <div className="text-3xl font-black text-black dark:text-white">€{pkg.price}</div>
+                <div className="text-4xl font-black text-black dark:text-white">€{pkg.price}</div>
               </button>
             ))}
 
@@ -607,26 +607,26 @@ export const LandingPage: FC = () => {
               onClick={() => window.open(PRICING.SUBSCRIPTIONS[0].stripeUrl, "_blank")}
               className="flex flex-col items-center justify-center p-10 bg-black text-white border-2 border-black rounded-none hover:shadow-[10px_10px_0_0_#03B390] hover:-translate-y-1 transition-all duration-300 relative group"
             >
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#03B390] text-black text-xs font-black uppercase tracking-[0.2em] whitespace-nowrap">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#03B390] text-black text-sm font-black uppercase tracking-[0.2em] whitespace-nowrap">
                 Abonnement
               </div>
-              <div className="text-2xl font-black uppercase tracking-tighter mb-2 text-white">
+              <div className="text-3xl font-black uppercase tracking-tighter mb-2 text-white">
                 {PRICING.SUBSCRIPTIONS[0].name}
               </div>
-              <div className="text-xs font-black uppercase tracking-[0.3em] text-[#03B390] mb-6">
+              <div className="text-lg font-black uppercase tracking-[0.3em] text-[#03B390] mb-6">
                 {PRICING.SUBSCRIPTIONS[0].creditsPerMonth} CREDITS/MO
               </div>
-              <div className="text-3xl font-black text-white">€{PRICING.SUBSCRIPTIONS[0].price}</div>
-              <div className="text-sm font-black text-white/40 mt-2 uppercase tracking-widest">
+              <div className="text-4xl font-black text-white">€{PRICING.SUBSCRIPTIONS[0].price}</div>
+              <div className="text-lg font-black text-white/40 mt-2 uppercase tracking-widest">
                 per maand
               </div>
             </button>
           </div>
 
-          <p className="text-center text-sm font-black uppercase tracking-widest text-black/30">
+          <p className="text-center text-lg font-black uppercase tracking-widest text-black/30">
             <Link to="/tokens" className="inline-flex items-center gap-3 underline hover:text-[#03B390] transition-colors">
               Bekijk alle pakketten
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </p>
         </div>
