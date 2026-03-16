@@ -200,15 +200,15 @@ const PaymentSuccessPage: FC = () => {
             onClick={() => navigate('/dashboard')}
             className="px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
           >
-            Naar Dashboard
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/mission')}
-            className="px-8 py-4 bg-black border-2 border-black text-white font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
-          >
-            Nieuwe Missie
-          </button>
+            Naar Mijn FAINL's
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate('/mission')}
+          className="px-8 py-4 bg-black border-2 border-black text-white font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+        >
+          Nieuwe vraag stellen
+        </button>
         </div>
       </div>
     </div>
@@ -638,7 +638,7 @@ const App: FC = () => {
   const NavLinks = [
     { id: "/",          label: "Home",               img: "/icons-navbar/home-icons.png" },
     { id: "/tokens",    label: "Credits",             img: "/icons-navbar/Euro-icon.png" },
-    { id: "/dashboard", label: "Mijn Account",        img: "/icons-navbar/settings-icon.png" },
+    { id: "/dashboard", label: "Mijn FAINL's",        img: "/icons-navbar/settings-icon.png" },
     { id: "/cookbook",  label: "Voorbeeldvragen",     img: "/icons-navbar/question-icon.png" },
     { id: "/faq",       label: "Veelgestelde vragen", img: "/icons-navbar/faq-icon.png" },
     { id: "/contact",   label: "Contact",             img: "/icons-navbar/contact-icon.png" },

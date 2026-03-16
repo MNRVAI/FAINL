@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { SessionState, AppConfig, ModelProvider, CouncilMember } from '../types';
-import { DEFAULT_COUNCIL } from '../constants';
+import { DEFAULT_COUNCIL, PRESETS } from '../constants';
 import { useNavigate } from 'react-router-dom';
 
 interface AccountPageProps {
@@ -107,7 +107,22 @@ export const AccountPage: FC<AccountPageProps> = ({
   };
 
   const handleResetCouncil = () => {
-    onUpdateConfig({ ...config, activeCouncil: DEFAULT_COUNCIL });
+    onUpdateConfig({ 
+      ...config, 
+      activeCouncil: DEFAULT_COUNCIL,
+      modelCount: 3
+    });
+  };
+
+  const handleSetProtocol = (count: 3 | 5) => {
+    const preset = PRESETS.find(p => p.members.length === count);
+    if (!preset) return;
+    
+    onUpdateConfig({
+      ...config,
+      modelCount: count,
+      activeCouncil: preset.members
+    });
   };
 
   const handleExportData = () => {
@@ -121,25 +136,6 @@ export const AccountPage: FC<AccountPageProps> = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  };
-
-  const handleImportData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const parsed = JSON.parse(event.target?.result as string);
-        if (parsed.config && parsed.history) {
-          onUpdateConfig(parsed.config);
-          localStorage.setItem('fainl_history', JSON.stringify(parsed.history));
-          window.location.reload();
-        }
-      } catch {
-        alert('Ongeldig backup bestand.');
-      }
-    };
-    reader.readAsText(file);
   };
 
   const toggleSelect = (id: string, e: React.MouseEvent) => {
@@ -185,10 +181,10 @@ export const AccountPage: FC<AccountPageProps> = ({
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12 md:mb-16">
         <div>
           <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-3 text-black">
-            Commandocentrum
+            Mijn FAINL's
           </h2>
           <p className="text-black/70 font-bold text-base md:text-lg leading-relaxed">
-            Beheer je credits, nodes, datakluis en missiegeschiedenis.
+            Beheer je credits, nodes, datakluis en je gestelde vragen.
           </p>
         </div>
         <button
@@ -221,6 +217,40 @@ export const AccountPage: FC<AccountPageProps> = ({
           <Users className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{config.activeCouncil.length}</div>
           <div className="text-sm font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>
+        </div>
+      </div>
+
+      {/* Protocol Selector */}
+      <div className="mb-12 md:mb-16 p-8 bg-zinc-50 border-4 border-black shadow-[4px_4px_0_0_black]">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="text-center md:text-left">
+            <h3 className="text-xl font-black uppercase tracking-tight mb-2 text-black">Protocol Selectie</h3>
+            <p className="text-sm font-bold text-black/50 uppercase tracking-widest">
+              Kies het aantal AI-modellen dat tegelijkertijd jouw vragen analyseert.
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => handleSetProtocol(3)}
+              className={`px-8 py-4 border-4 border-black font-black uppercase tracking-widest transition-all ${
+                config.modelCount === 3 
+                ? 'bg-black text-white shadow-[4px_4px_0_0_black]' 
+                : 'bg-white text-black hover:bg-zinc-100 hover:shadow-[4px_4px_0_0_black]'
+              }`}
+            >
+              3 Nodes
+            </button>
+            <button
+              onClick={() => handleSetProtocol(5)}
+              className={`px-8 py-4 border-4 border-black font-black uppercase tracking-widest transition-all ${
+                config.modelCount === 5 
+                ? 'bg-black text-white shadow-[4px_4px_0_0_black]' 
+                : 'bg-white text-black hover:bg-zinc-100 hover:shadow-[4px_4px_0_0_black]'
+              }`}
+            >
+              5 Nodes
+            </button>
+          </div>
         </div>
       </div>
 
@@ -258,14 +288,13 @@ export const AccountPage: FC<AccountPageProps> = ({
             <div className="space-y-2">
               <p className="text-base font-black uppercase tracking-widest text-black/30">Standaard Raad</p>
               {DEFAULT_COUNCIL.map(node => (
-                <div key={node.id} className="p-3 bg-zinc-50 border-2 border-black/10 flex items-center justify-between">
+                  <div key={node.id} className="p-3 bg-zinc-50 border-2 border-black/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-black rounded-full" />
                     <div>
                       <h4 className="font-black uppercase text-sm text-black">{node.name}</h4>
                     </div>
                   </div>
-                  <span className="text-base font-black uppercase tracking-widest text-black/30">Altijd Actief</span>
                 </div>
               ))}
             </div>
@@ -273,7 +302,7 @@ export const AccountPage: FC<AccountPageProps> = ({
             {/* Add Node Form */}
             {isAddingNode && (
               <div className="p-6 bg-zinc-50 border-4 border-black space-y-4 animate-in slide-in-from-top-2 duration-300">
-                <p className="text-base font-black uppercase tracking-widest text-black/40">Nieuwe Node op Gemini (2.0 Flash)</p>
+                <p className="text-base font-black uppercase tracking-widest text-black/40">Nieuwe Node</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
                     type="text"
@@ -361,22 +390,14 @@ export const AccountPage: FC<AccountPageProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <button
                 onClick={handleExportData}
-                className="flex items-center justify-center gap-3 p-6 bg-zinc-50 border-2 border-black hover:bg-black hover:text-white transition-all group"
+                className="flex items-center justify-center gap-3 p-6 bg-zinc-50 border-2 border-black hover:bg-black hover:text-white transition-all group col-span-2"
               >
                 <Download className="w-5 h-5 group-hover:animate-bounce" />
                 <div className="text-left">
                   <span className="block font-black uppercase text-sm">Export Backup</span>
-                  <span className="text-sm font-bold opacity-50">Download je data als JSON</span>
+                  <span className="text-sm font-bold opacity-50">Download je data</span>
                 </div>
               </button>
-              <label className="flex items-center justify-center gap-3 p-6 bg-zinc-50 border-2 border-black hover:bg-black hover:text-white transition-all cursor-pointer group">
-                <Upload className="w-5 h-5 group-hover:animate-pulse" />
-                <div className="text-left">
-                  <span className="block font-black uppercase text-sm">Import Backup</span>
-                  <span className="text-sm font-bold opacity-50">Herstel vanuit JSON bestand</span>
-                </div>
-                <input type="file" accept=".json" onChange={handleImportData} className="hidden" />
-              </label>
             </div>
           </div>
         </div>
@@ -386,7 +407,7 @@ export const AccountPage: FC<AccountPageProps> = ({
           <div className="flex items-center justify-between border-b-4 border-black pb-6 text-black">
             <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter flex items-center gap-3">
               <History className="w-6 h-6 md:w-8 md:h-8" />
-              Missiegeschiedenis
+              Mijn gestelde vragen
             </h2>
             <div className="flex items-center gap-3">
               {selectedIds.length > 0 && (
@@ -455,12 +476,12 @@ export const AccountPage: FC<AccountPageProps> = ({
               <div className="py-16 text-center bg-zinc-50 border-4 border-dashed border-black/10 rounded-lg">
                 <Database className="w-12 h-12 text-black/10 mx-auto mb-4" />
                 <p className="font-black uppercase tracking-widest text-black/20 text-sm mb-2">Lokale Kluis Leeg</p>
-                <p className="text-base font-bold text-black/30 uppercase tracking-widest">Start je eerste missie om hem hier te zien</p>
+                <p className="text-base font-bold text-black/30 uppercase tracking-widest text-center">Hier kun je al jouw gestelde vragen inzien en teruglezen.</p>
                 <button
                   onClick={() => navigate('/mission')}
                   className="mt-6 px-6 py-3 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
                 >
-                  Nieuwe Missie
+                  Nieuwe vraag stellen
                 </button>
               </div>
             ) : (
