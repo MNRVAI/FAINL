@@ -57,14 +57,14 @@ export const PricingPage: FC<PricingPageProps> = ({
       {/* One-time credits */}
       <div className="mb-32">
         <div className="flex items-center gap-6 mb-12 justify-center sm:justify-start">
-          <div className="bg-[#004f57] p-5 border-4 border-black shadow-[8px_8px_0_0_black] transition-all">
+          <div className="bg-[var(--color-accent)] p-5 border-4 border-black shadow-[8px_8px_0_0_black] transition-all">
             <Shield className="w-10 h-10 text-black" />
           </div>
           <div>
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white">
               {language === 'nl' ? 'Credits Kopen' : 'Buy Credits'}
             </h2>
-            <p className="text-xl font-black uppercase tracking-[0.2em] text-[#004f57]">
+            <p className="text-xl font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">
               {language === 'nl' ? 'Eenmalige credits, verlopen nooit.' : 'One-time credits, never expire.'}
             </p>
           </div>
@@ -72,8 +72,8 @@ export const PricingPage: FC<PricingPageProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {PRICING.CREDITS.map((pkg, idx) => (
-            <div key={idx} className="card-fainl bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none p-8 shadow-[12px_12px_0_0_#004f57] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-              <div className="bg-black text-[#004f57] text-lg font-black px-4 py-2 uppercase tracking-widest inline-block mb-6">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
+            <div key={idx} className="card-fainl bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-8 shadow-[12px_12px_0_0_var(--color-accent)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+              <div className="bg-black text-[var(--color-accent)] text-lg font-black px-4 py-2 uppercase tracking-widest inline-block mb-6">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
               <div className="text-6xl font-black text-black dark:text-white mb-2">€{pkg.price}</div>
               <p className="text-xl font-bold text-black dark:text-white/40 mb-8 lowercase tracking-widest">Multi-AI analyse.</p>
 
@@ -85,7 +85,7 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-white hover:bg-[#004f57] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[10px_10px_0_0_#004f57] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-white hover:bg-[var(--color-accent)] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[10px_10px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
                 {language === 'nl' ? `Koop ${pkg.count}` : `Buy ${pkg.count}`}
               </button>
             </div>
@@ -103,14 +103,14 @@ export const PricingPage: FC<PricingPageProps> = ({
       {/* Subscriptions */}
       <div>
         <div className="flex items-center gap-6 mb-12 justify-center sm:justify-start">
-          <div className="bg-black p-5 border-4 border-[#004f57] shadow-[8px_8px_0_0_#004f57] transition-all text-[#004f57]">
+          <div className="bg-black p-5 border-4 border-[var(--color-accent)] shadow-[8px_8px_0_0_var(--color-accent)] transition-all text-[var(--color-accent)]">
             <Zap className="w-10 h-10" />
           </div>
           <div>
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white">
               {language === 'nl' ? 'Maandelijks Abonnement' : 'Monthly Subscription'}
             </h2>
-            <p className="text-xl font-black uppercase tracking-[0.2em] text-[#004f57]">
+            <p className="text-xl font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">
               {language === 'nl' ? 'Automatisch hernieuwd elke maand.' : 'Automatically renewed each month.'}
             </p>
           </div>
@@ -118,10 +118,10 @@ export const PricingPage: FC<PricingPageProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center sm:justify-start">
           {PRICING.SUBSCRIPTIONS.map((pkg, idx) => (
-            <div key={idx} className="card-fainl bg-black text-white border-4 border-[#004f57] rounded-none p-10 shadow-[15px_15px_0_0_#004f57] hover:scale-105 transition-all">
-              <div className="bg-[#004f57] text-black text-lg font-black px-6 py-2 uppercase tracking-widest inline-block mb-8">{pkg.label}</div>
+            <div key={idx} className="card-fainl bg-black text-white border-4 border-[var(--color-accent)] rounded-none p-10 shadow-[15px_15px_0_0_var(--color-accent)] hover:scale-105 transition-all">
+              <div className="bg-[var(--color-accent)] text-black text-lg font-black px-6 py-2 uppercase tracking-widest inline-block mb-8">{pkg.label}</div>
               <div className="text-7xl font-black text-white mb-3">€{pkg.price}<span className="text-xl font-bold lowercase opacity-40 ml-2">/{pkg.period}</span></div>
-              <p className="text-xl font-bold text-[#004f57] mb-10 tracking-widest uppercase">{language === 'nl' ? 'Onbeperkt archief.' : 'Unlimited archive.'}</p>
+              <p className="text-xl font-bold text-[var(--color-accent)] mb-10 tracking-widest uppercase">{language === 'nl' ? 'Onbeperkt archief.' : 'Unlimited archive.'}</p>
 
               <ul className="space-y-5 mb-12">
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
@@ -131,7 +131,7 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-[#004f57] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[15px_15px_0_0_white] hover:shadow-none hover:translate-x-2 hover:translate-y-2">
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-[var(--color-accent)] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[15px_15px_0_0_white] hover:shadow-none hover:translate-x-2 hover:translate-y-2">
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
               </button>
             </div>

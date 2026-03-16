@@ -65,7 +65,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
                 {Object.entries(response.sections).map(([key, content]) => (
                   <div key={key} className="relative">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-black text-[#004f57] px-2 py-0.5 border border-[#004f57]/20">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-black text-[var(--color-accent)] px-2 py-0.5 border border-[var(--color-accent)]/20">
                         {key === 'GENERAL' ? 'Analyse' : key}
                       </span>
                     </div>

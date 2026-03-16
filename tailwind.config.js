@@ -13,7 +13,7 @@ export default {
         surface: '#ffffff', 
         primary: '#000000', 
         secondary: '#1e293b', 
-        accent: '#000000', 
+        accent: '#476DD7', 
       },
       animation: {
         'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',

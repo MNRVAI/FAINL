@@ -178,7 +178,7 @@ const PaymentSuccessPage: FC = () => {
 
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_#004f57]">
+      <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_var(--color-accent)]">
         <div className="w-16 h-16 bg-black border-4 border-black flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-white" />
         </div>
@@ -199,7 +199,7 @@ const PaymentSuccessPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
-            className="px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest hover:bg-[#004f57] hover:text-black transition-all"
+            className="px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest hover:bg-[var(--color-accent)] hover:text-black transition-all"
           >
             Naar Mijn FAINL's
         </button>
@@ -656,8 +656,8 @@ const App: FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col font-sans selection:bg-[#004f57] selection:text-black overflow-x-hidden transition-colors duration-300">
-      <header className="border-b border-black/10 dark:border-[#004f57] bg-white/80 dark:bg-black/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col font-sans selection:bg-[var(--color-accent)] selection:text-black overflow-x-hidden transition-colors duration-300">
+      <header className="border-b border-black/10 dark:border-[var(--color-accent)] bg-white/80 dark:bg-black/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <button type="button" onClick={() => navigate("/")} aria-label="FAINL — naar startpagina" className="flex items-center group">
@@ -713,8 +713,8 @@ const App: FC = () => {
                     onClick={() => { navigate(link.id); setIsMenuOpen(false); }}
                     className={`w-full flex items-center gap-4 px-4 py-4 rounded-none font-black text-lg md:text-xl uppercase tracking-widest transition-all ${
                       isActive
-                        ? 'bg-black text-white shadow-[4px_4px_0px_0px_#004f57]'
-                        : 'text-black dark:text-white/60 hover:bg-[#004f57] hover:text-black'
+                        ? 'bg-black text-white shadow-[4px_4px_0px_0px_var(--color-accent)]'
+                        : 'text-black dark:text-white/60 hover:bg-[var(--color-accent)] hover:text-black'
                     }`}
                   >
                     <span className={`w-8 h-8 flex items-center justify-center rounded-lg shrink-0 ${isActive ? 'bg-white/20' : 'bg-black/5 dark:bg-white/5'}`}>
@@ -767,7 +767,7 @@ const App: FC = () => {
 
 
       {isAnnouncementVisible && newsletterState !== 'success' && (
-        <div className="w-full bg-[#004f57] text-black px-4 py-4 relative border-b-4 border-black">
+        <div className="w-full bg-[var(--color-accent)] text-black px-4 py-4 relative border-b-4 border-black">
           {newsletterState === 'banner' && (
             <div className="flex items-center justify-center gap-4 text-xl md:text-2xl font-black uppercase tracking-widest">
               <span>★</span>
@@ -850,7 +850,7 @@ const App: FC = () => {
                 />
                 <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 flex flex-col items-center justify-center min-h-[calc(100vh-120px)]">
                   {session.stage === WorkflowStage.ERROR && (
-                    <div className="w-full max-w-xl bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[#004f57]/40 p-6 md:p-12 rounded-none text-center animate-fade-in-up">
+                    <div className="w-full max-w-xl bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[var(--color-accent)]/40 p-6 md:p-12 rounded-none text-center animate-fade-in-up">
                       <AlertTriangle className="w-12 h-12 md:w-20 md:h-20 text-black dark:text-white mb-6 md:mb-8 mx-auto" />
                       <h3 className="text-xl md:text-3xl font-black uppercase mb-3 md:mb-4 tracking-tighter">
                         Er ging iets mis
@@ -867,7 +867,7 @@ const App: FC = () => {
                               stage: WorkflowStage.IDLE,
                             })
                           }
-                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-black border-2 border-black dark:border-[#004f57]/40 font-black rounded-none uppercase tracking-[0.2em] text-sm md:text-sm transition-all text-black dark:text-white hover:bg-[#004f57] hover:text-black"
+                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-black border-2 border-black dark:border-[var(--color-accent)]/40 font-black rounded-none uppercase tracking-[0.2em] text-sm md:text-sm transition-all text-black dark:text-white hover:bg-[var(--color-accent)] hover:text-black"
                         >
                           Opnieuw proberen
                         </button>
@@ -879,7 +879,7 @@ const App: FC = () => {
                     <div className="w-full">
                       {/* Intro header */}
                       <div className="text-center mb-12 md:mb-16">
-                        <p className="text-lg font-black uppercase tracking-[0.3em] text-[#004f57] mb-4">
+                        <p className="text-lg font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-4">
                           {config.activeCouncil.length} AI-modellen analyseren tegelijk · Één eerlijk oordeel
                         </p>
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-tight">
@@ -917,7 +917,7 @@ const App: FC = () => {
                           onClick={handleStart}
                           disabled={!input.trim()}
                           title="Verstuur vraag"
-                          className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-[#004f57] hover:bg-[#004f57] dark:hover:bg-white disabled:opacity-20 disabled:grayscale text-white dark:text-black rounded-none transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden border-2 border-black"
+                          className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-[var(--color-accent)] hover:bg-[var(--color-accent)] dark:hover:bg-white disabled:opacity-20 disabled:grayscale text-white dark:text-black rounded-none transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden border-2 border-black"
                         >
                           <AnimatedSendIcon />
                         </button>
@@ -944,8 +944,8 @@ const App: FC = () => {
                       <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12">
 
                         {/* Query display */}
-                        <div className="bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none p-10 md:p-16 text-center shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#004f57]">
-                          <p className="text-base font-black uppercase tracking-[0.3em] text-[#004f57] mb-6">Jouw vraag</p>
+                        <div className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-10 md:p-16 text-center shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_var(--color-accent)]">
+                          <p className="text-base font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-6">Jouw vraag</p>
                           <p className="text-3xl sm:text-5xl md:text-6xl text-black dark:text-white font-serif italic font-black tracking-tight leading-tight uppercase">
                             "{session.query}"
                           </p>
@@ -988,10 +988,10 @@ const App: FC = () => {
 
                         {/* Debate or Verdict choice — shown after all nodes have responded */}
                          {session.stage === WorkflowStage.DEBATE && (
-                           <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-[#004f57] p-10 md:p-16 rounded-none animate-in fade-in duration-500 shadow-[15px_15px_0_0_#004f57]">
+                           <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] p-10 md:p-16 rounded-none animate-in fade-in duration-500 shadow-[15px_15px_0_0_var(--color-accent)]">
                             {/* Status badge */}
                             <div className="flex justify-center mb-8">
-                              <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#004f57] border-4 border-black rounded-none">
+                              <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-[var(--color-accent)] border-4 border-black rounded-none">
                                 <CircleCheck className="w-5 h-5 text-black" />
                                 <span className="text-base font-black uppercase tracking-widest text-black">
                                   Alle analyses zijn klaar
@@ -1011,7 +1011,7 @@ const App: FC = () => {
                                <button
                                  type="button"
                                  onClick={() => setSession(prev => ({ ...prev, stage: WorkflowStage.COMPOSITION }))}
-                                 className="flex flex-col items-center gap-4 px-8 py-10 bg-black text-white font-black rounded-none transition-all hover:bg-[#004f57] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_#004f57] border-4 border-black"
+                                 className="flex flex-col items-center gap-4 px-8 py-10 bg-black text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_var(--color-accent)] border-4 border-black"
                                >
                                 <Gavel className="w-10 h-10" />
                                 <div className="text-center">
@@ -1024,7 +1024,7 @@ const App: FC = () => {
                               <button
                                 type="button"
                                 onClick={() => setIsDebateOpen(true)}
-                                className="flex flex-col items-center gap-4 px-8 py-10 bg-white dark:bg-black border-4 border-black dark:border-[#004f57] text-black dark:text-white font-black rounded-none transition-all hover:bg-[#004f57] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_black] dark:shadow-[8px_8px_0_0_#004f57]"
+                                className="flex flex-col items-center gap-4 px-8 py-10 bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] text-black dark:text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_black] dark:shadow-[8px_8px_0_0_var(--color-accent)]"
                               >
                                 <Swords className="w-10 h-10" />
                                 <div className="text-center">
@@ -1046,7 +1046,7 @@ const App: FC = () => {
                         {/* Victor's verdict — rendered BELOW the council cards so it appears naturally as user scrolls */}
                          {(session.stage === WorkflowStage.SYNTHESIZING ||
                            session.stage === WorkflowStage.COMPLETED) && (
-                           <div ref={verdictRef} className="w-full bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[#004f57]/40 rounded-none overflow-hidden shadow-[12px_12px_0_0_#004f57]">
+                           <div ref={verdictRef} className="w-full bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[var(--color-accent)]/40 rounded-none overflow-hidden shadow-[12px_12px_0_0_var(--color-accent)]">
                             {/* Verdict header */}
                             <div className="bg-black dark:bg-zinc-800 text-white px-6 md:px-10 py-5 md:py-7 flex items-center gap-4 border-b-2 border-black/20">
                               <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/20 shrink-0 bg-zinc-700">
@@ -1072,13 +1072,13 @@ const App: FC = () => {
                               {session.synthesis ? (
                                 <div className="prose prose-xl max-w-none dark:prose-invert
                                   prose-headings:font-black prose-headings:tracking-tight prose-headings:uppercase
-                                  prose-h2:text-4xl prose-h2:border-b-4 prose-h2:border-black dark:prose-h2:border-[#004f57] prose-h2:pb-4 prose-h2:mb-8 prose-h2:mt-16 first:prose-h2:mt-0
-                                  prose-h3:text-2xl prose-h3:text-black dark:prose-h3:text-[#004f57] prose-h3:mt-12 prose-h3:mb-4
+                                  prose-h2:text-4xl prose-h2:border-b-4 prose-h2:border-black dark:prose-h2:border-[var(--color-accent)] prose-h2:pb-4 prose-h2:mb-8 prose-h2:mt-16 first:prose-h2:mt-0
+                                  prose-h3:text-2xl prose-h3:text-black dark:prose-h3:text-[var(--color-accent)] prose-h3:mt-12 prose-h3:mb-4
                                   prose-p:leading-relaxed prose-p:text-black dark:prose-p:text-white/80 prose-p:text-xl md:prose-p:text-2xl prose-p:font-bold
-                                  prose-strong:text-black dark:prose-strong:text-[#004f57] prose-strong:font-black
-                                  prose-blockquote:border-l-8 prose-blockquote:border-[#004f57] prose-blockquote:bg-zinc-50 dark:prose-blockquote:bg-zinc-900 prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-none prose-blockquote:not-italic
+                                  prose-strong:text-black dark:prose-strong:text-[var(--color-accent)] prose-strong:font-black
+                                  prose-blockquote:border-l-8 prose-blockquote:border-[var(--color-accent)] prose-blockquote:bg-zinc-50 dark:prose-blockquote:bg-zinc-900 prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-none prose-blockquote:not-italic
                                   prose-li:text-black dark:prose-li:text-white/80 prose-li:my-2 prose-li:text-xl prose-li:font-bold
-                                  prose-hr:border-black/10 dark:prose-hr:border-[#004f57]/20">
+                                  prose-hr:border-black/10 dark:prose-hr:border-[var(--color-accent)]/20">
                                   <ReactMarkdown>{session.synthesis}</ReactMarkdown>
                                 </div>
                               ) : (
@@ -1127,7 +1127,7 @@ const App: FC = () => {
                                   });
                                   setInput('');
                                 }}
-                                 className="flex items-center gap-3 px-8 py-4 bg-[#004f57] text-black rounded-none font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[6px_6px_0_0_black]"
+                                 className="flex items-center gap-3 px-8 py-4 bg-[var(--color-accent)] text-black rounded-none font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[6px_6px_0_0_black]"
                               >
                                 <ArrowRight className="w-4 h-4" />
                                 Nieuwe vraag stellen
@@ -1240,48 +1240,48 @@ const App: FC = () => {
         </Suspense>
       </main>
 
-       <footer className="border-t-4 border-black dark:border-[#004f57] py-16 md:py-24 bg-white dark:bg-black">
+       <footer className="border-t-4 border-black dark:border-[var(--color-accent)] py-16 md:py-24 bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div>
-              <p className="text-lg font-black uppercase tracking-[0.25em] text-[#004f57] mb-6">Product</p>
+              <p className="text-lg font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-6">Product</p>
               <ul className="space-y-4">
-                <li><Link to="/" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Home</Link></li>
-                <li><Link to="/mission" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Start gratis</Link></li>
-                <li><Link to="/cookbook" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Voorbeeldvragen</Link></li>
-                <li><Link to="/tokens" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Prijzen</Link></li>
+                <li><Link to="/" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Home</Link></li>
+                <li><Link to="/mission" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Start gratis</Link></li>
+                <li><Link to="/cookbook" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Voorbeeldvragen</Link></li>
+                <li><Link to="/tokens" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Prijzen</Link></li>
               </ul>
             </div>
             <div>
-              <p className="text-lg font-black uppercase tracking-[0.25em] text-[#004f57] mb-6">Vergelijken</p>
+              <p className="text-lg font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-6">Vergelijken</p>
               <ul className="space-y-4">
-                <li><Link to="/vergelijken/fainl-vs-chatgpt" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">FAINL vs ChatGPT</Link></li>
-                <li><Link to="/vergelijken/ai-modellen-vergelijken" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">AI modellen vergelijken</Link></li>
+                <li><Link to="/vergelijken/fainl-vs-chatgpt" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">FAINL vs ChatGPT</Link></li>
+                <li><Link to="/vergelijken/ai-modellen-vergelijken" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">AI modellen vergelijken</Link></li>
               </ul>
             </div>
             <div>
-              <p className="text-lg font-black uppercase tracking-[0.25em] text-[#004f57] mb-6">Gebruik</p>
+              <p className="text-lg font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-6">Gebruik</p>
               <ul className="space-y-4">
-                <li><Link to="/gebruik/juridisch-advies-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">AI voor juridisch advies</Link></li>
-                <li><Link to="/gebruik/marketing-strategie-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">AI voor marketingstrategie</Link></li>
-                <li><Link to="/gebruik/hr-recruitment-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">AI voor HR & recruitment</Link></li>
-                <li><Link to="/gebruik/financiele-analyse-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">AI voor financiële analyse</Link></li>
+                <li><Link to="/gebruik/juridisch-advies-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">AI voor juridisch advies</Link></li>
+                <li><Link to="/gebruik/marketing-strategie-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">AI voor marketingstrategie</Link></li>
+                <li><Link to="/gebruik/hr-recruitment-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">AI voor HR & recruitment</Link></li>
+                <li><Link to="/gebruik/financiele-analyse-ai" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">AI voor financiële analyse</Link></li>
               </ul>
             </div>
             <div>
-              <p className="text-lg font-black uppercase tracking-[0.25em] text-[#004f57] mb-6">Info</p>
+              <p className="text-lg font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-6">Info</p>
               <ul className="space-y-4">
-                <li><Link to="/faq" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">FAQ</Link></li>
-                <li><Link to="/contact" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Contact</Link></li>
-                <li><Link to="/privacy" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Privacyverklaring</Link></li>
-                <li><Link to="/terms" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Algemene Voorwaarden</Link></li>
-                <li><Link to="/ai-voorwaarden" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">AI-Gebruiksvoorwaarden</Link></li>
-                <li><Link to="/cookies" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[#004f57] transition-colors">Cookieverklaring</Link></li>
+                <li><Link to="/faq" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">FAQ</Link></li>
+                <li><Link to="/contact" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Contact</Link></li>
+                <li><Link to="/privacy" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Privacyverklaring</Link></li>
+                <li><Link to="/terms" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Algemene Voorwaarden</Link></li>
+                <li><Link to="/ai-voorwaarden" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">AI-Gebruiksvoorwaarden</Link></li>
+                <li><Link to="/cookies" className="text-lg font-bold text-black dark:text-white/60 hover:text-black dark:hover:text-[var(--color-accent)] transition-colors">Cookieverklaring</Link></li>
               </ul>
             </div>
           </div>
-          <div className="border-t-4 border-black dark:border-[#004f57] pt-12 flex flex-col sm:flex-row items-center justify-between gap-8">
-            <span className="text-lg font-black uppercase tracking-widest text-[#004f57]">© 2026 FAINL</span>
+          <div className="border-t-4 border-black dark:border-[var(--color-accent)] pt-12 flex flex-col sm:flex-row items-center justify-between gap-8">
+            <span className="text-lg font-black uppercase tracking-widest text-[var(--color-accent)]">© 2026 FAINL</span>
             <div className="flex items-center gap-6">
               {[
                 { src: '/social-icons/instagram-icon.png', label: 'Instagram' },
@@ -1332,9 +1332,9 @@ const App: FC = () => {
       {/* Upsell Modal when last credit is used */}
       {showOutofCreditsUpsell && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-4 animate-in fade-in duration-300">
-           <div className="bg-white dark:bg-black border-4 border-black dark:border-[#004f57]/40 rounded-none w-full max-w-lg shadow-[24px_24px_0px_0px_#004f57] overflow-hidden animate-in zoom-in-95 duration-500">
+           <div className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)]/40 rounded-none w-full max-w-lg shadow-[24px_24px_0px_0px_var(--color-accent)] overflow-hidden animate-in zoom-in-95 duration-500">
             <div className="p-10 md:p-16 text-center">
-              <div className="w-24 h-24 bg-[#004f57] mx-auto rounded-none flex items-center justify-center border-4 border-black mb-10 shadow-[8px_8px_0_0_black]">
+              <div className="w-24 h-24 bg-[var(--color-accent)] mx-auto rounded-none flex items-center justify-center border-4 border-black mb-10 shadow-[8px_8px_0_0_black]">
                 <ZapIcon className="w-12 h-12 text-black" />
               </div>
               <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4">
@@ -1351,13 +1351,13 @@ const App: FC = () => {
                     setShowOutofCreditsUpsell(false);
                     navigate('/tokens');
                   }}
-                  className="w-full py-6 bg-black text-white dark:bg-[#004f57] dark:text-black font-black text-xl uppercase tracking-widest rounded-none hover:scale-105 active:scale-95 transition-all shadow-[10px_10px_0_0_#004f57] border-4 border-black"
+                  className="w-full py-6 bg-black text-white dark:bg-[var(--color-accent)] dark:text-black font-black text-xl uppercase tracking-widest rounded-none hover:scale-105 active:scale-95 transition-all shadow-[10px_10px_0_0_var(--color-accent)] border-4 border-black"
                 >
                   {language === 'nl' ? 'Bekijk Pakketten' : 'View Packages'}
                 </button>
                 <button
                   onClick={() => setShowOutofCreditsUpsell(false)}
-                  className="w-full py-4 bg-transparent text-black dark:text-white/40 hover:text-black dark:hover:text-[#004f57] font-black text-lg uppercase tracking-widest transition-colors"
+                  className="w-full py-4 bg-transparent text-black dark:text-white/40 hover:text-black dark:hover:text-[var(--color-accent)] font-black text-lg uppercase tracking-widest transition-colors"
                 >
                   {language === 'nl' ? 'Nu niet, bedankt' : 'Not now, thanks'}
                 </button>

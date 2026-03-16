@@ -5,11 +5,11 @@
   color-scheme: only light;
   --color-primary: #000000;
   --color-secondary: #000000;
-  --color-accent: #004f57;
-  --color-primary-light: #004f57; 
+  --color-accent: #476DD7;
+  --color-primary-light: #476DD7; 
   --color-primary-dark: #000000;
-  --color-secondary-light: #004f57; /* Removed variation, using solid accent */
-  --color-accent-gradient: linear-gradient(135deg, #004f57 0%, #000000 100%);
+  --color-secondary-light: #476DD7; /* Removed variation, using solid accent */
+  --color-accent-gradient: linear-gradient(135deg, #476DD7 0%, #000000 100%);
   
   /* Legacy vars mapped to primary/secondary to avoid breakage */
   --color-lemon-primary: var(--color-accent);
