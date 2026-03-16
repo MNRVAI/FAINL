@@ -94,50 +94,50 @@ export const UseCaseLegalPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
-          <li className="text-black/60 dark:text-white/50">Gebruik</li>
+          <li className="text-black dark:text-white/50">Gebruik</li>
           <li>/</li>
           <li className="text-black dark:text-white">Juridisch Advies</li>
         </ol>
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-[#004f57] text-white dark:text-black text-lg font-black uppercase tracking-[0.25em] rounded-none mb-6">
           Use case — Juridisch
         </div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           AI voor juridisch advies:{' '}
-          <span className="text-black">drie modellen zien meer.</span>
+          <span className="text-[#004f57]">drie modellen zien meer.</span>
         </h1>
-        <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
+        <p className="text-xl sm:text-2xl text-black dark:text-white/80 leading-relaxed max-w-2xl mb-8">
           Juridische vragen hebben zelden één correct antwoord — ze kennen interpretaties,
           uitzonderingen en tegenstrijdige precedenten. Eén AI-model geeft één perspectief.{' '}
-          <strong className="text-black dark:text-white">FAINL laat drie modellen parallel redeneren en elkaars blinde vlekken blootleggen.</strong>
+          <strong className="text-black dark:text-[#004f57]">FAINL laat drie modellen parallel redeneren en elkaars blinde vlekken blootleggen.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-4 px-10 py-5 bg-black dark:bg-[#004f57] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#004f57] hover:text-black dark:hover:bg-white transition-all shadow-lg">
           Stel je juridische vraag — gratis
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-5 h-5" />
         </button>
       </section>
 
       <section aria-label="Juridische use cases" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
         <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">Toepassingen</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {USE_CASES.map(uc => (
-            <div key={uc.title} className="border-2 border-black dark:border-white/20 rounded-2xl p-6 bg-white dark:bg-zinc-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-black dark:bg-white rounded-lg">
-                  <uc.icon className="w-4 h-4 text-white dark:text-black" />
+            <div key={uc.title} className="border-4 border-black dark:border-[#004f57] rounded-none p-8 bg-white dark:bg-black shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#004f57]">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 bg-black dark:bg-[#004f57] rounded-none">
+                  <uc.icon className="w-6 h-6 text-white dark:text-black" />
                 </div>
-                <h3 className="font-black text-base uppercase tracking-tight text-black dark:text-white">{uc.title}</h3>
+                <h3 className="font-black text-xl uppercase tracking-tight text-black dark:text-white">{uc.title}</h3>
               </div>
-              <p className="text-base text-black/60 dark:text-white/50 leading-relaxed mb-4">{uc.desc}</p>
-              <div className="bg-black/5 dark:bg-white/5 rounded-xl px-4 py-3">
-                <p className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-1">Voorbeeldvraag</p>
-                <p className="text-base text-black/70 dark:text-white/60 italic leading-relaxed">{uc.example}</p>
+              <p className="text-lg text-black dark:text-white/70 leading-relaxed mb-6">{uc.desc}</p>
+              <div className="bg-black/5 dark:bg-[#004f57]/10 rounded-none px-6 py-4 border-l-4 border-black dark:border-[#004f57]">
+                <p className="text-sm font-black uppercase tracking-widest text-[#004f57] dark:text-[#004f57] mb-1">Voorbeeldvraag</p>
+                <p className="text-lg text-black dark:text-white/80 italic leading-relaxed font-bold">"{uc.example}"</p>
               </div>
             </div>
           ))}
@@ -145,12 +145,12 @@ export const UseCaseLegalPage: FC = () => {
       </section>
 
       <section aria-label="Disclaimer" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
-        <div className="border-2 border-amber-400 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-500/40 rounded-2xl p-6">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+        <div className="border-4 border-amber-400 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-500 rounded-none p-10">
+          <div className="flex items-start gap-6">
+            <AlertTriangle className="w-8 h-8 text-amber-600 dark:text-amber-400 shrink-0 mt-1" />
             <div>
-              <p className="font-black text-base uppercase tracking-widest text-amber-700 dark:text-amber-400 mb-2">Belangrijk</p>
-              <p className="text-base text-amber-800 dark:text-amber-300/80 leading-relaxed">
+              <p className="font-black text-xl uppercase tracking-widest text-amber-700 dark:text-amber-400 mb-3">Belangrijk</p>
+              <p className="text-lg text-amber-900 dark:text-amber-200/90 leading-relaxed font-bold">
                 AI is een hulpmiddel voor onderzoek en oriëntatie — geen vervanging voor professioneel juridisch advies.
                 Raadpleeg altijd een gekwalificeerde jurist of advocaat voor bindende beslissingen.
                 AI-modellen kunnen fouten maken en beschikken mogelijk over verouderde wetteksten.
@@ -161,19 +161,19 @@ export const UseCaseLegalPage: FC = () => {
       </section>
 
       <section aria-label="CTA" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
-        <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
-          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
-            Drie AI-modellen, <span className="text-black">één juridisch eindoordeel</span>
+        <div className="bg-black dark:bg-[#004f57] rounded-none p-10 md:p-16 shadow-[15px_15px_0_0_#004f57] dark:shadow-[15px_15px_0_0_black]">
+          <h2 className="text-2xl md:text-5xl font-black uppercase tracking-tight text-white dark:text-black mb-6 leading-tight">
+            Drie AI-modellen, <span className="text-[#004f57] dark:text-black">één juridisch eindoordeel</span>
           </h2>
-          <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
+          <p className="text-white/80 dark:text-black/80 leading-relaxed text-xl md:text-2xl mb-10">
             Stel je juridische vraag aan FAINL. ChatGPT, Gemini én Claude analyseren parallel,
             bekritiseren elkaars interpretatie en FAINL synthetiseert het meest genuanceerde,
             gewogen antwoord — inclusief de kanttekeningen.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-4 px-10 py-5 bg-[#004f57] dark:bg-black text-black dark:text-white font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-white hover:text-black transition-all shadow-lg">
             Stel je vraag — twee gratis sessies
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </section>
@@ -186,9 +186,9 @@ export const UseCaseLegalPage: FC = () => {
               <button type="button" onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-start justify-between py-5 text-left gap-4 group">
                 <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">{faq.q}</span>
-                <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
+                <span className="text-black dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
-              {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}
+              {openFaq === i && <p className="pb-5 text-base text-black dark:text-white/60 leading-relaxed">{faq.a}</p>}
             </div>
           ))}
         </div>

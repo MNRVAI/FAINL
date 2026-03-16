@@ -158,11 +158,11 @@ const JSON_LD = {
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 const Dots: FC<{ rating: Rating }> = ({ rating }) => (
-  <div className="flex items-center gap-1 justify-center" aria-label={`${rating} van 5`}>
+  <div className="flex items-center gap-1.5 justify-center" aria-label={`${rating} van 5`}>
     {([1, 2, 3, 4, 5] as Rating[]).map(i => (
       <div
         key={i}
-        className={`w-2.5 h-2.5 rounded-full ${i <= rating ? 'bg-black dark:bg-white' : 'bg-black/10 dark:bg-white/15'}`}
+        className={`w-3.5 h-3.5 rounded-full ${i <= rating ? 'bg-[#03B390]' : 'bg-black/10 dark:bg-white/20'}`}
       />
     ))}
   </div>
@@ -187,14 +187,14 @@ export const ComparePage: FC = () => {
 
       {/* ── Breadcrumb ── */}
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black dark:text-white/30">
           <li>
             <button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">
               Home
             </button>
           </li>
           <li>/</li>
-          <li className="text-black/60 dark:text-white/50">Vergelijk</li>
+          <li className="text-black dark:text-white/50">Vergelijk</li>
           <li>/</li>
           <li className="text-black dark:text-white">ChatGPT vs Gemini vs Claude</li>
         </ol>
@@ -202,27 +202,27 @@ export const ComparePage: FC = () => {
 
       {/* ── Hero ── */}
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-[#03B390] text-white dark:text-black text-lg font-black uppercase tracking-[0.25em] rounded-none mb-6">
           Vergelijking 2026
         </div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           ChatGPT, Gemini of Claude:{' '}
-          <span className="text-black">welke AI wint?</span>
+          <span className="text-[#03B390]">welke AI wint?</span>
         </h1>
-        <p className="text-lg sm:text-xl text-black/70 dark:text-white/60 leading-relaxed max-w-2xl mb-8">
+        <p className="text-xl sm:text-2xl text-black dark:text-white/80 leading-relaxed max-w-2xl mb-8">
           De drie populairste AI-modellen geven elk een ander antwoord op dezelfde vraag.
           ChatGPT scoort op creativiteit, Gemini op actuele data, Claude op nuance en veiligheid.{' '}
-          <strong className="text-black dark:text-white">
+          <strong className="text-black dark:text-[#03B390]">
             De eerlijke conclusie: het beste model hangt af van je vraag.
           </strong>
         </p>
         <button
           type="button"
           onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
+          className="inline-flex items-center gap-4 px-10 py-5 bg-black dark:bg-[#03B390] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#03B390] hover:text-black dark:hover:bg-white transition-all shadow-lg"
         >
           Probeer gratis — alle drie tegelijk
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-5 h-5" />
         </button>
       </section>
 
@@ -231,11 +231,11 @@ export const ComparePage: FC = () => {
         <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">
           De drie modellen op een rij
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {MODELS.map(model => (
             <div
               key={model.name}
-              className="border-2 border-black dark:border-white/20 rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]"
+              className="border-4 border-black dark:border-[#03B390] rounded-none overflow-hidden shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#03B390]"
             >
               <div className={`${model.headerBg} px-5 py-4 flex items-center gap-3`}>
                 <img src={model.logo} alt={model.name} className="w-7 h-7 object-contain shrink-0" />
@@ -244,21 +244,21 @@ export const ComparePage: FC = () => {
                   <p className={`text-base font-bold uppercase tracking-widest opacity-60 ${model.headerText}`}>{model.maker}</p>
                 </div>
               </div>
-              <div className="bg-white dark:bg-zinc-900 px-5 py-4">
-                <p className="text-base text-black/50 dark:text-white/40 leading-relaxed mb-4 italic">"{model.tagline}"</p>
-                <div className="space-y-1.5 mb-3">
+              <div className="bg-white dark:bg-black px-5 py-6">
+                <p className="text-lg text-black dark:text-white/50 leading-relaxed mb-6 italic">"{model.tagline}"</p>
+                <div className="space-y-3 mb-4">
                   {model.strengths.map(s => (
-                    <div key={s} className="flex items-start gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
-                      <span className="text-base text-black/80 dark:text-white/70 leading-snug">{s}</span>
+                    <div key={s} className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-[#03B390] shrink-0 mt-0.5" />
+                      <span className="text-lg text-black dark:text-white/80 leading-snug">{s}</span>
                     </div>
                   ))}
                 </div>
-                <div className="border-t border-black/10 dark:border-white/10 pt-3 space-y-1.5">
+                <div className="border-t-2 border-black/10 dark:border-[#03B390]/20 pt-4 space-y-3">
                   {model.weaknesses.map(w => (
-                    <div key={w} className="flex items-start gap-2">
-                      <XCircle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
-                      <span className="text-base text-black/40 dark:text-white/35 leading-snug">{w}</span>
+                    <div key={w} className="flex items-start gap-3">
+                      <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                      <span className="text-lg text-black dark:text-white/40 leading-snug">{w}</span>
                     </div>
                   ))}
                 </div>
@@ -273,14 +273,14 @@ export const ComparePage: FC = () => {
         <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">
           Vergelijkingstabel
         </h2>
-        <div className="overflow-x-auto rounded-2xl border-2 border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]">
-          <table className="w-full text-base">
+        <div className="overflow-x-auto rounded-none border-4 border-black dark:border-[#03B390] shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#03B390]">
+          <table className="w-full text-lg">
             <thead>
-              <tr className="bg-black dark:bg-zinc-800">
-                <th className="text-left px-5 py-3.5 text-white text-base font-black uppercase tracking-widest w-1/2">Criterium</th>
-                <th className="px-4 py-3.5 text-white text-base font-black uppercase tracking-widest text-center">ChatGPT</th>
-                <th className="px-4 py-3.5 text-white text-base font-black uppercase tracking-widest text-center">Gemini</th>
-                <th className="px-4 py-3.5 text-white text-base font-black uppercase tracking-widest text-center">Claude</th>
+              <tr className="bg-black dark:bg-[#03B390]">
+                <th className="text-left px-6 py-5 text-white dark:text-black text-lg font-black uppercase tracking-widest w-1/2">Criterium</th>
+                <th className="px-4 py-5 text-white dark:text-black text-lg font-black uppercase tracking-widest text-center">ChatGPT</th>
+                <th className="px-4 py-5 text-white dark:text-black text-lg font-black uppercase tracking-widest text-center">Gemini</th>
+                <th className="px-4 py-5 text-white dark:text-black text-lg font-black uppercase tracking-widest text-center">Claude</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/10 dark:divide-white/10 bg-white dark:bg-zinc-900">
@@ -295,21 +295,21 @@ export const ComparePage: FC = () => {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-base text-black/35 dark:text-white/25 font-medium">
+        <p className="mt-4 text-lg text-black dark:text-white/40 font-bold uppercase tracking-widest">
           Scores gebaseerd op onafhankelijke benchmarks en gebruikerservaringen. Geen enkel model is altijd het beste — het hangt af van de vraag.
         </p>
       </section>
 
       {/* ── FAINL CTA block ── */}
       <section aria-label="Waarom FAINL" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
-        <div className="bg-black dark:bg-white rounded-2xl p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.15)]">
-          <div className="flex items-start gap-4 mb-8">
-            <MinusCircle className="w-8 h-8 text-black shrink-0 mt-1" />
+        <div className="bg-black dark:bg-[#03B390] rounded-none p-10 md:p-16 shadow-[15px_15px_0_0_#03B390] dark:shadow-[15px_15px_0_0_black]">
+          <div className="flex items-start gap-6 mb-10">
+            <MinusCircle className="w-10 h-10 text-white dark:text-black shrink-0 mt-1" />
             <div>
-              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-3">
+              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white dark:text-black mb-4 leading-tight">
                 Waarom kiezen als je alles kunt combineren?
               </h2>
-              <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg">
+              <p className="text-white/80 dark:text-black leading-relaxed text-xl md:text-2xl">
                 Eén model kiezen betekent de zwaktes van dat model accepteren.
                 FAINL laat ChatGPT, Gemini én Claude tegelijk werken — ze analyseren
                 parallel, bevragen elkaars redenering en worden samengevat tot één
@@ -317,26 +317,26 @@ export const ComparePage: FC = () => {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
             {[
               { step: '01', label: 'Stel je vraag',    desc: 'Één keer typen, drie modellen aan het werk' },
               { step: '02', label: 'Live debat',        desc: 'Modellen bekritiseren elkaars redenering' },
               { step: '03', label: "Chairman's Verdict", desc: 'Eén gewogen eindoordeel met nuance' },
             ].map(item => (
-              <div key={item.step} className="bg-white/10 dark:bg-black/10 rounded-xl p-4">
-                <p className="text-black font-black text-base uppercase tracking-[0.3em] mb-1">{item.step}</p>
-                <p className="font-black text-base uppercase tracking-tight text-white dark:text-black mb-1">{item.label}</p>
-                <p className="text-white/50 dark:text-black/40 text-base leading-relaxed">{item.desc}</p>
+              <div key={item.step} className="bg-white/10 dark:bg-black/10 p-6 border-2 border-white/20 dark:border-black/20">
+                <p className="text-[#03B390] dark:text-black font-black text-xl uppercase tracking-[0.3em] mb-2">{item.step}</p>
+                <p className="font-black text-xl uppercase tracking-tight text-white dark:text-black mb-2">{item.label}</p>
+                <p className="text-white/60 dark:text-black text-lg leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
+            className="inline-flex items-center gap-4 px-10 py-5 bg-[#03B390] dark:bg-black text-black dark:text-white font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-white hover:text-black transition-all shadow-lg"
           >
             Start gratis — twee sessies, geen account nodig
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </section>
@@ -357,12 +357,12 @@ export const ComparePage: FC = () => {
                 <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">
                   {faq.q}
                 </span>
-                <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">
+                <span className="text-black dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">
                   {openFaq === i ? '−' : '+'}
                 </span>
               </button>
               {openFaq === i && (
-                <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>
+                <p className="pb-5 text-base text-black dark:text-white/60 leading-relaxed">{faq.a}</p>
               )}
             </div>
           ))}

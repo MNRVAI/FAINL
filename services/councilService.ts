@@ -1,5 +1,6 @@
 import { CouncilMember, CouncilResponse, PeerReview, ModelProvider, AppConfig, DebateMessage } from "../types";
 import { SYSTEM_PROMPTS } from "../constants";
+import { parseCompartments } from "./parser";
 
 // Supabase project URL — safe to expose (anon key is public)
 const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string) || 'https://bbsqosivxfcpkgehfwmm.supabase.co';
@@ -275,11 +276,15 @@ export class UnifiedCouncilService {
   // ─── Public API ──────────────────────────────────────────────────────────────
 
   async getCouncilResponses(query: string, members: CouncilMember[]): Promise<CouncilResponse[]> {
-    const promises = members.map(async (member) => ({
-      memberId: member.id,
-      content: await this.generate(member, query, member.systemPrompt || SYSTEM_PROMPTS.COUNCIL_MEMBER(query, member.description)),
-      timestamp: Date.now()
-    }));
+    const promises = members.map(async (member) => {
+      const content = await this.generate(member, query, member.systemPrompt || SYSTEM_PROMPTS.COUNCIL_MEMBER(query, member.description));
+      return {
+        memberId: member.id,
+        content: content,
+        sections: parseCompartments(content),
+        timestamp: Date.now()
+      };
+    });
     return Promise.all(promises);
   }
 
@@ -426,9 +431,10 @@ ${userSpokeRecently ? `\nKRITIEK: De GEBRUIKER heeft net gesproken. Jouw EERSTE 
     reviews: PeerReview[],
     debateMessages: DebateMessage[],
     members: CouncilMember[],
-    chairman: CouncilMember
+    chairman: CouncilMember,
+    userComposed?: string
   ): Promise<string> {
-    const context = this.buildContext(query, responses, reviews, debateMessages, members);
+    const context = this.buildContext(query, responses, reviews, debateMessages, members, userComposed);
     return this.generate(chairman, SYSTEM_PROMPTS.CHAIRMAN(query, context), chairman.systemPrompt);
   }
 
@@ -439,9 +445,10 @@ ${userSpokeRecently ? `\nKRITIEK: De GEBRUIKER heeft net gesproken. Jouw EERSTE 
     debateMessages: DebateMessage[],
     members: CouncilMember[],
     chairman: CouncilMember,
-    onChunk: (chunk: string) => void
+    onChunk: (chunk: string) => void,
+    userComposed?: string
   ): Promise<string> {
-    const context = this.buildContext(query, responses, reviews, debateMessages, members);
+    const context = this.buildContext(query, responses, reviews, debateMessages, members, userComposed);
     // Use 8192 tokens for the chairman synthesis so the full verdict is never truncated
     return this.generateStream(chairman, SYSTEM_PROMPTS.CHAIRMAN(query, context), chairman.systemPrompt, onChunk, 8192);
   }
@@ -451,9 +458,18 @@ ${userSpokeRecently ? `\nKRITIEK: De GEBRUIKER heeft net gesproken. Jouw EERSTE 
     responses: CouncilResponse[],
     reviews: PeerReview[],
     debateMessages: DebateMessage[],
-    members: CouncilMember[]
+    members: CouncilMember[],
+    userComposed?: string
   ): string {
-    let context = "--- COUNCIL FINDINGS ---\n";
+    let context = "";
+
+    if (userComposed) {
+      context += "--- USER'S PREFERRED BEST ANSWER (PRIORITY) ---\n";
+      context += `${userComposed}\n\n`;
+      context += "De gebruiker heeft bovenstaand antwoord samengesteld uit de segmenten van de raad. Neem dit als leidraad voor jouw eindoordeel.\n\n";
+    }
+
+    context += "--- COUNCIL FINDINGS ---\n";
     responses.filter(r => !r.content.startsWith("[")).forEach(r => {
       context += `\n[${members.find(x => x.id === r.memberId)?.name}]: ${r.content}\n`;
     });

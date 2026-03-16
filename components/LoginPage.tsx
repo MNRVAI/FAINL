@@ -57,11 +57,11 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
             <Shield className="text-white dark:text-black w-8 h-8" />
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-2 text-black dark:text-white">Neural Vault</h2>
-          <p className="text-black/40 dark:text-white/40 font-bold uppercase text-base tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
+          <p className="text-black dark:text-white/60 font-bold uppercase text-lg md:text-xl tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
         </div>
 
         {message && (
-          <div className={`mb-8 p-4 border-2 border-black dark:border-white/20 font-bold text-base uppercase tracking-wider ${message.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'}`}>
+          <div className={`mb-8 p-4 border-2 border-black dark:border-[#03B390] font-black text-lg md:text-xl uppercase tracking-wider ${message.type === 'success' ? 'bg-[#03B390] text-black' : 'bg-red-500 text-white'}`}>
             {message.text}
           </div>
         )}
@@ -70,7 +70,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <button
             onClick={() => handleSocialLogin('google')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-base hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
+            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-[#03B390] bg-white dark:bg-black font-black uppercase tracking-widest text-lg md:text-xl hover:bg-[#03B390] hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_0px_#03B390] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
           >
             <img src="https://www.google.com/favicon.ico" className="w-5 h-5 grayscale" alt="Google" />
             Connect with Google
@@ -79,7 +79,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <button
             onClick={() => handleSocialLogin('github')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-base hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
+            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-[#03B390] bg-white dark:bg-black font-black uppercase tracking-widest text-lg md:text-xl hover:bg-[#03B390] hover:text-black hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_0px_#03B390] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
           >
             <Github className="w-5 h-5" />
             Connect with GitHub
@@ -99,7 +99,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="NEURAL-ID@EMAIL.COM"
-              className="w-full p-5 bg-zinc-50 dark:bg-zinc-800 border-4 border-black dark:border-white/20 font-bold uppercase tracking-widest text-base placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all text-black dark:text-white"
+              className="w-full p-5 bg-zinc-50 dark:bg-black border-4 border-black dark:border-[#03B390] font-black uppercase tracking-widest text-lg md:text-xl placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:bg-white dark:focus:bg-zinc-900 transition-all text-black dark:text-white"
               required
             />
             <Mail className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-black/20 dark:text-white/20" />
@@ -108,7 +108,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <button
             type="submit"
             disabled={isLoading || !email}
-            className="w-full bg-black dark:bg-white text-white dark:text-black p-5 font-black uppercase tracking-widest text-base flex items-center justify-center gap-3 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all disabled:opacity-50"
+            className="w-full bg-black dark:bg-[#03B390] text-white dark:text-black p-5 font-black uppercase tracking-widest text-lg md:text-xl flex items-center justify-center gap-3 hover:bg-[#03B390] hover:text-black dark:hover:bg-white transition-all disabled:opacity-50"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />

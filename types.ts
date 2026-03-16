@@ -39,7 +39,8 @@ export interface PeerReview {
 
 export interface CouncilResponse {
   memberId: string;
-  content: string;
+  content: string; // Raw content
+  sections?: Record<string, string>; // Parsed compartments
   timestamp: number;
 }
 
@@ -54,6 +55,7 @@ export enum WorkflowStage {
   IDLE = "IDLE",
   PROCESSING_COUNCIL = "PROCESSING_COUNCIL",
   DEBATE = 'DEBATE',
+  COMPOSITION = "COMPOSITION",
   PEER_REVIEW = "PEER_REVIEW",
   SYNTHESIZING = "SYNTHESIZING",
   COMPLETED = "COMPLETED",
@@ -78,6 +80,7 @@ export interface SessionState {
   councilResponses: CouncilResponse[];
   debateMessages: DebateMessage[];
   reviews: PeerReview[];
+  userComposedResponse?: string; // The "7th node" / 4th node custom choice
   synthesis: string;
   error?: string;
   isArchived?: boolean;

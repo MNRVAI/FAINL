@@ -71,7 +71,7 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
             <div className="p-2 bg-black rounded-xl">
               <Gift className="w-5 h-5 text-black" />
             </div>
-            <span className="text-sm font-black uppercase tracking-[0.3em] text-white/60 dark:text-black/60">First-Time User Protocol</span>
+            <span className="text-sm font-black uppercase tracking-[0.3em] text-white/60 dark:text-black">First-Time User Protocol</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white dark:text-black leading-tight">
             Unlock 15%<br/>Neural Discount
@@ -82,7 +82,7 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
         <div className="p-6 md:p-8">
           {!submitted ? (
             <>
-              <p className="text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed mb-6">
+              <p className="text-sm font-bold text-black dark:text-white/60 leading-relaxed mb-6">
                 Subscribe to the FAINL newsletter and receive an immediate protocol voucher for your first access tier.
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
