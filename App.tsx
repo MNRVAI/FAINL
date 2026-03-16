@@ -1338,10 +1338,10 @@ const App: FC = () => {
                 <ZapIcon className="w-12 h-12 text-black" />
               </div>
               <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4">
-                {t.language === 'nl' ? 'Dat was je laatste credit!' : 'That was your last credit!'}
+                {language === 'nl' ? 'Dat was je laatste credit!' : 'That was your last credit!'}
               </h3>
               <p className="text-xl font-bold text-black dark:text-white/70 leading-relaxed mb-10">
-                {t.language === 'nl' 
+                {language === 'nl' 
                   ? 'Je hebt zojuist je laatste premium FAINL vraag verbruikt. Tijd om op te waarderen voor je volgende diepe analyse?'
                   : 'You just used your last premium FAINL question. Time to recharge for your next deep analysis?'}
               </p>
@@ -1353,13 +1353,13 @@ const App: FC = () => {
                   }}
                   className="w-full py-6 bg-black text-white dark:bg-[#004f57] dark:text-black font-black text-xl uppercase tracking-widest rounded-none hover:scale-105 active:scale-95 transition-all shadow-[10px_10px_0_0_#004f57] border-4 border-black"
                 >
-                  {t.language === 'nl' ? 'Bekijk Pakketten' : 'View Packages'}
+                  {language === 'nl' ? 'Bekijk Pakketten' : 'View Packages'}
                 </button>
                 <button
                   onClick={() => setShowOutofCreditsUpsell(false)}
                   className="w-full py-4 bg-transparent text-black dark:text-white/40 hover:text-black dark:hover:text-[#004f57] font-black text-lg uppercase tracking-widest transition-colors"
                 >
-                  {t.language === 'nl' ? 'Nu niet, bedankt' : 'Not now, thanks'}
+                  {language === 'nl' ? 'Nu niet, bedankt' : 'Not now, thanks'}
                 </button>
               </div>
             </div>
