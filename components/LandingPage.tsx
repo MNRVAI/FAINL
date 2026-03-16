@@ -264,7 +264,7 @@ export const LandingPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="w-full sm:w-auto px-12 py-6 bg-black text-white font-black text-lg uppercase tracking-[0.2em] border-4 border-black hover:bg-white hover:text-black transition-all duration-300 group shadow-[10px_10px_0_0_rgba(0,0,0,0.1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+            className="w-full sm:w-auto px-12 py-6 bg-black text-white font-black text-lg uppercase tracking-[0.2em] border-4 border-black hover:bg-white hover:text-black transition-all duration-300 group shadow-[12px_12px_0_0_#004f57] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
           >
             Start gratis sessie
             <ArrowRight className="inline-block ml-3 w-6 h-6 transition-transform group-hover:translate-x-1" />
@@ -272,7 +272,7 @@ export const LandingPage: FC = () => {
           
           <Link
             to="/cookbook"
-            className="w-full sm:w-auto px-12 py-6 bg-white text-black font-black text-lg uppercase tracking-[0.2em] border-4 border-black hover:bg-zinc-100 transition-all duration-300 text-center shadow-[10px_10px_0_0_rgba(0,0,0,0.05)]"
+            className="w-full sm:w-auto px-12 py-6 bg-white text-black font-black text-lg uppercase tracking-[0.2em] border-4 border-black hover:bg-[#004f57] hover:text-white transition-all duration-300 text-center shadow-[12px_12px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
           >
             Voorbeeldvragen
           </Link>
@@ -648,7 +648,7 @@ export const LandingPage: FC = () => {
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="inline-flex items-center gap-4 px-16 py-8 bg-black text-white font-black text-xl uppercase tracking-[0.3em] border-4 border-black hover:bg-white hover:text-black transition-all duration-500 group shadow-[20px_20px_0_0_#004f57]"
+            className="inline-flex items-center gap-4 px-16 py-8 bg-black text-white font-black text-xl uppercase tracking-[0.3em] border-4 border-black hover:bg-white hover:text-black transition-all duration-500 group shadow-[20px_20px_0_0_#004f57] hover:shadow-none hover:translate-x-2 hover:translate-y-2"
           >
             Start Gratis Sessie
             <ArrowRight className="w-8 h-8 transition-transform group-hover:translate-x-4" />

@@ -85,7 +85,7 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-[#004f57] hover:bg-[#004f57] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[6px_6px_0_0_black]">
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-white hover:bg-[#004f57] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[10px_10px_0_0_#004f57] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
                 {language === 'nl' ? `Koop ${pkg.count}` : `Buy ${pkg.count}`}
               </button>
             </div>
@@ -131,7 +131,7 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-[#004f57] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[10px_10px_0_0_black]">
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-[#004f57] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[15px_15px_0_0_white] hover:shadow-none hover:translate-x-2 hover:translate-y-2">
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
               </button>
             </div>
