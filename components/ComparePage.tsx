@@ -187,14 +187,14 @@ export const ComparePage: FC = () => {
 
       {/* ── Breadcrumb ── */}
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black dark:text-white/30">
           <li>
             <button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">
               Home
             </button>
           </li>
           <li>/</li>
-          <li className="text-black/60 dark:text-white/50">Vergelijk</li>
+          <li className="text-black dark:text-white/50">Vergelijk</li>
           <li>/</li>
           <li className="text-black dark:text-white">ChatGPT vs Gemini vs Claude</li>
         </ol>
@@ -209,7 +209,7 @@ export const ComparePage: FC = () => {
           ChatGPT, Gemini of Claude:{' '}
           <span className="text-[#03B390]">welke AI wint?</span>
         </h1>
-        <p className="text-xl sm:text-2xl text-black/70 dark:text-white/80 leading-relaxed max-w-2xl mb-8">
+        <p className="text-xl sm:text-2xl text-black dark:text-white/80 leading-relaxed max-w-2xl mb-8">
           De drie populairste AI-modellen geven elk een ander antwoord op dezelfde vraag.
           ChatGPT scoort op creativiteit, Gemini op actuele data, Claude op nuance en veiligheid.{' '}
           <strong className="text-black dark:text-[#03B390]">
@@ -245,12 +245,12 @@ export const ComparePage: FC = () => {
                 </div>
               </div>
               <div className="bg-white dark:bg-black px-5 py-6">
-                <p className="text-lg text-black/60 dark:text-white/50 leading-relaxed mb-6 italic">"{model.tagline}"</p>
+                <p className="text-lg text-black dark:text-white/50 leading-relaxed mb-6 italic">"{model.tagline}"</p>
                 <div className="space-y-3 mb-4">
                   {model.strengths.map(s => (
                     <div key={s} className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-[#03B390] shrink-0 mt-0.5" />
-                      <span className="text-lg text-black/80 dark:text-white/80 leading-snug">{s}</span>
+                      <span className="text-lg text-black dark:text-white/80 leading-snug">{s}</span>
                     </div>
                   ))}
                 </div>
@@ -258,7 +258,7 @@ export const ComparePage: FC = () => {
                   {model.weaknesses.map(w => (
                     <div key={w} className="flex items-start gap-3">
                       <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                      <span className="text-lg text-black/40 dark:text-white/40 leading-snug">{w}</span>
+                      <span className="text-lg text-black dark:text-white/40 leading-snug">{w}</span>
                     </div>
                   ))}
                 </div>
@@ -295,7 +295,7 @@ export const ComparePage: FC = () => {
             </tbody>
           </table>
         </div>
-        <p className="mt-4 text-lg text-black/50 dark:text-white/40 font-bold uppercase tracking-widest">
+        <p className="mt-4 text-lg text-black dark:text-white/40 font-bold uppercase tracking-widest">
           Scores gebaseerd op onafhankelijke benchmarks en gebruikerservaringen. Geen enkel model is altijd het beste — het hangt af van de vraag.
         </p>
       </section>
@@ -309,7 +309,7 @@ export const ComparePage: FC = () => {
               <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white dark:text-black mb-4 leading-tight">
                 Waarom kiezen als je alles kunt combineren?
               </h2>
-              <p className="text-white/80 dark:text-black/80 leading-relaxed text-xl md:text-2xl">
+              <p className="text-white/80 dark:text-black leading-relaxed text-xl md:text-2xl">
                 Eén model kiezen betekent de zwaktes van dat model accepteren.
                 FAINL laat ChatGPT, Gemini én Claude tegelijk werken — ze analyseren
                 parallel, bevragen elkaars redenering en worden samengevat tot één
@@ -326,7 +326,7 @@ export const ComparePage: FC = () => {
               <div key={item.step} className="bg-white/10 dark:bg-black/10 p-6 border-2 border-white/20 dark:border-black/20">
                 <p className="text-[#03B390] dark:text-black font-black text-xl uppercase tracking-[0.3em] mb-2">{item.step}</p>
                 <p className="font-black text-xl uppercase tracking-tight text-white dark:text-black mb-2">{item.label}</p>
-                <p className="text-white/60 dark:text-black/60 text-lg leading-relaxed">{item.desc}</p>
+                <p className="text-white/60 dark:text-black text-lg leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -357,12 +357,12 @@ export const ComparePage: FC = () => {
                 <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">
                   {faq.q}
                 </span>
-                <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">
+                <span className="text-black dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">
                   {openFaq === i ? '−' : '+'}
                 </span>
               </button>
               {openFaq === i && (
-                <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>
+                <p className="pb-5 text-base text-black dark:text-white/60 leading-relaxed">{faq.a}</p>
               )}
             </div>
           ))}

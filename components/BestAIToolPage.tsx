@@ -123,27 +123,27 @@ export const BestAIToolPage: FC = () => {
         <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
-          <li className="text-black/60 dark:text-white/50">Vergelijk</li>
+          <li className="text-black dark:text-white/50">Vergelijk</li>
           <li>/</li>
           <li className="text-black dark:text-white">Beste AI-tool Nederland</li>
         </ol>
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-[#03B390] text-white dark:text-black text-lg font-black uppercase tracking-[0.25em] rounded-none mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-[#004f57] text-white dark:text-black text-lg font-black uppercase tracking-[0.25em] rounded-none mb-6">
           Vergelijking — Lokale SEO
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           Best AI tool Nederland:{' '}
-          <span className="text-[#03B390]">ChatGPT, Gemini, Claude of FAINL?</span>
+          <span className="text-[#004f57]">ChatGPT, Gemini, Claude of FAINL?</span>
         </h1>
-        <p className="text-xl sm:text-2xl text-black/70 dark:text-white/80 leading-relaxed max-w-2xl mb-8">
+        <p className="text-xl sm:text-2xl text-black dark:text-white/80 leading-relaxed max-w-2xl mb-8">
           De markt voor AI-tools groeit snel — maar welke past het best bij jouw gebruik?
           ChatGPT, Gemini en Claude zijn elk sterk op eigen terrein.{' '}
-          <strong className="text-black dark:text-[#03B390]">FAINL combineert alle drie in één sessie voor het best haalbare antwoord.</strong>
+          <strong className="text-black dark:text-[#004f57]">FAINL combineert alle drie in één sessie voor het best haalbare antwoord.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-4 px-10 py-5 bg-black dark:bg-[#03B390] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#03B390] hover:text-black dark:hover:bg-white transition-all shadow-lg">
+          className="inline-flex items-center gap-4 px-10 py-5 bg-black dark:bg-[#004f57] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#004f57] hover:text-black dark:hover:bg-white transition-all shadow-lg">
           Probeer FAINL gratis
           <ArrowRight className="w-5 h-5" />
         </button>
@@ -156,29 +156,29 @@ export const BestAIToolPage: FC = () => {
             <div key={tool.name}
               className={`border-4 rounded-none p-8 bg-white dark:bg-black relative ${
                 tool.highlight
-                  ? 'border-[#03B390] shadow-[10px_10px_0_0_#03B390]'
-                  : 'border-black dark:border-white/40 shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#03B390]'
+                  ? 'border-[#004f57] shadow-[10px_10px_0_0_#004f57]'
+                  : 'border-black dark:border-white/40 shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#004f57]'
               }`}>
               {tool.highlight && (
-                <div className="absolute -top-4 left-6 flex items-center gap-2 px-4 py-1.5 bg-[#03B390] text-black">
+                <div className="absolute -top-4 left-6 flex items-center gap-2 px-4 py-1.5 bg-[#004f57] text-black">
                   <Crown className="w-4 h-4" />
                   <span className="text-lg font-black uppercase tracking-widest">Aanbevolen</span>
                 </div>
               )}
-              <h3 className={`font-black text-2xl uppercase tracking-tight mb-2 ${tool.highlight ? 'text-[#03B390]' : 'text-black dark:text-white'}`}>{tool.name}</h3>
-              <p className="text-lg text-black/60 dark:text-white/50 mb-6">{tool.tagline}</p>
+              <h3 className={`font-black text-2xl uppercase tracking-tight mb-2 ${tool.highlight ? 'text-[#004f57]' : 'text-black dark:text-white'}`}>{tool.name}</h3>
+              <p className="text-lg text-black dark:text-white/50 mb-6">{tool.tagline}</p>
 
               <div className="space-y-3 mb-6">
                 {tool.pros.map(p => (
                   <div key={p} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#03B390] shrink-0 mt-0.5" />
-                    <span className="text-lg text-black/80 dark:text-white/80">{p}</span>
+                    <Check className="w-5 h-5 text-[#004f57] shrink-0 mt-0.5" />
+                    <span className="text-lg text-black dark:text-white/80">{p}</span>
                   </div>
                 ))}
                 {tool.cons.map(c => (
                   <div key={c} className="flex items-start gap-3">
                     <X className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                    <span className="text-lg text-black/50 dark:text-white/40">{c}</span>
+                    <span className="text-lg text-black dark:text-white/40">{c}</span>
                   </div>
                 ))}
               </div>
@@ -190,7 +190,7 @@ export const BestAIToolPage: FC = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">Beste voor</span>
-                  <span className="text-base text-black/60 dark:text-white/50">{tool.best}</span>
+                  <span className="text-base text-black dark:text-white/50">{tool.best}</span>
                 </div>
               </div>
             </div>
@@ -200,20 +200,20 @@ export const BestAIToolPage: FC = () => {
 
       <section aria-label="Vergelijkingstabel" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
         <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">Vergelijkingstabel</h2>
-        <div className="overflow-x-auto rounded-none border-4 border-black dark:border-[#03B390]">
+        <div className="overflow-x-auto rounded-none border-4 border-black dark:border-[#004f57]">
           <table className="w-full text-lg bg-white dark:bg-black">
             <thead>
-              <tr className="border-b-4 border-black dark:border-[#03B390]">
-                <th className="text-left px-6 py-5 font-black uppercase tracking-tight text-lg text-black/50 dark:text-white/40">Eigenschap</th>
+              <tr className="border-b-4 border-black dark:border-[#004f57]">
+                <th className="text-left px-6 py-5 font-black uppercase tracking-tight text-lg text-black dark:text-white/40">Eigenschap</th>
                 {['ChatGPT', 'Gemini', 'Claude', 'FAINL'].map(name => (
-                  <th key={name} className={`px-4 py-5 font-black uppercase tracking-tight text-lg text-center ${name === 'FAINL' ? 'text-[#03B390]' : 'text-black dark:text-white'}`}>{name}</th>
+                  <th key={name} className={`px-4 py-5 font-black uppercase tracking-tight text-lg text-center ${name === 'FAINL' ? 'text-[#004f57]' : 'text-black dark:text-white'}`}>{name}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {CRITERIA.map((row, i) => (
                 <tr key={row.label} className={`border-b border-black/10 dark:border-white/10 last:border-0 ${i % 2 === 0 ? '' : 'bg-black/[0.02] dark:bg-white/[0.02]'}`}>
-                  <td className="px-5 py-3.5 text-base font-medium text-black/70 dark:text-white/60">{row.label}</td>
+                  <td className="px-5 py-3.5 text-base font-medium text-black dark:text-white/60">{row.label}</td>
                   {[row.chatgpt, row.gemini, row.claude, row.fainl].map((val, j) => (
                     <td key={j} className="px-4 py-3.5 text-center">
                       {val
@@ -234,7 +234,7 @@ export const BestAIToolPage: FC = () => {
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white dark:text-black mb-4">
             Niet kiezen. <span className="text-black">Alles tegelijk.</span>
           </h2>
-          <p className="text-white/70 dark:text-black/60 leading-relaxed text-base md:text-lg mb-8">
+          <p className="text-white/70 dark:text-black leading-relaxed text-base md:text-lg mb-8">
             Met FAINL hoef je niet te kiezen tussen ChatGPT, Gemini en Claude.
             Stel één vraag — ontvang drie perspectieven, een live debat en één gewogen eindadvies.
             Gratis starten, geen account nodig.
@@ -257,7 +257,7 @@ export const BestAIToolPage: FC = () => {
                 <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">{faq.q}</span>
                 <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
-              {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}
+              {openFaq === i && <p className="pb-5 text-base text-black dark:text-white/60 leading-relaxed">{faq.a}</p>}
             </div>
           ))}
         </div>

@@ -54,23 +54,23 @@ export const CouncilCard: FC<CouncilCardProps> = ({
       {/* Content */}
       <div className="overflow-hidden">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-12 gap-3 text-black/40 dark:text-white/30">
+          <div className="flex flex-col items-center justify-center py-12 gap-3 text-black dark:text-white/30">
             <NodeLoader shape="circle" />
             <span className="text-xs font-black uppercase tracking-widest animate-pulse">Analyseert jouw vraag…</span>
           </div>
         ) : response ? (
           <div className="px-5 py-4">
             <div className="prose prose-sm max-w-none
-              prose-p:text-zinc-700 dark:prose-p:text-zinc-300 prose-p:leading-relaxed prose-p:my-2
+              prose-p:text-black dark:prose-p:text-black prose-p:leading-relaxed prose-p:my-2
               prose-strong:text-black dark:prose-strong:text-white prose-strong:font-black
               prose-headings:text-black dark:prose-headings:text-white prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
-              prose-ul:my-2 prose-li:text-zinc-700 dark:prose-li:text-zinc-300 prose-li:my-1 prose-li:leading-relaxed
+              prose-ul:my-2 prose-li:text-black dark:prose-li:text-black prose-li:my-1 prose-li:leading-relaxed
               prose-hr:border-zinc-200 dark:prose-hr:border-zinc-700">
               <ReactMarkdown>{response.content}</ReactMarkdown>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-12 text-black/20 dark:text-white/15">
+          <div className="flex flex-col items-center justify-center py-12 text-black dark:text-white/15">
             <span className="text-xs font-black uppercase tracking-widest">Wacht op analyse…</span>
           </div>
         )}

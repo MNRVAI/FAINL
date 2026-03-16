@@ -94,30 +94,30 @@ export const UseCaseHRPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
-          <li className="text-black/60 dark:text-white/50">Gebruik</li>
+          <li className="text-black dark:text-white/50">Gebruik</li>
           <li>/</li>
           <li className="text-black dark:text-white">HR & Recruitment</li>
         </ol>
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-[#03B390] text-white dark:text-black text-lg font-black uppercase tracking-[0.25em] rounded-none mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-[#004f57] text-white dark:text-black text-lg font-black uppercase tracking-[0.25em] rounded-none mb-6">
           Use case — HR & Recruitment
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
           AI voor HR:{' '}
-          <span className="text-[#03B390]">minder bias, betere kandidaten.</span>
+          <span className="text-[#004f57]">minder bias, betere kandidaten.</span>
         </h1>
-        <p className="text-xl sm:text-2xl text-black/70 dark:text-white/80 leading-relaxed max-w-2xl mb-8">
+        <p className="text-xl sm:text-2xl text-black dark:text-white/80 leading-relaxed max-w-2xl mb-8">
           Wervingsprocessen zijn gebaat bij meerdere invalshoeken — niet één mening van één model.
           Drie AI-modellen analyseren onafhankelijk je functieprofiel, interviewvragen en onboardingprogramma.{' '}
-          <strong className="text-black dark:text-[#03B390]">FAINL legt de blinde vlekken bloot en levert een scherper HR-advies.</strong>
+          <strong className="text-black dark:text-[#004f57]">FAINL legt de blinde vlekken bloot en levert een scherper HR-advies.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-4 px-10 py-5 bg-black dark:bg-[#03B390] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#03B390] hover:text-black dark:hover:bg-white transition-all shadow-lg">
+          className="inline-flex items-center gap-4 px-10 py-5 bg-black dark:bg-[#004f57] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#004f57] hover:text-black dark:hover:bg-white transition-all shadow-lg">
           Analyseer je HR-vraag — gratis starten
           <ArrowRight className="w-5 h-5" />
         </button>
@@ -127,17 +127,17 @@ export const UseCaseHRPage: FC = () => {
         <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">Toepassingen</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {USE_CASES.map(uc => (
-            <div key={uc.title} className="border-4 border-black dark:border-[#03B390] rounded-none p-8 bg-white dark:bg-black shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#03B390]">
+            <div key={uc.title} className="border-4 border-black dark:border-[#004f57] rounded-none p-8 bg-white dark:bg-black shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_#004f57]">
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-black dark:bg-[#03B390] rounded-none">
+                <div className="p-3 bg-black dark:bg-[#004f57] rounded-none">
                   <uc.icon className="w-6 h-6 text-white dark:text-black" />
                 </div>
                 <h3 className="font-black text-xl uppercase tracking-tight text-black dark:text-white">{uc.title}</h3>
               </div>
-              <p className="text-lg text-black/60 dark:text-white/70 leading-relaxed mb-6">{uc.desc}</p>
-              <div className="bg-black/5 dark:bg-[#03B390]/10 rounded-none px-6 py-4 border-l-4 border-black dark:border-[#03B390]">
-                <p className="text-sm font-black uppercase tracking-widest text-[#03B390] dark:text-[#03B390] mb-1">Voorbeeldvraag</p>
-                <p className="text-lg text-black/70 dark:text-white/80 italic leading-relaxed font-bold">"{uc.example}"</p>
+              <p className="text-lg text-black dark:text-white/70 leading-relaxed mb-6">{uc.desc}</p>
+              <div className="bg-black/5 dark:bg-[#004f57]/10 rounded-none px-6 py-4 border-l-4 border-black dark:border-[#004f57]">
+                <p className="text-sm font-black uppercase tracking-widest text-[#004f57] dark:text-[#004f57] mb-1">Voorbeeldvraag</p>
+                <p className="text-lg text-black dark:text-white/80 italic leading-relaxed font-bold">"{uc.example}"</p>
               </div>
             </div>
           ))}
@@ -145,17 +145,17 @@ export const UseCaseHRPage: FC = () => {
       </section>
 
       <section aria-label="CTA" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
-        <div className="bg-black dark:bg-[#03B390] rounded-none p-10 md:p-16 shadow-[15px_15px_0_0_#03B390] dark:shadow-[15px_15px_0_0_black]">
+        <div className="bg-black dark:bg-[#004f57] rounded-none p-10 md:p-16 shadow-[15px_15px_0_0_#004f57] dark:shadow-[15px_15px_0_0_black]">
           <h2 className="text-2xl md:text-5xl font-black uppercase tracking-tight text-white dark:text-black mb-6 leading-tight">
             Betere werving begint met{' '}
-            <span className="text-[#03B390] dark:text-black">meerdere perspectieven.</span>
+            <span className="text-[#004f57] dark:text-black">meerdere perspectieven.</span>
           </h2>
           <p className="text-white/80 dark:text-black/80 leading-relaxed text-xl md:text-2xl mb-10">
             Stel je HR-vraag aan FAINL. Drie modellen analyseren onafhankelijk, bekritiseren elkaars
             aannames op bias en kwaliteit, en Victor synthetiseert het sterkste HR-advies — in één sessie.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-4 px-10 py-5 bg-[#03B390] dark:bg-black text-black dark:text-white font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-white hover:text-black transition-all shadow-lg">
+            className="inline-flex items-center gap-4 px-10 py-5 bg-[#004f57] dark:bg-black text-black dark:text-white font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-white hover:text-black transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-5 h-5" />
           </button>
@@ -172,7 +172,7 @@ export const UseCaseHRPage: FC = () => {
                 <span className="font-black text-base md:text-lg uppercase tracking-tight text-black dark:text-white group-hover:text-black transition-colors">{faq.q}</span>
                 <span className="text-black/40 dark:text-white/40 text-xl leading-none mt-0.5 shrink-0">{openFaq === i ? '−' : '+'}</span>
               </button>
-              {openFaq === i && <p className="pb-5 text-base text-black/70 dark:text-white/60 leading-relaxed">{faq.a}</p>}
+              {openFaq === i && <p className="pb-5 text-base text-black dark:text-white/60 leading-relaxed">{faq.a}</p>}
             </div>
           ))}
         </div>

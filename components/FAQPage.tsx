@@ -165,7 +165,7 @@ export const FAQPage: FC = () => {
         <h1 className="text-3xl md:text-6xl lg:text-8xl font-black uppercase tracking-tighter mb-8 text-black dark:text-white leading-tight">
           {language === 'nl' ? 'Veelgestelde Vragen over FAINL' : 'Frequently Asked Questions'}
         </h1>
-        <p className="max-w-3xl mx-auto text-black/70 dark:text-white/80 font-bold text-xl md:text-2xl leading-relaxed">
+        <p className="max-w-3xl mx-auto text-black dark:text-white/80 font-bold text-xl md:text-2xl leading-relaxed">
           {language === 'nl'
             ? 'Lees hier hoe FAINL precies werkt, wat het kost en hoe we jouw data beschermen.'
             : 'Access the foundational logic and operational guidelines of the FAINL Orchestration Layer. Understand the mechanics of decentralized consensus and neural governance.'}
@@ -176,25 +176,25 @@ export const FAQPage: FC = () => {
         {FAQS.map((faq, idx) => (
           <div
             key={idx}
-            className={`bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none overflow-hidden transition-all shadow-[12px_12px_0_0_black] dark:shadow-[12px_12px_0_0_#03B390] ${openIndex === idx ? 'ring-4 ring-[#03B390]' : ''}`}
+            className={`bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none overflow-hidden transition-all shadow-[12px_12px_0_0_black] dark:shadow-[12px_12px_0_0_#004f57] ${openIndex === idx ? 'ring-4 ring-[#004f57]' : ''}`}
           >
             <button
               onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
               className="w-full text-left p-8 md:p-12 flex items-center justify-between group"
             >
               <div className="flex items-center gap-6 md:gap-10">
-                <div className={`p-4 rounded-none transition-colors ${openIndex === idx ? 'bg-[#03B390] text-black' : 'bg-black dark:bg-[#03B390] text-white dark:text-black'}`}>
+                <div className={`p-4 rounded-none transition-colors ${openIndex === idx ? 'bg-[#004f57] text-black' : 'bg-black dark:bg-[#004f57] text-white dark:text-black'}`}>
                   <faq.icon className="w-6 h-6 md:w-8 md:h-8" />
                 </div>
                 <h3 className="text-xl md:text-3xl font-black uppercase tracking-tight leading-tight text-black dark:text-white">{faq.q}</h3>
               </div>
               <div className={`transition-transform duration-300 ${openIndex === idx ? 'rotate-180' : ''}`}>
-                <ChevronDown className="w-8 h-8 md:w-12 md:h-12 text-black dark:text-[#03B390]" />
+                <ChevronDown className="w-8 h-8 md:w-12 md:h-12 text-black dark:text-[#004f57]" />
               </div>
             </button>
             {openIndex === idx && (
               <div className="px-8 md:px-12 pb-10 md:pb-16 animate-in slide-in-from-top-4 duration-300">
-                <div className="pt-8 border-t-4 border-black/10 dark:border-[#03B390]/20 text-lg md:text-2xl font-bold text-black/70 dark:text-white/80 leading-relaxed">
+                <div className="pt-8 border-t-4 border-black/10 dark:border-[#004f57]/20 text-lg md:text-2xl font-bold text-black dark:text-white/80 leading-relaxed">
                   {faq.a}
                 </div>
               </div>

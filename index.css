@@ -5,11 +5,11 @@
   color-scheme: only light;
   --color-primary: #000000;
   --color-secondary: #000000;
-  --color-accent: #03B390;
-  --color-primary-light: #03B390; 
+  --color-accent: #004f57;
+  --color-primary-light: #004f57; 
   --color-primary-dark: #000000;
-  --color-secondary-light: #029476; /* Darker version of accent */
-  --color-accent-gradient: linear-gradient(135deg, #03B390 0%, #000000 100%);
+  --color-secondary-light: #004f57; /* Removed variation, using solid accent */
+  --color-accent-gradient: linear-gradient(135deg, #004f57 0%, #000000 100%);
   
   /* Legacy vars mapped to primary/secondary to avoid breakage */
   --color-lemon-primary: var(--color-accent);
@@ -130,11 +130,11 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #029476;
+  background: #004f57;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #029476;
+  background: #004f57;
 }
 
 /* Custom Pricing Cards */

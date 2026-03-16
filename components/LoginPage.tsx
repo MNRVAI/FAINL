@@ -57,7 +57,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
             <Shield className="text-white dark:text-black w-8 h-8" />
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-2 text-black dark:text-white">Neural Vault</h2>
-          <p className="text-black/60 dark:text-white/60 font-bold uppercase text-lg md:text-xl tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
+          <p className="text-black dark:text-white/60 font-bold uppercase text-lg md:text-xl tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
         </div>
 
         {message && (

@@ -101,14 +101,14 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
             {/* ── Hero ── */}
             <div className="mb-16 md:mb-24">
-                <div className="inline-flex items-center gap-3 px-6 py-3 bg-[#03B390] text-black text-lg font-black uppercase tracking-widest rounded-none border-4 border-black mb-6 shadow-[6px_6px_0_0_black]">
+                <div className="inline-flex items-center gap-3 px-6 py-3 bg-[#004f57] text-black text-lg font-black uppercase tracking-widest rounded-none border-4 border-black mb-6 shadow-[6px_6px_0_0_black]">
                     <Sparkles className="w-5 h-5" />
                     {language === 'nl' ? 'Voorbeeldvragen' : 'Example Questions'}
                 </div>
                 <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white mb-8 leading-none">
                     {language === 'nl' ? 'Waar wil jij\nAI-consensus over?' : 'What do you want\nAI consensus on?'}
                 </h1>
-                <p className="text-xl md:text-3xl text-black/70 dark:text-white/70 font-bold max-w-3xl leading-tight mb-12">
+                <p className="text-xl md:text-3xl text-black dark:text-white/70 font-bold max-w-3xl leading-tight mb-12">
                     {language === 'nl'
                         ? 'Kies een vraag die je aanspreekt en laat meerdere AI-modellen er tegelijk naar kijken. Je ontvangt één gefundeerd consensus-antwoord.'
                         : 'Pick a question that interests you and let multiple AI models analyze it simultaneously. You receive one well-founded consensus answer.'}
@@ -122,12 +122,12 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         { n: '3', label: language === 'nl' ? 'Ontvang consensus' : 'Receive consensus' },
                     ].map((step, i, arr) => (
                         <div key={step.n} className="flex items-center gap-4">
-                            <div className="flex items-center gap-4 px-6 py-4 bg-black dark:bg-[#03B390] text-white dark:text-black rounded-none border-4 border-black shadow-[6px_6px_0_0_#03B390]">
-                                <span className="text-xl font-black text-[#03B390] dark:text-black">{step.n}</span>
+                            <div className="flex items-center gap-4 px-6 py-4 bg-black dark:bg-[#004f57] text-white dark:text-black rounded-none border-4 border-black shadow-[6px_6px_0_0_#004f57]">
+                                <span className="text-xl font-black text-[#004f57] dark:text-black">{step.n}</span>
                                 <span className="text-lg font-black uppercase tracking-widest whitespace-nowrap">{step.label}</span>
                             </div>
                             {i < arr.length - 1 && (
-                                <ArrowRight className="w-6 h-6 text-black/20 dark:text-white/20 mx-2 shrink-0" />
+                                <ArrowRight className="w-6 h-6 text-black dark:text-white/20 mx-2 shrink-0" />
                             )}
                         </div>
                     ))}
@@ -137,13 +137,13 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             {/* ── Search + Sort ── */}
             <div className="mb-10 flex flex-col sm:flex-row gap-6">
                 <div className="relative flex-1">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-[#03B390]" />
+                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-[#004f57]" />
                     <input
                         type="text"
                         placeholder={language === 'nl' ? 'Zoek een vraag of onderwerp…' : 'Search a question or topic…'}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none pl-16 pr-12 py-6 text-2xl font-black focus:outline-none focus:shadow-[10px_10px_0_0_#03B390] transition-all placeholder:text-black/30 dark:placeholder:text-white/30 text-black dark:text-white uppercase"
+                        className="w-full bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none pl-16 pr-12 py-6 text-2xl font-black focus:outline-none focus:shadow-[10px_10px_0_0_#004f57] transition-all placeholder:text-black dark:placeholder:text-white/30 text-black dark:text-white uppercase"
                     />
                     {searchQuery && (
                         <button
@@ -151,7 +151,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                             onClick={() => setSearchQuery('')}
                             title={language === 'nl' ? 'Zoekopdracht wissen' : 'Clear search'}
                             aria-label={language === 'nl' ? 'Zoekopdracht wissen' : 'Clear search'}
-                            className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-black/30 hover:text-black dark:text-white/30 dark:hover:text-[#03B390] transition-colors"
+                            className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-black hover:text-black dark:text-white/30 dark:hover:text-[#004f57] transition-colors"
                         >
                             <X className="w-6 h-6" />
                         </button>
@@ -163,12 +163,12 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         onChange={(e) => setSortBy(e.target.value as any)}
                         title={language === 'nl' ? 'Sorteren op' : 'Sort by'}
                         aria-label={language === 'nl' ? 'Sorteren op' : 'Sort by'}
-                        className="appearance-none bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none px-8 py-6 pr-14 text-xl font-black uppercase tracking-widest focus:outline-none cursor-pointer text-black dark:text-white focus:shadow-[8px_8px_0_0_#03B390] transition-all"
+                        className="appearance-none bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none px-8 py-6 pr-14 text-xl font-black uppercase tracking-widest focus:outline-none cursor-pointer text-black dark:text-white focus:shadow-[8px_8px_0_0_#004f57] transition-all"
                     >
                         <option value="popularity">{language === 'nl' ? 'Meest gebruikt' : 'Most used'}</option>
                         <option value="rating">{language === 'nl' ? 'Hoogst beoordeeld' : 'Top rated'}</option>
                     </select>
-                    <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none text-[#03B390]" />
+                    <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none text-[#004f57]" />
                 </div>
             </div>
 
@@ -184,8 +184,8 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         onClick={() => setActiveCategory(cat)}
                         className={`shrink-0 px-6 py-3 rounded-none text-lg font-black uppercase tracking-widest border-4 transition-all whitespace-nowrap shadow-[4px_4px_0_0_black] ${
                             activeCategory === cat
-                                ? 'bg-[#03B390] text-black border-black shadow-none translate-x-1 translate-y-1'
-                                : 'bg-white dark:bg-black text-black/60 dark:text-white/60 border-black dark:border-[#03B390]/40 hover:border-black dark:hover:border-[#03B390] hover:text-black dark:hover:text-white'
+                                ? 'bg-[#004f57] text-black border-black shadow-none translate-x-1 translate-y-1'
+                                : 'bg-white dark:bg-black text-black/60 dark:text-white/60 border-black dark:border-[#004f57]/40 hover:border-black dark:hover:border-[#004f57] hover:text-black dark:hover:text-white'
                         }`}
                     >
                         {cat === 'All' ? (language === 'nl' ? 'Alles' : 'All') : cat}
@@ -197,7 +197,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             </div>
 
             {/* ── Results count ── */}
-            <p className="text-lg font-black uppercase tracking-[0.4em] text-[#03B390] mb-8">
+            <p className="text-lg font-black uppercase tracking-[0.4em] text-[#004f57] mb-8">
                 {filteredDirectives.length} {language === 'nl' ? 'vragen' : 'questions'}
                 {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
             </p>
@@ -205,8 +205,8 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             {/* ── Grid ── */}
             {filteredDirectives.length === 0 ? (
                 <div className="py-20 text-center border-2 border-dashed border-black/10 dark:border-white/10 rounded-2xl">
-                    <Search className="w-8 h-8 mx-auto mb-3 text-black/20 dark:text-white/20" />
-                    <p className="font-black uppercase tracking-widest text-black/30 dark:text-white/30 text-sm">
+                    <Search className="w-8 h-8 mx-auto mb-3 text-black dark:text-white/20" />
+                    <p className="font-black uppercase tracking-widest text-black dark:text-white/30 text-sm">
                         {language === 'nl' ? 'Geen vragen gevonden' : 'No questions found'}
                     </p>
                     <button
@@ -245,7 +245,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
                 return (
                     <div className="mt-10 flex flex-col items-center gap-4">
-                        <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                        <p className="text-sm font-black uppercase tracking-widest text-black dark:text-white/30">
                             {language === 'nl' ? `Pagina ${currentPage} van ${totalPages}` : `Page ${currentPage} of ${totalPages}`}
                         </p>
                         <div className="flex items-center gap-2">
@@ -261,7 +261,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                             </button>
                             {slots.map((slot, i) =>
                                 slot === '…' ? (
-                                    <span key={`el-${i}`} className="w-9 h-9 flex items-center justify-center text-black/30 dark:text-white/30 font-black text-sm">…</span>
+                                    <span key={`el-${i}`} className="w-9 h-9 flex items-center justify-center text-black dark:text-white/30 font-black text-sm">…</span>
                                 ) : (
                                     <button
                                         key={slot}
@@ -293,16 +293,16 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             })()}
 
             {/* ── Bottom CTA ── */}
-            <div className="mt-32 p-16 md:p-24 bg-[#03B390] text-black rounded-none border-8 border-black text-center relative overflow-hidden shadow-[20px_20px_0_0_black]">
+            <div className="mt-32 p-16 md:p-24 bg-[#004f57] text-black rounded-none border-8 border-black text-center relative overflow-hidden shadow-[20px_20px_0_0_black]">
                 <div className="relative z-10 max-w-2xl mx-auto space-y-10">
                     <div className="inline-flex items-center gap-3 px-6 py-2 bg-black text-white text-lg font-black uppercase tracking-widest rounded-none">
-                        <Sparkles className="w-5 h-5 text-[#03B390]" />
+                        <Sparkles className="w-5 h-5 text-[#004f57]" />
                         {language === 'nl' ? 'Eigen vraag?' : 'Your own question?'}
                     </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">
                         {language === 'nl' ? 'Stel jouw eigen vraag' : 'Ask your own question'}
                     </h2>
-                    <p className="text-black/70 text-xl md:text-2xl font-bold leading-tight">
+                    <p className="text-black text-xl md:text-2xl font-bold leading-tight">
                         {language === 'nl'
                             ? 'Staat jouw vraag er niet bij? Ga naar de hoofdpagina en typ hem direct in. Elke vraag is welkom.'
                             : "Don't see your question? Go to the home page and type it in directly. Any question is welcome."}
@@ -334,12 +334,12 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
     const rating = directive.rating + localRating;
 
     return (
-        <div className="group flex flex-col bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none overflow-hidden transition-all duration-300 hover:shadow-[12px_12px_0_0_#03B390] hover:-translate-x-1 hover:-translate-y-1">
+        <div className="group flex flex-col bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none overflow-hidden transition-all duration-300 hover:shadow-[12px_12px_0_0_#004f57] hover:-translate-x-1 hover:-translate-y-1">
 
             {/* Card header */}
             <div className="flex items-center justify-between px-6 pt-6 pb-4 gap-4">
                 <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-base font-black text-[#03B390] uppercase tracking-widest truncate">{directive.category}</span>
+                    <span className="text-base font-black text-[#004f57] uppercase tracking-widest truncate">{directive.category}</span>
                 </div>
                 {/* Votes */}
                 <div className="flex items-center gap-2 shrink-0">
@@ -347,7 +347,7 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
                         type="button"
                         onClick={(e) => onVote(directive.id, 1, e)}
                         aria-label="Upvote"
-                        className={`p-1.5 border-2 border-black rounded-none transition-colors ${userVote === 1 ? 'bg-[#03B390] text-black' : 'bg-white text-black hover:bg-[#03B390]'}`}
+                        className={`p-1.5 border-2 border-black rounded-none transition-colors ${userVote === 1 ? 'bg-[#004f57] text-black' : 'bg-white text-black hover:bg-[#004f57]'}`}
                     >
                         <ChevronUp className="w-5 h-5" />
                     </button>
@@ -368,8 +368,8 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
                 <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-black dark:text-white leading-tight line-clamp-2">
                     {directive.title}
                 </h3>
-                <blockquote className="border-l-8 border-[#03B390] pl-5 py-4 bg-zinc-50 dark:bg-zinc-900 rounded-none">
-                    <p className="text-lg md:text-xl text-black/70 dark:text-white/70 leading-relaxed font-bold italic line-clamp-3">
+                <blockquote className="border-l-8 border-[#004f57] pl-5 py-4 bg-zinc-50 dark:bg-zinc-900 rounded-none">
+                    <p className="text-lg md:text-xl text-black dark:text-white/70 leading-relaxed font-bold italic line-clamp-3">
                         "{directive.query}"
                     </p>
                 </blockquote>
@@ -388,7 +388,7 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
                 <button
                     type="button"
                     onClick={onSelect}
-                    className="flex items-center gap-2 px-6 py-3 bg-black text-white font-black text-lg uppercase tracking-widest rounded-none hover:bg-[#03B390] hover:text-black transition-all shadow-[6px_6px_0_0_#03B390] border-2 border-black"
+                    className="flex items-center gap-2 px-6 py-3 bg-black text-white font-black text-lg uppercase tracking-widest rounded-none hover:bg-[#004f57] hover:text-black transition-all shadow-[6px_6px_0_0_#004f57] border-2 border-black"
                 >
                     {language === 'nl' ? 'Probeer dit' : 'Try this'} <ArrowRight className="w-5 h-5" />
                 </button>

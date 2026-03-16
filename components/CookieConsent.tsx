@@ -56,11 +56,11 @@ export const CookieConsent: FC = () => {
       aria-label="Cookie toestemming"
       className="fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:bottom-8 md:max-w-lg z-[200] animate-in slide-in-from-bottom-4 fade-in duration-500"
     >
-      <div className="bg-white dark:bg-black border-4 border-black dark:border-[#03B390] rounded-none shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_#03B390] overflow-hidden">
+      <div className="bg-white dark:bg-black border-4 border-black dark:border-[#004f57] rounded-none shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_#004f57] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-5 pb-3">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-black dark:bg-[#03B390] text-white dark:text-black">
+            <div className="p-2 bg-black dark:bg-[#004f57] text-white dark:text-black">
               <Shield className="w-5 h-5" />
             </div>
             <span className="font-black text-lg md:text-xl uppercase tracking-widest text-black dark:text-white">
@@ -72,13 +72,13 @@ export const CookieConsent: FC = () => {
             aria-label="Sluit en weiger cookies"
             className="p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors"
           >
-            <X className="w-4 h-4 text-black/50 dark:text-white/50" />
+            <X className="w-4 h-4 text-black dark:text-white/50" />
           </button>
         </div>
 
         {/* Body */}
         <div className="px-6 pb-4">
-          <p className="text-lg md:text-xl text-black/70 dark:text-white/80 leading-relaxed">
+          <p className="text-lg md:text-xl text-black dark:text-white/80 leading-relaxed">
             Wij gebruiken{" "}
             <strong className="text-black dark:text-white">
               noodzakelijke cookies
@@ -94,7 +94,7 @@ export const CookieConsent: FC = () => {
           {/* Expandable details */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="mt-3 flex items-center gap-1 text-lg font-black uppercase tracking-widest text-black/40 dark:text-[#03B390] hover:text-black transition-colors"
+            className="mt-3 flex items-center gap-1 text-lg font-black uppercase tracking-widest text-black/40 dark:text-[#004f57] hover:text-black transition-colors"
           >
             {expanded ? (
               <ChevronUp className="w-4 h-4" />
@@ -105,7 +105,7 @@ export const CookieConsent: FC = () => {
           </button>
 
           {expanded && (
-            <div className="mt-4 space-y-4 text-lg text-black/60 dark:text-white/70 leading-relaxed border-t-2 border-black/10 dark:border-[#03B390]/20 pt-4">
+            <div className="mt-4 space-y-4 text-lg text-black dark:text-white/70 leading-relaxed border-t-2 border-black/10 dark:border-[#004f57]/20 pt-4">
               <div>
                 <span className="font-black text-black dark:text-white uppercase">
                   Noodzakelijk (altijd actief)
@@ -126,7 +126,7 @@ export const CookieConsent: FC = () => {
               </div>
               <a
                 href="/privacy"
-                className="underline text-black dark:text-[#03B390] font-black"
+                className="underline text-black dark:text-[#004f57] font-black"
               >
                 Volledige privacyverklaring →
               </a>
@@ -144,7 +144,7 @@ export const CookieConsent: FC = () => {
           </button>
           <button
             onClick={accept}
-            className="flex-1 px-4 py-4 bg-black dark:bg-[#03B390] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#03B390] hover:text-black dark:hover:bg-white transition-all shadow-lg"
+            className="flex-1 px-4 py-4 bg-black dark:bg-[#004f57] text-white dark:text-black font-black text-lg md:text-xl uppercase tracking-widest rounded-none hover:bg-[#004f57] hover:text-black dark:hover:bg-white transition-all shadow-lg"
           >
             Accepteer
           </button>

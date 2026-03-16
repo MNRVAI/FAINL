@@ -94,7 +94,7 @@ export const AdRewardModal: FC<AdRewardModalProps> = ({ isOpen, onRewardEarned, 
             </button>
           ) : (
             <div className="py-2 text-center">
-              <p className="text-sm font-black uppercase tracking-widest text-black/40">
+              <p className="text-sm font-black uppercase tracking-widest text-black">
                 Nog {countdown} seconden
               </p>
             </div>
