@@ -135,7 +135,7 @@ export const CompareVsChatGPTPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
           <li className="text-black/60 dark:text-white/50">Vergelijken</li>
@@ -146,7 +146,7 @@ export const CompareVsChatGPTPage: FC = () => {
 
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Vergelijking — FAINL vs ChatGPT
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -160,7 +160,7 @@ export const CompareVsChatGPTPage: FC = () => {
           <strong className="text-black dark:text-white">Geen reclame — een eerlijke vergelijking.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
           Probeer zelf het verschil — gratis
           <ArrowRight className="w-4 h-4" />
         </button>
@@ -172,25 +172,25 @@ export const CompareVsChatGPTPage: FC = () => {
         <div className="border-2 border-black dark:border-white/20 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]">
           {/* Header row */}
           <div className="grid grid-cols-3 bg-black dark:bg-white text-white dark:text-black">
-            <div className="px-5 py-4 text-xs font-black uppercase tracking-widest">Kenmerk</div>
-            <div className="px-5 py-4 text-xs font-black uppercase tracking-widest border-l border-white/20 dark:border-black/20">FAINL</div>
-            <div className="px-5 py-4 text-xs font-black uppercase tracking-widest border-l border-white/20 dark:border-black/20">ChatGPT</div>
+            <div className="px-5 py-4 text-base font-black uppercase tracking-widest">Kenmerk</div>
+            <div className="px-5 py-4 text-base font-black uppercase tracking-widest border-l border-white/20 dark:border-black/20">FAINL</div>
+            <div className="px-5 py-4 text-base font-black uppercase tracking-widest border-l border-white/20 dark:border-black/20">ChatGPT</div>
           </div>
           {/* Data rows */}
           {COMPARISON.map((row, i) => (
             <div key={i} className={`grid grid-cols-3 border-t border-black/10 dark:border-white/10 ${i % 2 === 0 ? 'bg-white dark:bg-zinc-900' : 'bg-black/[0.02] dark:bg-white/[0.02]'}`}>
-              <div className="px-5 py-4 text-sm font-bold text-black/70 dark:text-white/60 leading-snug">{row.kenmerk}</div>
+              <div className="px-5 py-4 text-base font-bold text-black/70 dark:text-white/60 leading-snug">{row.kenmerk}</div>
               <div className="px-5 py-4 border-l border-black/10 dark:border-white/10 flex items-start gap-2">
                 {row.fainl.positive === true && <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />}
                 {row.fainl.positive === false && <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />}
                 {row.fainl.positive === null && <MinusCircle className="w-4 h-4 text-yellow-500 shrink-0 mt-0.5" />}
-                <span className="text-sm font-black text-black dark:text-white leading-snug">{row.fainl.label}</span>
+                <span className="text-base font-black text-black dark:text-white leading-snug">{row.fainl.label}</span>
               </div>
               <div className="px-5 py-4 border-l border-black/10 dark:border-white/10 flex items-start gap-2">
                 {row.chatgpt.positive === true && <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />}
                 {row.chatgpt.positive === false && <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />}
                 {row.chatgpt.positive === null && <MinusCircle className="w-4 h-4 text-yellow-500 shrink-0 mt-0.5" />}
-                <span className="text-sm font-bold text-black/60 dark:text-white/50 leading-snug">{row.chatgpt.label}</span>
+                <span className="text-base font-bold text-black/60 dark:text-white/50 leading-snug">{row.chatgpt.label}</span>
               </div>
             </div>
           ))}
@@ -213,7 +213,7 @@ export const CompareVsChatGPTPage: FC = () => {
                 {sc.items.map((item, i) => (
                   <li key={i} className="flex items-start gap-2.5">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-black shrink-0" />
-                    <span className="text-sm text-black/60 dark:text-white/50 leading-relaxed">{item}</span>
+                    <span className="text-base text-black/60 dark:text-white/50 leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -251,7 +251,7 @@ export const CompareVsChatGPTPage: FC = () => {
             AI-modellen onafhankelijk antwoorden en elkaars conclusies bekritiseren.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>

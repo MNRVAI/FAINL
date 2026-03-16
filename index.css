@@ -5,19 +5,20 @@
   color-scheme: only light;
   --color-primary: #000000;
   --color-secondary: #000000;
-  --color-primary-light: #27272a; /* zinc-800 */
+  --color-accent: #03B390;
+  --color-primary-light: #03B390; 
   --color-primary-dark: #000000;
-  --color-secondary-light: #3f3f46; /* zinc-700 */
-  --color-accent-gradient: linear-gradient(135deg, #000000 0%, #3f3f46 100%);
+  --color-secondary-light: #029476; /* Darker version of accent */
+  --color-accent-gradient: linear-gradient(135deg, #03B390 0%, #000000 100%);
   
   /* Legacy vars mapped to primary/secondary to avoid breakage */
-  --color-lemon-primary: var(--color-primary);
-  --color-lemon-light: var(--color-primary-light);
+  --color-lemon-primary: var(--color-accent);
+  --color-lemon-light: var(--color-accent);
   --color-lemon-dark: var(--color-primary-dark);
   --color-lemon-gradient: var(--color-accent-gradient);
   
-  --color-gold-primary: var(--color-primary);
-  --color-gold-light: var(--color-primary-light);
+  --color-gold-primary: var(--color-accent);
+  --color-gold-light: var(--color-accent);
   --color-gold-dark: var(--color-primary-dark);
   --color-gold-gradient: var(--color-accent-gradient);
 }
@@ -58,12 +59,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-zinc-200);
+  background: white;
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #18181b;
-  /* zinc-900 */
+  background: #000000;
 }
 
 @keyframes pulse-glow {
@@ -113,24 +113,22 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-zinc-400);
-  border-radius: 9999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
+  background: var(--color-accent);
+  border-radius: 0px;
+  border: 2px solid white;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #52525b;
-  /* zinc-600 */
+  background: var(--color-accent);
+  border: 2px solid black;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-zinc-500);
+  background: #029476;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #71717a;
-  /* zinc-500 */
+  background: #029476;
 }
 
 /* Custom Pricing Cards */
@@ -171,10 +169,10 @@
   display: block;
   width: 100%;
   margin-bottom: 8px;
-  padding: 6px 0;
+  padding: 8px 0;
   background: black;
   color: white;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -187,13 +185,13 @@
 }
 
 .card__title {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 900;
   color: black;
   text-transform: uppercase;
   margin-bottom: 6px;
   display: block;
-  border-bottom: 3px solid black;
+  border-bottom: 4px solid black;
   width: fit-content;
   padding-right: 8px;
 }
@@ -204,16 +202,16 @@
 }
 
 .card__subtitle {
-  font-size: 11px;
-  line-height: 1.3;
-  color: #3f3f46;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-accent);
   margin-bottom: 12px;
   text-transform: uppercase;
   font-weight: 700;
 }
 
 .dark .card__subtitle {
-  color: #a1a1aa;
+  color: var(--color-accent);
 }
 
 .card__lists {
@@ -222,7 +220,7 @@
   margin: 0 0 12px 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   text-transform: uppercase;
   font-weight: 800;
   flex-grow: 1;
@@ -231,7 +229,7 @@
 .card__list {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: black;
 }
 
@@ -240,25 +238,25 @@
 }
 
 .card__list svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
 .card__list span {
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .card__cta {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 14px;
   background: black;
   color: white;
   text-align: center;
   text-decoration: none;
   font-weight: 900;
-  font-size: 12px;
+  font-size: 15px;
   text-transform: uppercase;
   border: 4px solid black;
   box-shadow: 4px 4px 0 0 black;

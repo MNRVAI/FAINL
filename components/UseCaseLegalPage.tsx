@@ -94,7 +94,7 @@ export const UseCaseLegalPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
           <li className="text-black/60 dark:text-white/50">Gebruik</li>
@@ -104,7 +104,7 @@ export const UseCaseLegalPage: FC = () => {
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Use case — Juridisch
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -117,7 +117,7 @@ export const UseCaseLegalPage: FC = () => {
           <strong className="text-black dark:text-white">FAINL laat drie modellen parallel redeneren en elkaars blinde vlekken blootleggen.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
           Stel je juridische vraag — gratis
           <ArrowRight className="w-4 h-4" />
         </button>
@@ -134,10 +134,10 @@ export const UseCaseLegalPage: FC = () => {
                 </div>
                 <h3 className="font-black text-base uppercase tracking-tight text-black dark:text-white">{uc.title}</h3>
               </div>
-              <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed mb-4">{uc.desc}</p>
+              <p className="text-base text-black/60 dark:text-white/50 leading-relaxed mb-4">{uc.desc}</p>
               <div className="bg-black/5 dark:bg-white/5 rounded-xl px-4 py-3">
-                <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-1">Voorbeeldvraag</p>
-                <p className="text-sm text-black/70 dark:text-white/60 italic leading-relaxed">{uc.example}</p>
+                <p className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-1">Voorbeeldvraag</p>
+                <p className="text-base text-black/70 dark:text-white/60 italic leading-relaxed">{uc.example}</p>
               </div>
             </div>
           ))}
@@ -149,8 +149,8 @@ export const UseCaseLegalPage: FC = () => {
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <p className="font-black text-sm uppercase tracking-widest text-amber-700 dark:text-amber-400 mb-2">Belangrijk</p>
-              <p className="text-sm text-amber-800 dark:text-amber-300/80 leading-relaxed">
+              <p className="font-black text-base uppercase tracking-widest text-amber-700 dark:text-amber-400 mb-2">Belangrijk</p>
+              <p className="text-base text-amber-800 dark:text-amber-300/80 leading-relaxed">
                 AI is een hulpmiddel voor onderzoek en oriëntatie — geen vervanging voor professioneel juridisch advies.
                 Raadpleeg altijd een gekwalificeerde jurist of advocaat voor bindende beslissingen.
                 AI-modellen kunnen fouten maken en beschikken mogelijk over verouderde wetteksten.
@@ -171,7 +171,7 @@ export const UseCaseLegalPage: FC = () => {
             gewogen antwoord — inclusief de kanttekeningen.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Stel je vraag — twee gratis sessies
             <ArrowRight className="w-4 h-4" />
           </button>

@@ -1,7 +1,0 @@
-﻿App.tsx(292,45): error TS2339: Property 'hasWatchedAd' does not exist on type 'AppConfig'.
-App.tsx(434,21): error TS2339: Property 'TOKENS' does not exist on type '{ TURNS: { count: number; price: number; label: string; stripeUrl: string; }[]; }'.
-App.tsx(434,34): error TS7006: Parameter 'p' implicitly has an 'any' type.
-App.tsx(435,21): error TS2339: Property 'SUBSCRIPTIONS' does not exist on type '{ TURNS: { count: number; price: number; label: string; stripeUrl: string; }[]; }'.
-App.tsx(898,30): error TS2739: Type '{ key: string; member: CouncilMember; response: CouncilResponse | undefined; isLoading: boolean; }' is missing the following properties from type 'CouncilCardProps': isExpanded, onToggle
-App.tsx(1105,8): error TS2739: Type '{ isOpen: boolean; onClose: () => void; }' is missing the following properties from type 'PaywallModalProps': hasOwnKeys, onPurchaseTurns
-supabase/functions/send-contact-email/index.ts(5,24): error TS2304: Cannot find name 'Deno'.

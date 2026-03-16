@@ -21,7 +21,7 @@ export const AiTermsPage: FC = () => {
           </div>
           <div>
             <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white leading-none mb-2">Aanvullende AI-Gebruiksvoorwaarden</h1>
-            <p className="text-sm font-bold text-black/40 dark:text-white/40 uppercase tracking-widest">FAINL — MNRV · Versie 03.2026 · Bijgewerkt 13-03-2026</p>
+            <p className="text-base font-bold text-black/40 dark:text-white/40 uppercase tracking-widest">FAINL — MNRV · Versie 03.2026 · Bijgewerkt 13-03-2026</p>
           </div>
         </div>
 

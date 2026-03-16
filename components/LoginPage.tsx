@@ -57,11 +57,11 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
             <Shield className="text-white dark:text-black w-8 h-8" />
           </div>
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-2 text-black dark:text-white">Neural Vault</h2>
-          <p className="text-black/40 dark:text-white/40 font-bold uppercase text-sm tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
+          <p className="text-black/40 dark:text-white/40 font-bold uppercase text-base tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
         </div>
 
         {message && (
-          <div className={`mb-8 p-4 border-2 border-black dark:border-white/20 font-bold text-sm uppercase tracking-wider ${message.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'}`}>
+          <div className={`mb-8 p-4 border-2 border-black dark:border-white/20 font-bold text-base uppercase tracking-wider ${message.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'}`}>
             {message.text}
           </div>
         )}
@@ -70,7 +70,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <button
             onClick={() => handleSocialLogin('google')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
+            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-base hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
           >
             <img src="https://www.google.com/favicon.ico" className="w-5 h-5 grayscale" alt="Google" />
             Connect with Google
@@ -79,7 +79,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <button
             onClick={() => handleSocialLogin('github')}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
+            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-base hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
           >
             <Github className="w-5 h-5" />
             Connect with GitHub
@@ -88,7 +88,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
         <div className="my-10 flex items-center gap-4">
           <div className="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
-          <span className="text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em]">OR</span>
+          <span className="text-base font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em]">OR</span>
           <div className="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
         </div>
 
@@ -99,7 +99,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="NEURAL-ID@EMAIL.COM"
-              className="w-full p-5 bg-zinc-50 dark:bg-zinc-800 border-4 border-black dark:border-white/20 font-bold uppercase tracking-widest text-sm placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all text-black dark:text-white"
+              className="w-full p-5 bg-zinc-50 dark:bg-zinc-800 border-4 border-black dark:border-white/20 font-bold uppercase tracking-widest text-base placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all text-black dark:text-white"
               required
             />
             <Mail className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-black/20 dark:text-white/20" />
@@ -108,7 +108,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <button
             type="submit"
             disabled={isLoading || !email}
-            className="w-full bg-black dark:bg-white text-white dark:text-black p-5 font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all disabled:opacity-50"
+            className="w-full bg-black dark:bg-white text-white dark:text-black p-5 font-black uppercase tracking-widest text-base flex items-center justify-center gap-3 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all disabled:opacity-50"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -121,7 +121,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
+        <p className="mt-8 text-center text-base font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
           Auth data is managed by Supabase. Your private missions remain encrypted on the server side.
         </p>
       </div>

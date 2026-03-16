@@ -177,7 +177,7 @@ const PaymentSuccessPage: FC = () => {
 
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_black]">
+      <div className="p-8 bg-white border-4 border-black shadow-[8px_8px_0_0_#03B390]">
         <div className="w-16 h-16 bg-black border-4 border-black flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-8 h-8 text-white" />
         </div>
@@ -191,21 +191,21 @@ const PaymentSuccessPage: FC = () => {
             ? 'Onbeperkte toegang geactiveerd.'
             : 'Je betaling is verwerkt. Ga terug naar het dashboard om je credits te bekijken.'}
         </p>
-        <p className="text-sm font-black uppercase tracking-widest text-black/40 mb-8">
+        <p className="text-base font-black uppercase tracking-widest text-black/40 mb-8">
           Credits worden opgeslagen in jouw browser.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
-            className="px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
+            className="px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest hover:bg-[#03B390] hover:text-black transition-all"
           >
             Naar Mijn FAINL's
         </button>
         <button
           type="button"
           onClick={() => navigate('/mission')}
-          className="px-8 py-4 bg-black border-2 border-black text-white font-black text-sm uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
+          className="px-8 py-4 bg-black border-2 border-black text-white font-black text-base uppercase tracking-widest hover:shadow-[4px_4px_0_0_black] transition-all"
         >
           Nieuwe vraag stellen
         </button>
@@ -646,8 +646,8 @@ const App: FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950 text-black dark:text-white flex flex-col font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black overflow-x-hidden transition-colors duration-300">
-      <header className="border-b border-black/10 dark:border-white/10 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col font-sans selection:bg-[#03B390] selection:text-black overflow-x-hidden transition-colors duration-300">
+      <header className="border-b border-black/10 dark:border-[#03B390]/20 bg-white/80 dark:bg-black/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <button type="button" onClick={() => navigate("/")} aria-label="FAINL — naar startpagina" className="flex items-center group">
@@ -676,7 +676,7 @@ const App: FC = () => {
           />
 
           {/* Drawer */}
-          <div className="relative w-72 sm:w-80 h-full bg-white dark:bg-zinc-950 border-l-2 border-black/10 dark:border-white/10 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+          <div className="relative w-72 sm:w-80 h-full bg-white dark:bg-black border-l-4 border-black flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
             {/* Drawer header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-black/10 dark:border-white/10">
               <button type="button" onClick={() => { navigate('/'); setIsMenuOpen(false); }} aria-label="Home" className="flex items-center group">
@@ -701,10 +701,10 @@ const App: FC = () => {
                     type="button"
                     key={link.id}
                     onClick={() => { navigate(link.id); setIsMenuOpen(false); }}
-                    className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
+                    className={`w-full flex items-center gap-4 px-4 py-4 rounded-none font-black text-base uppercase tracking-widest transition-all ${
                       isActive
-                        ? 'bg-black dark:bg-white text-white dark:text-black shadow-[3px_3px_0px_0px_rgba(0,0,0,0.15)]'
-                        : 'text-black/60 dark:text-white/60 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white'
+                        ? 'bg-black text-white shadow-[4px_4px_0px_0px_#03B390]'
+                        : 'text-black/60 dark:text-white/60 hover:bg-[#03B390]/10 hover:text-[#03B390]'
                     }`}
                   >
                     <span className={`w-8 h-8 flex items-center justify-center rounded-lg shrink-0 ${isActive ? 'bg-white/20' : 'bg-black/5 dark:bg-white/5'}`}>
@@ -744,7 +744,7 @@ const App: FC = () => {
                 <button
                   type="button"
                   onClick={() => { handleLogout(); setIsMenuOpen(false); }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 font-black text-xs uppercase tracking-widest hover:bg-red-100 dark:hover:bg-red-950/50 transition-all"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 font-black text-sm uppercase tracking-widest hover:bg-red-100 dark:hover:bg-red-950/50 transition-all"
                 >
                   <LogOut className="w-4 h-4" />
                   {t.nav.signOut}
@@ -760,7 +760,7 @@ const App: FC = () => {
         <div className="w-full bg-black text-white px-4 py-2.5 relative">
           {newsletterState === 'banner' && (
             <div className="flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest">
-              <span className="text-zinc-400">★</span>
+              <span className="text-[#03B390]">★</span>
               <span>15% korting op je eerste aankoop</span>
               <span className="text-white/40 hidden sm:inline">—</span>
               <button
@@ -786,7 +786,7 @@ const App: FC = () => {
               <button
                 type="submit"
                 disabled={newsletterState === 'submitting'}
-                className="bg-white text-black text-sm font-black uppercase tracking-widest px-3 py-1.5 hover:bg-zinc-200 transition-colors disabled:opacity-60"
+                className="bg-[#03B390] text-black text-sm font-black uppercase tracking-widest px-3 py-1.5 hover:bg-white transition-colors disabled:opacity-60"
               >
                 {newsletterState === 'submitting' ? '...' : 'Aanmelden'}
               </button>
@@ -840,7 +840,7 @@ const App: FC = () => {
                 />
                 <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 flex flex-col items-center justify-center min-h-[calc(100vh-120px)]">
                   {session.stage === WorkflowStage.ERROR && (
-                    <div className="w-full max-w-xl bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-6 md:p-12 rounded-xl text-center animate-fade-in-up">
+                    <div className="w-full max-w-xl bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[#03B390]/40 p-6 md:p-12 rounded-none text-center animate-fade-in-up">
                       <AlertTriangle className="w-12 h-12 md:w-20 md:h-20 text-black dark:text-white mb-6 md:mb-8 mx-auto" />
                       <h3 className="text-xl md:text-3xl font-black uppercase mb-3 md:mb-4 tracking-tighter">
                         Er ging iets mis
@@ -857,7 +857,7 @@ const App: FC = () => {
                               stage: WorkflowStage.IDLE,
                             })
                           }
-                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-700 font-black rounded uppercase tracking-[0.2em] text-sm md:text-sm transition-all text-black dark:text-white"
+                          className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-black border-2 border-black dark:border-[#03B390]/40 font-black rounded-none uppercase tracking-[0.2em] text-sm md:text-sm transition-all text-black dark:text-white hover:bg-[#03B390] hover:text-black"
                         >
                           Opnieuw proberen
                         </button>
@@ -869,7 +869,7 @@ const App: FC = () => {
                     <div className="w-full">
                       {/* Intro header */}
                       <div className="text-center mb-8 md:mb-10">
-                        <p className="text-xs font-black uppercase tracking-[0.3em] text-black/30 dark:text-white/20 mb-3">
+                        <p className="text-sm font-black uppercase tracking-[0.3em] text-black/30 dark:text-white/20 mb-3">
                           {config.activeCouncil.length} AI-modellen analyseren tegelijk · Één eerlijk oordeel
                         </p>
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
@@ -907,7 +907,7 @@ const App: FC = () => {
                           onClick={handleStart}
                           disabled={!input.trim()}
                           title="Verstuur vraag"
-                          className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-20 disabled:grayscale text-white dark:text-black rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden"
+                          className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-[#03B390] hover:bg-[#03B390] dark:hover:bg-white disabled:opacity-20 disabled:grayscale text-white dark:text-black rounded-none transition-all hover:scale-105 active:scale-95 shadow-lg overflow-hidden border-2 border-black"
                         >
                           <AnimatedSendIcon />
                         </button>
@@ -917,15 +917,15 @@ const App: FC = () => {
                         {config.activeCouncil.map((m) => (
                           <div key={m.id} className="flex items-center gap-1.5 px-3 py-1.5 bg-black/[0.04] dark:bg-white/[0.04] rounded-full">
                             <img src={m.avatar} alt={m.name} className="w-5 h-5 rounded-full object-cover" />
-                            <span className="text-xs font-bold text-black/40 dark:text-white/30">{m.name}</span>
+                            <span className="text-sm font-bold text-black/40 dark:text-white/30">{m.name}</span>
                           </div>
                         ))}
                         <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/[0.04] dark:bg-white/[0.04] rounded-full">
                           <img src={DEFAULT_CHAIRMAN.avatar} alt="Victor" className="w-5 h-5 rounded-full object-cover" />
-                          <span className="text-xs font-bold text-black/40 dark:text-white/30">Voorzitter Victor</span>
+                          <span className="text-sm font-bold text-black/40 dark:text-white/30">Voorzitter Victor</span>
                         </div>
                       </div>
-                      <p className="mt-3 text-xs font-black text-black/15 dark:text-white/10 uppercase tracking-[0.2em] block text-center">
+                      <p className="mt-3 text-sm font-black text-black/15 dark:text-white/10 uppercase tracking-[0.2em] block text-center">
                         Sessie wordt niet opgeslagen · Alleen lokaal
                       </p>
                     </div>
@@ -934,7 +934,7 @@ const App: FC = () => {
                       <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12">
 
                         {/* Query display */}
-                        <div className="bg-white/40 dark:bg-zinc-900/40 border-2 border-black/5 dark:border-white/5 rounded-xl p-6 md:p-10 text-center backdrop-blur-sm">
+                        <div className="bg-white dark:bg-black border-2 border-black dark:border-[#03B390]/20 rounded-none p-6 md:p-10 text-center backdrop-blur-sm shadow-[8px_8px_0_0_#03B390]/10">
                           <p className="text-xs font-black uppercase tracking-[0.3em] text-black/30 dark:text-white/25 mb-3">Jouw vraag</p>
                           <p className="text-2xl sm:text-3xl md:text-4xl text-black dark:text-white font-serif italic font-medium tracking-tight leading-tight">
                             "{session.query}"
@@ -977,8 +977,8 @@ const App: FC = () => {
                         </div>
 
                         {/* Debate or Verdict choice — shown after all nodes have responded */}
-                        {session.stage === WorkflowStage.DEBATE && (
-                          <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-8 md:p-10 rounded-2xl animate-in fade-in duration-500">
+                         {session.stage === WorkflowStage.DEBATE && (
+                           <div className="w-full bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[#03B390]/40 p-8 md:p-10 rounded-none animate-in fade-in duration-500 shadow-[10px_10px_0_0_#03B390]">
                             {/* Status badge */}
                             <div className="flex justify-center mb-5">
                               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-full">
@@ -998,15 +998,15 @@ const App: FC = () => {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
                               {/* Primary: Verdict */}
-                              <button
-                                type="button"
-                                onClick={() => runSynthesis(session.query, session.councilResponses, [])}
-                                className="flex flex-col items-center gap-3 px-6 py-7 bg-black dark:bg-white text-white dark:text-black font-black rounded-xl transition-all hover:bg-zinc-800 dark:hover:bg-zinc-100 hover:scale-[1.02] active:scale-[0.98] shadow-[4px_4px_0_0_rgba(0,0,0,0.25)]"
-                              >
+                               <button
+                                 type="button"
+                                 onClick={() => runSynthesis(session.query, session.councilResponses, [])}
+                                 className="flex flex-col items-center gap-3 px-6 py-7 bg-black text-white font-black rounded-none transition-all hover:bg-[#03B390] hover:text-black hover:scale-[1.02] active:scale-[0.98] shadow-[4px_4px_0_0_#03B390]"
+                               >
                                 <Gavel className="w-6 h-6" />
                                 <div className="text-center">
-                                  <p className="text-sm uppercase tracking-widest font-black">Eindoordeel</p>
-                                  <p className="text-xs opacity-50 mt-1 font-medium normal-case tracking-normal">Victor geeft het definitieve oordeel</p>
+                                  <p className="text-base uppercase tracking-widest font-black">Eindoordeel</p>
+                                  <p className="text-sm opacity-50 mt-1 font-medium normal-case tracking-normal">Victor geeft het definitieve oordeel</p>
                                 </div>
                               </button>
 
@@ -1018,8 +1018,8 @@ const App: FC = () => {
                               >
                                 <Swords className="w-6 h-6" />
                                 <div className="text-center">
-                                  <p className="text-sm uppercase tracking-widest font-black">Live Debat</p>
-                                  <p className="text-xs opacity-50 mt-1 font-medium normal-case tracking-normal">Laat de AI's met elkaar in discussie gaan</p>
+                                  <p className="text-base uppercase tracking-widest font-black">Live Debat</p>
+                                  <p className="text-sm opacity-50 mt-1 font-medium normal-case tracking-normal">Laat de AI's met elkaar in discussie gaan</p>
                                 </div>
                               </button>
                             </div>
@@ -1027,16 +1027,16 @@ const App: FC = () => {
                         )}
 
                         {/* Victor's verdict — rendered BELOW the council cards so it appears naturally as user scrolls */}
-                        {(session.stage === WorkflowStage.SYNTHESIZING ||
-                          session.stage === WorkflowStage.COMPLETED) && (
-                          <div ref={verdictRef} className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                         {(session.stage === WorkflowStage.SYNTHESIZING ||
+                           session.stage === WorkflowStage.COMPLETED) && (
+                           <div ref={verdictRef} className="w-full bg-white dark:bg-black border-2 md:border-4 border-black dark:border-[#03B390]/40 rounded-none overflow-hidden shadow-[12px_12px_0_0_#03B390]">
                             {/* Verdict header */}
                             <div className="bg-black dark:bg-zinc-800 text-white px-6 md:px-10 py-5 md:py-7 flex items-center gap-4 border-b-2 border-black/20">
                               <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/20 shrink-0 bg-zinc-700">
                                 <img src={DEFAULT_CHAIRMAN.avatar} alt="Victor" className="w-full h-full object-cover" />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <p className="text-xs font-black uppercase tracking-[0.35em] text-white/40 leading-none mb-1">Eindoordeel van de Raad</p>
+                                <p className="text-sm font-black uppercase tracking-[0.35em] text-white/40 leading-none mb-1">Eindoordeel van de Raad</p>
                                 <h3 className="font-black text-xl md:text-2xl uppercase tracking-tight text-white leading-none flex items-center gap-3">
                                   <Gavel className="w-5 h-5 shrink-0 text-white/60" />
                                   Voorzitter Victor
@@ -1110,7 +1110,7 @@ const App: FC = () => {
                                   });
                                   setInput('');
                                 }}
-                                className="flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl font-black text-sm uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[4px_4px_0_0_rgba(0,0,0,0.2)]"
+                                 className="flex items-center gap-3 px-8 py-4 bg-[#03B390] text-black rounded-none font-black text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[6px_6px_0_0_black]"
                               >
                                 <ArrowRight className="w-4 h-4" />
                                 Nieuwe vraag stellen
@@ -1118,7 +1118,7 @@ const App: FC = () => {
                               <button
                                 type="button"
                                 onClick={() => navigate('/cookbook')}
-                                className="flex items-center gap-3 px-8 py-4 border-2 border-black/20 dark:border-white/20 text-black/60 dark:text-white/50 rounded-xl font-black text-sm uppercase tracking-widest hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-all"
+                                 className="flex items-center gap-3 px-8 py-4 border-2 border-black/20 dark:border-white/20 text-black/60 dark:text-white/50 rounded-none font-black text-sm uppercase tracking-widest hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-all shadow-[4px_4px_0_0_black/5]"
                               >
                                 Voorbeeldvragen bekijken
                               </button>
@@ -1223,11 +1223,11 @@ const App: FC = () => {
         </Suspense>
       </main>
 
-      <footer className="border-t border-black/5 dark:border-white/5 py-12 md:py-16 bg-white dark:bg-zinc-950">
+       <footer className="border-t border-black/5 dark:border-[#03B390]/10 py-12 md:py-16 bg-white dark:bg-black">
         <div className="max-w-6xl mx-auto px-5 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Product</p>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Product</p>
               <ul className="space-y-2.5">
                 <li><Link to="/" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Home</Link></li>
                 <li><Link to="/mission" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Start gratis</Link></li>
@@ -1236,14 +1236,14 @@ const App: FC = () => {
               </ul>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Vergelijken</p>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Vergelijken</p>
               <ul className="space-y-2.5">
                 <li><Link to="/vergelijken/fainl-vs-chatgpt" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">FAINL vs ChatGPT</Link></li>
                 <li><Link to="/vergelijken/ai-modellen-vergelijken" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI modellen vergelijken</Link></li>
               </ul>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Gebruik</p>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Gebruik</p>
               <ul className="space-y-2.5">
                 <li><Link to="/gebruik/juridisch-advies-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor juridisch advies</Link></li>
                 <li><Link to="/gebruik/marketing-strategie-ai" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">AI voor marketingstrategie</Link></li>
@@ -1252,7 +1252,7 @@ const App: FC = () => {
               </ul>
             </div>
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Info</p>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-black/30 dark:text-white/30 mb-4">Info</p>
               <ul className="space-y-2.5">
                 <li><Link to="/faq" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">FAQ</Link></li>
                 <li><Link to="/contact" className="text-sm font-bold text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors">Contact</Link></li>
@@ -1315,7 +1315,7 @@ const App: FC = () => {
       {/* Upsell Modal when last credit is used */}
       {showOutofCreditsUpsell && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-4 animate-in fade-in duration-300">
-          <div className="bg-[#f0f4f8] dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-[2rem] w-full max-w-lg shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)] overflow-hidden animate-in zoom-in-95 duration-500">
+           <div className="bg-white dark:bg-black border-4 border-black dark:border-[#03B390]/40 rounded-none w-full max-w-lg shadow-[24px_24px_0px_0px_#03B390] overflow-hidden animate-in zoom-in-95 duration-500">
             <div className="p-8 pb-6 text-center">
               <div className="w-16 h-16 bg-[#d4af37] mx-auto rounded-full flex items-center justify-center border-4 border-black mb-6 animate-bounce">
                 <ZapIcon className="w-8 h-8 text-black" />

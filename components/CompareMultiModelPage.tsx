@@ -108,7 +108,7 @@ export const CompareMultiModelPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
           <li className="text-black/60 dark:text-white/50">Vergelijken</li>
@@ -119,7 +119,7 @@ export const CompareMultiModelPage: FC = () => {
 
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Vergelijking — AI Modellen
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -133,7 +133,7 @@ export const CompareMultiModelPage: FC = () => {
           <strong className="text-black dark:text-white">Dat is het verschil tussen één mening en consensus.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
           Probeer de consensusaanpak — gratis
           <ArrowRight className="w-4 h-4" />
         </button>
@@ -147,7 +147,7 @@ export const CompareMultiModelPage: FC = () => {
             <div key={i} className="border-2 border-black dark:border-white/20 rounded-2xl p-5 bg-white dark:bg-zinc-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]">
               <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                 <div className="shrink-0">
-                  <span className="inline-block px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-xs font-black uppercase tracking-widest rounded-full">
+                  <span className="inline-block px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-widest rounded-full">
                     {model.name}
                   </span>
                 </div>
@@ -155,24 +155,24 @@ export const CompareMultiModelPage: FC = () => {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <CheckCircle2 className="w-3.5 h-3.5 text-green-600 dark:text-green-400 shrink-0" />
-                      <span className="text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/30">Sterk in</span>
+                      <span className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">Sterk in</span>
                     </div>
-                    <p className="text-sm text-black/70 dark:text-white/60 leading-relaxed">{model.strength}</p>
+                    <p className="text-base text-black/70 dark:text-white/60 leading-relaxed">{model.strength}</p>
                   </div>
                   <div className="w-px bg-black/10 dark:bg-white/10 hidden sm:block" />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <AlertCircle className="w-3.5 h-3.5 text-yellow-500 shrink-0" />
-                      <span className="text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/30">Let op</span>
+                      <span className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">Let op</span>
                     </div>
-                    <p className="text-sm text-black/70 dark:text-white/60 leading-relaxed">{model.weakness}</p>
+                    <p className="text-base text-black/70 dark:text-white/60 leading-relaxed">{model.weakness}</p>
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm text-black/40 dark:text-white/30 leading-relaxed">
+        <p className="mt-4 text-base text-black/40 dark:text-white/30 leading-relaxed">
           Profielen gebaseerd op breed gepubliceerd onafhankelijk onderzoek naar LLM-prestaties (MMLU, HumanEval, BIG-Bench) en publiek beschikbare benchmarks.
         </p>
       </section>
@@ -189,7 +189,7 @@ export const CompareMultiModelPage: FC = () => {
                 </div>
                 <h3 className="font-black text-base uppercase tracking-tight text-black dark:text-white">{p.title}</h3>
               </div>
-              <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">{p.desc}</p>
+              <p className="text-base text-black/60 dark:text-white/50 leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -213,8 +213,8 @@ export const CompareMultiModelPage: FC = () => {
               <li key={s.step} className="flex gap-4 items-start">
                 <span className="text-2xl font-black text-black shrink-0 leading-none mt-0.5">{s.step}</span>
                 <div>
-                  <p className="font-black text-sm uppercase tracking-tight text-black dark:text-white mb-1">{s.label}</p>
-                  <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">{s.desc}</p>
+                  <p className="font-black text-base uppercase tracking-tight text-black dark:text-white mb-1">{s.label}</p>
+                  <p className="text-base text-black/60 dark:text-white/50 leading-relaxed">{s.desc}</p>
                 </div>
               </li>
             ))}
@@ -234,7 +234,7 @@ export const CompareMultiModelPage: FC = () => {
             toetsen — zodat jij de sterkste conclusie krijgt, niet de luidste.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>

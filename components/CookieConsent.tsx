@@ -63,7 +63,7 @@ export const CookieConsent: FC = () => {
             <div className="p-2 bg-black dark:bg-white text-white dark:text-black rounded-xl">
               <Shield className="w-4 h-4" />
             </div>
-            <span className="font-black text-sm uppercase tracking-widest text-black dark:text-white">
+            <span className="font-black text-base uppercase tracking-widest text-black dark:text-white">
               Privacy & Cookies
             </span>
           </div>
@@ -78,7 +78,7 @@ export const CookieConsent: FC = () => {
 
         {/* Body */}
         <div className="px-6 pb-4">
-          <p className="text-sm text-black/70 dark:text-white/60 leading-relaxed">
+          <p className="text-base text-black/70 dark:text-white/60 leading-relaxed">
             Wij gebruiken{" "}
             <strong className="text-black dark:text-white">
               noodzakelijke cookies
@@ -94,7 +94,7 @@ export const CookieConsent: FC = () => {
           {/* Expandable details */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="mt-2 flex items-center gap-1 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+            className="mt-2 flex items-center gap-1 text-base font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
           >
             {expanded ? (
               <ChevronUp className="w-3 h-3" />
@@ -105,7 +105,7 @@ export const CookieConsent: FC = () => {
           </button>
 
           {expanded && (
-            <div className="mt-3 space-y-3 text-sm text-black/60 dark:text-white/50 leading-relaxed border-t-2 border-black/10 dark:border-white/10 pt-3">
+            <div className="mt-3 space-y-3 text-base text-black/60 dark:text-white/50 leading-relaxed border-t-2 border-black/10 dark:border-white/10 pt-3">
               <div>
                 <span className="font-black text-black dark:text-white uppercase">
                   Noodzakelijk (altijd actief)
@@ -138,13 +138,13 @@ export const CookieConsent: FC = () => {
         <div className="flex gap-3 px-6 pb-5">
           <button
             onClick={decline}
-            className="flex-1 px-4 py-3 border-4 border-black dark:border-white/20 text-black dark:text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            className="flex-1 px-4 py-3 border-4 border-black dark:border-white/20 text-black dark:text-white font-black text-base uppercase tracking-widest rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             Alleen noodzakelijk
           </button>
           <button
             onClick={accept}
-            className="flex-1 px-4 py-3 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-lg"
+            className="flex-1 px-4 py-3 bg-black dark:bg-white text-white dark:text-black font-black text-base uppercase tracking-widest rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-lg"
           >
             Accepteer alles
           </button>

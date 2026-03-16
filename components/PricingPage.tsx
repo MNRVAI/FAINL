@@ -57,7 +57,7 @@ export const PricingPage: FC<PricingPageProps> = ({
       {/* One-time credits */}
       <div className="mb-20">
         <div className="flex items-center gap-4 mb-10 justify-center sm:justify-start">
-          <div className="bg-black dark:bg-zinc-800 p-3 border-2 border-black dark:border-zinc-700 shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_black] transition-all">
+          <div className="bg-black dark:bg-[#03B390]/20 p-3 border-2 border-black dark:border-[#03B390]/40 shadow-[4px_4px_0px_0px_black] hover:shadow-[6px_6px_0px_0px_#03B390] transition-all">
             <Shield className="w-6 h-6 text-white" />
           </div>
           <div>

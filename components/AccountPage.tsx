@@ -86,7 +86,7 @@ export const AccountPage: FC<AccountPageProps> = ({
       provider: ModelProvider.GOOGLE,
       modelId: 'gemini-2.5-flash',
       avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(newNode.name)}`,
-      color: 'bg-zinc-800',
+      color: 'bg-[#03B390]',
       description: newNode.role || 'Custom AI Node',
       systemPrompt: newNode.systemPrompt || `Jij bent ${newNode.name}. Jouw rol: ${newNode.role}. Analyseer de vraag vanuit jouw specifieke perspectief.`,
     };
@@ -189,9 +189,9 @@ export const AccountPage: FC<AccountPageProps> = ({
         </div>
         <button
           onClick={() => navigate('/tokens')}
-          className="flex items-center gap-2 px-6 py-3 bg-black border-4 border-black shadow-[4px_4px_0_0_black] font-black text-white text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_black] transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-black border-4 border-black shadow-[4px_4px_0_0_#03B390] font-black text-white text-sm uppercase tracking-widest hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#03B390] transition-all"
         >
-          <CreditCard className="w-4 h-4" />
+          <CreditCard className="w-4 h-4 text-[#03B390]" />
           Credits Kopen
         </button>
       </div>
@@ -201,31 +201,31 @@ export const AccountPage: FC<AccountPageProps> = ({
         <div className="p-5 bg-black text-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <Zap className="w-5 h-5 mb-1 text-white" />
           <div className="text-3xl font-black">{creditsRemaining}</div>
-          <div className="text-sm font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
+          <div className="text-base font-black uppercase tracking-widest opacity-60">Credits Resterend</div>
         </div>
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <MessageSquare className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{freeSessiesResterend}</div>
-          <div className="text-sm font-black uppercase tracking-widest text-black/50">Gratis Sessies</div>
+          <div className="text-base font-black uppercase tracking-widest text-black/50">Gratis Sessies</div>
         </div>
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <History className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{totalSessies}</div>
-          <div className="text-sm font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
+          <div className="text-base font-black uppercase tracking-widest text-black/50">Sessies Totaal</div>
         </div>
         <div className="p-5 bg-white border-4 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] transition-all flex flex-col gap-1">
           <Users className="w-5 h-5 mb-1 text-black/40" />
           <div className="text-3xl font-black text-black">{config.activeCouncil.length}</div>
-          <div className="text-sm font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>
+          <div className="text-base font-black uppercase tracking-widest text-black/50">Actieve Nodes</div>
         </div>
       </div>
 
       {/* Protocol Selector */}
-      <div className="mb-12 md:mb-16 p-8 bg-zinc-50 border-4 border-black shadow-[4px_4px_0_0_black]">
+      <div className="mb-12 md:mb-16 p-8 bg-[#03B390]/5 border-4 border-black shadow-[4px_4px_0_0_#03B390]">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="text-center md:text-left">
             <h3 className="text-xl font-black uppercase tracking-tight mb-2 text-black">Protocol Selectie</h3>
-            <p className="text-sm font-bold text-black/50 uppercase tracking-widest">
+            <p className="text-base font-bold text-black/50 uppercase tracking-widest">
               Kies het aantal AI-modellen dat tegelijkertijd jouw vragen analyseert.
             </p>
           </div>
@@ -234,8 +234,8 @@ export const AccountPage: FC<AccountPageProps> = ({
               onClick={() => handleSetProtocol(3)}
               className={`px-8 py-4 border-4 border-black font-black uppercase tracking-widest transition-all ${
                 config.modelCount === 3 
-                ? 'bg-black text-white shadow-[4px_4px_0_0_black]' 
-                : 'bg-white text-black hover:bg-zinc-100 hover:shadow-[4px_4px_0_0_black]'
+                ? 'bg-black text-white shadow-[4px_4px_0_0_#03B390]' 
+                : 'bg-white text-black hover:bg-[#03B390]/10 hover:shadow-[4px_4px_0_0_#03B390]'
               }`}
             >
               3 Nodes
@@ -244,8 +244,8 @@ export const AccountPage: FC<AccountPageProps> = ({
               onClick={() => handleSetProtocol(5)}
               className={`px-8 py-4 border-4 border-black font-black uppercase tracking-widest transition-all ${
                 config.modelCount === 5 
-                ? 'bg-black text-white shadow-[4px_4px_0_0_black]' 
-                : 'bg-white text-black hover:bg-zinc-100 hover:shadow-[4px_4px_0_0_black]'
+                ? 'bg-black text-white shadow-[4px_4px_0_0_#03B390]' 
+                : 'bg-white text-black hover:bg-[#03B390]/10 hover:shadow-[4px_4px_0_0_#03B390]'
               }`}
             >
               5 Nodes
@@ -277,7 +277,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                 )}
                 <button
                   onClick={() => setIsAddingNode(!isAddingNode)}
-                  className="px-4 py-2 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
+                  className="px-4 py-2 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-[#03B390] transition-all"
                 >
                   {isAddingNode ? 'Annuleren' : '+ Nieuwe Node'}
                 </button>
@@ -288,7 +288,7 @@ export const AccountPage: FC<AccountPageProps> = ({
             <div className="space-y-2">
               <p className="text-base font-black uppercase tracking-widest text-black/30">Standaard Raad</p>
               {DEFAULT_COUNCIL.map(node => (
-                  <div key={node.id} className="p-3 bg-zinc-50 border-2 border-black/10 flex items-center justify-between">
+                  <div key={node.id} className="p-3 bg-[#03B390]/5 border-2 border-black/10 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-black rounded-full" />
                     <div>
@@ -301,7 +301,7 @@ export const AccountPage: FC<AccountPageProps> = ({
 
             {/* Add Node Form */}
             {isAddingNode && (
-              <div className="p-6 bg-zinc-50 border-4 border-black space-y-4 animate-in slide-in-from-top-2 duration-300">
+              <div className="p-6 bg-white border-4 border-black space-y-4 animate-in slide-in-from-top-2 duration-300 shadow-[10px_10px_0_0_#03B390]">
                 <p className="text-base font-black uppercase tracking-widest text-black/40">Nieuwe Node</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
@@ -309,21 +309,21 @@ export const AccountPage: FC<AccountPageProps> = ({
                     placeholder="Naam (bijv. Juridisch Expert)"
                     value={newNode.name}
                     onChange={e => setNewNode({ ...newNode, name: e.target.value })}
-                    className="bg-white border-2 border-black p-3 font-bold text-sm w-full"
+                    className="bg-white border-2 border-black p-3 font-bold text-base w-full"
                   />
                   <input
                     type="text"
                     placeholder="Rol (bijv. Advocaat)"
                     value={newNode.role}
                     onChange={e => setNewNode({ ...newNode, role: e.target.value })}
-                    className="bg-white border-2 border-black p-3 font-bold text-sm w-full"
+                    className="bg-white border-2 border-black p-3 font-bold text-base w-full"
                   />
                 </div>
                 <textarea
                   placeholder="Systeem prompt / Instructies (optioneel)..."
                   value={newNode.systemPrompt}
                   onChange={e => setNewNode({ ...newNode, systemPrompt: e.target.value })}
-                  className="w-full bg-white border-2 border-black p-3 font-bold text-sm h-28 resize-none"
+                  className="w-full bg-white border-2 border-black p-3 font-bold text-base h-28 resize-none"
                 />
                 <button
                   onClick={handleAddNode}
@@ -354,7 +354,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                         <button
                           onClick={() => handleToggleNodeInCouncil(node)}
                           title={isActive ? 'Deactiveer in raad' : 'Activeer in raad'}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 font-black text-sm uppercase tracking-widest border transition-all ${isActive ? 'bg-black border-black text-white' : 'bg-zinc-100 border-black/20 text-black/50 hover:border-black hover:text-black'}`}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 font-black text-base uppercase tracking-widest border transition-all ${isActive ? 'bg-[#03B390] border-[#03B390] text-black' : 'bg-white border-black/20 text-black/50 hover:border-[#03B390] hover:text-[#03B390]'}`}
                         >
                           {isActive ? <ToggleRight className="w-3.5 h-3.5" /> : <ToggleLeft className="w-3.5 h-3.5" />}
                           {isActive ? 'Actief' : 'Inactief'}
@@ -390,11 +390,11 @@ export const AccountPage: FC<AccountPageProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <button
                 onClick={handleExportData}
-                className="flex items-center justify-center gap-3 p-6 bg-zinc-50 border-2 border-black hover:bg-black hover:text-white transition-all group col-span-2"
+                className="flex items-center justify-center gap-3 p-6 bg-white border-2 border-black hover:bg-[#03B390] hover:text-black transition-all group col-span-2 shadow-[4px_4px_0_0_#03B390] hover:shadow-[6px_6px_0_0_#03B390]"
               >
                 <Download className="w-5 h-5 group-hover:animate-bounce" />
                 <div className="text-left">
-                  <span className="block font-black uppercase text-sm">Export Backup</span>
+                  <span className="block font-black uppercase text-base">Export Backup</span>
                   <span className="text-sm font-bold opacity-50">Download je data</span>
                 </div>
               </button>
@@ -428,7 +428,7 @@ export const AccountPage: FC<AccountPageProps> = ({
                   </button>
                 </div>
               )}
-              <span className="px-4 py-1.5 bg-black text-white text-sm font-black rounded-full uppercase tracking-widest">
+              <span className="px-4 py-1.5 bg-black text-white text-base font-black rounded-full uppercase tracking-widest">
                 {activeHistory.length}
               </span>
             </div>
@@ -473,13 +473,13 @@ export const AccountPage: FC<AccountPageProps> = ({
             )}
 
             {activeHistory.length === 0 ? (
-              <div className="py-16 text-center bg-zinc-50 border-4 border-dashed border-black/10 rounded-lg">
-                <Database className="w-12 h-12 text-black/10 mx-auto mb-4" />
-                <p className="font-black uppercase tracking-widest text-black/20 text-sm mb-2">Lokale Kluis Leeg</p>
+              <div className="py-16 text-center bg-white border-4 border-dashed border-[#03B390]/20 rounded-none shadow-[10px_10px_0_0_#03B390]/5">
+                <Database className="w-12 h-12 text-[#03B390]/20 mx-auto mb-4" />
+                <p className="font-black uppercase tracking-widest text-[#03B390]/30 text-base mb-2">Lokale Kluis Leeg</p>
                 <p className="text-base font-bold text-black/30 uppercase tracking-widest text-center">Hier kun je al jouw gestelde vragen inzien en teruglezen.</p>
                 <button
                   onClick={() => navigate('/mission')}
-                  className="mt-6 px-6 py-3 bg-black text-white font-black text-sm uppercase tracking-widest hover:bg-zinc-800 transition-all"
+                  className="mt-6 px-6 py-3 bg-black text-white border-4 border-black font-black text-base uppercase tracking-widest hover:bg-[#03B390] hover:text-black transition-all shadow-[6px_6px_0_0_#03B390]"
                 >
                   Nieuwe vraag stellen
                 </button>
@@ -494,19 +494,19 @@ export const AccountPage: FC<AccountPageProps> = ({
                     {selectedIds.includes(session.id) ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
                   </button>
 
-                    <button
-                      onClick={() => onLoadSession(session)}
-                      className="w-full flex items-center justify-between p-4 bg-white border-2 border-black shadow-[4px_4px_0_0_black] hover:shadow-[6px_6px_0_0_black] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
-                    >
+                  <button
+                    onClick={() => onLoadSession(session)}
+                    className="w-full flex items-center justify-between p-4 bg-white border-2 border-black shadow-[4px_4px_0_0_black] hover:border-[#03B390] hover:shadow-[6px_6px_0_0_#03B390] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                  >
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="p-2 bg-zinc-100 rounded-lg flex-shrink-0">
-                        <MessageSquare className="w-4 h-4 text-black" />
+                      <div className="p-2 bg-[#03B390]/10 rounded-none flex-shrink-0">
+                        <MessageSquare className="w-4 h-4 text-[#03B390]" />
                       </div>
                       <div className="text-left overflow-hidden">
-                        <h4 className="text-sm font-black uppercase tracking-tight truncate max-w-[160px] sm:max-w-xs text-black">
+                        <h4 className="text-base font-black uppercase tracking-tight truncate max-w-[160px] sm:max-w-xs text-black">
                           "{session.query}"
                         </h4>
-                        <span className="text-base font-bold text-black/40 uppercase tracking-widest">
+                        <span className="text-sm font-bold text-black/40 uppercase tracking-widest">
                           {formatDate(session.timestamp)}
                         </span>
                       </div>

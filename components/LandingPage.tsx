@@ -136,85 +136,85 @@ const HeroComparisonBanner: FC = () => {
       <div className="relative flex flex-col md:flex-row bg-white border-y-2 md:border-2 border-black overflow-hidden shadow-2xl">
         
         {/* Central Transition Badge */}
-        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white border-4 border-black rounded-full items-center justify-center shadow-[0_0_50px_rgba(0,0,0,0.1)] z-20 group/badge">
-          <ArrowRight className="w-8 h-8 text-black group-hover/badge:translate-x-1 transition-transform duration-300" />
+        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white border-4 border-[#03B390] rounded-full items-center justify-center shadow-[0_0_60px_rgba(3,179,144,0.3)] z-20 group/badge">
+          <ArrowRight className="w-10 h-10 text-[#03B390] group-hover/badge:translate-x-2 transition-transform duration-300" />
         </div>
         
-        <div className="w-full md:w-1/2 p-12 md:p-20 flex flex-col items-center justify-center text-center border-b-2 md:border-b-0 md:border-r-2 border-black bg-zinc-50">
-          <div className="flex items-center justify-center mb-10">
-            <div className="w-20 h-20 bg-white border-4 border-black flex items-center justify-center shadow-[8px_8px_0_0_black]">
-              <Lightbulb className="w-10 h-10 text-black" />
+        <div className="w-full md:w-1/2 p-12 md:p-24 flex flex-col items-center justify-center text-center border-b-2 md:border-b-0 md:border-r-2 border-black bg-white">
+          <div className="flex items-center justify-center mb-12">
+            <div className="w-24 h-24 bg-black border-4 border-black flex items-center justify-center shadow-[10px_10px_0_0_#f4f4f5]">
+              <Lightbulb className="w-12 h-12 text-white" />
             </div>
           </div>
-          <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-black mb-4">
+          <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
             Beperkte Visie
           </h3>
-          <p className="text-black/30 font-black text-xs uppercase tracking-[0.4em] mb-12">
-            De status quo van AI
+          <p className="text-[#03B390] font-black text-sm md:text-base uppercase tracking-[0.4em] mb-12">
+            Single AI-Model Beperking
           </p>
-          <div className="space-y-6 text-left w-full max-w-sm">
-            <p className="text-lg font-bold text-black/70 leading-relaxed italic">
-              "Eén model klinkt vaak overtuigend, maar blijft een geïsoleerde mening — gevoelig voor bias, fouten en onvolledigheid."
+          <div className="space-y-8 text-left w-full max-w-md">
+            <p className="text-xl font-bold text-black leading-tight italic">
+              "Eén model klinkt vaak overtuigend, maar blijft een geïsoleerde mening — gevoelig voor fouten en onvolledigheid."
             </p>
-            <div className="pt-8 space-y-4 border-t border-black/10">
-              <div className="flex items-center gap-4 text-[11px] font-black text-black/40 uppercase tracking-widest">
-                <span className="w-6 h-6 flex items-center justify-center bg-zinc-200">01</span> Hallucinatie Risico
+            <div className="pt-10 space-y-5 border-t-2 border-black">
+              <div className="flex items-center gap-5 text-base font-black text-black uppercase tracking-widest">
+                <span className="w-8 h-8 flex items-center justify-center bg-black text-white">01</span> Hallucinatie Risico
               </div>
-              <div className="flex items-center gap-4 text-[11px] font-black text-black/40 uppercase tracking-widest">
-                <span className="w-6 h-6 flex items-center justify-center bg-zinc-200">02</span> Gebrek aan verificatie
+              <div className="flex items-center gap-5 text-base font-black text-black uppercase tracking-widest">
+                <span className="w-8 h-8 flex items-center justify-center bg-black text-white">02</span> Gebrek aan verificatie
               </div>
-              <div className="flex items-center gap-4 text-[11px] font-black text-black/40 uppercase tracking-widest">
-                <span className="w-6 h-6 flex items-center justify-center bg-zinc-200">03</span> Inconsistente logica
+              <div className="flex items-center gap-5 text-base font-black text-black uppercase tracking-widest">
+                <span className="w-8 h-8 flex items-center justify-center bg-black text-white">03</span> Inconsistente logica
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Side: 5 AI Models (FAINL) */}
-        <div className="w-full md:w-1/2 bg-black p-12 md:p-20 flex flex-col items-center justify-center text-center relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none" />
+        <div className="w-full md:w-1/2 bg-black p-12 md:p-24 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+          <div className="absolute inset-0 bg-[#03B390] opacity-5 pointer-events-none" />
 
-          <div className="flex justify-center items-center mb-10 relative z-10">
-            <div className="flex -space-x-5 items-center">
-               <div className="w-12 h-12 bg-zinc-900 border-2 border-white/20 flex items-center justify-center z-10 opacity-40">
-                 <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-6 h-6 object-contain invert"/>
+          <div className="flex justify-center items-center mb-12 relative z-10">
+            <div className="flex -space-x-6 items-center">
+               <div className="w-14 h-14 bg-black border-2 border-[#03B390]/20 flex items-center justify-center z-10 opacity-60">
+                 <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-7 h-7 object-contain invert"/>
                </div>
-               <div className="w-16 h-16 bg-zinc-900 border-2 border-white/40 flex items-center justify-center z-20 opacity-70">
-                 <img src="/ai-logos/claude.svg" alt="Claude" className="w-8 h-8 object-contain invert"/>
+               <div className="w-20 h-20 bg-black border-2 border-[#03B390]/40 flex items-center justify-center z-20">
+                 <img src="/ai-logos/claude.svg" alt="Claude" className="w-10 h-10 object-contain invert"/>
                </div>
-               <div className="w-24 h-24 bg-white border-8 border-black flex flex-col items-center justify-center shadow-[0_0_80px_rgba(255,255,255,0.15)] z-40 transform group-hover:scale-105 transition-transform duration-700">
-                 <span className="font-black text-black text-3xl leading-none">90%</span>
-                 <span className="font-black text-black text-[8px] uppercase tracking-widest mt-1">Accuratie</span>
+               <div className="w-32 h-32 bg-[#03B390] border-8 border-black flex flex-col items-center justify-center shadow-[0_0_100px_rgba(3,179,144,0.4)] z-40 transform group-hover:scale-110 transition-transform duration-700">
+                 <span className="font-black text-black text-5xl leading-none">90%</span>
+                 <span className="font-black text-black text-[14px] uppercase tracking-[0.2em] mt-2">Accuratie</span>
                </div>
-               <div className="w-16 h-16 bg-zinc-900 border-2 border-white/40 flex items-center justify-center z-20 opacity-70">
-                 <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-8 h-8 object-contain invert"/>
+               <div className="w-20 h-20 bg-black border-2 border-[#03B390]/40 flex items-center justify-center z-20">
+                 <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-10 h-10 object-contain invert"/>
                </div>
-               <div className="w-12 h-12 bg-zinc-900 border-2 border-white/20 flex items-center justify-center z-10 opacity-40">
-                 <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-6 h-6 object-contain invert"/>
+               <div className="w-14 h-14 bg-black border-2 border-[#03B390]/20 flex items-center justify-center z-10 opacity-60">
+                 <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-7 h-7 object-contain invert"/>
                </div>
             </div>
           </div>
           
-          <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white mb-4 relative z-10">
-            Het Eindoordeel
-          </h3>
-          <p className="text-white/30 font-black text-xs uppercase tracking-[0.4em] mb-12 relative z-10">
+          <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4 relative z-10">
             De FAINL Standaard
+          </h3>
+          <p className="text-[#03B390] font-black text-sm md:text-base uppercase tracking-[0.4em] mb-12 relative z-10">
+            Maximale Validatie Protocol
           </p>
           
-          <div className="space-y-6 text-left w-full max-w-sm relative z-10">
-            <p className="text-lg font-bold text-white leading-relaxed">
-              Activeer 5 parallelle intelligenties. Laat ze debatteren. Krijg het best haalbare antwoord (90% accuratie).
+          <div className="space-y-8 text-left w-full max-w-md relative z-10">
+            <p className="text-xl font-bold text-white leading-tight">
+              Activeer 5 parallelle intelligenties. Laat ze debatteren. Krijg het best haalbare antwoord met 90% accuratie.
             </p>
-            <div className="pt-8 space-y-4 border-t border-white/10">
-              <div className="flex items-center gap-4 text-[11px] font-black text-white uppercase tracking-widest">
-                <CheckCircle2 className="w-5 h-5 text-white" /> Maximale Validatie
+            <div className="pt-10 space-y-5 border-t-2 border-[#03B390]">
+              <div className="flex items-center gap-5 text-base font-black text-[#03B390] uppercase tracking-widest">
+                <CheckCircle2 className="w-6 h-6" /> Maximale Validatie
               </div>
-              <div className="flex items-center gap-4 text-[11px] font-black text-white uppercase tracking-widest">
-                <CheckCircle2 className="w-5 h-5 text-white" /> Autonome Correctie
+              <div className="flex items-center gap-5 text-base font-black text-[#03B390] uppercase tracking-widest">
+                <CheckCircle2 className="w-6 h-6" /> Autonome Correctie
               </div>
-              <div className="flex items-center gap-4 text-[11px] font-black text-white uppercase tracking-widest">
-                <CheckCircle2 className="w-5 h-5 text-white" /> Gegarandeerd Inzicht
+              <div className="flex items-center gap-5 text-base font-black text-[#03B390] uppercase tracking-widest">
+                <CheckCircle2 className="w-6 h-6" /> Gegarandeerde Focus
               </div>
             </div>
           </div>
@@ -247,13 +247,13 @@ export const LandingPage: FC = () => {
         className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-24 md:pt-40 pb-20 md:pb-32 flex flex-col items-center group/hero"
       >
 
-        <h1 className="relative z-10 text-[40px] sm:text-[80px] md:text-[140px] font-black uppercase tracking-[-0.04em] leading-[0.85] text-center max-w-[95%] mx-auto mb-8 sm:mb-10">
+        <h1 className="relative z-10 text-[clamp(40px,15vw,160px)] font-black uppercase tracking-[-0.04em] leading-[0.8] text-center max-w-[98%] mx-auto mb-10 sm:mb-12">
           EÉN AI IS<br />
-          <span className="text-black/5">EEN MENING.</span><br />
-          <span className="text-black">FAINL DE STANDAARD.</span>
+          <span className="text-[#03B390]/10">EEN MENING.</span><br />
+          <span className="text-black">FAINL <span className="text-[#03B390]">DE STANDAARD.</span></span>
         </h1>
-        <p className="relative z-10 text-base md:text-2xl font-black uppercase tracking-[0.2em] text-black/20 mb-12 md:mb-20 text-center max-w-4xl mx-auto px-6 leading-tight">
-          Activeer het enige protocol dat collectieve intelligentie omzet in absolute helderheid.
+        <p className="relative z-10 text-lg md:text-3xl font-black uppercase tracking-[0.2em] text-black/30 mb-16 md:mb-24 text-center max-w-5xl mx-auto px-6 leading-tight">
+          Het enige protocol dat collectieve intelligentie omzet in absolute helderheid.
         </p>
 
         {/* Static Comparison Banner */}
@@ -280,44 +280,45 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ FAINL BREAKDOWN ══ */}
-      <section className="w-full bg-white py-20 border-t border-black/5">
+      <section className="w-full bg-white py-24 md:py-32 border-t border-black/5">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="mb-16 max-w-2xl">
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black mb-6">
-              Intelligence<br />Redefined.
+          <div className="mb-20 max-w-3xl">
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black mb-8 leading-[0.9]">
+              INTELLIGENCE<br />
+              <span className="text-[#03B390]">REDEFINED.</span>
             </h2>
-            <p className="text-xl font-bold text-black/60 leading-relaxed">
-              FAINL staat voor <span className="text-black">Fully Autonomous Intelligence Network & Logic</span>. Een nieuwe standaard voor redenering en betrouwbaarheid.
+            <p className="text-xl md:text-2xl font-bold text-black/60 leading-relaxed max-w-2xl">
+              FAINL staat voor <span className="text-black">Fully Autonomous Intelligence Network & Logic</span>. De enige standaard voor wie geen genoegen neemt met "waarschijnlijk waar".
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <div className="text-4xl font-black text-black/10">01</div>
-              <h3 className="text-lg font-black uppercase tracking-tight text-black">De Limiet van Eén</h3>
-              <p className="text-sm font-bold text-black/50 leading-relaxed">
-                Eén AI-model kan sterk klinken, maar blijft vatbaar voor hallucinaties en blinde vlekken. Het is een mening, geen fundament.
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="group">
+              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">01</div>
+              <h3 className="text-xl font-black uppercase tracking-tight text-black mb-4">De Limiet van Eén</h3>
+              <p className="text-base font-bold text-black/50 leading-relaxed">
+                Eén AI-model is een tunnelvisie. Zelfs de beste modellen hallucineren. FAINL doorbreekt de isolatie van single-model antwoorden.
               </p>
             </div>
-            <div className="space-y-4">
-              <div className="text-4xl font-black text-black/10">02</div>
-              <h3 className="text-lg font-black uppercase tracking-tight text-black">Collectieve Kracht</h3>
-              <p className="text-sm font-bold text-black/50 leading-relaxed">
-                Wij zetten meerdere top-modellen tegelijk aan het werk. Geen beïnvloeding, maar pure parallelle intelligentie.
+            <div className="group">
+              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">02</div>
+              <h3 className="text-xl font-black uppercase tracking-tight text-black mb-4">Collectieve Kracht</h3>
+              <p className="text-base font-bold text-black/50 leading-relaxed">
+                Wij zetten 5 top-modellen parallel aan het werk. Geen beïnvloeding, maar pure, rauwe intelligentie uit verschillende bronnen.
               </p>
             </div>
-            <div className="space-y-4">
-              <div className="text-4xl font-black text-black/10">03</div>
-              <h3 className="text-lg font-black uppercase tracking-tight text-black">Het FAINL Protocol</h3>
-              <p className="text-sm font-bold text-black/50 leading-relaxed">
+            <div className="group">
+              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">03</div>
+              <h3 className="text-xl font-black uppercase tracking-tight text-black mb-4">Het FAINL Protocol</h3>
+              <p className="text-base font-bold text-black/50 leading-relaxed">
                 Debat en verificatie zitten in ons DNA. Modellen corrigeren elkaar live, nog voordat jij het antwoord ziet.
               </p>
             </div>
-            <div className="space-y-4">
-              <div className="text-4xl font-black text-black/10">04</div>
-              <h3 className="text-lg font-black uppercase tracking-tight text-black">90% Accuratie</h3>
-              <p className="text-sm font-bold text-black/50 leading-relaxed">
-                Het resultaat is een reductie van 80% op vage antwoorden en een sprong naar 90% correcte, gemotiveerde beantwoording.
+            <div className="group">
+              <div className="text-7xl font-black text-[#03B390]/10 group-hover:text-[#03B390]/30 transition-colors duration-500 mb-4">04</div>
+              <h3 className="text-xl font-black uppercase tracking-tight text-[#03B390] mb-4">90% Accuratie</h3>
+              <p className="text-base font-bold text-black/50 leading-relaxed">
+                Een reductie van 80% op vage antwoorden en een sprong naar 90% correcte, diep gewogen en gemotiveerde beantwoording.
               </p>
             </div>
           </div>
@@ -358,58 +359,59 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ HOE HET WERKT ══ */}
+      {/* ══ HOE HET WERKT ══ */}
       <section
         aria-label="Hoe FAINL werkt"
-        className="w-full max-w-3xl mx-auto px-4 md:px-6 py-16 md:py-28"
+        className="w-full max-w-5xl mx-auto px-4 md:px-6 py-24 md:py-32"
       >
-        <h2 className="text-center text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4">
-          Hoe werkt het?
+        <h2 className="text-center text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6">
+          HOE WERKT HET?
         </h2>
-        <p className="text-center text-xl md:text-2xl text-black dark:text-white/80 font-semibold mb-12 md:mb-16 max-w-xl mx-auto leading-relaxed">
-          Van jouw vraag tot het meest onderbouwde antwoord — in vijf
-          geautomatiseerde stappen.
+        <p className="text-center text-xl md:text-2xl text-black/60 dark:text-white/60 font-bold mb-16 md:mb-24 max-w-2xl mx-auto leading-relaxed">
+          Van jouw vraag tot het ultieme eindoordeel — in vijf geavanceerde, geautomatiseerde stappen door het FAINL protocol.
         </p>
 
-        <ol className="space-y-4">
+        <ol className="grid grid-cols-1 gap-6">
           {[
             {
               img: "/general icons/question-icon.png",
               title: "Stel je vraag",
-              desc: "Elke vraag werkt — zakelijk, filosofisch, juridisch, persoonlijk. Geen limiet op de lengte van je vraag.",
+              desc: "Zakelijk, juridisch of strategisch. Het maakt niet uit. Onze engine herkent de diepste context van je input.",
             },
             {
               img: "/general icons/AI-Analyse-icon.png",
-              title: "AI's analyseren parallel",
-              desc: "Meerdere modellen analyseren jouw vraag tegelijk en onafhankelijk. Geen beïnvloeding, geen tunnelvisie.",
+              title: "Parallelle Analyse",
+              desc: "5 AI-modellen worden tegelijk geactiveerd. Ze analyseren je vraag onafhankelijk van elkaar om tunnelvisie te voorkomen.",
             },
             {
               img: "/general icons/reading-icon.png",
-              title: "Lees elk model apart",
-              desc: "Volledig transparant: zie exact wat elk AI-model heeft geconcludeerd, zonder filters of aggregatie.",
+              title: "Volledige Transparantie",
+              desc: "Zie live wat elk model concludeert. Wij filteren niets. Jij hebt de controle over wie wat zegt.",
             },
             {
               img: "/general icons/live-debate-icon.png",
-              title: "Live debat — doe mee",
-              desc: "De modellen debatteren live met elkaar. Jij kunt meeschrijven of -spreken en jouw perspectief direct inbrengen.",
+              title: "Live Debat Protocol",
+              desc: "De modellen vallen elkaars logica aan. Zwakke argumenten worden verworpen, sterke inzichten blijven staan.",
             },
             {
               img: "/general icons/verdict-icon.png",
-              title: "Chairman's Verdict",
-              desc: "Victor analyseert alle argumenten en synthetiseert het meest complete, gewogen eindoordeel.",
+              title: "Het Eindoordeel",
+              desc: "Voorzitter Victor weegt alle argumenten en levert één messcherpe, onderbouwde conclusie.",
             },
-          ].map(({ img, title, desc }) => (
+          ].map(({ img, title, desc }, idx) => (
             <li
               key={title}
-              className="group flex items-start gap-5 p-6 md:p-8 bg-white dark:bg-zinc-900 border-2 border-black/5 dark:border-white/10 rounded-2xl hover:border-black hover:shadow-[6px_6px_0px_0px_black] transition-all duration-200"
+              className="group flex flex-col md:flex-row items-center md:items-start gap-8 p-8 md:p-12 bg-white dark:bg-black border-2 border-black rounded-none hover:border-[#03B390] hover:shadow-[10px_10px_0_0_#03B390] transition-all duration-300"
             >
-              <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black dark:bg-white rounded-xl group-hover:scale-110 transition-transform">
-                <img src={img} alt={title} className="w-6 h-6 md:w-7 md:h-7 object-contain invert dark:invert-0" />
+              <div className="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-black text-white relative">
+                 <span className="absolute -top-3 -left-3 w-8 h-8 bg-[#03B390] text-black font-black flex items-center justify-center text-sm">0{idx+1}</span>
+                <img src={img} alt={title} className="w-10 h-10 object-contain invert" />
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-2">
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-black dark:text-white mb-4">
                   {title}
                 </h3>
-                <p className="text-xl md:text-2xl font-medium text-black dark:text-white/70 leading-relaxed">
+                <p className="text-lg md:text-xl font-bold text-black/60 dark:text-white/60 leading-relaxed">
                   {desc}
                 </p>
               </div>
@@ -421,60 +423,60 @@ export const LandingPage: FC = () => {
       {/* ══ WAAROM FAINL ══ */}
       <section
         aria-label="Kernfuncties van FAINL"
-        className="w-full bg-white dark:bg-zinc-950 py-16 md:py-28 border-t border-black/5 dark:border-white/5"
+        className="w-full bg-white dark:bg-black py-24 md:py-32 border-t border-black/5"
       >
-        <div className="max-w-5xl mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
-            Waarom FAINL?
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6 text-center">
+            WAAROM FAINL?
           </h2>
-          <p className="text-center text-xl md:text-2xl text-black dark:text-white/80 font-semibold mb-12 md:mb-16 max-w-xl mx-auto leading-relaxed">
-            Gebouwd voor wie niet genoeg heeft aan een gewoon AI-antwoord.
+          <p className="text-center text-xl md:text-2xl text-black/60 dark:text-white/60 font-bold mb-16 md:mb-24 max-w-2xl mx-auto leading-relaxed">
+            Gebouwd voor wie niet genoeg heeft aan een "waarschijnlijk" antwoord. Expertise door collectie.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 icon: Brain,
-                title: "Multimodel-eindoordeel",
-                desc: "Geen enkel AI-model heeft altijd gelijk. FAINL bundelt de kracht van Gemini, Claude, GPT, Llama en andere modellen in één slim protocol dat antwoorden vergelijkt, aanscherpt en samenbrengt tot een sterker eindresultaat.",
+                title: "Multimodel Protocol",
+                desc: "Geen enkel model heeft altijd gelijk. FAINL bundelt Gemini, Claude, GPT en Llama in één slim protocol dat antwoorden vergelijkt en aanscherpt.",
               },
               {
                 icon: Swords,
-                title: "Live debatruimte",
-                desc: "Laat AI-modellen live met elkaar in discussie gaan terwijl jij direct meeleest, meespreekt of bijstuurt. Elk argument wordt in real time getest, bevraagd en aangescherpt.",
+                title: "Live Debatruimte",
+                desc: "Laat AI-modellen live met elkaar in discussie gaan. Elk argument wordt in real time getest, bevraagd en aangescherpt door de concurrentie.",
               },
               {
                 icon: Mic,
                 title: "Spraakherkenning",
-                desc: "Spreek je input eenvoudig in. FAINL zet je woorden direct om naar tekst en brengt ze meteen in het live debat, voor snelle en moeiteloze interactie.",
+                desc: "Spreek je input eenvoudig in. FAINL zet je woorden direct om naar tekst en brengt ze meteen in het live debat voor snelle interactie.",
               },
               {
                 icon: Eye,
-                title: "Volledige transparantie",
-                desc: "Zie exact hoe ieder model redeneert, zonder verborgen filters of onzichtbare bewerking. Jij ziet de afzonderlijke output en bepaalt zelf welk inzicht het meeste vertrouwen verdient.",
+                title: "Volledige Transparantie",
+                desc: "Zie exact hoe ieder model redeneert. Geen verborgen filters. Jij ziet de afzonderlijke output en bepaalt welk inzicht het sterkst is.",
               },
               {
                 icon: Lock,
-                title: "Privacy-first",
-                desc: "Jouw instellingen en sessiegeschiedenis blijven lokaal in je browser. Vragen worden anoniem via onze proxy verstuurd naar AI-providers, zonder accountkoppeling en zonder profilering.",
+                title: "Privacy Architectuur",
+                desc: "Jouw sessies blijven lokaal. Vragen worden anoniem via onze proxy verstuurd, zonder accountkoppeling of onnodige profilering.",
               },
               {
                 icon: BarChart3,
-                title: "Gewogen eindoordeel",
-                desc: "Voorzitter Victor brengt alle inzichten samen tot één helder en onderbouwd eindoordeel, gericht op resultaat, scherpte en direct toepasbare inzichten.",
+                title: "Gewogen Eindoordeel",
+                desc: "Voorzitter Victor synthetiseert alle inzichten tot één helder en onderbouwd eindoordeel, gericht op scherpte en direct toepasbare actie.",
               },
             ].map(({ icon: Icon, title, desc }) => (
               <article
                 key={title}
-                className="bg-zinc-50 dark:bg-zinc-900 border-2 border-black rounded-none p-6 md:p-8 hover:shadow-[6px_6px_0px_0px_black] transition-all"
+                className="bg-white dark:bg-black border-2 border-black rounded-none p-10 hover:border-[#03B390] hover:shadow-[10px_10px_0_0_#03B390] transition-all duration-300 group"
               >
-                <div className="w-12 h-12 bg-black rounded-none flex items-center justify-center mb-4">
-                  <Icon className="w-6 h-6 text-white" />
+                <div className="w-16 h-16 bg-black flex items-center justify-center mb-8 group-hover:bg-[#03B390] transition-colors duration-500">
+                  <Icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-black text-lg md:text-xl uppercase tracking-tight text-black dark:text-white mb-3">
+                <h3 className="font-black text-2xl uppercase tracking-tighter text-black dark:text-white mb-6">
                   {title}
                 </h3>
-                <p className="text-lg md:text-xl text-black dark:text-white/70 leading-relaxed">{desc}</p>
+                <p className="text-lg font-bold text-black/50 dark:text-white/50 leading-relaxed">{desc}</p>
               </article>
             ))}
           </div>
@@ -484,57 +486,56 @@ export const LandingPage: FC = () => {
       {/* ══ VERGELIJKING ══ */}
       <section
         aria-label="FAINL versus gewone AI-tools"
-        className="w-full bg-white dark:bg-zinc-900/50 border-t border-black/5 dark:border-white/5 py-16 md:py-28"
+        className="w-full bg-white dark:bg-black border-t border-black/5 py-24 md:py-32"
       >
-        <div className="max-w-3xl mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
-            FAINL vs. gewone AI
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6 text-center">
+            FAINL <span className="text-[#03B390]">VS.</span> GEWONE AI
           </h2>
-          <p className="text-center text-xl md:text-2xl text-black dark:text-white/80 font-semibold mb-12 leading-relaxed">
-            Waarom is één model nooit genoeg?
+          <p className="text-center text-xl md:text-2xl text-black/60 dark:text-white/60 font-bold mb-16 md:mb-24 leading-relaxed">
+            Waarom is één model nooit genoeg voor kritische vragen?
           </p>
 
-          <div className="rounded-2xl border-2 border-black dark:border-white/20 overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_1px_rgba(255,255,255,0.1)]">
+          <div className="border-2 border-black dark:border-white/20 overflow-hidden shadow-[20px_20px_0_0_#03B390]">
             {/* Column headers */}
-            <div className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] bg-black dark:bg-zinc-800 text-white px-4 sm:px-6 py-4 gap-2">
-              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-white/60">Eigenschap</span>
-              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-white/60 leading-tight">Gewone<br/>AI</span>
-              <span className="font-black uppercase tracking-widest text-[10px] sm:text-xs text-center text-black leading-tight">FAINL</span>
+            <div className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-[1fr_140px_140px] bg-black text-white px-6 py-6 gap-4">
+              <span className="font-black uppercase tracking-[0.2em] text-sm text-white/40">Protocol Check</span>
+              <span className="font-black uppercase tracking-[0.2em] text-sm text-center text-white/40">Single AI</span>
+              <span className="font-black uppercase tracking-[0.2em] text-sm text-center text-[#03B390]">FAINL</span>
             </div>
 
             {/* Rows */}
-            <div className="divide-y divide-black/8 dark:divide-white/8 bg-white dark:bg-zinc-900">
+            <div className="divide-y-2 divide-black/5 bg-white dark:bg-black">
               {([
-                ["Meerdere AI-modellen parallel", false, true],
-                ["Live debat tussen modellen", false, true],
-                ["Blinde vlekken gecorrigeerd", false, true],
-                ["Transparantie per model", false, true],
-                ["Eigen perspectief inbrengen", false, true],
-                ["Gewogen eindvonnis", false, true],
-                ["Privacy (geen server-opslag)", "Wisselend", true],
-                ["Gratis te proberen", true, true],
+                ["Parallelle Intelligentie (5+ Modellen)", false, true],
+                ["Live Adversarial Debat", false, true],
+                ["Autonome Foutcorrectie", false, true],
+                [" Chairman's Verdict Synthese", false, true],
+                ["Volledige Bron Transparantie", false, true],
+                ["Privacy-First Proxy Layer", "Beperkt", true],
+                ["Gegarandeerd Eindoordeel", false, true],
               ] as [string, boolean | string, boolean][]).map(([label, single, fainl]) => (
                 <div
                   key={label}
-                  className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] items-center px-4 sm:px-6 py-4 gap-2 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-colors"
+                  className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-[1fr_140px_140px] items-center px-6 py-6 gap-4 hover:bg-zinc-50 dark:hover:bg-[#03B390]/5 transition-colors duration-200"
                 >
-                  <span className="font-semibold text-sm sm:text-base text-black dark:text-white leading-snug pr-2">
+                  <span className="font-black uppercase tracking-tight text-sm sm:text-base text-black dark:text-white">
                     {label}
                   </span>
                   <span className="flex items-center justify-center">
                     {single === true ? (
-                      <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                      <CheckCircle2 className="w-6 h-6 text-[#03B390]" />
                     ) : single === false ? (
-                      <span className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 font-black text-xs">✕</span>
+                      <span className="w-6 h-6 flex items-center justify-center bg-black/5 text-black/20 font-black text-xs">✕</span>
                     ) : (
-                      <span className="text-[11px] sm:text-xs text-black/40 dark:text-white/40 font-bold text-center leading-tight">{single}</span>
+                      <span className="text-[10px] font-black uppercase text-black/30 text-center leading-tight">{single}</span>
                     )}
                   </span>
                   <span className="flex items-center justify-center">
                     {fainl ? (
-                      <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                      <CheckCircle2 className="w-8 h-8 text-[#03B390] drop-shadow-[0_0_10px_rgba(3,179,144,0.3)]" />
                     ) : (
-                      <span className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 font-black text-xs">✕</span>
+                      <span className="w-6 h-6 flex items-center justify-center bg-black/5 text-black/20 font-black text-xs">✕</span>
                     )}
                   </span>
                 </div>
@@ -547,38 +548,27 @@ export const LandingPage: FC = () => {
       {/* ══ FAQ ══ */}
       <section
         aria-label="Veelgestelde vragen over FAINL"
-        className="w-full bg-white dark:bg-zinc-900/50 border-t border-black/5 dark:border-white/5 py-16 md:py-28"
+        className="w-full bg-white dark:bg-black border-t border-black/5 py-24 md:py-32"
       >
-        <div className="max-w-2xl mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
-            Veelgestelde vragen
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6 text-center">
+            FAQ
           </h2>
-          <p className="text-center text-xl md:text-2xl text-black dark:text-white/80 font-semibold mb-12 leading-relaxed">
-            Alles wat je wil weten over FAINL.
+          <p className="text-center text-xl md:text-2xl text-black/60 dark:text-white/60 font-bold mb-16 md:mb-24 leading-relaxed">
+            Alles wat je moet weten over het FAINL Protocol.
           </p>
 
-          <div className="bg-white border-2 border-black/10 rounded-2xl px-6 md:px-8">
+          <div className="bg-white dark:bg-black border-2 border-black rounded-none px-6 md:px-12 divide-y-2 divide-black/5">
             {FAQS.map((faq) => (
               <FAQItem key={faq.q} q={faq.q} a={faq.a} />
             ))}
           </div>
 
-          <p className="text-center mt-8 text-base md:text-lg text-black font-bold">
+          <p className="text-center mt-12 text-lg font-black uppercase tracking-widest text-[#03B390]">
             Meer vragen?{" "}
-            <Link
-              to="/faq"
-              className="underline hover:text-black transition-colors"
-            >
-              Bekijk de volledige FAQ
-            </Link>{" "}
-            of{" "}
-            <Link
-              to="/contact"
-              className="underline hover:text-black transition-colors"
-            >
-              neem contact op
-            </Link>
-            .
+            <Link to="/faq" className="underline hover:text-black transition-colors">Bekijk volledige FAQ</Link>
+            {" "}of{" "}
+            <Link to="/contact" className="underline hover:text-black transition-colors">Neem contact op</Link>
           </p>
         </div>
       </section>
@@ -586,85 +576,88 @@ export const LandingPage: FC = () => {
       {/* ══ PRIJZEN ══ */}
       <section
         aria-label="Prijzen en abonnementen"
-        className="w-full max-w-4xl mx-auto px-4 md:px-6 py-16 md:py-28"
+        className="w-full bg-white dark:bg-black py-24 md:py-32 border-t border-black/5"
       >
-        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 text-center">
-          Eerlijke prijs
-        </h2>
-        <p className="text-center text-xl md:text-2xl text-black dark:text-white/80 font-semibold mb-12 leading-relaxed">
-          Begin gratis. Betaal alleen als je meer wilt.
-        </p>
+        <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6">
+            EERLIJKE PRIJS
+          </h2>
+          <p className="text-xl md:text-2xl text-black/60 dark:text-white/60 font-bold mb-16 md:mb-24 leading-relaxed max-w-2xl mx-auto">
+            Geen verborgen kossten. Betaal voor wat je gebruikt. Start vandaag met twee gratis sessies.
+          </p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-          {PRICING.CREDITS.slice(0, 3).map((pkg) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {PRICING.CREDITS.slice(0, 3).map((pkg) => (
+              <button
+                key={pkg.count}
+                type="button"
+                onClick={() => window.open(pkg.stripeUrl, "_blank")}
+                className="flex flex-col items-center justify-center p-10 bg-white dark:bg-black border-2 border-black rounded-none hover:border-[#03B390] hover:shadow-[10px_10px_0_0_#03B390] hover:-translate-y-1 transition-all duration-300 group"
+              >
+                <div className="text-5xl font-black mb-2 text-black dark:text-white">{pkg.count}</div>
+                <div className="text-xs font-black uppercase tracking-[0.3em] text-[#03B390] mb-6">
+                  CREDITS
+                </div>
+                <div className="text-3xl font-black text-black dark:text-white">€{pkg.price}</div>
+              </button>
+            ))}
+
             <button
-              key={pkg.count}
               type="button"
-              onClick={() => window.open(pkg.stripeUrl, "_blank")}
-              className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black/10 dark:border-white/10 rounded-2xl hover:border-black hover:shadow-[6px_6px_0px_0_black] hover:-translate-y-0.5 transition-all text-black dark:text-white"
+              onClick={() => window.open(PRICING.SUBSCRIPTIONS[0].stripeUrl, "_blank")}
+              className="flex flex-col items-center justify-center p-10 bg-black text-white border-2 border-black rounded-none hover:shadow-[10px_10px_0_0_#03B390] hover:-translate-y-1 transition-all duration-300 relative group"
             >
-              <div className="text-3xl font-black mb-0.5">{pkg.count}</div>
-              <div className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
-                Credits
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#03B390] text-black text-xs font-black uppercase tracking-[0.2em] whitespace-nowrap">
+                Abonnement
               </div>
-              <div className="text-lg font-black">€{pkg.price}</div>
+              <div className="text-2xl font-black uppercase tracking-tighter mb-2 text-white">
+                {PRICING.SUBSCRIPTIONS[0].name}
+              </div>
+              <div className="text-xs font-black uppercase tracking-[0.3em] text-[#03B390] mb-6">
+                {PRICING.SUBSCRIPTIONS[0].creditsPerMonth} CREDITS/MO
+              </div>
+              <div className="text-3xl font-black text-white">€{PRICING.SUBSCRIPTIONS[0].price}</div>
+              <div className="text-sm font-black text-white/40 mt-2 uppercase tracking-widest">
+                per maand
+              </div>
             </button>
-          ))}
+          </div>
 
-          <button
-            type="button"
-            onClick={() => window.open(PRICING.SUBSCRIPTIONS[0].stripeUrl, "_blank")}
-            className="flex flex-col items-center justify-center p-5 bg-white dark:bg-zinc-900 border-2 border-black rounded-2xl hover:shadow-[6px_6px_0px_0px_black] hover:-translate-y-0.5 transition-all text-black dark:text-white relative"
-          >
-            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-black text-white text-sm font-black uppercase tracking-widest rounded-full whitespace-nowrap">
-              Abonnement
-            </div>
-            <div className="text-base font-black uppercase tracking-tight mb-0.5">
-              {PRICING.SUBSCRIPTIONS[0].name}
-            </div>
-            <div className="text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40 mb-3">
-              {PRICING.SUBSCRIPTIONS[0].creditsPerMonth} credits/mo
-            </div>
-            <div className="text-lg font-black">€{PRICING.SUBSCRIPTIONS[0].price}</div>
-            <div className="text-sm font-black text-black/30 dark:text-white/30 mt-0.5">
-              / maand
-            </div>
-          </button>
+          <p className="text-center text-sm font-black uppercase tracking-widest text-black/30">
+            <Link to="/tokens" className="inline-flex items-center gap-3 underline hover:text-[#03B390] transition-colors">
+              Bekijk alle pakketten
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </p>
         </div>
-
-        <p className="text-center text-sm text-black/30 dark:text-white/20 font-bold">
-          <Link
-            to="/tokens"
-            className="inline-flex items-center gap-1.5 underline hover:text-black transition-colors"
-          >
-            Bekijk alle pakketten
-            <ArrowRight className="w-3 h-3" />
-          </Link>
-        </p>
       </section>
 
       {/* ══ FINAL CTA ══ */}
       <section
         aria-label="Aan de slag met FAINL"
-        className="w-full max-w-3xl mx-auto px-4 md:px-6 py-20 md:py-32 flex flex-col items-center text-center"
+        className="w-full bg-white dark:bg-black py-32 md:py-48 flex flex-col items-center text-center border-t border-black/5"
       >
-        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.95] mb-6">
-          Klaar voor het scherpste AI-oordeel?
-        </h2>
-        <p className="text-xl md:text-2xl font-semibold text-black dark:text-white/80 mb-10 max-w-xl mx-auto leading-relaxed">
-          Stel jouw vraag. Laat de modellen strijden. Ontvang de waarheid.
-          Twee sessies gratis — geen account, geen creditcard.
-        </p>
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.8] mb-10">
+            Klaar voor de<br /><span className="text-[#03B390]">Waarheid?</span>
+          </h2>
+          <p className="text-xl md:text-3xl font-bold text-black/60 dark:text-white/60 mb-16 max-w-2xl mx-auto leading-tight italic">
+            "Stel je vraag. Laat de modellen strijden. Ontvang het enige antwoord dat telt."
+          </p>
 
-        <button
-          type="button"
-          onClick={() => navigate("/mission")}
-          className="inline-flex items-center gap-3 px-12 py-6 bg-black text-white font-black text-lg uppercase tracking-[0.2em] border-2 border-black hover:bg-zinc-800 transition-all group"
-        >
-          Start gratis sessie
-          <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
-        </button>
-
+          <button
+            type="button"
+            onClick={() => navigate("/mission")}
+            className="inline-flex items-center gap-4 px-16 py-8 bg-black text-white font-black text-xl uppercase tracking-[0.3em] border-4 border-black hover:bg-white hover:text-black transition-all duration-500 group shadow-[20px_20px_0_0_#03B390]"
+          >
+            Start Gratis Sessie
+            <ArrowRight className="w-8 h-8 transition-transform group-hover:translate-x-4" />
+          </button>
+          
+          <p className="mt-8 text-xs font-black uppercase tracking-[0.4em] text-black/20">
+            Twee sessies gratis — Geen creditcard vereist.
+          </p>
+        </div>
       </section>
     </>
   );

@@ -46,7 +46,7 @@ export const QuestionPage: FC = () => {
       {/* Breadcrumb / Back */}
       <Link
         to="/cookbook"
-        className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors mb-12"
+        className="inline-flex items-center gap-2 text-base font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors mb-12"
       >
         <ArrowLeft className="w-4 h-4" />
         Terug naar het Kookboek
@@ -55,10 +55,10 @@ export const QuestionPage: FC = () => {
       {/* Header Section */}
       <div className="mb-16 md:mb-24">
         <div className="flex items-center gap-3 mb-6">
-          <span className="px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-widest rounded-lg">
+          <span className="px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-widest rounded-lg">
             {directive.category}
           </span>
-          <span className="text-sm font-black text-black/20 dark:text-white/20 uppercase tracking-widest">
+          <span className="text-base font-black text-black/20 dark:text-white/20 uppercase tracking-widest">
             ID: {directive.id}
           </span>
         </div>
@@ -73,9 +73,9 @@ export const QuestionPage: FC = () => {
       </div>
 
       {/* Main Action Card */}
-      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-[16px_16px_0px_1px_rgba(255,255,255,0.05)] mb-16 md:mb-24 relative overflow-hidden group">
+      <div className="bg-white dark:bg-black border-4 border-black dark:border-[#03B390]/20 rounded-none p-8 md:p-16 shadow-[16px_16px_0px_0px_#03B390] mb-16 md:mb-24 relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-          <Zap className="w-32 h-32 text-black dark:text-white" />
+          <Zap className="w-32 h-32 text-black dark:text-[#03B390]" />
         </div>
 
         <div className="relative z-10">
@@ -84,26 +84,26 @@ export const QuestionPage: FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40">
+              <div className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/40 dark:text-white/40">
                 <Shield className="w-3.5 h-3.5" /> Veiligheid
               </div>
-              <p className="text-sm font-bold text-black dark:text-white uppercase">
+              <p className="text-base font-bold text-black dark:text-white uppercase">
                 100% Lokaal opgeslagen
               </p>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40">
+              <div className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/40 dark:text-white/40">
                 <Globe className="w-3.5 h-3.5" /> Intelligentie
               </div>
-              <p className="text-sm font-bold text-black dark:text-white uppercase">
+              <p className="text-base font-bold text-black dark:text-white uppercase">
                 Multi-Node Consensus
               </p>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/40 dark:text-white/40">
+              <div className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/40 dark:text-white/40">
                 <MessageSquare className="w-3.5 h-3.5" /> Resultaat
               </div>
-              <p className="text-sm font-bold text-black dark:text-white uppercase">
+              <p className="text-base font-bold text-black dark:text-white uppercase">
                 Gewogen Eindoordeel
               </p>
             </div>
@@ -115,7 +115,7 @@ export const QuestionPage: FC = () => {
               // For now, we'll navigate to /mission and rely on local storage or URL state
               navigate(`/mission?q=${encodeURIComponent(directive.query)}`);
             }}
-            className="w-full md:w-auto px-12 py-6 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:scale-105 active:scale-95 transition-all shadow-xl flex items-center justify-center gap-4"
+            className="w-full md:w-auto px-12 py-6 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-base hover:scale-105 active:scale-95 transition-all shadow-xl flex items-center justify-center gap-4"
           >
             <Play className="w-5 h-5 fill-current" />
             Start Protocol
@@ -129,7 +129,7 @@ export const QuestionPage: FC = () => {
           <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white">
             Waarom dit protocol?
           </h3>
-          <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">
+          <p className="text-base text-black/60 dark:text-white/50 leading-relaxed">
             Sommige vragen zijn te complex voor één AI. Dit specifieke protocol
             dwingt de verschillende modellen (zoals Gemini, GPT en Claude) om
             niet alleen een antwoord te geven, maar elkaars aannames te bevragen
@@ -140,7 +140,7 @@ export const QuestionPage: FC = () => {
           <h3 className="text-lg font-black uppercase tracking-widest text-black dark:text-white">
             Verwacht resultaat
           </h3>
-          <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">
+          <p className="text-base text-black/60 dark:text-white/50 leading-relaxed">
             Je ontvangt een 'Chairman's Verdict'. Dit is een synthese die de
             overeenkomsten tussen de AI's benadrukt, de belangrijkste nuances
             blootlegt en eventuele tegenstrijdigheden uitlegt.

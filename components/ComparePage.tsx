@@ -187,7 +187,7 @@ export const ComparePage: FC = () => {
 
       {/* ── Breadcrumb ── */}
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li>
             <button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">
               Home
@@ -202,7 +202,7 @@ export const ComparePage: FC = () => {
 
       {/* ── Hero ── */}
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Vergelijking 2026
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -219,7 +219,7 @@ export const ComparePage: FC = () => {
         <button
           type="button"
           onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
         >
           Probeer gratis — alle drie tegelijk
           <ArrowRight className="w-4 h-4" />
@@ -241,16 +241,16 @@ export const ComparePage: FC = () => {
                 <img src={model.logo} alt={model.name} className="w-7 h-7 object-contain shrink-0" />
                 <div>
                   <p className={`font-black text-lg leading-none ${model.headerText}`}>{model.name}</p>
-                  <p className={`text-sm font-bold uppercase tracking-widest opacity-60 ${model.headerText}`}>{model.maker}</p>
+                  <p className={`text-base font-bold uppercase tracking-widest opacity-60 ${model.headerText}`}>{model.maker}</p>
                 </div>
               </div>
               <div className="bg-white dark:bg-zinc-900 px-5 py-4">
-                <p className="text-sm text-black/50 dark:text-white/40 leading-relaxed mb-4 italic">"{model.tagline}"</p>
+                <p className="text-base text-black/50 dark:text-white/40 leading-relaxed mb-4 italic">"{model.tagline}"</p>
                 <div className="space-y-1.5 mb-3">
                   {model.strengths.map(s => (
                     <div key={s} className="flex items-start gap-2">
                       <CheckCircle className="w-3.5 h-3.5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
-                      <span className="text-sm text-black/80 dark:text-white/70 leading-snug">{s}</span>
+                      <span className="text-base text-black/80 dark:text-white/70 leading-snug">{s}</span>
                     </div>
                   ))}
                 </div>
@@ -258,7 +258,7 @@ export const ComparePage: FC = () => {
                   {model.weaknesses.map(w => (
                     <div key={w} className="flex items-start gap-2">
                       <XCircle className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
-                      <span className="text-sm text-black/40 dark:text-white/35 leading-snug">{w}</span>
+                      <span className="text-base text-black/40 dark:text-white/35 leading-snug">{w}</span>
                     </div>
                   ))}
                 </div>
@@ -274,13 +274,13 @@ export const ComparePage: FC = () => {
           Vergelijkingstabel
         </h2>
         <div className="overflow-x-auto rounded-2xl border-2 border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_1px_rgba(255,255,255,0.1)]">
-          <table className="w-full text-sm">
+          <table className="w-full text-base">
             <thead>
               <tr className="bg-black dark:bg-zinc-800">
-                <th className="text-left px-5 py-3.5 text-white text-sm font-black uppercase tracking-widest w-1/2">Criterium</th>
-                <th className="px-4 py-3.5 text-white text-sm font-black uppercase tracking-widest text-center">ChatGPT</th>
-                <th className="px-4 py-3.5 text-white text-sm font-black uppercase tracking-widest text-center">Gemini</th>
-                <th className="px-4 py-3.5 text-white text-sm font-black uppercase tracking-widest text-center">Claude</th>
+                <th className="text-left px-5 py-3.5 text-white text-base font-black uppercase tracking-widest w-1/2">Criterium</th>
+                <th className="px-4 py-3.5 text-white text-base font-black uppercase tracking-widest text-center">ChatGPT</th>
+                <th className="px-4 py-3.5 text-white text-base font-black uppercase tracking-widest text-center">Gemini</th>
+                <th className="px-4 py-3.5 text-white text-base font-black uppercase tracking-widest text-center">Claude</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/10 dark:divide-white/10 bg-white dark:bg-zinc-900">
@@ -295,7 +295,7 @@ export const ComparePage: FC = () => {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-sm text-black/35 dark:text-white/25 font-medium">
+        <p className="mt-3 text-base text-black/35 dark:text-white/25 font-medium">
           Scores gebaseerd op onafhankelijke benchmarks en gebruikerservaringen. Geen enkel model is altijd het beste — het hangt af van de vraag.
         </p>
       </section>
@@ -324,16 +324,16 @@ export const ComparePage: FC = () => {
               { step: '03', label: "Chairman's Verdict", desc: 'Eén gewogen eindoordeel met nuance' },
             ].map(item => (
               <div key={item.step} className="bg-white/10 dark:bg-black/10 rounded-xl p-4">
-                <p className="text-black font-black text-sm uppercase tracking-[0.3em] mb-1">{item.step}</p>
-                <p className="font-black text-sm uppercase tracking-tight text-white dark:text-black mb-1">{item.label}</p>
-                <p className="text-white/50 dark:text-black/40 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-black font-black text-base uppercase tracking-[0.3em] mb-1">{item.step}</p>
+                <p className="font-black text-base uppercase tracking-tight text-white dark:text-black mb-1">{item.label}</p>
+                <p className="text-white/50 dark:text-black/40 text-base leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
           <button
             type="button"
             onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"
           >
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />

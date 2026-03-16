@@ -120,7 +120,7 @@ export const BestAIToolPage: FC = () => {
       />
 
       <nav aria-label="Breadcrumb" className="max-w-4xl mx-auto px-5 sm:px-8 pt-6">
-        <ol className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+        <ol className="flex items-center gap-2 text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">
           <li><button type="button" onClick={() => navigate('/')} className="hover:text-black dark:hover:text-white transition-colors">Home</button></li>
           <li>/</li>
           <li className="text-black/60 dark:text-white/50">Vergelijk</li>
@@ -130,7 +130,7 @@ export const BestAIToolPage: FC = () => {
       </nav>
 
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-10 pb-14 md:pt-14 md:pb-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-[0.25em] rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-base font-black uppercase tracking-[0.25em] rounded-full mb-6">
           Vergelijking — Lokale SEO
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black uppercase tracking-tighter text-black dark:text-white leading-[1.05] mb-6">
@@ -143,7 +143,7 @@ export const BestAIToolPage: FC = () => {
           <strong className="text-black dark:text-white">FAINL combineert alle drie in één sessie voor het best haalbare antwoord.</strong>
         </p>
         <button type="button" onClick={() => navigate('/mission')}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+          className="inline-flex items-center gap-3 px-8 py-4 bg-black dark:bg-white text-white dark:text-black font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
           Probeer FAINL gratis
           <ArrowRight className="w-4 h-4" />
         </button>
@@ -162,35 +162,35 @@ export const BestAIToolPage: FC = () => {
               {tool.highlight && (
                 <div className="absolute -top-3 left-6 flex items-center gap-1.5 px-3 py-1 bg-black text-white rounded-full">
                   <Crown className="w-3 h-3 text-black" />
-                  <span className="text-sm font-black uppercase tracking-widest text-black">Aanbevolen</span>
+                  <span className="text-base font-black uppercase tracking-widest text-black">Aanbevolen</span>
                 </div>
               )}
               <h3 className={`font-black text-xl uppercase tracking-tight mb-1 ${tool.highlight ? 'text-black' : 'text-black dark:text-white'}`}>{tool.name}</h3>
-              <p className="text-sm text-black/50 dark:text-white/40 mb-4">{tool.tagline}</p>
+              <p className="text-base text-black/50 dark:text-white/40 mb-4">{tool.tagline}</p>
 
               <div className="space-y-1.5 mb-4">
                 {tool.pros.map(p => (
                   <div key={p} className="flex items-start gap-2">
                     <Check className="w-3.5 h-3.5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
-                    <span className="text-sm text-black/70 dark:text-white/60">{p}</span>
+                    <span className="text-base text-black/70 dark:text-white/60">{p}</span>
                   </div>
                 ))}
                 {tool.cons.map(c => (
                   <div key={c} className="flex items-start gap-2">
                     <X className="w-3.5 h-3.5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
-                    <span className="text-sm text-black/50 dark:text-white/40">{c}</span>
+                    <span className="text-base text-black/50 dark:text-white/40">{c}</span>
                   </div>
                 ))}
               </div>
 
               <div className="bg-black/5 dark:bg-white/5 rounded-xl px-4 py-3 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">Prijs</span>
-                  <span className="text-sm font-bold text-black dark:text-white">{tool.price}</span>
+                  <span className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">Prijs</span>
+                  <span className="text-base font-bold text-black dark:text-white">{tool.price}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">Beste voor</span>
-                  <span className="text-sm text-black/60 dark:text-white/50">{tool.best}</span>
+                  <span className="text-base font-black uppercase tracking-widest text-black/30 dark:text-white/30">Beste voor</span>
+                  <span className="text-base text-black/60 dark:text-white/50">{tool.best}</span>
                 </div>
               </div>
             </div>
@@ -201,19 +201,19 @@ export const BestAIToolPage: FC = () => {
       <section aria-label="Vergelijkingstabel" className="max-w-4xl mx-auto px-5 sm:px-8 pb-16">
         <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">Vergelijkingstabel</h2>
         <div className="overflow-x-auto rounded-2xl border-2 border-black dark:border-white/20">
-          <table className="w-full text-sm bg-white dark:bg-zinc-900">
+          <table className="w-full text-base bg-white dark:bg-zinc-900">
             <thead>
               <tr className="border-b-2 border-black dark:border-white/20">
-                <th className="text-left px-5 py-4 font-black uppercase tracking-tight text-sm text-black/50 dark:text-white/40">Eigenschap</th>
+                <th className="text-left px-5 py-4 font-black uppercase tracking-tight text-base text-black/50 dark:text-white/40">Eigenschap</th>
                 {['ChatGPT', 'Gemini', 'Claude', 'FAINL'].map(name => (
-                  <th key={name} className={`px-4 py-4 font-black uppercase tracking-tight text-sm text-center ${name === 'FAINL' ? 'text-black' : 'text-black dark:text-white'}`}>{name}</th>
+                  <th key={name} className={`px-4 py-4 font-black uppercase tracking-tight text-base text-center ${name === 'FAINL' ? 'text-black' : 'text-black dark:text-white'}`}>{name}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {CRITERIA.map((row, i) => (
                 <tr key={row.label} className={`border-b border-black/10 dark:border-white/10 last:border-0 ${i % 2 === 0 ? '' : 'bg-black/[0.02] dark:bg-white/[0.02]'}`}>
-                  <td className="px-5 py-3.5 text-sm font-medium text-black/70 dark:text-white/60">{row.label}</td>
+                  <td className="px-5 py-3.5 text-base font-medium text-black/70 dark:text-white/60">{row.label}</td>
                   {[row.chatgpt, row.gemini, row.claude, row.fainl].map((val, j) => (
                     <td key={j} className="px-4 py-3.5 text-center">
                       {val
@@ -240,7 +240,7 @@ export const BestAIToolPage: FC = () => {
             Gratis starten, geen account nodig.
           </p>
           <button type="button" onClick={() => navigate('/mission')}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-sm uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
+            className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-black text-base uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg">
             Start gratis — twee sessies, geen account nodig
             <ArrowRight className="w-4 h-4" />
           </button>

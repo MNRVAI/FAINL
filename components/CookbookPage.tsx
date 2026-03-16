@@ -101,7 +101,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
             {/* ── Hero ── */}
             <div className="mb-10 md:mb-14">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black text-white text-xs font-black uppercase tracking-widest rounded-full mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black text-white text-sm font-black uppercase tracking-widest rounded-full mb-4">
                     <Sparkles className="w-3.5 h-3.5" />
                     {language === 'nl' ? 'Voorbeeldvragen' : 'Example Questions'}
                 </div>
@@ -123,8 +123,8 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                     ].map((step, i, arr) => (
                         <div key={step.n} className="flex items-center gap-0">
                             <div className="flex items-center gap-2 px-3 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg">
-                                <span className="text-xs font-black text-black">{step.n}</span>
-                                <span className="text-xs font-black uppercase tracking-wide whitespace-nowrap">{step.label}</span>
+                                <span className="text-sm font-black text-black">{step.n}</span>
+                                <span className="text-sm font-black uppercase tracking-wide whitespace-nowrap">{step.label}</span>
                             </div>
                             {i < arr.length - 1 && (
                                 <ArrowRight className="w-4 h-4 text-black/20 dark:text-white/20 mx-1 shrink-0" />
@@ -182,7 +182,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                         key={cat}
                         type="button"
                         onClick={() => setActiveCategory(cat)}
-                        className={`shrink-0 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all whitespace-nowrap ${
+                        className={`shrink-0 px-4 py-2 rounded-full text-sm font-black uppercase tracking-wider border-2 transition-all whitespace-nowrap ${
                             activeCategory === cat
                                 ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white'
                                 : 'bg-white dark:bg-zinc-900 text-black/50 dark:text-white/50 border-black/15 dark:border-white/10 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white'
@@ -197,7 +197,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             </div>
 
             {/* ── Results count ── */}
-            <p className="text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-5">
+            <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30 mb-5">
                 {filteredDirectives.length} {language === 'nl' ? 'vragen' : 'questions'}
                 {totalPages > 1 && ` · pagina ${currentPage} van ${totalPages}`}
             </p>
@@ -212,7 +212,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
                     <button
                         type="button"
                         onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
-                        className="mt-4 text-xs font-black uppercase tracking-widest underline text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+                        className="mt-4 text-sm font-black uppercase tracking-widest underline text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
                     >
                         {language === 'nl' ? 'Filters wissen' : 'Clear filters'}
                     </button>
@@ -245,7 +245,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
                 return (
                     <div className="mt-10 flex flex-col items-center gap-4">
-                        <p className="text-xs font-black uppercase tracking-widest text-black/30 dark:text-white/30">
+                        <p className="text-sm font-black uppercase tracking-widest text-black/30 dark:text-white/30">
                             {language === 'nl' ? `Pagina ${currentPage} van ${totalPages}` : `Page ${currentPage} of ${totalPages}`}
                         </p>
                         <div className="flex items-center gap-2">
@@ -296,7 +296,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
             <div className="mt-20 p-10 md:p-16 bg-black dark:bg-zinc-900 text-white rounded-3xl text-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-transparent pointer-events-none" />
                 <div className="relative z-10 max-w-xl mx-auto space-y-5">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black text-white text-xs font-black uppercase tracking-widest rounded-full">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-black text-white text-sm font-black uppercase tracking-widest rounded-full">
                         <Sparkles className="w-3.5 h-3.5" />
                         {language === 'nl' ? 'Eigen vraag?' : 'Your own question?'}
                     </div>
@@ -340,7 +340,7 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
             {/* Card header */}
             <div className="flex items-center justify-between px-4 pt-4 pb-3 gap-2">
                 <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-[11px] font-bold text-black/40 dark:text-white/30 uppercase tracking-wide truncate">{directive.category}</span>
+                    <span className="text-[13px] font-bold text-black/40 dark:text-white/30 uppercase tracking-wide truncate">{directive.category}</span>
                 </div>
                 {/* Votes */}
                 <div className="flex items-center gap-1 shrink-0">
@@ -352,7 +352,7 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
                     >
                         <ChevronUp className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-xs font-black text-black/50 dark:text-white/50 min-w-[20px] text-center">{rating}</span>
+                    <span className="text-sm font-black text-black/50 dark:text-white/50 min-w-[20px] text-center">{rating}</span>
                     <button
                         type="button"
                         onClick={(e) => onVote(directive.id, -1, e)}
@@ -378,7 +378,7 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
 
             {/* Footer */}
             <div className="border-t-2 border-black/5 dark:border-white/5 flex items-center justify-between px-4 py-3 bg-zinc-50 dark:bg-zinc-800/40">
-                <div className="flex items-center gap-3 text-[11px] font-black text-black/30 dark:text-white/30 uppercase tracking-wide">
+                <div className="flex items-center gap-3 text-[13px] font-black text-black/30 dark:text-white/30 uppercase tracking-wide">
                     <span className="flex items-center gap-1">
                         <Layers className="w-3 h-3" /> {directive.nodesNeeded} nodes
                     </span>
@@ -389,7 +389,7 @@ const DirectiveCard: FC<DirectiveCardProps> = ({ directive, localRating, userVot
                 <button
                     type="button"
                     onClick={onSelect}
-                    className="flex items-center gap-1.5 px-3.5 py-2 bg-black dark:bg-white text-white dark:text-black text-xs font-black uppercase tracking-wider rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all group-hover:gap-2.5"
+                    className="flex items-center gap-1.5 px-3.5 py-2 bg-black dark:bg-white text-white dark:text-black text-sm font-black uppercase tracking-wider rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all group-hover:gap-2.5"
                 >
                     {language === 'nl' ? 'Probeer dit' : 'Try this'} <ArrowRight className="w-3 h-3" />
                 </button>

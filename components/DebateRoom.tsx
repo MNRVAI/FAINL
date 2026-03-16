@@ -422,14 +422,14 @@ export const DebateRoom: FC<DebateRoomProps> = ({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/85 backdrop-blur-xl">
-      <div className="w-full max-w-3xl h-[100dvh] sm:h-[92vh] bg-[#f5f4f0] dark:bg-zinc-950 border-0 sm:border-4 border-black dark:border-white/20 sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl">
+      <div className="w-full max-w-3xl h-[100dvh] sm:h-[92vh] bg-white dark:bg-black border-0 sm:border-4 border-black dark:border-[#03B390]/40 sm:rounded-none flex flex-col overflow-hidden shadow-2xl">
 
         {/* ── Header ─────────────────────────────────────────────── */}
-        <div className="bg-black dark:bg-zinc-900 border-b-2 dark:border-white/10 text-white px-5 py-3.5 flex items-center gap-3 shrink-0">
-          <Zap className="w-4 h-4 shrink-0 opacity-70" />
+        <div className="bg-black border-b-2 border-[#03B390]/20 text-white px-5 py-4 flex items-center gap-3 shrink-0">
+          <Zap className="w-4 h-4 shrink-0 text-[#03B390] animate-pulse" />
           <div className="flex-1 min-w-0">
-            <p className="font-black text-sm uppercase tracking-[0.35em] text-white/40">Live Debat</p>
-            <p className="font-serif italic text-sm truncate text-white/80 leading-tight">"{session.query}"</p>
+            <p className="font-black text-sm uppercase tracking-[0.35em] text-[#03B390]">Live Debat</p>
+            <p className="font-serif italic text-base truncate text-white/80 leading-tight">"{session.query}"</p>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
             {phase === 'live' && (
@@ -444,8 +444,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 <button type="button" onClick={togglePause} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors" title={isPaused ? 'Hervatten' : 'Pauzeren'}>
                   {isPaused ? <Play className="w-4 h-4 text-green-400" /> : <Pause className="w-4 h-4" />}
                 </button>
-                <button type="button" onClick={handleEnd} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-400 text-white font-black text-sm uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
-                  <Gavel className="w-3 h-3" /> Oordeel
+                <button type="button" onClick={handleEnd} className="flex items-center gap-1.5 px-4 py-2 bg-green-500 hover:bg-green-400 text-white font-black text-base uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
+                  <Gavel className="w-4 h-4" /> Oordeel
                 </button>
               </>
             )}
@@ -461,27 +461,27 @@ export const DebateRoom: FC<DebateRoomProps> = ({
             <div className="text-center">
               <Timer className="w-10 h-10 mx-auto mb-4 text-black dark:text-white opacity-60" />
               <h2 className="text-2xl font-black uppercase tracking-tighter text-black dark:text-white">Hoe lang?</h2>
-              <p className="text-sm text-black/40 dark:text-white/40 mt-1">Je kunt het debat altijd vroegtijdig beëindigen.</p>
+              <p className="text-base text-black/40 dark:text-white/40 mt-1">Je kunt het debat altijd vroegtijdig beëindigen.</p>
             </div>
             <div className="grid grid-cols-4 gap-3 w-full max-w-sm">
               {DURATION_OPTIONS.map(opt => (
                 <button type="button" key={opt.label} onClick={() => setDuration(opt.seconds)}
-                  className={`py-5 rounded-2xl border-4 font-black text-base uppercase transition-all ${
+                  className={`py-5 rounded-none border-4 font-black text-base uppercase transition-all ${
                     duration === opt.seconds
-                      ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white scale-105'
-                      : 'bg-white dark:bg-zinc-900 text-black dark:text-white border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white'
+                      ? 'bg-black text-white border-black scale-105 shadow-[6px_6px_0_0_#03B390]'
+                      : 'bg-white text-black border-black/10 hover:border-[#03B390] hover:text-[#03B390]'
                   }`}>
                   {opt.label}
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-black/25 dark:text-white/25">
+            <div className="flex items-center gap-2 text-base font-bold uppercase tracking-widest text-black/25 dark:text-white/25">
               <span>{readyMembers.length} deelnemers</span>
               <span>·</span>
               <span>{nlVoiceCount > 0 ? `${nlVoiceCount} Nederlandse stemmen` : 'Standaard stemmen'}</span>
             </div>
             <button type="button" onClick={handleStart}
-              className="px-14 py-4 bg-black dark:bg-white text-white dark:text-black font-black uppercase tracking-[0.3em] text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,0.12)]">
+              className="px-14 py-4 bg-black text-white font-black uppercase tracking-[0.3em] text-base rounded-none border-4 border-black hover:bg-[#03B390] hover:text-black transition-all shadow-[10px_10px_0_0_#03B390]">
               Debat starten
             </button>
           </div>
@@ -490,10 +490,9 @@ export const DebateRoom: FC<DebateRoomProps> = ({
         {/* ── Chat ──────────────────────────────────────────────── */}
         {phase === 'live' && (
           <>
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-zinc-50 dark:bg-zinc-900">
-
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-white dark:bg-black">
               {isPaused && (
-                <div className="sticky top-0 text-center py-1.5 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg text-sm font-black uppercase tracking-[0.3em] text-amber-600 dark:text-amber-400">
+                <div className="sticky top-0 text-center py-2 bg-[#03B390] border-2 border-black rounded-none text-base font-black uppercase tracking-[0.3em] text-black shadow-[6px_6px_0_0_black]">
                   ⏸ Gepauzeerd — hervat of typ hieronder
                 </div>
               )}
@@ -512,14 +511,14 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                         : <img src={member?.avatar} alt={member?.name ?? ''} className="w-full h-full object-cover" />}
                     </div>
                     <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} max-w-[80%]`}>
-                      <span className="text-sm font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
+                      <span className="text-base font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {isUser ? 'Jij' : member?.name}
                       </span>
                       <div
-                        className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                        className={`px-4 py-3 rounded-none text-base leading-relaxed ${
                           isUser
-                            ? 'bg-black dark:bg-white text-white dark:text-black rounded-br-sm shadow-md'
-                            : `bg-white dark:bg-zinc-800 text-black dark:text-white rounded-bl-sm border-l-4 ${accent} cursor-pointer hover:brightness-95 dark:hover:brightness-110 transition-all shadow-sm`
+                            ? 'bg-black text-white border-2 border-black shadow-[4px_4px_0_0_#03B390]'
+                            : `bg-white dark:bg-black text-black dark:text-white border-2 border-black border-l-4 ${accent} cursor-pointer hover:shadow-[4px_4px_0_0_#03B390] transition-all shadow-sm`
                         }`}
                         onClick={() => !isUser && setUserInput(prev => `${prev}> ${member?.name}: "${msg.content.substring(0, 60)}..."\n\n`)}
                         title={!isUser ? 'Klik om te citeren' : ''}
@@ -540,11 +539,11 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                   </div>
                   <div className="flex flex-col items-start max-w-[80%]">
                     {generatingSpeaker && (
-                      <span className="text-sm font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
+                      <span className="text-base font-black uppercase tracking-widest text-black/25 dark:text-white/25 mb-0.5 px-0.5">
                         {generatingSpeaker.name}
                       </span>
                     )}
-                    <div className="px-4 py-2.5 rounded-2xl rounded-bl-sm bg-white dark:bg-zinc-800 border-l-4 border-l-zinc-300 dark:border-l-zinc-500 shadow-sm text-sm leading-relaxed text-black dark:text-white min-h-[2.5rem]">
+                    <div className="px-4 py-3 rounded-none bg-white dark:bg-black border-2 border-black border-l-4 border-l-[#03B390] shadow-[4px_4px_0_0_#03B390]/20 text-base leading-relaxed text-black dark:text-white min-h-[2.5rem]">
                       {streamingText ? (
                         <span>{streamingText}<span className="inline-block w-0.5 h-4 bg-zinc-400 animate-pulse ml-0.5 align-middle" /></span>
                       ) : (
@@ -563,15 +562,15 @@ export const DebateRoom: FC<DebateRoomProps> = ({
 
               {messages.length === 0 && !isGenerating && (
                 <div className="text-center py-12 text-black/20 dark:text-white/20">
-                  <p className="font-black text-sm uppercase tracking-widest animate-pulse">Deelnemers formuleren hun openingsstandpunt...</p>
+                  <p className="font-black text-base uppercase tracking-widest animate-pulse">Deelnemers formuleren hun openingsstandpunt...</p>
                 </div>
               )}
             </div>
 
             {/* ── Invoerbalk ─────────────────────────────────────── */}
-            <div className="bg-white dark:bg-zinc-950 border-t-2 border-black/10 dark:border-zinc-800 px-3 py-2.5 flex gap-2 items-center shrink-0">
+            <div className="bg-white dark:bg-black border-t-2 border-black px-3 py-4 flex gap-2 items-center shrink-0">
               <button type="button" onClick={toggleMic}
-                className={`p-2.5 rounded-xl border-2 transition-all shrink-0 ${micActive ? 'bg-red-500 border-red-500 text-white shadow-[0_0_16px_rgba(239,68,68,0.5)] animate-pulse' : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-black/40 dark:text-white/40 hover:border-black dark:hover:border-white'}`}
+                className={`p-2.5 rounded-none border-2 border-black transition-all shrink-0 ${micActive ? 'bg-[#03B390] text-black shadow-[0_0_16px_#03B390] animate-pulse' : 'bg-white text-black hover:bg-[#03B390] shadow-[4px_4px_0_0_black]'}`}
                 title={micActive ? 'Stop opname' : 'Spreek in'}>
                 {micActive ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
               </button>
@@ -579,15 +578,15 @@ export const DebateRoom: FC<DebateRoomProps> = ({
               <input type="text" value={userInput}
                 onChange={e => setUserInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-                placeholder="Doe mee — zeg wat je denkt..."
-                className="flex-1 bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 focus:border-black dark:focus:border-white outline-none transition-all" />
+                placeholder="Doe mee — zeg what je denkt..."
+                className="flex-1 bg-white dark:bg-black border-2 border-black rounded-none px-4 py-2.5 text-base font-black text-black dark:text-white placeholder:text-black/20 focus:shadow-[4px_4px_0_0_#03B390] outline-none transition-all" />
 
               <button type="button" onClick={handleSend} disabled={!userInput.trim()} title="Verstuur bericht"
-                className="p-2.5 rounded-xl bg-black dark:bg-white text-white dark:text-black hover:opacity-80 disabled:opacity-20 transition-all shrink-0">
+                className="p-2.5 rounded-none bg-black text-white border-2 border-black hover:bg-[#03B390] hover:text-black disabled:opacity-20 transition-all shrink-0 shadow-[4px_4px_0_0_black]">
                 <Send className="w-4 h-4" />
               </button>
               <button type="button" onClick={handleEnd}
-                className="p-2.5 rounded-xl bg-green-500 hover:bg-green-400 text-white transition-all shrink-0" title="Beëindigen en samenvatten">
+                className="p-2.5 rounded-none bg-green-500 hover:bg-green-400 text-white border-2 border-black transition-all shrink-0 shadow-[4px_4px_0_0_black]" title="Beëindigen en samenvatten">
                 <StopCircle className="w-4 h-4" />
               </button>
             </div>
