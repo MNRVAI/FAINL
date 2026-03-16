@@ -45,8 +45,9 @@ const PrivacyPolicyPage = lazy(() => import("./components/PrivacyPolicyPage").th
 const TermsOfServicePage = lazy(() => import("./components/TermsOfServicePage").then(m => ({ default: m.TermsOfServicePage })));
 const AiTermsPage = lazy(() => import("./components/AiTermsPage").then(m => ({ default: m.AiTermsPage })));
 const CookieDeclarationPage = lazy(() => import("./components/CookieDeclarationPage").then(m => ({ default: m.CookieDeclarationPage })));
-const DebateRoom = lazy(() => import("./components/DebateRoom").then(m => ({ default: m.DebateRoom })));
-const ComparePage = lazy(() => import("./components/ComparePage").then(m => ({ default: m.ComparePage })));
+import { DebateRoom } from "./components/DebateRoom";
+import { CompositionStage } from "./components/CompositionStage";
+import { ComparePage } from "./components/ComparePage";
 const BestAIToolPage = lazy(() => import("./components/BestAIToolPage").then(m => ({ default: m.BestAIToolPage })));
 const UseCaseLegalPage = lazy(() => import("./components/UseCaseLegalPage").then(m => ({ default: m.UseCaseLegalPage })));
 const UseCaseMarketingPage = lazy(() => import("./components/UseCaseMarketingPage").then(m => ({ default: m.UseCaseMarketingPage })));
@@ -539,8 +540,17 @@ const App: FC = () => {
     startSession(pendingQueryRef.current);
   };
 
+  const handleCompose = async (composedText: string) => {
+    setSession((prev: SessionState) => ({ 
+      ...prev, 
+      userComposedResponse: composedText,
+      stage: WorkflowStage.SYNTHESIZING 
+    }));
+    await runSynthesis(session.query, session.councilResponses, session.debateMessages, composedText);
+  };
+
   // Single synthesis entry point — used by both "Get Verdict" and "After Debate"
-  const runSynthesis = async (query: string, responses: CouncilResponse[], debateMsgs: import('./types').DebateMessage[]) => {
+  const runSynthesis = async (query: string, responses: CouncilResponse[], debateMsgs: import('./types').DebateMessage[], userComposed?: string) => {
     const readyForSynth = councilService.current.getReadyMembers(config.activeCouncil);
     const membersForSynth = readyForSynth.length > 0 ? readyForSynth : config.activeCouncil;
     setSession((prev: SessionState) => ({ ...prev, stage: WorkflowStage.SYNTHESIZING, synthesis: '' }));
@@ -559,7 +569,8 @@ const App: FC = () => {
             ...prev,
             synthesis: (prev.synthesis || '') + chunk
           }));
-        }
+        },
+        userComposed
       );
       setSession((prev: SessionState) => {
         const completedSession = { ...prev, synthesis, stage: WorkflowStage.COMPLETED, timestamp: Date.now() };
@@ -588,8 +599,7 @@ const App: FC = () => {
 
   const handleEndDebate = async (debateMessages: import('./types').DebateMessage[]) => {
     setIsDebateOpen(false);
-    setSession((prev: SessionState) => ({ ...prev, debateMessages }));
-    await runSynthesis(session.query, session.councilResponses, debateMessages);
+    setSession((prev: SessionState) => ({ ...prev, debateMessages, stage: WorkflowStage.COMPOSITION }));
   };
 
   const handleAddDebateMessage = (msg: import('./types').DebateMessage) => {
@@ -1000,7 +1010,7 @@ const App: FC = () => {
                               {/* Primary: Verdict */}
                                <button
                                  type="button"
-                                 onClick={() => runSynthesis(session.query, session.councilResponses, [])}
+                                 onClick={() => setSession(prev => ({ ...prev, stage: WorkflowStage.COMPOSITION }))}
                                  className="flex flex-col items-center gap-4 px-8 py-10 bg-black text-white font-black rounded-none transition-all hover:bg-[#004f57] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_#004f57] border-4 border-black"
                                >
                                 <Gavel className="w-10 h-10" />
@@ -1025,6 +1035,13 @@ const App: FC = () => {
                             </div>
                           </div>
                         )}
+                         {session.stage === WorkflowStage.COMPOSITION && (
+                           <CompositionStage
+                             responses={session.councilResponses}
+                             members={config.activeCouncil}
+                             onCompose={handleCompose}
+                           />
+                         )}
 
                         {/* Victor's verdict — rendered BELOW the council cards so it appears naturally as user scrolls */}
                          {(session.stage === WorkflowStage.SYNTHESIZING ||
