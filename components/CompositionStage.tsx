@@ -112,7 +112,7 @@ const DraggableSourceCard: FC<{
           {member.name}
         </span>
         {isAdded ? (
-          <span className="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-[var(--color-accent)] shrink-0">
+          <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] shrink-0">
             <CheckIcon className="w-2.5 h-2.5" />
             op canvas
           </span>
@@ -122,7 +122,7 @@ const DraggableSourceCard: FC<{
             title={`${item.category} van ${member.name} toevoegen`}
             onPointerDown={e => e.stopPropagation()}
             onClick={e => { e.stopPropagation(); onAdd(); }}
-            className="opacity-0 group-hover:opacity-100 transition-opacity bg-[var(--color-accent)] text-white p-1 shrink-0 hover:scale-110"
+            className="opacity-60 group-hover:opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity bg-[var(--color-accent)] text-white p-1 shrink-0 hover:scale-110 active:scale-95"
           >
             <Plus className="w-3 h-3" />
           </button>
@@ -409,11 +409,11 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
           {/* ── Source Panel ──────────────────────────────────────── */}
           <aside className="flex flex-col border-2 border-black dark:border-white/20 overflow-hidden">
             <div className="px-4 py-3 bg-black dark:bg-zinc-900 flex items-center justify-between">
-              <span className="text-[9px] font-black uppercase tracking-[0.25em] text-white/60">
-                Beschikbare Compartimenten
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60">
+                Compartimenten
               </span>
-              <span className="text-[9px] font-black text-[var(--color-accent)]">
-                {sourceItems.length} totaal
+              <span className="text-[11px] font-black text-[var(--color-accent)]">
+                {sourceItems.length} beschikbaar
               </span>
             </div>
 
@@ -428,20 +428,17 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
                     type="button"
                     key={cat}
                     onClick={() => setActiveTab(cat)}
-                    className={`flex-1 py-2.5 relative border-b-2 -mb-0.5 transition-all ${
+                    className={`flex-1 py-3 relative border-b-2 -mb-0.5 transition-all ${
                       isActive
                         ? `${CAT_BORDER_B[cat] ?? 'border-b-[var(--color-accent)]'} ${CAT_TEXT[cat] ?? 'text-[var(--color-accent)]'}`
-                        : 'border-b-transparent text-black/35 dark:text-white/35 hover:text-black dark:hover:text-white'
+                        : 'border-b-transparent text-black/40 dark:text-white/35 hover:text-black dark:hover:text-white'
                     }`}
                   >
-                    <span className="text-[8px] font-black uppercase tracking-widest block">{cat}</span>
-                    {added > 0 && (
-                      <span className={`absolute top-1 right-1 w-3.5 h-3.5 rounded-full text-[7px] font-black text-white flex items-center justify-center ${CAT_BG[cat] ?? 'bg-[var(--color-accent)]'}`}>
-                        {added}
-                      </span>
-                    )}
-                    {!isActive && (
-                      <span className="text-[7px] text-black/20 dark:text-white/20 block">{total}</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider block leading-tight">{cat}</span>
+                    {added > 0 ? (
+                      <span className={`text-[9px] font-black block mt-0.5 ${CAT_TEXT[cat] ?? 'text-[var(--color-accent)]'}`}>{added}/{total}</span>
+                    ) : (
+                      <span className="text-[9px] text-black/25 dark:text-white/20 block mt-0.5">{total}</span>
                     )}
                   </button>
                 );
@@ -449,7 +446,7 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
             </div>
 
             {/* Source cards */}
-            <div className="flex flex-col gap-2.5 p-3 max-h-[520px] overflow-y-auto bg-white dark:bg-zinc-900/50">
+            <div className="flex flex-col gap-2.5 p-3 max-h-[40vh] lg:max-h-[520px] overflow-y-auto bg-white dark:bg-zinc-900/50">
               {tabItems.length === 0 ? (
                 <div className="text-center py-10 text-[10px] text-black/25 dark:text-white/25 font-black uppercase tracking-widest">
                   Geen {activeTab} compartimenten
@@ -489,8 +486,8 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
 
             {/* Toolbar */}
             <div className="flex items-center justify-between min-h-6">
-              <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/35 dark:text-white/35">
-                Jouw Canvas · {canvasItems.length} compartiment{canvasItems.length !== 1 ? 'en' : ''}
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/35">
+                Canvas · {canvasItems.length} compartiment{canvasItems.length !== 1 ? 'en' : ''}
               </span>
 
               {canvasItems.length > 0 && (
@@ -498,27 +495,27 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
                   <button
                     type="button"
                     onClick={() => setShowPreview(p => !p)}
-                    className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-black/35 dark:text-white/35 hover:text-[var(--color-accent)] transition-colors"
+                    className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-black/40 dark:text-white/35 hover:text-[var(--color-accent)] transition-colors"
                   >
-                    {showPreview ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                    {showPreview ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     {showPreview ? 'Verberg' : 'Preview'}
                   </button>
                   <button
                     type="button"
                     onClick={handleCopy}
-                    className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-black/35 dark:text-white/35 hover:text-[var(--color-accent)] transition-colors"
+                    className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-black/40 dark:text-white/35 hover:text-[var(--color-accent)] transition-colors"
                   >
                     {copied
-                      ? <CheckIcon className="w-3 h-3 text-green-500" />
-                      : <Copy className="w-3 h-3" />}
+                      ? <CheckIcon className="w-3.5 h-3.5 text-green-500" />
+                      : <Copy className="w-3.5 h-3.5" />}
                     {copied ? 'Gekopieerd!' : 'Kopieer'}
                   </button>
                   <button
                     type="button"
                     onClick={() => setCanvasItems([])}
-                    className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-black/25 dark:text-white/25 hover:text-red-500 transition-colors"
+                    className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-black/25 dark:text-white/25 hover:text-red-500 transition-colors"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                     Reset
                   </button>
                 </div>

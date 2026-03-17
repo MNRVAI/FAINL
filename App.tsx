@@ -890,7 +890,7 @@ const App: FC = () => {
                       <div className="relative bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl p-6 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] focus-within:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:focus-within:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] md:focus-within:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] dark:md:focus-within:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] transition-all">
                         <div className="relative w-full min-h-[200px] md:min-h-[350px]">
                           {!input && !isInputFocused && (
-                            <div className="absolute top-0 left-0 pointer-events-none text-xl sm:text-2xl md:text-4xl font-black text-black/20 dark:text-white/20 font-serif italic">
+                            <div className="absolute top-0 left-0 pointer-events-none text-xl sm:text-2xl md:text-4xl font-black text-black/20 dark:text-white/20">
                               <FadingPlaceholder isFocused={isInputFocused} examples={[
                                 "Moet ik van baan wisselen?",
                                 "Is kernenergie de oplossing?",
@@ -937,20 +937,26 @@ const App: FC = () => {
 
                         {/* Processing progress indicator */}
                         {session.stage === WorkflowStage.PROCESSING_COUNCIL && (
-                          <div className="flex items-center justify-center gap-3 -mt-4">
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white animate-bounce [animation-delay:0ms]" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white animate-bounce [animation-delay:150ms]" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white animate-bounce [animation-delay:300ms]" />
+                          <div className="flex flex-col items-center gap-3 -mt-2">
+                            <div className="flex items-center gap-2">
+                              {config.activeCouncil.map((member, i) => {
+                                const done = session.councilResponses.some(r => r.memberId === member.id);
+                                const delayClass = i === 0 ? '[animation-delay:0ms]' : i === 1 ? '[animation-delay:150ms]' : '[animation-delay:300ms]';
+                                return (
+                                  <div key={member.id} className="flex items-center gap-1.5">
+                                    <div className={`w-2 h-2 rounded-full transition-all duration-500 ${done ? 'bg-[var(--color-accent)] scale-125' : `bg-black/20 dark:bg-white/20 animate-pulse ${delayClass}`}`} />
+                                  </div>
+                                );
+                              })}
                             </div>
-                            <span className="text-xs font-black uppercase tracking-widest text-black dark:text-white/30">
-                              De raad analyseert — {session.councilResponses.length} van {config.activeCouncil.length} klaar
+                            <span className="text-[11px] font-black uppercase tracking-[0.25em] text-black/40 dark:text-white/30">
+                              {session.councilResponses.length} van {config.activeCouncil.length} analyses klaar
                             </span>
                           </div>
                         )}
 
                         {/* Council node cards */}
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                           {config.activeCouncil.map((member) => (
                             <CouncilCard
                               key={member.id}
@@ -972,35 +978,35 @@ const App: FC = () => {
 
                         {/* Debate or Verdict choice — shown after all nodes have responded */}
                          {session.stage === WorkflowStage.DEBATE && (
-                           <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] p-10 md:p-16 rounded-none animate-in fade-in duration-500 shadow-[15px_15px_0_0_var(--color-accent)]">
+                           <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] p-6 md:p-10 rounded-none animate-in fade-in duration-500 shadow-[8px_8px_0_0_var(--color-accent)]">
                             {/* Status badge */}
-                            <div className="flex justify-center mb-8">
-                              <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-[var(--color-accent)] border-4 border-black rounded-none">
-                                <CircleCheck className="w-5 h-5 text-black" />
-                                <span className="text-base font-black uppercase tracking-widest text-black">
-                                  Alle analyses zijn klaar
+                            <div className="flex justify-center mb-6">
+                              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-accent)] border-2 border-black rounded-none">
+                                <CircleCheck className="w-4 h-4 text-black shrink-0" />
+                                <span className="text-sm font-black uppercase tracking-widest text-black">
+                                  Alle {config.activeCouncil.length} analyses klaar
                                 </span>
                               </div>
                             </div>
 
-                            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-center mb-4 text-black dark:text-white">
+                            <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-center mb-3 text-black dark:text-white">
                               Wat wil je nu doen?
                             </h3>
-                            <p className="text-xl text-black dark:text-white/60 font-bold text-center mb-12 max-w-xl mx-auto">
-                              Laat Victor direct zijn oordeel vellen — of laat de AI's eerst met elkaar in debat gaan voor diepere inzichten.
+                            <p className="text-base text-black/60 dark:text-white/50 font-bold text-center mb-8 max-w-lg mx-auto leading-snug">
+                              Laat Victor direct oordelen — of stuur de AI's eerst het debat in voor diepere inzichten.
                             </p>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
                               {/* Primary: Verdict */}
                                <button
                                  type="button"
                                  onClick={() => setSession(prev => ({ ...prev, stage: WorkflowStage.COMPOSITION }))}
-                                 className="flex flex-col items-center gap-4 px-8 py-10 bg-black text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_var(--color-accent)] border-4 border-black"
+                                 className="flex flex-col items-center gap-3 px-6 py-8 bg-black text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-[1.02] active:scale-95 shadow-[6px_6px_0_0_var(--color-accent)] border-4 border-black"
                                >
-                                <Gavel className="w-10 h-10" />
+                                <Gavel className="w-8 h-8" />
                                 <div className="text-center">
-                                  <p className="text-xl uppercase tracking-widest font-black">Eindoordeel</p>
-                                  <p className="text-base opacity-70 mt-2 font-bold leading-tight">Victor geeft het definitieve oordeel</p>
+                                  <p className="text-base uppercase tracking-widest font-black">Eindoordeel</p>
+                                  <p className="text-xs opacity-60 mt-1 font-bold leading-tight">Victor velt het definitieve oordeel</p>
                                 </div>
                               </button>
 
@@ -1008,12 +1014,12 @@ const App: FC = () => {
                               <button
                                 type="button"
                                 onClick={() => setIsDebateOpen(true)}
-                                className="flex flex-col items-center gap-4 px-8 py-10 bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] text-black dark:text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-105 active:scale-95 shadow-[8px_8px_0_0_black] dark:shadow-[8px_8px_0_0_var(--color-accent)]"
+                                className="flex flex-col items-center gap-3 px-6 py-8 bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] text-black dark:text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-[1.02] active:scale-95 shadow-[6px_6px_0_0_black] dark:shadow-[6px_6px_0_0_var(--color-accent)]"
                               >
-                                <Swords className="w-10 h-10" />
+                                <Swords className="w-8 h-8" />
                                 <div className="text-center">
-                                  <p className="text-xl uppercase tracking-widest font-black">Live Debat</p>
-                                  <p className="text-base opacity-70 mt-2 font-bold leading-tight">Laat de AI's met elkaar in discussie gaan</p>
+                                  <p className="text-base uppercase tracking-widest font-black">Live Debat</p>
+                                  <p className="text-xs opacity-60 mt-1 font-bold leading-tight">Laat de AI's met elkaar in discussie gaan</p>
                                 </div>
                               </button>
                             </div>
