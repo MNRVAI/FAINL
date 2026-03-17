@@ -70,22 +70,22 @@ export const PricingPage: FC<PricingPageProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 items-start">
           {PRICING.CREDITS.map((pkg, idx) => (
-            <div key={idx} className="card-fainl bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-8 shadow-[12px_12px_0_0_var(--color-accent)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-              <div className="bg-black text-[var(--color-accent)] text-lg font-black px-4 py-2 uppercase tracking-widest inline-block mb-6">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
-              <div className="text-6xl font-black text-black dark:text-white mb-2">€{pkg.price}</div>
-              <p className="text-xl font-bold text-black dark:text-white/40 mb-8 lowercase tracking-widest">Multi-AI analyse.</p>
+            <div key={idx} className="card-fainl bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-5 shadow-[8px_8px_0_0_var(--color-accent)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+              <div className="bg-black text-[var(--color-accent)] text-sm font-black px-3 py-1.5 uppercase tracking-widest inline-block mb-3">{pkg.count} {pkg.count === 1 ? 'CREDIT' : 'CREDITS'}</div>
+              <div className="text-4xl xl:text-5xl font-black text-black dark:text-white mb-1">€{pkg.price}</div>
+              <p className="text-sm font-bold text-black dark:text-white/40 mb-4 lowercase tracking-widest">Multi-AI analyse.</p>
 
-              <ul className="space-y-4 mb-10">
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Standaard</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{pkg.count} {pkg.count === 1 ? 'credit = één vraag' : `credits = ${pkg.count} vragen`}</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Complete analyse</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Multi AI inzet</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
+              <ul className="space-y-2 mb-5">
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>Standaard</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>{pkg.count} {pkg.count === 1 ? 'credit = één vraag' : `credits = ${pkg.count} vragen`}</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>Complete analyse</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>Multi AI inzet</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>Opslaan &amp; delen</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-white hover:bg-[var(--color-accent)] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[10px_10px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-black text-white hover:bg-[var(--color-accent)] hover:text-black p-3 font-black text-sm uppercase tracking-widest transition-all border-4 border-black shadow-[6px_6px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
                 {language === 'nl' ? `Koop ${pkg.count}` : `Buy ${pkg.count}`}
               </button>
             </div>
@@ -116,29 +116,29 @@ export const PricingPage: FC<PricingPageProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl items-start">
           {PRICING.SUBSCRIPTIONS.map((pkg, idx) => (
-            <div key={idx} className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-8 shadow-[12px_12px_0_0_var(--color-accent)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex flex-col">
-              <div className="bg-black text-[var(--color-accent)] text-lg font-black px-4 py-2 uppercase tracking-widest inline-block mb-6">{pkg.label}</div>
-              <div className="text-6xl font-black text-black dark:text-white mb-2">
+            <div key={idx} className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-5 shadow-[8px_8px_0_0_var(--color-accent)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+              <div className="bg-black text-[var(--color-accent)] text-sm font-black px-3 py-1.5 uppercase tracking-widest inline-block mb-3">{pkg.label}</div>
+              <div className="text-4xl xl:text-5xl font-black text-black dark:text-white mb-1">
                 €{pkg.price}
-                <span className="text-xl font-bold lowercase text-black/40 dark:text-white/40 ml-2">/{pkg.period}</span>
+                <span className="text-base font-bold lowercase text-black/40 dark:text-white/40 ml-2">/{pkg.period}</span>
               </div>
 
-              <ul className="space-y-3 mb-8 mt-6 flex-1">
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-[var(--color-accent)]"><CheckIcon /> <span>{language === 'nl' ? 'Onbeperkt archief' : 'Unlimited archive'}</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Multi AI inzet</span></li>
-                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
+              <ul className="space-y-2 mb-5 mt-4">
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-[var(--color-accent)]"><CheckIcon /> <span>{language === 'nl' ? 'Onbeperkt archief' : 'Unlimited archive'}</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>Multi AI inzet</span></li>
+                <li className="flex items-center gap-2 text-sm font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
               <a
                 href={pkg.stripeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-black text-white hover:bg-[var(--color-accent)] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[10px_10px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 text-center"
+                className="block w-full bg-black text-white hover:bg-[var(--color-accent)] hover:text-black p-3 font-black text-sm uppercase tracking-widest transition-all border-4 border-black shadow-[6px_6px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 text-center"
               >
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
               </a>
