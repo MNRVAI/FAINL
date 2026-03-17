@@ -51,7 +51,7 @@ export const ContactPage: FC = () => {
             {/* Header */}
             <div className="mb-20 md:mb-32">
                 <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-none mb-8">
-                    Contact <span className="text-[var(--color-accent)]">vraag?</span>
+                    Vragen staat <span className="text-[var(--color-accent)]">vrij!</span>
                 </h1>
                 <p className="text-xl md:text-3xl text-black dark:text-white/80 max-w-2xl leading-relaxed font-bold">
                     Vragen over FAINL, feedback of interesse in samenwerking? Stuur een bericht — we reageren binnen 12 uur.

@@ -116,27 +116,29 @@ export const PricingPage: FC<PricingPageProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center sm:justify-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl">
           {PRICING.SUBSCRIPTIONS.map((pkg, idx) => (
-            <div key={idx} className="card-fainl bg-black text-white border-4 border-[var(--color-accent)] rounded-none p-10 shadow-[15px_15px_0_0_var(--color-accent)] hover:scale-105 transition-all">
-              <div className="bg-[var(--color-accent)] text-black text-lg font-black px-6 py-2 uppercase tracking-widest inline-block mb-8">{pkg.label}</div>
-              <div className="text-7xl font-black text-white mb-3">€{pkg.price}<span className="text-xl font-bold lowercase opacity-40 ml-2">/{pkg.period}</span></div>
-              <p className="text-xl font-bold text-[var(--color-accent)] mb-10 tracking-widest uppercase">{language === 'nl' ? 'Onbeperkt archief.' : 'Unlimited archive.'}</p>
+            <div key={idx} className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-8 shadow-[12px_12px_0_0_var(--color-accent)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex flex-col">
+              <div className="bg-black text-[var(--color-accent)] text-lg font-black px-4 py-2 uppercase tracking-widest inline-block mb-6">{pkg.label}</div>
+              <div className="text-6xl font-black text-black dark:text-white mb-2">
+                €{pkg.price}
+                <span className="text-xl font-bold lowercase text-black/40 dark:text-white/40 ml-2">/{pkg.period}</span>
+              </div>
 
-              <ul className="space-y-5 mb-12">
-                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
-                <li className="flex items-center gap-4 text-xl font-bold text-[var(--color-accent)]"><CheckIcon /> <span>{language === 'nl' ? 'Onbeperkt archief' : 'Unlimited archive'}</span></li>
-                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
-                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
-                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>Multi AI inzet</span></li>
-                <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
+              <ul className="space-y-3 mb-8 mt-6 flex-1">
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-[var(--color-accent)]"><CheckIcon /> <span>{language === 'nl' ? 'Onbeperkt archief' : 'Unlimited archive'}</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>Multi AI inzet</span></li>
+                <li className="flex items-center gap-3 text-lg font-bold text-black dark:text-white"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
               <a
                 href={pkg.stripeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-[var(--color-accent)] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[15px_15px_0_0_white] hover:shadow-none hover:translate-x-2 hover:translate-y-2 text-center"
+                className="block w-full bg-black text-white hover:bg-[var(--color-accent)] hover:text-black p-5 font-black text-xl uppercase tracking-widest transition-all border-4 border-black shadow-[10px_10px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 text-center"
               >
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
               </a>
