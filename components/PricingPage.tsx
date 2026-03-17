@@ -125,6 +125,7 @@ export const PricingPage: FC<PricingPageProps> = ({
 
               <ul className="space-y-5 mb-12">
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{pkg.count} {language === 'nl' ? 'Vragen p/m' : 'Queries p/m'}</span></li>
+                <li className="flex items-center gap-4 text-xl font-bold text-[var(--color-accent)]"><CheckIcon /> <span>{language === 'nl' ? 'Onbeperkt archief' : 'Unlimited archive'}</span></li>
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Hogere prioriteit' : 'Higher priority'}</span></li>
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Directe beraadslaging' : 'Instant deliberation'}</span></li>
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>Multi AI inzet</span></li>
