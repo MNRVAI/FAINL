@@ -132,9 +132,14 @@ export const PricingPage: FC<PricingPageProps> = ({
                 <li className="flex items-center gap-4 text-xl font-bold"><CheckIcon /> <span>{language === 'nl' ? 'Exclusieve modellen' : 'Exclusive models'}</span></li>
               </ul>
 
-              <button onClick={() => handlePurchase(pkg.count)} className="w-full bg-[var(--color-accent)] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[15px_15px_0_0_white] hover:shadow-none hover:translate-x-2 hover:translate-y-2">
+              <a
+                href={pkg.stripeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-[var(--color-accent)] text-black hover:bg-white p-7 font-black text-2xl uppercase tracking-[0.2em] transition-all border-4 border-black shadow-[15px_15px_0_0_white] hover:shadow-none hover:translate-x-2 hover:translate-y-2 text-center"
+              >
                 {language === 'nl' ? `Start ${pkg.label}` : `Start ${pkg.label}`}
-              </button>
+              </a>
             </div>
           ))}
         </div>
