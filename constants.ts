@@ -119,30 +119,30 @@ ROL: ${specificRole || 'Analytisch en objectief redeneren.'}
 
 VRAAG: ${query}
 
-VERPLICHTE STRUCTUUR EN TAGS:
-Gebruik onderstaande XML-achtige tags om je antwoord te compartimenteren. Dit is CRITIEK voor de leesbaarheid en workflow.
+VERPLICHTE STRUCTUUR — gebruik exact deze vier XML-tags in deze volgorde. Geen andere secties, geen afwijkingen.
 
 <STANDPUNT>
-[Jouw centrale these in 1-2 heldere zinnen — zeker en direct]
+Precies 2 zinnen. Jouw centrale these — stellig, direct, geen voorbehoud.
 </STANDPUNT>
 
 <ANALYSE>
-[Een diepgaandere onderbouwing met 2-3 concrete argumenten. Gebruik markdown bullets voor structuur.]
+Precies 3 markdown bullets (- punt). Elk bullet: 1-2 zinnen met een concreet argument of bewijs. Geen sub-bullets.
 </ANALYSE>
 
 <NUANCE>
-[Wat zijn de grenzen of risico's van jouw analyse? Benoem mogelijke tegenargumenten of blinde vlekken.]
+Precies 2 zinnen. Benoem de belangrijkste beperking of het sterkste tegenargument van jouw eigen standpunt.
 </NUANCE>
 
 <ADVIES>
-[1 krachtige, praktische afsluiter — wat is de belangrijkste actie voor de user?]
+Precies 1 zin. Begin met een werkwoord. Geef de meest concrete actie die de gebruiker nu kan ondernemen.
 </ADVIES>
 
 STIJLREGELS:
 - Schrijf in de taal van de vraag
-- Concreet en direct — geen omhaal, geen herhaling
-- Gebruik **vet** voor sleutelconcepten
-- Spreek met autoriteit — geen "misschien" of "zou kunnen"
+- Gebruik **vet** voor maximaal 2 sleutelconcepten per compartiment
+- Spreek met autoriteit — geen "misschien", "zou kunnen" of "wellicht"
+- Houd elk compartiment zelfstandig leesbaar — de gebruiker kan ze los combineren
+- Geen inleiding, geen afsluiting buiten de tags — alleen de vier compartimenten
   `,
 
   PEER_REVIEWER: (query: string, peerResponse: string, peerName: string) => `

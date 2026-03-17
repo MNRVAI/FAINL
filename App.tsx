@@ -922,22 +922,6 @@ const App: FC = () => {
                           <AnimatedSendIcon />
                         </button>
                       </div>
-                      {/* Council member preview */}
-                      <div className="mt-6 md:mt-8 flex items-center justify-center gap-2 flex-wrap">
-                        {config.activeCouncil.map((m) => (
-                          <div key={m.id} className="flex items-center gap-1.5 px-3 py-1.5 bg-black/[0.04] dark:bg-white/[0.04] rounded-full">
-                            <img src={m.avatar} alt={m.name} className="w-5 h-5 rounded-full object-cover" />
-                            <span className="text-sm font-bold text-black dark:text-white/30">{m.name}</span>
-                          </div>
-                        ))}
-                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/[0.04] dark:bg-white/[0.04] rounded-full">
-                          <img src={DEFAULT_CHAIRMAN.avatar} alt="Victor" className="w-5 h-5 rounded-full object-cover" />
-                          <span className="text-sm font-bold text-black dark:text-white/30">Voorzitter Victor</span>
-                        </div>
-                      </div>
-                      <p className="mt-3 text-sm font-black text-black/15 dark:text-white/10 uppercase tracking-[0.2em] block text-center">
-                        Sessie wordt niet opgeslagen · Alleen lokaal
-                      </p>
                     </div>
                   ) : (
                     session.stage !== WorkflowStage.ERROR && (
