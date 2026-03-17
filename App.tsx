@@ -650,7 +650,7 @@ const App: FC = () => {
     { id: "/tokens",    label: "Credits",             img: "/icons-navbar/Euro-icon.png" },
     { id: "/dashboard", label: "Mijn FAINL's",        img: "/icons-navbar/settings-icon.png" },
     { id: "/cookbook",  label: "Voorbeeldvragen",     img: "/icons-navbar/question-icon.png" },
-    { id: "/faq",       label: "Veelgestelde vragen", img: "/icons-navbar/faq-icon.png" },
+    { id: "/faq",       label: "FAQ",                 img: "/icons-navbar/faq-icon.png" },
     { id: "/contact",   label: "Contact",             img: "/icons-navbar/contact-icon.png" },
   ];
 
@@ -909,7 +909,7 @@ const App: FC = () => {
                             onBlur={() => setIsInputFocused(false)}
                             aria-label="Stel je vraag aan de AI-raad"
                             placeholder="Stel je vraag..."
-                            className="w-full h-full bg-transparent border-none p-0 text-xl sm:text-2xl md:text-4xl font-black text-black dark:text-white placeholder-transparent focus:ring-0 transition-all resize-none font-serif italic absolute top-0 left-0"
+                            className="w-full h-full bg-transparent border-none p-0 text-xl sm:text-2xl md:text-4xl font-black text-black dark:text-white placeholder-transparent focus:ring-0 transition-all resize-none absolute top-0 left-0"
                           />
                         </div>
                         <button

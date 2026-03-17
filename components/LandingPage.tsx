@@ -284,11 +284,11 @@ export const LandingPage: FC = () => {
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="mb-20 max-w-3xl">
             <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black mb-8 leading-[0.9]">
-              INTELLIGENCE<br />
-              <span className="text-[var(--color-accent)]">REDEFINED.</span>
+              Van Twijfelachtig naar Zekerheid:<br />
+              <span className="text-[var(--color-accent)]">AI Zonder Fratsen.</span>
             </h2>
             <p className="text-xl md:text-2xl font-bold text-black leading-relaxed max-w-2xl">
-              FAINL staat voor <span className="text-black">Fully Autonomous Intelligence Network & Logic</span>. De enige standaard voor wie geen genoegen neemt met "waarschijnlijk waar".
+              De enige standaard voor wie geen genoegen neemt met "waarschijnlijk waar".
             </p>
           </div>
 
@@ -316,7 +316,7 @@ export const LandingPage: FC = () => {
             </div>
             <div className="group">
               <div className="text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-4">04</div>
-              <h3 className="text-2xl font-black uppercase tracking-tight text-[var(--color-accent)] mb-4">90% Accuratie</h3>
+              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">90% Accuratie</h3>
               <p className="text-lg font-bold text-black leading-relaxed">
                 Een reductie van 80% op vage antwoorden en een sprong naar 90% correcte, diep gewogen en gemotiveerde beantwoording.
               </p>
@@ -404,7 +404,7 @@ export const LandingPage: FC = () => {
               className="group flex flex-col md:flex-row items-center md:items-start gap-8 p-8 md:p-12 bg-white dark:bg-black border-2 border-black rounded-none hover:border-[var(--color-accent)] hover:shadow-[10px_10px_0_0_var(--color-accent)] transition-all duration-300"
             >
               <div className="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-black text-white relative">
-                 <span className="absolute -top-3 -left-3 w-8 h-8 bg-[var(--color-accent)] text-black font-black flex items-center justify-center text-sm">0{idx+1}</span>
+                 <span className="absolute -top-3 -left-3 w-8 h-8 bg-[var(--color-accent)] text-white font-black flex items-center justify-center text-sm">0{idx+1}</span>
                 <img src={img} alt={title} className="w-10 h-10 object-contain invert" />
               </div>
               <div className="flex-1 text-center md:text-left">
@@ -547,7 +547,7 @@ export const LandingPage: FC = () => {
 
       {/* ══ FAQ ══ */}
       <section
-        aria-label="Veelgestelde vragen over FAINL"
+        aria-label="FAQ over FAINL"
         className="w-full bg-white dark:bg-black border-t border-black/5 py-24 md:py-32"
       >
         <div className="max-w-3xl mx-auto px-4 md:px-6">

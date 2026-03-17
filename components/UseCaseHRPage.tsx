@@ -162,8 +162,8 @@ export const UseCaseHRPage: FC = () => {
         </div>
       </section>
 
-      <section aria-label="Veelgestelde vragen" className="max-w-4xl mx-auto px-5 sm:px-8 pb-24">
-        <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">Veelgestelde vragen</h2>
+      <section aria-label="FAQ" className="max-w-4xl mx-auto px-5 sm:px-8 pb-24">
+        <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black dark:text-white mb-6">FAQ</h2>
         <div className="border-2 border-black dark:border-white/20 rounded-2xl px-6 bg-white dark:bg-zinc-900">
           {FAQS.map((faq, i) => (
             <div key={i} className="border-b border-black/10 dark:border-white/10 last:border-0">
