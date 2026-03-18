@@ -130,93 +130,96 @@ const AI_MODELS = [
 
 
 // ── Static Comparison Banner ────────────────────────────────────────────────
-const HeroComparisonBanner: FC = () => {  
+const HeroComparisonBanner: FC = () => {
   return (
-    <div className="relative z-10 w-full mb-12">
-      <div className="relative flex flex-col md:flex-row bg-white border-y-2 md:border-2 border-black overflow-hidden shadow-2xl">
-        
-        {/* Central Transition Badge */}
-        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-white border-4 border-[var(--color-accent)] rounded-full items-center justify-center z-20 group/badge">
-          <ArrowRight className="w-10 h-10 text-[var(--color-accent)] group-hover/badge:translate-x-2 transition-transform duration-300" />
+    <div className="relative z-10 w-full mb-8 md:mb-12">
+      <div className="relative grid grid-cols-2 border-y-2 md:border-2 border-black overflow-hidden shadow-[0_6px_0_0_var(--color-accent)] md:shadow-2xl">
+
+        {/* Central arrow badge — desktop only */}
+        <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white border-4 border-[var(--color-accent)] rounded-full items-center justify-center z-20 group/badge">
+          <ArrowRight className="w-8 h-8 text-[var(--color-accent)] group-hover/badge:translate-x-2 transition-transform duration-300" />
         </div>
-        
-        <div className="w-full md:w-1/2 p-12 md:p-24 flex flex-col items-center justify-center text-center border-b-2 md:border-b-0 md:border-r-2 border-black bg-white">
-          <div className="flex items-center justify-center mb-12">
-            <div className="w-24 h-24 bg-black border-4 border-black flex items-center justify-center shadow-[10px_10px_0_0_#f4f4f5]">
-              <Lightbulb className="w-12 h-12 text-white" />
+
+        {/* ── Left: Single AI (problem) ── */}
+        <div className="bg-white border-r-2 border-black flex flex-col items-center justify-start text-center p-4 sm:p-8 md:p-14 lg:p-20">
+          {/* Icon */}
+          <div className="flex items-center justify-center mb-3 md:mb-10">
+            <div className="w-10 h-10 md:w-20 md:h-20 bg-black border-2 md:border-4 border-black flex items-center justify-center shadow-[4px_4px_0_0_#e4e4e7] md:shadow-[8px_8px_0_0_#e4e4e7]">
+              <Lightbulb className="w-5 h-5 md:w-10 md:h-10 text-white" />
             </div>
           </div>
-          <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
-            Beperkte Visie
+          {/* Heading */}
+          <h3 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-black mb-1 md:mb-3 leading-none">
+            Beperkte<br className="sm:hidden" /> Visie
           </h3>
-          <p className="text-[var(--color-accent)] font-black text-lg md:text-xl uppercase tracking-[0.4em] mb-12">
-            Single AI-Model Beperking
+          <p className="text-[var(--color-accent)] font-black text-[9px] sm:text-xs md:text-base uppercase tracking-[0.25em] mb-3 md:mb-10 leading-tight">
+            Single AI-Model<br className="sm:hidden" /> Beperking
           </p>
-          <div className="space-y-8 text-left w-full max-w-md">
-            <p className="text-xl font-bold text-black leading-tight italic">
-              "Eén model klinkt vaak overtuigend, maar blijft een geïsoleerde mening — gevoelig voor fouten en onvolledigheid."
-            </p>
-            <div className="pt-10 space-y-5 border-t-2 border-black">
-              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-black uppercase tracking-widest">
-                <span className="w-8 h-8 flex items-center justify-center bg-black text-white">01</span> Hallucinatie Risico
+          {/* Quote — md+ only */}
+          <p className="hidden md:block text-base lg:text-xl font-bold text-black leading-tight italic mb-8 text-left max-w-xs">
+            "Eén model klinkt overtuigend, maar blijft een geïsoleerde mening — gevoelig voor fouten en onvolledigheid."
+          </p>
+          {/* Bullets — desktop full, mobile compact */}
+          <div className="w-full space-y-2 md:space-y-4 md:border-t-2 md:border-black md:pt-6 text-left">
+            {[["01","Hallucinatie Risico","Hallucinatie"],["02","Gebrek aan verificatie","Verificatie"],["03","Inconsistente logica","Logica"]].map(([n, full, short]) => (
+              <div key={n} className="flex items-center gap-2 md:gap-4">
+                <span className="w-5 h-5 md:w-7 md:h-7 flex items-center justify-center bg-black text-white text-[9px] md:text-xs font-black shrink-0">{n}</span>
+                <span className="text-[9px] sm:text-xs md:text-base lg:text-lg font-black text-black uppercase tracking-tight md:tracking-widest">
+                  <span className="md:hidden">{short}</span>
+                  <span className="hidden md:inline">{full}</span>
+                </span>
               </div>
-              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-black uppercase tracking-widest">
-                <span className="w-8 h-8 flex items-center justify-center bg-black text-white">02</span> Gebrek aan verificatie
-              </div>
-              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-black uppercase tracking-widest">
-                <span className="w-8 h-8 flex items-center justify-center bg-black text-white">03</span> Inconsistente logica
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Right Side: 5 AI Models (FAINL) */}
-        <div className="w-full md:w-1/2 bg-black p-12 md:p-24 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+        {/* ── Right: FAINL (solution) ── */}
+        <div className="bg-black flex flex-col items-center justify-start text-center p-4 sm:p-8 md:p-14 lg:p-20 relative overflow-hidden group">
           <div className="absolute inset-0 bg-[var(--color-accent)] opacity-5 pointer-events-none" />
 
-          <div className="flex justify-center items-center mb-12 relative z-10">
-            <div className="flex -space-x-6 items-center">
-               <div className="w-14 h-14 bg-black border-2 border-[var(--color-accent)] flex items-center justify-center z-10 opacity-60">
-                 <img src="/ai-logos/mistral.svg" alt="Mistral AI" className="w-7 h-7 object-contain invert"/>
-               </div>
-               <div className="w-20 h-20 bg-black border-2 border-[var(--color-accent)] flex items-center justify-center z-20">
-                 <img src="/ai-logos/claude.svg" alt="Claude" className="w-10 h-10 object-contain invert"/>
-               </div>
-               <div className="w-32 h-32 bg-[var(--color-accent)] border-8 border-black flex flex-col items-center justify-center z-40 transform group-hover:scale-110 transition-transform duration-700">
-                 <span className="font-black text-white text-5xl leading-none">90%</span>
-                 <span className="font-black text-white text-[18px] uppercase tracking-[0.2em] mt-2">Accuratie</span>
-               </div>
-               <div className="w-20 h-20 bg-black border-2 border-[var(--color-accent)] flex items-center justify-center z-20">
-                 <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-10 h-10 object-contain invert"/>
-               </div>
-               <div className="w-14 h-14 bg-black border-2 border-[var(--color-accent)] flex items-center justify-center z-10 opacity-60">
-                 <img src="/ai-logos/gemini-color.svg" alt="Gemini" className="w-7 h-7 object-contain invert"/>
-               </div>
+          {/* Badge cluster */}
+          <div className="flex justify-center items-center mb-3 md:mb-10 relative z-10">
+            <div className="flex -space-x-2 sm:-space-x-4 md:-space-x-6 items-center">
+              {/* Flanking logos — sm+ */}
+              <div className="hidden sm:flex w-9 h-9 md:w-14 md:h-14 bg-black border border-[var(--color-accent)] md:border-2 items-center justify-center z-10 opacity-60 shrink-0">
+                <img src="/ai-logos/claude.svg" alt="Claude" className="w-4 h-4 md:w-7 md:h-7 object-contain invert" />
+              </div>
+              {/* Central 90% badge */}
+              <div className="w-14 h-14 sm:w-20 sm:h-20 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-[var(--color-accent)] border-2 sm:border-4 md:border-8 border-black flex flex-col items-center justify-center z-40 transform group-hover:scale-110 transition-transform duration-700 shrink-0">
+                <span className="font-black text-white text-xl sm:text-3xl md:text-5xl leading-none">90%</span>
+                <span className="font-black text-white text-[7px] sm:text-[10px] md:text-base uppercase tracking-[0.15em] mt-0.5 md:mt-2">Accuratie</span>
+              </div>
+              {/* Flanking logos — sm+ */}
+              <div className="hidden sm:flex w-9 h-9 md:w-14 md:h-14 bg-black border border-[var(--color-accent)] md:border-2 items-center justify-center z-10 opacity-60 shrink-0">
+                <img src="/ai-logos/openai.svg" alt="OpenAI" className="w-4 h-4 md:w-7 md:h-7 object-contain invert" />
+              </div>
             </div>
           </div>
-          
-          <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4 relative z-10">
-            De FAINL Standaard
+
+          {/* Heading */}
+          <h3 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-white mb-1 md:mb-3 relative z-10 leading-none">
+            De FAINL<br className="sm:hidden" /> Standaard
           </h3>
-          <p className="text-white font-black text-lg md:text-xl uppercase tracking-[0.4em] mb-12 relative z-10">
-            Maximale Validatie Protocol
+          <p className="text-white font-black text-[9px] sm:text-xs md:text-base uppercase tracking-[0.25em] mb-3 md:mb-10 relative z-10 leading-tight">
+            Maximale Validatie<br className="sm:hidden" /> Protocol
           </p>
-          
-          <div className="space-y-8 text-left w-full max-w-md relative z-10">
-            <p className="text-xl font-bold text-white leading-tight">
-              Activeer 5 parallelle intelligenties. Laat ze debatteren. Krijg het best haalbare antwoord met 90% accuratie.
-            </p>
-            <div className="pt-10 space-y-5 border-t-2 border-[var(--color-accent)]">
-              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-white uppercase tracking-widest">
-                <CheckCircle2 className="w-6 h-6 text-[var(--color-accent)]" /> Maximale Validatie
+
+          {/* Description — md+ only */}
+          <p className="hidden md:block text-base lg:text-xl font-bold text-white leading-tight mb-8 text-left max-w-xs relative z-10">
+            Activeer 5 parallelle intelligenties. Laat ze debatteren. Krijg het best haalbare antwoord met 90% accuratie.
+          </p>
+
+          {/* Bullets — desktop full, mobile compact */}
+          <div className="w-full space-y-2 md:space-y-4 md:border-t-2 md:border-[var(--color-accent)] md:pt-6 text-left relative z-10">
+            {[["Maximale Validatie","Max. Validatie"],["Autonome Correctie","Auton. Correctie"],["Gegarandeerde Focus","Ger. Focus"]].map(([full, short]) => (
+              <div key={full} className="flex items-center gap-2 md:gap-4">
+                <CheckCircle2 className="w-3 h-3 md:w-5 md:h-5 text-[var(--color-accent)] shrink-0" />
+                <span className="text-[9px] sm:text-xs md:text-base lg:text-lg font-black text-white uppercase tracking-tight md:tracking-widest">
+                  <span className="md:hidden">{short}</span>
+                  <span className="hidden md:inline">{full}</span>
+                </span>
               </div>
-              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-white uppercase tracking-widest">
-                <CheckCircle2 className="w-6 h-6 text-[var(--color-accent)]" /> Autonome Correctie
-              </div>
-              <div className="flex items-center gap-5 text-lg md:text-xl font-black text-white uppercase tracking-widest">
-                <CheckCircle2 className="w-6 h-6 text-[var(--color-accent)]" /> Gegarandeerde Focus
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
