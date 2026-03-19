@@ -76,7 +76,6 @@ import {
 } from "react-router-dom";
 import { SEO } from "./components/SEO";
 const LoginPage = lazy(() => import("./components/LoginPage").then(m => ({ default: m.LoginPage })));
-const QuestionPage = lazy(() => import("./components/QuestionPage").then(m => ({ default: m.QuestionPage })));
 import { Session } from "@supabase/supabase-js";
 import { LogOut } from "lucide-react";
 import { CookieConsent } from "./components/CookieConsent";
