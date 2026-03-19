@@ -277,7 +277,13 @@ export class UnifiedCouncilService {
 
   async getCouncilResponses(query: string, members: CouncilMember[]): Promise<CouncilResponse[]> {
     const promises = members.map(async (member) => {
-      const content = await this.generate(member, query, member.systemPrompt || SYSTEM_PROMPTS.COUNCIL_MEMBER(query, member.description));
+      // Always use the structured COUNCIL_MEMBER prompt for the analysis phase.
+      // The member's character description is injected as the ROL so personality is preserved.
+      // member.systemPrompt (debate character) is intentionally NOT used here — it lacks
+      // the XML structure requirement and causes nodes to produce unstructured output that
+      // cannot be parsed into compartments.
+      const structuredPrompt = SYSTEM_PROMPTS.COUNCIL_MEMBER(query, member.description);
+      const content = await this.generate(member, query, structuredPrompt);
       return {
         memberId: member.id,
         content: content,

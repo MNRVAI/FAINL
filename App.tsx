@@ -359,6 +359,13 @@ const App: FC = () => {
   const [isDebateOpen, setIsDebateOpen] = useState(false);
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const verdictRef = useRef<HTMLDivElement>(null);
+  const councilRef = useRef<HTMLDivElement>(null);
+  const debateChoiceRef = useRef<HTMLDivElement>(null);
+  const compositionRef = useRef<HTMLDivElement>(null);
+
+  const scrollTo = (ref: React.RefObject<HTMLDivElement | null>, delay = 80) => {
+    setTimeout(() => ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), delay);
+  };
   const toggleCard = (memberId: string) => setExpandedCards(prev => {
     const next = new Set(prev);
     if (next.has(memberId)) next.delete(memberId); else next.add(memberId);
@@ -469,6 +476,8 @@ const App: FC = () => {
       reviews: [],
       synthesis: ''
     });
+    // Scroll to council cards as soon as they appear
+    scrollTo(councilRef, 300);
 
     try {
       const responses = await councilService.current.getCouncilResponses(queryInput, membersToUse);
@@ -481,6 +490,8 @@ const App: FC = () => {
         synthesis: '',
         debateMessages: []
       }));
+      // Scroll to the choice buttons once all nodes are done
+      scrollTo(debateChoiceRef, 150);
 
     } catch (err: any) {
       console.error(err);
@@ -600,6 +611,7 @@ const App: FC = () => {
   const handleEndDebate = async (debateMessages: import('./types').DebateMessage[]) => {
     setIsDebateOpen(false);
     setSession((prev: SessionState) => ({ ...prev, debateMessages, stage: WorkflowStage.COMPOSITION }));
+    scrollTo(compositionRef, 200);
   };
 
   const handleAddDebateMessage = (msg: import('./types').DebateMessage) => {
@@ -956,7 +968,7 @@ const App: FC = () => {
                         )}
 
                         {/* Council node cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div ref={councilRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                           {config.activeCouncil.map((member) => (
                             <CouncilCard
                               key={member.id}
@@ -978,7 +990,7 @@ const App: FC = () => {
 
                         {/* Debate or Verdict choice — shown after all nodes have responded */}
                          {session.stage === WorkflowStage.DEBATE && (
-                           <div className="w-full bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] p-6 md:p-10 rounded-none animate-in fade-in duration-500 shadow-[8px_8px_0_0_var(--color-accent)]">
+                           <div ref={debateChoiceRef} className="w-full bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] p-6 md:p-10 rounded-none animate-in fade-in duration-500 shadow-[8px_8px_0_0_var(--color-accent)]">
                             {/* Status badge */}
                             <div className="flex justify-center mb-6">
                               <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-accent)] border-2 border-black rounded-none">
@@ -1000,7 +1012,7 @@ const App: FC = () => {
                               {/* Primary: Verdict */}
                                <button
                                  type="button"
-                                 onClick={() => setSession(prev => ({ ...prev, stage: WorkflowStage.COMPOSITION }))}
+                                 onClick={() => { setSession(prev => ({ ...prev, stage: WorkflowStage.COMPOSITION })); scrollTo(compositionRef, 150); }}
                                  className="flex flex-col items-center gap-3 px-6 py-8 bg-black text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-[1.02] active:scale-95 shadow-[6px_6px_0_0_var(--color-accent)] border-4 border-black"
                                >
                                 <Gavel className="w-8 h-8" />
@@ -1026,11 +1038,13 @@ const App: FC = () => {
                           </div>
                         )}
                          {session.stage === WorkflowStage.COMPOSITION && (
-                           <CompositionStage
-                             responses={session.councilResponses}
-                             members={config.activeCouncil}
-                             onCompose={handleCompose}
-                           />
+                           <div ref={compositionRef}>
+                             <CompositionStage
+                               responses={session.councilResponses}
+                               members={config.activeCouncil}
+                               onCompose={handleCompose}
+                             />
+                           </div>
                          )}
 
                         {/* Victor's verdict — rendered BELOW the council cards so it appears naturally as user scrolls */}
