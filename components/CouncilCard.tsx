@@ -4,6 +4,14 @@ import { CouncilMember, CouncilResponse } from '../types';
 import { NodeLoader } from './NodeLoader';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
+const SECTION_BADGE: Record<string, string> = {
+  STANDPUNT: 'bg-[#476DD7] text-white',
+  ANALYSE:   'bg-green-500 text-white',
+  NUANCE:    'bg-amber-500 text-white',
+  ADVIES:    'bg-red-500 text-white',
+  GENERAL:   'bg-black text-[var(--color-accent)]',
+};
+
 interface CouncilCardProps {
   member: CouncilMember;
   response?: CouncilResponse;
@@ -65,7 +73,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
                 {Object.entries(response.sections).map(([key, content]) => (
                   <div key={key} className="relative">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-black text-[var(--color-accent)] px-2 py-0.5">
+                      <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-2 py-0.5 ${SECTION_BADGE[key] ?? 'bg-black text-[var(--color-accent)]'}`}>
                         {key === 'GENERAL' ? 'Analyse' : key}
                       </span>
                     </div>

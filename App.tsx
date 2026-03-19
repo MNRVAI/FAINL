@@ -85,6 +85,46 @@ const LandingPage = lazy(() => import("./components/LandingPage").then(m => ({ d
 import { useLanguage } from "./contexts/LanguageContext";
 
 
+// ─── Journey Progress Stepper ────────────────────────────────────────────────
+const JOURNEY_STEPS: { label: string; stages: WorkflowStage[] }[] = [
+  { label: 'Analyse',    stages: [WorkflowStage.PROCESSING_COUNCIL] },
+  { label: 'Keuze',      stages: [WorkflowStage.DEBATE] },
+  { label: 'Compositie', stages: [WorkflowStage.COMPOSITION] },
+  { label: 'Oordeel',    stages: [WorkflowStage.SYNTHESIZING, WorkflowStage.COMPLETED] },
+];
+
+const JourneyStepper: FC<{ stage: WorkflowStage }> = ({ stage }) => {
+  const currentIdx = JOURNEY_STEPS.findIndex(s => s.stages.includes(stage));
+  const isComplete = stage === WorkflowStage.COMPLETED;
+  return (
+    <div className="flex items-center justify-center mb-4">
+      {JOURNEY_STEPS.map((step, i) => {
+        const isActive = i === currentIdx;
+        const isPast = i < currentIdx || isComplete;
+        return (
+          <div key={step.label} className="flex items-center">
+            <div className={`flex items-center gap-1.5 px-2.5 py-1.5 transition-all border-2 ${
+              isActive
+                ? 'bg-[var(--color-accent)] border-[var(--color-accent)] text-white'
+                : isPast
+                  ? 'bg-black dark:bg-white border-black dark:border-white text-white dark:text-black'
+                  : 'bg-transparent border-black/15 dark:border-white/15 text-black/25 dark:text-white/25'
+            }`}>
+              <span className="text-[10px] font-black w-4 h-4 flex items-center justify-center">
+                {isPast && !isActive ? '✓' : String(i + 1)}
+              </span>
+              <span className="text-[10px] font-black uppercase tracking-[0.15em] hidden sm:block">{step.label}</span>
+            </div>
+            {i < JOURNEY_STEPS.length - 1 && (
+              <div className={`w-6 md:w-10 h-0.5 transition-colors ${isPast ? 'bg-black dark:bg-white' : 'bg-black/10 dark:bg-white/10'}`} />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const FadingPlaceholder: FC<{ isFocused: boolean; examples: string[] }> = ({ isFocused, examples }) => {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
@@ -217,7 +257,7 @@ const PaymentSuccessPage: FC = () => {
 };
 
 const App: FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const defaultConfig = {
@@ -427,6 +467,13 @@ const App: FC = () => {
     localStorage.setItem('fainl_history', JSON.stringify(history));
   }, [history]);
 
+  // Auto-expand all council cards once all responses have arrived
+  useEffect(() => {
+    if (session.stage === WorkflowStage.DEBATE) {
+      setExpandedCards(new Set(config.activeCouncil.map(m => m.id)));
+    }
+  }, [session.stage]);
+
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const startSession = async (queryInput: string) => {
@@ -552,12 +599,21 @@ const App: FC = () => {
   };
 
   const handleCompose = async (composedText: string) => {
-    setSession((prev: SessionState) => ({ 
-      ...prev, 
+    setSession((prev: SessionState) => ({
+      ...prev,
       userComposedResponse: composedText,
-      stage: WorkflowStage.SYNTHESIZING 
+      stage: WorkflowStage.SYNTHESIZING
     }));
     await runSynthesis(session.query, session.councilResponses, session.debateMessages, composedText);
+  };
+
+  // Quick path: skip drag-and-drop, merge all compartments, go straight to Victor
+  const handleQuickCompose = async () => {
+    const CATS = ['STANDPUNT', 'ANALYSE', 'NUANCE', 'ADVIES'];
+    const allText = session.councilResponses
+      .flatMap(r => CATS.map(cat => r.sections?.[cat]).filter(Boolean))
+      .join('\n\n');
+    await handleCompose(allText || session.councilResponses.map(r => r.content).join('\n\n'));
   };
 
   // Single synthesis entry point — used by both "Get Verdict" and "After Debate"
@@ -939,10 +995,13 @@ const App: FC = () => {
                     session.stage !== WorkflowStage.ERROR && (
                       <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12">
 
+                        {/* Journey stepper */}
+                        <JourneyStepper stage={session.stage} />
+
                         {/* Query display */}
-                        <div className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-10 md:p-16 text-center shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_var(--color-accent)]">
-                          <p className="text-base font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-6">Jouw vraag</p>
-                          <p className="text-3xl sm:text-5xl md:text-6xl text-black dark:text-white font-serif italic font-black tracking-tight leading-tight uppercase">
+                        <div className="bg-white dark:bg-black border-4 border-black dark:border-[var(--color-accent)] rounded-none p-8 md:p-12 text-center shadow-[10px_10px_0_0_black] dark:shadow-[10px_10px_0_0_var(--color-accent)]">
+                          <p className="text-base font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-4">Jouw vraag</p>
+                          <p className="text-2xl sm:text-4xl md:text-5xl text-black dark:text-white font-serif italic font-black tracking-tight leading-tight">
                             "{session.query}"
                           </p>
                         </div>
@@ -1009,16 +1068,16 @@ const App: FC = () => {
                             </p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
-                              {/* Primary: Verdict */}
+                              {/* Primary: Verdict via Composition */}
                                <button
                                  type="button"
                                  onClick={() => { setSession(prev => ({ ...prev, stage: WorkflowStage.COMPOSITION })); scrollTo(compositionRef, 150); }}
                                  className="flex flex-col items-center gap-3 px-6 py-8 bg-black text-white font-black rounded-none transition-all hover:bg-[var(--color-accent)] hover:text-black hover:scale-[1.02] active:scale-95 shadow-[6px_6px_0_0_var(--color-accent)] border-4 border-black"
                                >
-                                <Gavel className="w-8 h-8" />
+                                <PenLine className="w-8 h-8" />
                                 <div className="text-center">
-                                  <p className="text-base uppercase tracking-widest font-black">Eindoordeel</p>
-                                  <p className="text-xs opacity-60 mt-1 font-bold leading-tight">Victor velt het definitieve oordeel</p>
+                                  <p className="text-base uppercase tracking-widest font-black">Smeed je oordeel</p>
+                                  <p className="text-xs opacity-60 mt-1 font-bold leading-tight">Selecteer &amp; orden de beste inzichten</p>
                                 </div>
                               </button>
 
@@ -1034,6 +1093,20 @@ const App: FC = () => {
                                   <p className="text-xs opacity-60 mt-1 font-bold leading-tight">Laat de AI's met elkaar in discussie gaan</p>
                                 </div>
                               </button>
+                            </div>
+
+                            {/* Quick path: skip composition */}
+                            <div className="flex items-center gap-4 max-w-xl mx-auto mt-2">
+                              <div className="h-px bg-black/10 dark:bg-white/10 flex-1" />
+                              <button
+                                type="button"
+                                onClick={handleQuickCompose}
+                                className="text-[10px] text-black/35 dark:text-white/25 hover:text-[var(--color-accent)] font-black uppercase tracking-widest transition-colors whitespace-nowrap flex items-center gap-1.5"
+                              >
+                                <Gavel className="w-3 h-3" />
+                                Direct naar Victor — sla compositie over
+                              </button>
+                              <div className="h-px bg-black/10 dark:bg-white/10 flex-1" />
                             </div>
                           </div>
                         )}
@@ -1351,6 +1424,7 @@ const App: FC = () => {
               </p>
               <div className="flex flex-col gap-4">
                 <button
+                  type="button"
                   onClick={() => {
                     setShowOutofCreditsUpsell(false);
                     navigate('/tokens');
@@ -1360,6 +1434,7 @@ const App: FC = () => {
                   {language === 'nl' ? 'Bekijk Pakketten' : 'View Packages'}
                 </button>
                 <button
+                  type="button"
                   onClick={() => setShowOutofCreditsUpsell(false)}
                   className="w-full py-4 bg-transparent text-black dark:text-white/40 hover:text-black dark:hover:text-[var(--color-accent)] font-black text-lg uppercase tracking-widest transition-colors"
                 >

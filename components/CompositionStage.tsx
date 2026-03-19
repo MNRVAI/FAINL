@@ -258,10 +258,10 @@ const EmptyDropZone: FC<{ isOver: boolean }> = ({ isOver }) => (
     <p className={`text-xs font-black uppercase tracking-widest transition-colors ${
       isOver ? 'text-[var(--color-accent)]' : 'text-black/25 dark:text-white/25'
     }`}>
-      {isOver ? 'Laat los om toe te voegen' : 'Sleep compartimenten hierheen'}
+      {isOver ? 'Laat los om toe te voegen' : 'Canvas is leeg'}
     </p>
     <p className="text-[10px] text-black/18 dark:text-white/18 mt-1.5 font-medium">
-      Of gebruik de + knop in het linker paneel
+      Sleep compartimenten hiernaartoe of gebruik de + knop links
     </p>
   </div>
 );
@@ -297,6 +297,13 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
   const [activeTab, setActiveTab] = useState<string>(CATEGORIES[0]);
   const [showPreview, setShowPreview] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // Pre-populate canvas with all compartments on first render so users see results immediately
+  useEffect(() => {
+    const items = allSourceItems();
+    if (items.length > 0) setCanvasItems(items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -399,7 +406,7 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
             Smeed jouw <span className="text-[var(--color-accent)]">eindoordeel</span>
           </h2>
           <p className="text-sm text-black/45 dark:text-white/45 font-bold max-w-xl mx-auto">
-            Sleep de sterkste compartimenten naar jouw canvas — orden, mix en componeer je antwoord. Victor velt daarna zijn eindoordeel.
+            Alle inzichten staan al klaar op het canvas. Verwijder wat je niet nodig hebt, herschik naar prioriteit — of vraag Victor meteen om zijn eindoordeel.
           </p>
         </div>
 
