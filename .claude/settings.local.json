@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wc -l ./components/*.tsx)"
+      "Bash(wc -l ./components/*.tsx)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Bash(grep -r \"$f\" --include=\"*.tsx\" --include=\"*.ts\" -l .)",
+      "Bash(done)",
+      "Bash(npx tsc:*)"
     ]
   }
 }
