@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="nl">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-9DL89GBSH8"
-    ></script>
+    <!-- Google tag (gtag.js) — Consent Mode v2 (GDPR Art. 6.1.a AVG) -->
+    <!-- Analytics storage is DENIED by default. Granted only after explicit user consent in CookieConsent.tsx -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DL89GBSH8"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-9DL89GBSH8");
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'wait_for_update': 2000
+      });
+      gtag('js', new Date());
+      gtag('config', 'G-9DL89GBSH8', { 'send_page_view': false });
     </script>
 
     <meta charset="UTF-8" />
@@ -126,17 +127,9 @@
     }
     </script>
 
-    <!-- GitHub Pages SPA redirect: restore path stored by 404.html -->
-    <script>
-      (function () {
-        var r = sessionStorage.getItem('spa_redirect');
-        if (r) {
-          sessionStorage.removeItem('spa_redirect');
-          var u = new URL(r);
-          history.replaceState(null, null, u.pathname + u.search + u.hash);
-        }
-      })();
-    </script>
+    <!-- SPA routing: 404.html is a copy of this file (generated at build time via vite.config.ts).
+         GitHub Pages serves 404.html at the original URL (no HTTP redirect),
+         so React Router picks up window.location.pathname directly. -->
 
   </head>
   <body>

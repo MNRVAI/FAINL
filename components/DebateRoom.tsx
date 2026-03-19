@@ -279,8 +279,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
         await speakNL(response, currentIdx, cachedVoices, profile, councilService);
       }
 
-    } catch (err) {
-      console.error('Debatfout:', err);
+    } catch (err: unknown) {
+      console.error('Debatfout:', err instanceof Error ? err.message : String(err));
     } finally {
       if (isMountedRef.current) {
         setIsGenerating(false);

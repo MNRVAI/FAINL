@@ -2,13 +2,10 @@
 <html lang="nl">
   <head>
     <meta charset="UTF-8" />
-    <script>
-      // GitHub Pages SPA redirect
-      // When GitHub Pages serves this 404.html for an unknown path,
-      // store the full URL and redirect to / so React Router can handle it.
-      sessionStorage.setItem('spa_redirect', location.href);
-      location.replace('/');
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- This file is replaced at build time by a copy of index.html (see vite.config.ts).
+         GitHub Pages serves it at the requested URL without redirecting,
+         which lets React Router handle routing without any HTTP redirect hop. -->
   </head>
   <body></body>
 </html>

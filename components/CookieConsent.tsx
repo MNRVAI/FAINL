@@ -9,6 +9,12 @@ interface ConsentState {
 }
 
 function fireConsentEvent(analytics: boolean) {
+  // Update Google Consent Mode v2 so GA only fires after explicit accept
+  const g = (window as typeof window & { gtag?: (...a: unknown[]) => void }).gtag;
+  if (typeof g === 'function') {
+    g('consent', 'update', { analytics_storage: analytics ? 'granted' : 'denied' });
+    if (analytics) g('event', 'page_view'); // send the deferred first page view
+  }
   window.dispatchEvent(
     new CustomEvent("fainl:cookie-consent", { detail: { analytics } }),
   );

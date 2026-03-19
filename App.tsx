@@ -445,6 +445,8 @@ const App: FC = () => {
     }
   };
 
+  const SESSION_RECOVERY_KEY = 'fainl_session_recovery';
+
   const [session, setSession] = useState<SessionState>({
     id: crypto.randomUUID(),
     stage: WorkflowStage.IDLE,
@@ -453,6 +455,18 @@ const App: FC = () => {
     debateMessages: [],
     reviews: [],
     synthesis: ''
+  });
+
+  // Recovery banner: shown when a previous in-progress session is found in localStorage
+  const [recoverySession, setRecoverySession] = useState<SessionState | null>(() => {
+    try {
+      const saved = localStorage.getItem(SESSION_RECOVERY_KEY);
+      if (!saved) return null;
+      const parsed: SessionState = JSON.parse(saved);
+      // Only offer recovery for sessions that have council responses (something to show)
+      if (parsed.councilResponses?.length > 0 && parsed.stage !== WorkflowStage.IDLE) return parsed;
+    } catch {}
+    return null;
   });
 
   const councilService = useRef(new UnifiedCouncilService(config));
@@ -472,6 +486,18 @@ const App: FC = () => {
       setExpandedCards(new Set(config.activeCouncil.map(m => m.id)));
     }
   }, [session.stage]);
+
+  // Persist in-progress sessions to localStorage so they survive a page refresh
+  useEffect(() => {
+    if (session.stage === WorkflowStage.IDLE || session.stage === WorkflowStage.COMPLETED) {
+      localStorage.removeItem(SESSION_RECOVERY_KEY);
+      return;
+    }
+    const t = setTimeout(() => {
+      try { localStorage.setItem(SESSION_RECOVERY_KEY, JSON.stringify(session)); } catch {}
+    }, 400);
+    return () => clearTimeout(t);
+  }, [session]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -527,6 +553,15 @@ const App: FC = () => {
 
     try {
       const responses = await councilService.current.getCouncilResponses(queryInput, membersToUse);
+
+      if (responses.length === 0) {
+        setSession((prev: SessionState) => ({
+          ...prev,
+          stage: WorkflowStage.ERROR,
+          error: 'Geen van de AI-nodes kon een antwoord genereren. Controleer de API-sleutels of probeer het opnieuw.'
+        }));
+        return;
+      }
 
       // Stop at DEBATE stage — user chooses: Live Debate or direct Chairman's Verdict
       setSession((prev: SessionState) => ({
@@ -944,6 +979,21 @@ const App: FC = () => {
 
                   {session.stage === WorkflowStage.IDLE ? (
                     <div className="w-full">
+
+                      {/* Session recovery banner */}
+                      {recoverySession && (
+                        <div className="mb-8 bg-[var(--color-accent)] border-4 border-black p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-[6px_6px_0_0_black] animate-in slide-in-from-top-3 duration-300">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-black uppercase tracking-widest text-black mb-1">Vorige sessie hervat</p>
+                            <p className="text-sm font-bold text-black/80 truncate">"{recoverySession.query}"</p>
+                          </div>
+                          <div className="flex gap-2 shrink-0">
+                            <button type="button" onClick={() => { setSession(recoverySession); setRecoverySession(null); localStorage.removeItem(SESSION_RECOVERY_KEY); }} className="px-4 py-2 bg-black text-white font-black text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">Hervat</button>
+                            <button type="button" onClick={() => { setRecoverySession(null); localStorage.removeItem(SESSION_RECOVERY_KEY); }} className="px-4 py-2 bg-black/15 text-black font-black text-xs uppercase tracking-widest hover:bg-black/30 transition-colors">Negeer</button>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Intro header */}
                       <div className="text-center mb-12 md:mb-16">
                         <p className="text-lg font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-4">
@@ -969,15 +1019,19 @@ const App: FC = () => {
                           )}
                           <textarea
                             value={input}
-                            onChange={(e) =>
-                              setInput(e.target.value)
-                            }
+                            onChange={(e) => setInput(e.target.value.slice(0, 5000))}
                             onFocus={() => setIsInputFocused(true)}
                             onBlur={() => setIsInputFocused(false)}
                             aria-label="Stel je vraag aan de AI-raad"
                             placeholder="Stel je vraag..."
+                            maxLength={5000}
                             className="w-full h-full bg-transparent border-none p-0 text-xl sm:text-2xl md:text-4xl font-black text-black dark:text-white placeholder-transparent focus:ring-0 transition-all resize-none absolute top-0 left-0"
                           />
+                          {input.length > 3000 && (
+                            <span className="absolute bottom-1 left-0 text-[10px] font-black text-black/25 dark:text-white/20 pointer-events-none">
+                              {input.length}/5000
+                            </span>
+                          )}
                         </div>
                         <button
                           type="button"
