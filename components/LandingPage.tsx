@@ -258,21 +258,20 @@ export const LandingPage: FC = () => {
       {/* ══ HERO ══ */}
       <section
         aria-label="Introductie"
-        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-24 md:pt-40 pb-20 md:pb-32 flex flex-col items-center group/hero"
+        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-20 md:pt-32 pb-16 md:pb-24 flex flex-col items-center group/hero"
       >
 
-        <h1 className="relative z-10 text-[clamp(40px,15vw,160px)] font-black uppercase tracking-[-0.04em] leading-[0.8] text-center max-w-[98%] mx-auto mb-6 sm:mb-10">
-          EÉN AI IS<br />
-          <span className="text-black">EEN MENING.</span><br />
-          <span className="text-black">FAINL <span className="text-[var(--color-accent)]">DE STANDAARD.</span></span>
+        <h1 className="relative z-10 text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-center max-w-[98%] mx-auto mb-5 sm:mb-8 text-black">
+          EÉN AI IS EEN MENING.<br />
+          FAINL <span className="text-[var(--color-accent)]">DE STANDAARD.</span>
         </h1>
 
         {/* Action Buttons — prominent, directly under H1 */}
-        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 w-full max-w-2xl mx-auto mb-6 sm:mb-8">
+        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 w-full max-w-2xl mx-auto mb-5 sm:mb-8">
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="w-full sm:w-80 h-16 md:h-20 flex items-center justify-center bg-[var(--color-accent)] text-white font-black text-sm md:text-lg uppercase tracking-[0.2em] border-2 md:border-4 border-black hover:bg-black hover:text-white transition-all duration-300 group shadow-[6px_6px_0_0_black] md:shadow-[10px_10px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+            className="w-full sm:w-80 h-14 md:h-16 flex items-center justify-center bg-[var(--color-accent)] text-white font-black text-sm md:text-lg uppercase tracking-[0.2em] border-2 md:border-4 border-black hover:bg-black hover:text-white transition-all duration-300 group shadow-[4px_4px_0_0_black] md:shadow-[8px_8px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
           >
             Start gratis sessie
             <ArrowRight className="inline-block ml-3 w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:translate-x-1" />
@@ -280,15 +279,15 @@ export const LandingPage: FC = () => {
 
           <Link
             to="/cookbook"
-            className="w-full sm:w-80 h-16 md:h-20 flex items-center justify-center bg-white text-black font-black text-sm md:text-lg uppercase tracking-[0.2em] border-2 md:border-4 border-black hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 text-center shadow-[6px_6px_0_0_black] md:shadow-[10px_10px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+            className="w-full sm:w-80 h-14 md:h-16 flex items-center justify-center bg-white text-black font-black text-sm md:text-lg uppercase tracking-[0.2em] border-2 md:border-4 border-black hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 text-center shadow-[4px_4px_0_0_black] md:shadow-[8px_8px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
           >
             Voorbeeldvragen
           </Link>
         </div>
 
         {/* Inline Hero Input — remove friction, start directly from landing page */}
-        <div className="relative z-10 w-full max-w-2xl mx-auto px-4 mb-10 md:mb-16">
-          <div className={`relative bg-white border-2 md:border-4 border-black transition-all duration-200 ${isHeroFocused ? 'shadow-[8px_8px_0_0_var(--color-accent)]' : 'shadow-[4px_4px_0_0_black]'}`}>
+        <div className="relative z-10 w-full max-w-2xl mx-auto px-4 mb-8 md:mb-12">
+          <div className={`relative bg-white border-2 md:border-4 border-black transition-all duration-200 ${isHeroFocused ? 'shadow-[6px_6px_0_0_var(--color-accent)]' : 'shadow-[4px_4px_0_0_black]'}`}>
             <input
               type="text"
               value={heroInput}
@@ -298,23 +297,23 @@ export const LandingPage: FC = () => {
               onKeyDown={(e) => e.key === 'Enter' && handleHeroSubmit()}
               placeholder="Stel je vraag direct... bijv. 'Is kernenergie de oplossing?'"
               aria-label="Stel je vraag aan de AI-raad"
-              className="w-full bg-transparent border-none px-5 py-4 md:px-6 md:py-5 text-base md:text-xl font-bold text-black placeholder-black/30 focus:ring-0 pr-16 md:pr-20"
+              className="w-full bg-transparent border-none px-4 py-3 md:px-6 md:py-4 text-sm md:text-xl font-bold text-black placeholder-black/30 focus:ring-0 pr-14 md:pr-20"
             />
             <button
               type="button"
               onClick={handleHeroSubmit}
               aria-label="Vraag starten"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-[var(--color-accent)] text-white hover:bg-black transition-colors border-2 border-black"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 bg-[var(--color-accent)] text-white hover:bg-black transition-colors border-2 border-black"
             >
-              <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+              <ArrowRight className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-center text-xs font-black uppercase tracking-[0.2em] text-black/30 mt-3">
+          <p className="text-center text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-black/40 mt-3 md:mt-4">
             Twee sessies gratis · Geen account nodig
           </p>
         </div>
 
-        <p className="relative z-10 text-base sm:text-lg md:text-2xl font-black uppercase tracking-[0.2em] text-black mb-10 md:mb-16 text-center max-w-4xl mx-auto px-6 leading-tight">
+        <p className="relative z-10 text-sm sm:text-lg md:text-2xl font-black uppercase tracking-[0.2em] text-black mb-8 md:mb-16 text-center max-w-4xl mx-auto px-6 leading-tight">
           Het enige protocol dat collectieve intelligentie omzet in absolute helderheid.
         </p>
 
