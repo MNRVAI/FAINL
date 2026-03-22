@@ -257,6 +257,13 @@ const HeroComparisonBanner: FC = () => {
   );
 };
 
+// ── Brand Break Line ──────────────────────────────────────────────────────────
+const BrandBreakLine: FC = () => (
+  <div className="w-full flex justify-center bg-transparent py-8 md:py-16 relative z-20">
+    <div className="w-32 md:w-72 h-1.5 md:h-2 bg-black border-2 border-black shadow-[4px_4px_0_0_var(--color-accent)]"></div>
+  </div>
+);
+
 // ── Main Component ───────────────────────────────────────────────────────────
 export const LandingPage: FC = () => {
   const navigate = useNavigate();
@@ -354,7 +361,8 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ FAINL BREAKDOWN ══ */}
-      <section className="w-full bg-white py-16 md:py-32 border-t border-black/5">
+      <BrandBreakLine />
+      <section className="w-full bg-white pb-16 md:pb-32">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="mb-12 md:mb-20 max-w-3xl">
             <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black mb-6 md:mb-8 leading-[0.9]">
@@ -433,10 +441,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ HOE HET WERKT ══ */}
-      {/* ══ HOE HET WERKT ══ */}
+      <BrandBreakLine />
       <section
         aria-label="Hoe FAINL werkt"
-        className="w-full max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-32"
+        className="w-full max-w-5xl mx-auto px-4 md:px-6 pb-16 md:pb-32"
       >
         <h2 className="text-center text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6">
           HOE WERKT HET?
@@ -495,9 +503,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ WAAROM FAINL ══ */}
+      <BrandBreakLine />
       <section
         aria-label="Kernfuncties van FAINL"
-        className="w-full bg-white dark:bg-black py-16 md:py-32 border-t border-black/5"
+        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
@@ -558,9 +567,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ VERGELIJKING ══ */}
+      <BrandBreakLine />
       <section
         aria-label="FAINL versus gewone AI-tools"
-        className="w-full bg-white dark:bg-black border-t border-black/5 py-16 md:py-32"
+        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
       >
         <div className="max-w-4xl mx-auto px-4 md:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
@@ -620,9 +630,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ FAQ ══ */}
+      <BrandBreakLine />
       <section
         aria-label="FAQ over FAINL"
-        className="w-full bg-white dark:bg-black border-t border-black/5 py-16 md:py-32"
+        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
       >
         <div className="max-w-3xl mx-auto px-4 md:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
@@ -648,9 +659,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ PRIJZEN ══ */}
+      <BrandBreakLine />
       <section
         aria-label="Prijzen en abonnementen"
-        className="w-full bg-white dark:bg-black py-16 md:py-32 border-t border-black/5"
+        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6">
@@ -707,9 +719,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ FINAL CTA ══ */}
+      <BrandBreakLine />
       <section
         aria-label="Aan de slag met FAINL"
-        className="w-full bg-white dark:bg-black py-20 sm:py-32 md:py-48 flex flex-col items-center text-center border-t border-black/5"
+        className="w-full bg-white dark:bg-black pb-20 sm:pb-32 md:pb-48 flex flex-col items-center text-center"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-4xl sm:text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.8] mb-6 md:mb-10">
