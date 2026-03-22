@@ -259,16 +259,38 @@ const HeroComparisonBanner: FC = () => {
 
 // ── Brand Break Line ──────────────────────────────────────────────────────────
 const BrandBreakLine: FC = () => (
-  <div className="w-full flex justify-center bg-transparent py-4 md:py-8 relative z-20">
+  <div className="w-full flex justify-center bg-transparent py-0 relative z-20">
     <div className="w-32 md:w-72 h-1.5 md:h-2 bg-black border-2 border-black shadow-[4px_4px_0_0_var(--color-accent)]"></div>
   </div>
 );
+
+// ── Hero Slides ──────────────────────────────────────────────────────────────
+const HERO_SLIDES = [
+  { top: "AI GEEFT EEN ANTWOORD.", bottomRest: "NL GEEFT HELDERHEID UIT MEERDERE AI'S." },
+  { top: "AI GEEFT EEN MENING.", bottomRest: "NL GEEFT EEN HELDER EINDOORDEEL." },
+  { top: "AI ANTWOORDT.", bottomRest: "NL WEEGT AF EN MAAKT HET HELDER." },
+  { top: "ÉÉN MODEL REAGEERT.", bottomRest: "NL MAAKT HET GLASHELDER." },
+  { top: "AI OP ZICHZELF IS BEPERKT.", bottomRest: "NL MAAKT COLLECTIEVE INTELLIGENTIE HELDER." },
+];
 
 // ── Main Component ───────────────────────────────────────────────────────────
 export const LandingPage: FC = () => {
   const navigate = useNavigate();
   const [heroInput, setHeroInput] = useState('');
   const [isHeroFocused, setIsHeroFocused] = useState(false);
+  const [heroSlideIdx, setHeroSlideIdx] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setHeroSlideIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+        setFade(true);
+      }, 500); // Wait for fade out
+    }, 4500); // 4.5s total cycle
+    return () => clearInterval(interval);
+  }, []);
 
   const handleHeroSubmit = () => {
     const q = heroInput.trim();
@@ -294,12 +316,12 @@ export const LandingPage: FC = () => {
       {/* ══ HERO ══ */}
       <section
         aria-label="Introductie"
-        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-20 md:pt-32 pb-16 md:pb-24 flex flex-col items-center group/hero"
+        className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-20 md:pt-32 pb-6 md:pb-12 flex flex-col items-center group/hero"
       >
 
-        <h1 className="relative z-10 text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-center max-w-[98%] mx-auto mb-5 sm:mb-8 text-black">
-          EÉN AI IS EEN MENING.<br />
-          FAINL <span className="text-[var(--color-accent)]">DE STANDAARD.</span>
+        <h1 className={`relative z-10 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.95] text-center max-w-7xl mx-auto mb-6 sm:mb-10 text-black transition-opacity duration-500 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}>
+          {HERO_SLIDES[heroSlideIdx].top}<br className="hidden md:block mb-2" />
+          F<span className="text-[var(--color-accent)]">AI</span>{HERO_SLIDES[heroSlideIdx].bottomRest}
         </h1>
 
         {/* Action Buttons — prominent, directly under H1 */}
@@ -349,9 +371,7 @@ export const LandingPage: FC = () => {
           </p>
         </div>
 
-        <p className="relative z-10 text-sm sm:text-lg md:text-2xl font-black uppercase tracking-[0.2em] text-black mb-8 md:mb-12 text-center max-w-4xl mx-auto px-6 leading-tight">
-          Het enige protocol dat collectieve intelligentie omzet in absolute helderheid.
-        </p>
+        {/* Text moved to H1 above */}
 
         {/* Brand break line */}
         <div className="relative z-10 w-32 md:w-72 mx-auto h-1.5 md:h-2 bg-black border-2 border-black shadow-[4px_4px_0_0_var(--color-accent)] mb-6 md:mb-12"></div>
@@ -362,14 +382,14 @@ export const LandingPage: FC = () => {
 
       {/* ══ FAINL BREAKDOWN ══ */}
       <BrandBreakLine />
-      <section className="w-full bg-white pb-16 md:pb-32">
+      <section className="w-full bg-white pt-8 md:pt-16 pb-8 md:pb-16">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="mb-12 md:mb-20 max-w-3xl">
+          <div className="mb-12 md:mb-20 max-w-4xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black mb-6 md:mb-8 leading-[0.9]">
               Van Twijfelachtig naar Zekerheid:<br />
               <span className="text-[var(--color-accent)]">AI Zonder Fratsen.</span>
             </h2>
-            <p className="text-lg md:text-2xl font-bold text-black leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-2xl font-bold text-black leading-relaxed max-w-2xl mx-auto">
               De enige standaard voor wie geen genoegen neemt met "waarschijnlijk waar".
             </p>
           </div>
@@ -441,10 +461,10 @@ export const LandingPage: FC = () => {
       </section>
 
       {/* ══ HOE HET WERKT ══ */}
-      <BrandBreakLine />
+      <div className="w-full bg-white dark:bg-black pt-8 md:pt-12"><BrandBreakLine /></div>
       <section
         aria-label="Hoe FAINL werkt"
-        className="w-full max-w-5xl mx-auto px-4 md:px-6 pb-16 md:pb-32"
+        className="w-full max-w-5xl mx-auto px-4 md:px-6 pt-4 md:pt-8 pb-8 md:pb-16"
       >
         <h2 className="text-center text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6">
           HOE WERKT HET?
@@ -506,7 +526,7 @@ export const LandingPage: FC = () => {
       <BrandBreakLine />
       <section
         aria-label="Kernfuncties van FAINL"
-        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
+        className="w-full bg-white dark:bg-black pt-8 md:pt-16 pb-8 md:pb-16"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
@@ -570,7 +590,7 @@ export const LandingPage: FC = () => {
       <BrandBreakLine />
       <section
         aria-label="FAINL versus gewone AI-tools"
-        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
+        className="w-full bg-white dark:bg-black pt-8 md:pt-16 pb-8 md:pb-16"
       >
         <div className="max-w-4xl mx-auto px-4 md:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
@@ -633,7 +653,7 @@ export const LandingPage: FC = () => {
       <BrandBreakLine />
       <section
         aria-label="FAQ over FAINL"
-        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
+        className="w-full bg-white dark:bg-black pt-8 md:pt-16 pb-8 md:pb-16"
       >
         <div className="max-w-3xl mx-auto px-4 md:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
@@ -662,7 +682,7 @@ export const LandingPage: FC = () => {
       <BrandBreakLine />
       <section
         aria-label="Prijzen en abonnementen"
-        className="w-full bg-white dark:bg-black pb-16 md:pb-32"
+        className="w-full bg-white dark:bg-black pt-8 md:pt-16 pb-8 md:pb-16"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6">
@@ -722,7 +742,7 @@ export const LandingPage: FC = () => {
       <BrandBreakLine />
       <section
         aria-label="Aan de slag met FAINL"
-        className="w-full bg-white dark:bg-black pb-20 sm:pb-32 md:pb-48 flex flex-col items-center text-center"
+        className="w-full bg-white dark:bg-black pt-12 md:pt-20 pb-12 sm:pb-24 md:pb-32 flex flex-col items-center text-center"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-4xl sm:text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.8] mb-6 md:mb-10">
