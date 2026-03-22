@@ -259,7 +259,7 @@ const HeroComparisonBanner: FC = () => {
 
 // ── Brand Break Line ──────────────────────────────────────────────────────────
 const BrandBreakLine: FC = () => (
-  <div className="w-full flex justify-center bg-transparent py-8 md:py-16 relative z-20">
+  <div className="w-full flex justify-center bg-transparent py-4 md:py-8 relative z-20">
     <div className="w-32 md:w-72 h-1.5 md:h-2 bg-black border-2 border-black shadow-[4px_4px_0_0_var(--color-accent)]"></div>
   </div>
 );
@@ -354,7 +354,7 @@ export const LandingPage: FC = () => {
         </p>
 
         {/* Brand break line */}
-        <div className="relative z-10 w-32 md:w-72 mx-auto h-1.5 md:h-2 bg-black border-2 border-black shadow-[4px_4px_0_0_var(--color-accent)] mb-10 md:mb-20 mt-2"></div>
+        <div className="relative z-10 w-32 md:w-72 mx-auto h-1.5 md:h-2 bg-black border-2 border-black shadow-[4px_4px_0_0_var(--color-accent)] mb-6 md:mb-12"></div>
 
         {/* Static Comparison Banner */}
         <HeroComparisonBanner />
