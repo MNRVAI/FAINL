@@ -15,7 +15,6 @@ import {
   Eye,
   Swords,
   PenLine,
-  CheckCircle2,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import {
@@ -217,7 +216,7 @@ const PaymentSuccessPage: FC = () => {
     <div className="max-w-xl mx-auto px-4 py-16 md:py-24 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="p-6 md:p-8 bg-white border-2 md:border-4 border-black shadow-[4px_4px_0_0_var(--color-accent)] md:shadow-[8px_8px_0_0_var(--color-accent)]">
         <div className="w-12 h-12 md:w-16 md:h-16 bg-black border-2 md:border-4 border-black flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 className="w-8 h-8 text-white" />
+          <CircleCheck className="w-8 h-8 text-white" />
         </div>
         <h1 className="text-3xl font-black uppercase tracking-tighter mb-3 text-black">
           {isConfirmed ? 'Betaling Bevestigd' : 'Bedankt!'}
@@ -308,6 +307,7 @@ const App: FC = () => {
   const [config, setConfig] = useState<AppConfig>(() => {
     const saved = localStorage.getItem("fainl_config_v2");
     if (!saved) return normalizeConfig(null) as AppConfig;
+    if (saved.length > 100_000) return normalizeConfig(null) as AppConfig;
     try {
       return normalizeConfig(JSON.parse(saved)) as AppConfig;
     } catch {
@@ -521,19 +521,24 @@ const App: FC = () => {
       return;
     }
 
-    // Deduct credit Server-Side first if logged in
+    // Deduct credit atomically server-side via RPC to prevent race conditions
     if (authSession?.user && profile) {
-      if (profile.credits_remaining > 0) {
-        const { error } = await supabase.from('user_profiles').update({
-          credits_remaining: profile.credits_remaining - USAGE_LIMITS.CREDITS_PER_TURN
-        }).eq('id', authSession.user.id);
-        if (!error) setProfile(p => p ? { ...p, credits_remaining: p.credits_remaining - USAGE_LIMITS.CREDITS_PER_TURN } : null);
-      } else {
-        const { error } = await supabase.from('user_profiles').update({
-          total_turns_used: profile.total_turns_used + 1
-        }).eq('id', authSession.user.id);
-        if (!error) setProfile(p => p ? { ...p, total_turns_used: p.total_turns_used + 1 } : null);
+      const { data: rpcData, error: rpcError } = await supabase.rpc('deduct_credit', {
+        p_user_id: authSession.user.id,
+      });
+      if (rpcError || !rpcData?.success) {
+        setSession((prev: SessionState) => ({
+          ...prev,
+          stage: WorkflowStage.ERROR,
+          error: "Onvoldoende credits om een sessie te starten.",
+        }));
+        return;
       }
+      setProfile(p => p ? {
+        ...p,
+        credits_remaining: rpcData.credits_remaining,
+        total_turns_used: rpcData.total_turns_used,
+      } : null);
     } else {
       // Fallback local storage for backward compat edge cases, though handleStart blocks it.
       setConfig((current: AppConfig) => {
@@ -702,6 +707,13 @@ const App: FC = () => {
     // Configure each Payment Link's success URL in the Stripe Dashboard to:
     //   https://fainl.com/?payment_confirm=true&type=credits&count=X
     // where X is the number of credits for that product.
+    try {
+      const destination = new URL(pkg.stripeUrl);
+      if (!destination.hostname.endsWith('stripe.com')) throw new Error('invalid host');
+    } catch {
+      alert("Ongeldige betaallink. Neem contact op met support.");
+      return;
+    }
     window.location.href = pkg.stripeUrl;
   };
 

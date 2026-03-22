@@ -1,5 +1,5 @@
 
-import { FC, useState, useCallback, useEffect, useRef } from 'react';
+import { FC, useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -290,7 +290,7 @@ export const CompositionStage: FC<CompositionStageProps> = ({ responses, members
     return items;
   }, [responses]);
 
-  const sourceItems = allSourceItems();
+  const sourceItems = useMemo(() => allSourceItems(), [allSourceItems]);
 
   const [canvasItems, setCanvasItems] = useState<CanvasItem[]>([]);
   const [activeItem, setActiveItem] = useState<CanvasItem | null>(null);

@@ -1,4 +1,21 @@
 import { FC, useState, useEffect, useRef, useCallback } from 'react';
+
+// Minimal Web Speech API typings (vendor-prefixed, not yet in standard DOM lib)
+interface SpeechRecognitionLike {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  start(): void;
+  stop(): void;
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onerror: (() => void) | null;
+  onend: (() => void) | null;
+}
+type SpeechRecognitionCtor = new () => SpeechRecognitionLike;
+type WindowWithSpeechRecognition = Window & {
+  SpeechRecognition?: SpeechRecognitionCtor;
+  webkitSpeechRecognition?: SpeechRecognitionCtor;
+};
 import ReactMarkdown from 'react-markdown';
 import {
   X, Mic, MicOff, Volume2, VolumeX, Pause, Play, Gavel,
@@ -44,6 +61,9 @@ const PREFERRED_NL_VOICE_NAMES = [
   'Google Nederlands', 'nl-NL-Standard',
 ];
 
+const PREGEN_DISPLAY_DELAY_MS = 120;
+const TURN_LOOP_DELAY_MS = 250;
+
 const DURATION_OPTIONS = [
   { label: '1 min',  seconds: 60 },
   { label: '5 min',  seconds: 300 },
@@ -67,13 +87,15 @@ function extractTTSText(text: string): string {
   return stripped.split(/(?<=[.!?])\s+/).slice(0, 2).join(' ').substring(0, 180);
 }
 
-// Play base64 MP3 audio — returns Promise that resolves when playback ends
+// Play base64 MP3 audio — resolves when playback ends or after 30s max
 function playBase64Audio(base64: string): Promise<void> {
   return new Promise(resolve => {
     const audio = new Audio(`data:audio/mp3;base64,${base64}`);
-    audio.onended = () => resolve();
-    audio.onerror = () => resolve();
-    audio.play().catch(() => resolve());
+    const timeout = setTimeout(() => { audio.pause(); resolve(); }, 30_000);
+    const done = () => { clearTimeout(timeout); resolve(); };
+    audio.onended = done;
+    audio.onerror = done;
+    audio.play().catch(done);
   });
 }
 
@@ -121,7 +143,7 @@ async function speakNL(
       await playBase64Audio(audioContent);
       return;
     }
-  } catch { /* fall through to browser TTS */ }
+  } catch (err) { console.warn('Chirp TTS failed, falling back to browser TTS:', err instanceof Error ? err.message : err); }
 
   // Fallback: browser Web Speech API
   const fallbackProfile = VOICE_PROFILES[nodeIdx % VOICE_PROFILES.length];
@@ -155,10 +177,11 @@ export const DebateRoom: FC<DebateRoomProps> = ({
   const scrollRef           = useRef<HTMLDivElement>(null);
   const loopTimerRef        = useRef<NodeJS.Timeout | null>(null);
   const countdownRef        = useRef<NodeJS.Timeout | null>(null);
-  const recognitionRef      = useRef<any>(null);
+  const recognitionRef      = useRef<SpeechRecognitionLike | null>(null);
   // Pre-generated next turn (ready while current TTS plays)
   const preGenRef           = useRef<{ memberIdx: number; response: string } | null>(null);
   const isPreGenningRef     = useRef(false);
+  const preGenAbortRef      = useRef<AbortController | null>(null);
 
   const readyMembers = councilService.getReadyMembers(config.activeCouncil);
 
@@ -173,6 +196,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
       stopLoop();
       window.speechSynthesis?.cancel();
       recognitionRef.current?.stop();
+      preGenAbortRef.current?.abort();
     };
   }, []);
 
@@ -225,7 +249,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
         // Show text immediately as streaming for visual continuity
         setStreamingText(response);
         streamingTextRef.current = response;
-        await new Promise(r => setTimeout(r, 120)); // tiny flicker
+        await new Promise(r => setTimeout(r, PREGEN_DISPLAY_DELAY_MS));
       } else {
         // Normal streaming generation
         response = await councilService.generateDebateResponseStream(
@@ -261,6 +285,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
       const nextSpeaker = readyMembers[nextIdx];
       if (isRunningRef.current && !isPausedRef.current && !isPreGenningRef.current) {
         isPreGenningRef.current = true;
+        preGenAbortRef.current?.abort();
+        preGenAbortRef.current = new AbortController();
         const snapshotMessages = [...messagesRef.current];
         councilService.generateDebateResponseStream(
           session.query, nextSpeaker, session.councilResponses,
@@ -270,7 +296,10 @@ export const DebateRoom: FC<DebateRoomProps> = ({
           if (isMountedRef.current && isRunningRef.current && !isPausedRef.current) {
             preGenRef.current = { memberIdx: nextIdx, response: r };
           }
-        }).catch(() => {}).finally(() => { isPreGenningRef.current = false; });
+        }).catch(() => {}).finally(() => {
+          isPreGenningRef.current = false;
+          preGenAbortRef.current = null;
+        });
       }
 
       // ── TTS ───────────────────────────────────────────────────────────────
@@ -292,7 +321,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
 
     // Short pause after TTS — pre-gen likely already done
     if (isRunningRef.current && isMountedRef.current) {
-      loopTimerRef.current = setTimeout(runNextTurn, 250);
+      loopTimerRef.current = setTimeout(runNextTurn, TURN_LOOP_DELAY_MS);
     }
   }, [readyMembers, session, councilService, cachedVoices, onAddDebateMessage]);
 
@@ -304,6 +333,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     if (countdownRef.current)  { clearTimeout(countdownRef.current);  countdownRef.current = null; }
     window.speechSynthesis?.cancel();
     recognitionRef.current?.stop();
+    preGenAbortRef.current?.abort();
+    preGenAbortRef.current = null;
     onEndDebate([...messagesRef.current]);
   }, [onEndDebate]);
 
@@ -371,7 +402,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
   }, [userInput, onAddDebateMessage, runNextTurn]);
 
   const toggleMic = useCallback(() => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SR = (window as WindowWithSpeechRecognition).SpeechRecognition
+            ?? (window as WindowWithSpeechRecognition).webkitSpeechRecognition;
     if (!SR) { alert('Spraakherkenning niet ondersteund — gebruik Chrome of Edge.'); return; }
 
     if (micActive) {
@@ -384,7 +416,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
     r.lang = 'nl-NL';
     r.continuous = false;
     r.interimResults = false;
-    r.onresult = (e: any) => {
+    r.onresult = (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => {
       const t = e.results[0]?.[0]?.transcript?.trim();
       if (t) {
         const msg: DebateMessage = { id: `user-${Date.now()}`, memberId: 'user', content: t, timestamp: Date.now() };
@@ -523,7 +555,7 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                         onClick={() => !isUser && setUserInput(prev => `${prev}> ${member?.name}: "${msg.content.substring(0, 60)}..."\n\n`)}
                         title={!isUser ? 'Klik om te citeren' : ''}
                       >
-                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        <ReactMarkdown disallowedElements={['script', 'iframe', 'object', 'embed']} unwrapDisallowed>{msg.content}</ReactMarkdown>
                       </div>
                     </div>
                   </div>

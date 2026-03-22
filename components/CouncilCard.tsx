@@ -81,7 +81,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
                       prose-p:text-black dark:prose-p:text-white/80 prose-p:leading-relaxed prose-p:my-1
                       prose-strong:text-black dark:prose-strong:text-white prose-strong:font-black
                       prose-ul:my-1 prose-li:text-black dark:prose-li:text-white/80 prose-li:my-0.5">
-                      <ReactMarkdown>{content}</ReactMarkdown>
+                      <ReactMarkdown disallowedElements={['script', 'iframe', 'object', 'embed']} unwrapDisallowed>{content}</ReactMarkdown>
                     </div>
                   </div>
                 ))}
@@ -93,7 +93,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
                 prose-headings:text-black dark:prose-headings:text-white prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
                 prose-ul:my-2 prose-li:text-black dark:prose-li:text-white/80 prose-li:my-1 prose-li:leading-relaxed
                 prose-hr:border-zinc-200 dark:prose-hr:border-zinc-700">
-                <ReactMarkdown>{response.content}</ReactMarkdown>
+                <ReactMarkdown disallowedElements={['script', 'iframe', 'object', 'embed']} unwrapDisallowed>{response.content}</ReactMarkdown>
               </div>
             )}
           </div>

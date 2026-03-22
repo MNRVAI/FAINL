@@ -2,11 +2,9 @@ import { CouncilMember, CouncilResponse, PeerReview, ModelProvider, AppConfig, D
 import { SYSTEM_PROMPTS } from "../constants";
 import { parseCompartments } from "./parser";
 
-// Supabase project URL — safe to expose (anon key is public)
-const SUPABASE_URL = (import.meta.env.VITE_SUPABASE_URL as string) || 'https://bbsqosivxfcpkgehfwmm.supabase.co';
-// Anon key is public by design (Supabase safe-to-expose pattern)
-const SUPABASE_ANON_KEY = (import.meta.env.VITE_SUPABASE_ANON_KEY as string)
-  || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJic3Fvc2l2eGZjcGtnZWhmd21tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTY1MTEsImV4cCI6MjA4NzQzMjUxMX0.AFlNomsT7PVtX_1HTenhmqgoH1ghp6t7kMrYZdV4Cbw';
+// Supabase project URL and anon key — read from env only (no hardcoded fallbacks)
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 const PROXY_URL = `${SUPABASE_URL}/functions/v1/ai-proxy`;
 
 // Providers handled server-side via the Edge Function — no API keys needed in the browser
@@ -78,22 +76,29 @@ export class UnifiedCouncilService {
     const provider = PROVIDER_STRING[member.provider];
     if (!provider) throw new Error(`Provider ${member.provider} not supported by proxy`);
 
-    const res = await fetch(PROXY_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-      },
-      body: JSON.stringify({ provider, modelId: member.modelId, prompt, systemInstruction, stream: false }),
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
+    try {
+      const res = await fetch(PROXY_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ provider, modelId: member.modelId, prompt, systemInstruction, stream: false }),
+        signal: controller.signal,
+      });
 
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-      throw new Error(data.error || `Proxy error ${res.status}`);
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(data.error || `Proxy error ${res.status}`);
+      }
+      const data = await res.json();
+      return data.content || '';
+    } finally {
+      clearTimeout(timeoutId);
     }
-    const data = await res.json();
-    return data.content || '';
   }
 
   private async callProxyStream(
@@ -106,6 +111,8 @@ export class UnifiedCouncilService {
     const provider = PROVIDER_STRING[member.provider];
     if (!provider) throw new Error(`Provider ${member.provider} not supported by proxy`);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60_000);
     const res = await fetch(PROXY_URL, {
       method: 'POST',
       headers: {
@@ -114,35 +121,41 @@ export class UnifiedCouncilService {
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       },
       body: JSON.stringify({ provider, modelId: member.modelId, prompt, systemInstruction, stream: true, ...(maxTokens ? { maxTokens } : {}) }),
+      signal: controller.signal,
     });
 
     if (!res.ok) {
+      clearTimeout(timeoutId);
       const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
       throw new Error(data.error || `Proxy error ${res.status}`);
     }
-    if (!res.body) throw new Error('No response body from proxy');
+    if (!res.body) { clearTimeout(timeoutId); throw new Error('No response body from proxy'); }
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let fullText = '';
     let buffer = '';
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() ?? '';
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const payload = line.slice(6).trim();
-        if (payload === '[DONE]') continue;
-        try {
-          const parsed = JSON.parse(payload);
-          const text = parsed.content || '';
-          if (text) { fullText += text; onChunk?.(text); }
-        } catch { /* partial JSON */ }
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() ?? '';
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const payload = line.slice(6).trim();
+          if (payload === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(payload);
+            const text = parsed.content || '';
+            if (text) { fullText += text; onChunk?.(text); }
+          } catch { /* partial JSON */ }
+        }
       }
+    } finally {
+      clearTimeout(timeoutId);
     }
     return fullText;
   }
