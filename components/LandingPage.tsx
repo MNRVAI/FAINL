@@ -231,6 +231,17 @@ const HeroComparisonBanner: FC = () => {
 // ── Main Component ───────────────────────────────────────────────────────────
 export const LandingPage: FC = () => {
   const navigate = useNavigate();
+  const [heroInput, setHeroInput] = useState('');
+  const [isHeroFocused, setIsHeroFocused] = useState(false);
+
+  const handleHeroSubmit = () => {
+    const q = heroInput.trim();
+    if (q) {
+      navigate('/mission', { state: { autoQuery: q } });
+    } else {
+      navigate('/mission');
+    }
+  };
 
   return (
     <>
@@ -250,80 +261,109 @@ export const LandingPage: FC = () => {
         className="relative w-full overflow-hidden bg-white text-[#0d1322] pt-24 md:pt-40 pb-20 md:pb-32 flex flex-col items-center group/hero"
       >
 
-        <h1 className="relative z-10 text-[clamp(40px,15vw,160px)] font-black uppercase tracking-[-0.04em] leading-[0.8] text-center max-w-[98%] mx-auto mb-10 sm:mb-12">
+        <h1 className="relative z-10 text-[clamp(40px,15vw,160px)] font-black uppercase tracking-[-0.04em] leading-[0.8] text-center max-w-[98%] mx-auto mb-6 sm:mb-10">
           EÉN AI IS<br />
           <span className="text-black">EEN MENING.</span><br />
           <span className="text-black">FAINL <span className="text-[var(--color-accent)]">DE STANDAARD.</span></span>
         </h1>
-        <p className="relative z-10 text-lg md:text-3xl font-black uppercase tracking-[0.2em] text-black mb-16 md:mb-24 text-center max-w-5xl mx-auto px-6 leading-tight">
+
+        {/* Action Buttons — prominent, directly under H1 */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4 w-full max-w-2xl mx-auto mb-6 sm:mb-8">
+          <button
+            type="button"
+            onClick={() => navigate("/mission")}
+            className="w-full sm:w-80 h-16 md:h-20 flex items-center justify-center bg-[var(--color-accent)] text-white font-black text-sm md:text-lg uppercase tracking-[0.2em] border-2 md:border-4 border-black hover:bg-black hover:text-white transition-all duration-300 group shadow-[6px_6px_0_0_black] md:shadow-[10px_10px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+          >
+            Start gratis sessie
+            <ArrowRight className="inline-block ml-3 w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:translate-x-1" />
+          </button>
+
+          <Link
+            to="/cookbook"
+            className="w-full sm:w-80 h-16 md:h-20 flex items-center justify-center bg-white text-black font-black text-sm md:text-lg uppercase tracking-[0.2em] border-2 md:border-4 border-black hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 text-center shadow-[6px_6px_0_0_black] md:shadow-[10px_10px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+          >
+            Voorbeeldvragen
+          </Link>
+        </div>
+
+        {/* Inline Hero Input — remove friction, start directly from landing page */}
+        <div className="relative z-10 w-full max-w-2xl mx-auto px-4 mb-10 md:mb-16">
+          <div className={`relative bg-white border-2 md:border-4 border-black transition-all duration-200 ${isHeroFocused ? 'shadow-[8px_8px_0_0_var(--color-accent)]' : 'shadow-[4px_4px_0_0_black]'}`}>
+            <input
+              type="text"
+              value={heroInput}
+              onChange={(e) => setHeroInput(e.target.value.slice(0, 300))}
+              onFocus={() => setIsHeroFocused(true)}
+              onBlur={() => setIsHeroFocused(false)}
+              onKeyDown={(e) => e.key === 'Enter' && handleHeroSubmit()}
+              placeholder="Stel je vraag direct... bijv. 'Is kernenergie de oplossing?'"
+              aria-label="Stel je vraag aan de AI-raad"
+              className="w-full bg-transparent border-none px-5 py-4 md:px-6 md:py-5 text-base md:text-xl font-bold text-black placeholder-black/30 focus:ring-0 pr-16 md:pr-20"
+            />
+            <button
+              type="button"
+              onClick={handleHeroSubmit}
+              aria-label="Vraag starten"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-[var(--color-accent)] text-white hover:bg-black transition-colors border-2 border-black"
+            >
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+          </div>
+          <p className="text-center text-xs font-black uppercase tracking-[0.2em] text-black/30 mt-3">
+            Twee sessies gratis · Geen account nodig
+          </p>
+        </div>
+
+        <p className="relative z-10 text-base sm:text-lg md:text-2xl font-black uppercase tracking-[0.2em] text-black mb-10 md:mb-16 text-center max-w-4xl mx-auto px-6 leading-tight">
           Het enige protocol dat collectieve intelligentie omzet in absolute helderheid.
         </p>
 
         {/* Static Comparison Banner */}
         <HeroComparisonBanner />
-
-        {/* Action Buttons */}
-        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 px-6 w-full max-w-2xl mx-auto">
-          <button
-            type="button"
-            onClick={() => navigate("/mission")}
-            className="w-full sm:w-80 h-24 flex items-center justify-center bg-black text-white font-black text-lg uppercase tracking-[0.2em] border-4 border-black hover:bg-white hover:text-black transition-all duration-300 group shadow-[12px_12px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
-          >
-            Start gratis sessie
-            <ArrowRight className="inline-block ml-3 w-6 h-6 transition-transform group-hover:translate-x-1" />
-          </button>
-          
-          <Link
-            to="/cookbook"
-            className="w-full sm:w-80 h-24 flex items-center justify-center bg-white text-black font-black text-lg uppercase tracking-[0.2em] border-4 border-black hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 text-center shadow-[12px_12px_0_0_black] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
-          >
-            Voorbeeldvragen
-          </Link>
-        </div>
       </section>
 
       {/* ══ FAINL BREAKDOWN ══ */}
-      <section className="w-full bg-white py-24 md:py-32 border-t border-black/5">
+      <section className="w-full bg-white py-16 md:py-32 border-t border-black/5">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="mb-20 max-w-3xl">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black mb-8 leading-[0.9]">
+          <div className="mb-12 md:mb-20 max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black mb-6 md:mb-8 leading-[0.9]">
               Van Twijfelachtig naar Zekerheid:<br />
               <span className="text-[var(--color-accent)]">AI Zonder Fratsen.</span>
             </h2>
-            <p className="text-xl md:text-2xl font-bold text-black leading-relaxed max-w-2xl">
+            <p className="text-lg md:text-2xl font-bold text-black leading-relaxed max-w-2xl">
               De enige standaard voor wie geen genoegen neemt met "waarschijnlijk waar".
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <div className="group">
-              <div className="text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-4">01</div>
-              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">De Limiet van Eén</h3>
-              <p className="text-lg font-bold text-black leading-relaxed">
-                Eén AI-model is een tunnelvisie. Zelfs de beste modellen hallucineren. FAINL doorbreekt de isolatie van single-model antwoorden.
-              </p>
-            </div>
-            <div className="group">
-              <div className="text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-4">02</div>
-              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">Collectieve Kracht</h3>
-              <p className="text-lg font-bold text-black leading-relaxed">
-                Wij zetten 5 top-modellen parallel aan het work. Geen beïnvloeding, maar pure, rauwe intelligentie uit verschillende bronnen.
-              </p>
-            </div>
-            <div className="group">
-              <div className="text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-4">03</div>
-              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">Het FAINL Protocol</h3>
-              <p className="text-lg font-bold text-black leading-relaxed">
-                Debat en verificatie zitten in ons DNA. Modellen corrigeren elkaar live, nog voordat jij het antwoord ziet.
-              </p>
-            </div>
-            <div className="group">
-              <div className="text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-4">04</div>
-              <h3 className="text-2xl font-black uppercase tracking-tight text-black mb-4">90% Accuratie</h3>
-              <p className="text-lg font-bold text-black leading-relaxed">
-                Een reductie van 80% op vage antwoorden en een sprong naar 90% correcte, diep gewogen en gemotiveerde beantwoording.
-              </p>
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+              <div className="group">
+                <div className="text-5xl md:text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-2 md:mb-4">01</div>
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black mb-2 md:mb-4">De Limiet van Eén</h3>
+                <p className="text-base md:text-lg font-bold text-black leading-relaxed">
+                  Eén AI-model is een tunnelvisie. Zelfs de beste modellen hallucineren. FAINL doorbreekt de isolatie van single-model antwoorden.
+                </p>
+              </div>
+              <div className="group">
+                <div className="text-5xl md:text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-2 md:mb-4">02</div>
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black mb-2 md:mb-4">Collectieve Kracht</h3>
+                <p className="text-base md:text-lg font-bold text-black leading-relaxed">
+                  Wij zetten 5 top-modellen parallel aan het work. Geen beïnvloeding, maar pure, rauwe intelligentie uit verschillende bronnen.
+                </p>
+              </div>
+              <div className="group">
+                <div className="text-5xl md:text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-2 md:mb-4">03</div>
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black mb-2 md:mb-4">Het FAINL Protocol</h3>
+                <p className="text-base md:text-lg font-bold text-black leading-relaxed">
+                  Debat en verificatie zitten in ons DNA. Modellen corrigeren elkaar live, nog voordat jij het antwoord ziet.
+                </p>
+              </div>
+              <div className="group">
+                <div className="text-5xl md:text-7xl font-black text-black group-hover:text-[var(--color-accent)] transition-colors duration-500 mb-2 md:mb-4">04</div>
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-black mb-2 md:mb-4">90% Accuratie</h3>
+                <p className="text-base md:text-lg font-bold text-black leading-relaxed">
+                  Een reductie van 80% op vage antwoorden en een sprong naar 90% correcte, diep gewogen en gemotiveerde beantwoording.
+                </p>
+              </div>
           </div>
         </div>
       </section>
@@ -365,12 +405,12 @@ export const LandingPage: FC = () => {
       {/* ══ HOE HET WERKT ══ */}
       <section
         aria-label="Hoe FAINL werkt"
-        className="w-full max-w-5xl mx-auto px-4 md:px-6 py-24 md:py-32"
+        className="w-full max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-32"
       >
-        <h2 className="text-center text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6">
+        <h2 className="text-center text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6">
           HOE WERKT HET?
         </h2>
-        <p className="text-center text-xl md:text-2xl text-black dark:text-white/60 font-bold mb-16 md:mb-24 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-center text-lg md:text-2xl text-black dark:text-white/60 font-bold mb-12 md:mb-24 max-w-2xl mx-auto leading-relaxed">
           Van jouw vraag tot het ultieme eindoordeel — in vijf geavanceerde, geautomatiseerde stappen door het FAINL protocol.
         </p>
 
@@ -426,13 +466,13 @@ export const LandingPage: FC = () => {
       {/* ══ WAAROM FAINL ══ */}
       <section
         aria-label="Kernfuncties van FAINL"
-        className="w-full bg-white dark:bg-black py-24 md:py-32 border-t border-black/5"
+        className="w-full bg-white dark:bg-black py-16 md:py-32 border-t border-black/5"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
             WAAROM FAINL?
           </h2>
-          <p className="text-center text-xl md:text-2xl text-black dark:text-white/60 font-bold mb-16 md:mb-24 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-center text-lg md:text-2xl text-black dark:text-white/60 font-bold mb-12 md:mb-24 max-w-2xl mx-auto leading-relaxed">
             Gebouwd voor wie niet genoeg heeft aan een "waarschijnlijk" antwoord. Expertise door collectie.
           </p>
 
@@ -471,15 +511,15 @@ export const LandingPage: FC = () => {
             ].map(({ icon: Icon, title, desc }) => (
               <article
                 key={title}
-                className="bg-white dark:bg-black border-2 border-black rounded-none p-10 hover:border-[var(--color-accent)] hover:shadow-[10px_10px_0_0_var(--color-accent)] transition-all duration-300 group"
+                className="bg-white dark:bg-black border-2 border-black rounded-none p-6 sm:p-8 md:p-10 hover:border-[var(--color-accent)] hover:shadow-[6px_6px_0_0_var(--color-accent)] md:hover:shadow-[10px_10px_0_0_var(--color-accent)] transition-all duration-300 group"
               >
-                <div className="w-16 h-16 bg-black flex items-center justify-center mb-8 group-hover:bg-[var(--color-accent)] transition-colors duration-500">
-                  <Icon className="w-8 h-8 text-white" />
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-black flex items-center justify-center mb-6 md:mb-8 group-hover:bg-[var(--color-accent)] transition-colors duration-500">
+                  <Icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
                 </div>
-                <h3 className="font-black text-2xl uppercase tracking-tighter text-black dark:text-white mb-6">
+                <h3 className="font-black text-xl md:text-2xl uppercase tracking-tighter text-black dark:text-white mb-4 md:mb-6">
                   {title}
                 </h3>
-                <p className="text-lg font-bold text-black dark:text-white/50 leading-relaxed">{desc}</p>
+                <p className="text-base md:text-lg font-bold text-black dark:text-white/50 leading-relaxed">{desc}</p>
               </article>
             ))}
           </div>
@@ -489,17 +529,17 @@ export const LandingPage: FC = () => {
       {/* ══ VERGELIJKING ══ */}
       <section
         aria-label="FAINL versus gewone AI-tools"
-        className="w-full bg-white dark:bg-black border-t border-black/5 py-24 md:py-32"
+        className="w-full bg-white dark:bg-black border-t border-black/5 py-16 md:py-32"
       >
         <div className="max-w-4xl mx-auto px-4 md:px-6">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
             FAINL <span className="text-[var(--color-accent)]">VS.</span> GEWONE AI
           </h2>
-          <p className="text-center text-xl md:text-2xl text-black dark:text-white/60 font-bold mb-16 md:mb-24 leading-relaxed">
+          <p className="text-center text-lg md:text-2xl text-black dark:text-white/60 font-bold mb-10 md:mb-24 leading-relaxed">
             Waarom is één model nooit genoeg voor kritische vragen?
           </p>
 
-          <div className="border-2 border-black dark:border-white/20 overflow-hidden shadow-[20px_20px_0_0_var(--color-accent)]">
+          <div className="border-2 border-black dark:border-white/20 overflow-hidden shadow-[8px_8px_0_0_var(--color-accent)] md:shadow-[20px_20px_0_0_var(--color-accent)]">
             {/* Column headers */}
             <div className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-[1fr_140px_140px] bg-black text-white px-6 py-6 gap-4">
               <span className="font-black uppercase tracking-[0.2em] text-sm text-text-black">Protocol Check</span>
@@ -520,9 +560,9 @@ export const LandingPage: FC = () => {
               ] as [string, boolean | string, boolean][]).map(([label, single, fainl]) => (
                 <div
                   key={label}
-                  className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-[1fr_140px_140px] items-center px-6 py-6 gap-4 hover:bg-zinc-50 dark:hover:bg-[var(--color-accent)]/5 transition-colors duration-200"
+                  className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-[1fr_140px_140px] items-center px-4 py-4 sm:px-6 sm:py-6 gap-2 sm:gap-4 hover:bg-zinc-50 dark:hover:bg-[var(--color-accent)]/5 transition-colors duration-200"
                 >
-                  <span className="font-black uppercase tracking-tight text-lg md:text-xl text-black dark:text-white">
+                  <span className="font-black uppercase tracking-tight text-sm sm:text-lg md:text-xl text-black dark:text-white">
                     {label}
                   </span>
                   <span className="flex items-center justify-center">
@@ -551,13 +591,13 @@ export const LandingPage: FC = () => {
       {/* ══ FAQ ══ */}
       <section
         aria-label="FAQ over FAINL"
-        className="w-full bg-white dark:bg-black border-t border-black/5 py-24 md:py-32"
+        className="w-full bg-white dark:bg-black border-t border-black/5 py-16 md:py-32"
       >
         <div className="max-w-3xl mx-auto px-4 md:px-6">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6 text-center">
             FAQ
           </h2>
-          <p className="text-center text-xl md:text-2xl text-black dark:text-white/60 font-bold mb-16 md:mb-24 leading-relaxed">
+          <p className="text-center text-lg md:text-2xl text-black dark:text-white/60 font-bold mb-10 md:mb-24 leading-relaxed">
             Alles wat je moet weten over het FAINL Protocol.
           </p>
 
@@ -579,13 +619,13 @@ export const LandingPage: FC = () => {
       {/* ══ PRIJZEN ══ */}
       <section
         aria-label="Prijzen en abonnementen"
-        className="w-full bg-white dark:bg-black py-24 md:py-32 border-t border-black/5"
+        className="w-full bg-white dark:bg-black py-16 md:py-32 border-t border-black/5"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-black dark:text-white mb-4 sm:mb-6">
             EERLIJKE PRIJS
           </h2>
-          <p className="text-xl md:text-2xl text-black dark:text-white/60 font-bold mb-16 md:mb-24 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg md:text-2xl text-black dark:text-white/60 font-bold mb-12 md:mb-24 leading-relaxed max-w-2xl mx-auto">
             Geen verborgen kossten. Betaal voor wat je gebruikt. Start vandaag met twee gratis sessies.
           </p>
 
@@ -595,9 +635,9 @@ export const LandingPage: FC = () => {
                 key={pkg.count}
                 type="button"
                 onClick={() => window.open(pkg.stripeUrl, "_blank")}
-                className="flex flex-col items-center justify-center p-10 bg-white dark:bg-black border-2 border-black rounded-none hover:border-[var(--color-accent)] hover:shadow-[10px_10px_0_0_var(--color-accent)] hover:-translate-y-1 transition-all duration-300 group"
+                className="flex flex-col items-center justify-center p-6 sm:p-10 bg-white dark:bg-black border-2 md:border-4 border-black rounded-none hover:border-[var(--color-accent)] hover:shadow-[6px_6px_0_0_var(--color-accent)] md:hover:shadow-[10px_10px_0_0_var(--color-accent)] hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className="text-6xl font-black mb-2 text-black dark:text-white">{pkg.count}</div>
+                <div className="text-5xl sm:text-6xl font-black mb-2 text-black dark:text-white">{pkg.count}</div>
                 <div className="text-lg font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-6">
                   CREDITS
                 </div>
@@ -638,20 +678,20 @@ export const LandingPage: FC = () => {
       {/* ══ FINAL CTA ══ */}
       <section
         aria-label="Aan de slag met FAINL"
-        className="w-full bg-white dark:bg-black py-32 md:py-48 flex flex-col items-center text-center border-t border-black/5"
+        className="w-full bg-white dark:bg-black py-20 sm:py-32 md:py-48 flex flex-col items-center text-center border-t border-black/5"
       >
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.8] mb-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-4xl sm:text-5xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white leading-[0.8] mb-6 md:mb-10">
             Klaar voor de<br /><span className="text-[var(--color-accent)]">Waarheid?</span>
           </h2>
-          <p className="text-xl md:text-3xl font-bold text-black dark:text-white/60 mb-16 max-w-2xl mx-auto leading-tight italic">
+          <p className="text-lg sm:text-xl md:text-3xl font-bold text-black dark:text-white/60 mb-10 md:mb-16 max-w-2xl mx-auto leading-tight italic">
             "Stel je vraag. Laat de modellen strijden. Ontvang het enige antwoord dat telt."
           </p>
 
           <button
             type="button"
             onClick={() => navigate("/mission")}
-            className="inline-flex items-center gap-4 px-16 py-8 bg-black text-white font-black text-xl uppercase tracking-[0.3em] border-4 border-black hover:bg-white hover:text-black transition-all duration-500 group shadow-[20px_20px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-2 hover:translate-y-2"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-3 sm:gap-4 px-8 py-5 sm:px-16 sm:py-8 bg-black text-white font-black text-base sm:text-xl uppercase tracking-[0.2em] md:tracking-[0.3em] border-2 sm:border-4 border-black hover:bg-white hover:text-black transition-all duration-500 group shadow-[8px_8px_0_0_var(--color-accent)] md:shadow-[20px_20px_0_0_var(--color-accent)] hover:shadow-none hover:translate-x-2 hover:translate-y-2"
           >
             Start Gratis Sessie
             <ArrowRight className="w-8 h-8 transition-transform group-hover:translate-x-4" />

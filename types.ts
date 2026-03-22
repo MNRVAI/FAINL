@@ -62,17 +62,6 @@ export enum WorkflowStage {
   ERROR = "ERROR",
 }
 
-export enum AppView {
-  HOME = 'HOME',
-  PRICING = 'PRICING',
-  ACCOUNT = 'ACCOUNT',
-  COOKBOOK = 'COOKBOOK',
-  FAQ = 'FAQ',
-  CONTACT = 'CONTACT',
-  PRIVACY = 'PRIVACY',
-  TERMS = 'TERMS'
-}
-
 export interface SessionState {
   id: string;
   stage: WorkflowStage;
@@ -97,7 +86,6 @@ export interface AppConfig {
   creditsRemaining: number;
   isLifetime: boolean;
   totalTurnsAllowed: number;
-  hasWatchedAd?: boolean;
   // Local/custom provider keys (proxied providers use server-side secrets)
   customKey?: string;
   customBaseUrl?: string;

@@ -16,7 +16,6 @@ import {
   ToggleLeft,
   ToggleRight,
   Download,
-  Upload,
 } from 'lucide-react';
 import { useState } from 'react';
 import { SessionState, AppConfig, ModelProvider, CouncilMember } from '../types';

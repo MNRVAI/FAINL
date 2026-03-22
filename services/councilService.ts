@@ -157,10 +157,10 @@ export class UnifiedCouncilService {
       baseUrl = member.baseUrl || 'http://localhost:11434/v1';
     } else {
       apiKey = this.config.customKey || '';
-      baseUrl = member.baseUrl || (this.config as any).customBaseUrl || 'http://localhost:1234/v1';
+      baseUrl = member.baseUrl || this.config.customBaseUrl || 'http://localhost:1234/v1';
     }
 
-    const messages: any[] = [];
+    const messages: { role: string; content: string }[] = [];
     if (systemInstruction) messages.push({ role: 'system', content: systemInstruction });
     messages.push({ role: 'user', content: prompt });
 
@@ -187,10 +187,10 @@ export class UnifiedCouncilService {
       baseUrl = member.baseUrl || 'http://localhost:11434/v1';
     } else {
       apiKey = this.config.customKey || '';
-      baseUrl = member.baseUrl || (this.config as any).customBaseUrl || 'http://localhost:1234/v1';
+      baseUrl = member.baseUrl || this.config.customBaseUrl || 'http://localhost:1234/v1';
     }
 
-    const messages: any[] = [];
+    const messages: { role: string; content: string }[] = [];
     if (systemInstruction) messages.push({ role: 'system', content: systemInstruction });
     messages.push({ role: 'user', content: prompt });
 

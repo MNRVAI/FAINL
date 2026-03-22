@@ -221,8 +221,3 @@ export const USAGE_LIMITS = {
   CREDITS_PER_TURN: 1
 };
 
-// Google AdSense display ad voor de reward gate (2e gratis sessie)
-export const ADSENSE = {
-  PUBLISHER_ID: 'ca-pub-7584438343948866',
-  REWARD_GATE_SLOT: '3351859824',
-};

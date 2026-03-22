@@ -425,13 +425,13 @@ export const DebateRoom: FC<DebateRoomProps> = ({
       <div className="w-full max-w-3xl h-[100dvh] sm:h-[92vh] bg-white dark:bg-black border-0 sm:border-4 border-black dark:border-[var(--color-accent)]/40 sm:rounded-none flex flex-col overflow-hidden shadow-2xl">
 
         {/* ── Header ─────────────────────────────────────────────── */}
-        <div className="bg-black border-b-4 border-[var(--color-accent)] text-white px-6 py-5 flex items-center gap-4 shrink-0">
+        <div className="bg-black border-b-4 border-[var(--color-accent)] text-white px-3 py-3 sm:px-6 sm:py-5 flex items-center gap-2 sm:gap-4 shrink-0">
           <Zap className="w-5 h-5 shrink-0 text-[var(--color-accent)] animate-pulse" />
           <div className="flex-1 min-w-0">
-            <p className="font-black text-base uppercase tracking-[0.35em] text-[var(--color-accent)]">Live Debat</p>
-            <p className="font-bold text-xl truncate text-white leading-tight">"{session.query}"</p>
+            <p className="font-black text-xs sm:text-base uppercase tracking-[0.2em] sm:tracking-[0.35em] text-[var(--color-accent)]">Live Debat</p>
+            <p className="font-bold text-base sm:text-xl truncate text-white leading-tight">"{session.query}"</p>
           </div>
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
             {phase === 'live' && (
               <>
                 <span className={`font-mono font-black text-lg tabular-nums ${duration >= 0 && timeLeft < 30 ? 'text-red-400 animate-pulse' : 'text-white/70'}`}>
@@ -444,8 +444,8 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 <button type="button" onClick={togglePause} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors" title={isPaused ? 'Hervatten' : 'Pauzeren'}>
                   {isPaused ? <Play className="w-4 h-4 text-green-400" /> : <Pause className="w-4 h-4" />}
                 </button>
-                <button type="button" onClick={handleEnd} className="flex items-center gap-1.5 px-4 py-2 bg-green-500 hover:bg-green-400 text-white font-black text-base uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
-                  <Gavel className="w-4 h-4" /> Oordeel
+                <button type="button" onClick={handleEnd} className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-500 hover:bg-green-400 text-white font-black text-xs sm:text-base uppercase tracking-widest rounded-lg transition-all" title="Debat beëindigen en oordeel ophalen">
+                  <Gavel className="w-4 h-4" /> <span className="hidden sm:inline">Oordeel</span>
                 </button>
               </>
             )}
@@ -457,11 +457,11 @@ export const DebateRoom: FC<DebateRoomProps> = ({
 
         {/* ── Duurkiezer ─────────────────────────────────────────── */}
         {phase === 'pick' && (
-          <div className="flex-1 flex flex-col items-center justify-center gap-8 p-8">
+          <div className="flex-1 flex flex-col items-center justify-center gap-6 sm:gap-8 p-4 sm:p-8">
             <div className="text-center">
-              <Timer className="w-16 h-16 mx-auto mb-6 text-[var(--color-accent)]" />
-              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white">Hoe lang?</h2>
-              <p className="text-xl text-black dark:text-white/60 mt-3 font-bold">Je kunt het debat altijd vroegtijdig beëindigen.</p>
+              <Timer className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 text-[var(--color-accent)]" />
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-black uppercase tracking-tighter text-black dark:text-white">Hoe lang?</h2>
+              <p className="text-sm sm:text-xl text-black dark:text-white/60 mt-2 sm:mt-3 font-bold">Je kunt het debat altijd vroegtijdig beëindigen.</p>
             </div>
             <div className="grid grid-cols-4 gap-3 w-full max-w-sm">
               {DURATION_OPTIONS.map(opt => (
@@ -475,13 +475,13 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-3 text-lg font-black uppercase tracking-widest text-[var(--color-accent)]">
-              <span>{readyMembers.length} deelnemers</span>
+            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-lg font-black uppercase tracking-widest text-[var(--color-accent)] text-center">
+              <span>{readyMembers.length} analisten</span>
               <span>·</span>
-              <span>{nlVoiceCount > 0 ? `${nlVoiceCount} Nederlandse stemmen` : 'Standaard stemmen'}</span>
+              <span className="hidden sm:inline">{nlVoiceCount > 0 ? `${nlVoiceCount} NL stemmen` : 'Standaard stemmen'}</span>
             </div>
             <button type="button" onClick={handleStart}
-              className="px-16 py-6 bg-black text-white font-black uppercase tracking-[0.3em] text-xl rounded-none border-4 border-black hover:bg-[var(--color-accent)] hover:text-black transition-all shadow-[12px_12px_0_0_var(--color-accent)]">
+              className="px-8 py-4 sm:px-16 sm:py-6 bg-black text-white font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-lg sm:text-xl rounded-none border-2 sm:border-4 border-black hover:bg-[var(--color-accent)] hover:text-black transition-all shadow-[6px_6px_0_0_var(--color-accent)] sm:shadow-[12px_12px_0_0_var(--color-accent)]">
               Debat starten
             </button>
           </div>
@@ -515,10 +515,10 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                         {isUser ? 'Jij' : member?.name}
                       </span>
                       <div
-                        className={`px-6 py-4 rounded-none text-xl leading-relaxed font-bold ${
+                        className={`px-4 py-3 sm:px-6 sm:py-4 rounded-none text-base sm:text-xl leading-relaxed font-bold ${
                           isUser
-                            ? 'bg-black text-white border-4 border-black shadow-[6px_6px_0_0_var(--color-accent)]'
-                            : `bg-white dark:bg-black text-black dark:text-white border-4 border-black border-l-8 ${accent} cursor-pointer hover:shadow-[6px_6px_0_0_var(--color-accent)] transition-all shadow-md`
+                            ? 'bg-black text-white border-2 sm:border-4 border-black shadow-[4px_4px_0_0_var(--color-accent)] sm:shadow-[6px_6px_0_0_var(--color-accent)]'
+                            : `bg-white dark:bg-black text-black dark:text-white border-2 sm:border-4 border-black border-l-4 sm:border-l-8 ${accent} cursor-pointer hover:shadow-[4px_4px_0_0_var(--color-accent)] sm:hover:shadow-[6px_6px_0_0_var(--color-accent)] transition-all shadow-md`
                         }`}
                         onClick={() => !isUser && setUserInput(prev => `${prev}> ${member?.name}: "${msg.content.substring(0, 60)}..."\n\n`)}
                         title={!isUser ? 'Klik om te citeren' : ''}
@@ -539,15 +539,15 @@ export const DebateRoom: FC<DebateRoomProps> = ({
                   </div>
                   <div className="flex flex-col items-start max-w-[85%]">
                     {generatingSpeaker && (
-                      <span className="text-sm font-black uppercase tracking-widest text-[var(--color-accent)] mb-1 px-1 animate-pulse">
+                      <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-[var(--color-accent)] mb-1 px-1 animate-pulse">
                         {generatingSpeaker.name} aan het woord...
                       </span>
                     )}
-                    <div className="px-6 py-4 rounded-none bg-white dark:bg-black border-4 border-black border-l-8 border-l-[var(--color-accent)] shadow-[8px_8px_0_0_var(--color-accent)]/20 text-xl leading-relaxed text-black dark:text-white min-h-[4rem] font-bold">
+                    <div className="px-4 py-3 sm:px-6 sm:py-4 rounded-none bg-white dark:bg-black border-2 sm:border-4 border-black border-l-4 sm:border-l-8 border-l-[var(--color-accent)] shadow-[6px_6px_0_0_var(--color-accent)]/20 sm:shadow-[8px_8px_0_0_var(--color-accent)]/20 text-base sm:text-xl leading-relaxed text-black dark:text-white min-h-[3rem] sm:min-h-[4rem] font-bold">
                       {streamingText ? (
-                        <span>{streamingText}<span className="inline-block w-1 h-6 bg-[var(--color-accent)] animate-pulse ml-1 align-middle" /></span>
+                        <span>{streamingText}<span className="inline-block w-1 h-5 sm:h-6 bg-[var(--color-accent)] animate-pulse ml-1 align-middle" /></span>
                       ) : (
-                        <div className="flex items-center h-16 px-2">
+                        <div className="flex items-center h-12 sm:h-16 px-2">
                           <NodeLoader shape={loaderShapeForIndex(
                             generatingSpeaker
                               ? readyMembers.findIndex(m => m.id === generatingSpeaker.id)
@@ -568,9 +568,9 @@ export const DebateRoom: FC<DebateRoomProps> = ({
             </div>
 
             {/* ── Invoerbalk ─────────────────────────────────────── */}
-            <div className="bg-white dark:bg-black border-t-4 border-black px-4 py-6 flex gap-3 items-center shrink-0">
+            <div className="bg-white dark:bg-black border-t-2 sm:border-t-4 border-black px-2 py-3 sm:px-4 sm:py-6 flex gap-2 sm:gap-3 items-center shrink-0">
               <button type="button" onClick={toggleMic}
-                className={`p-4 rounded-none border-4 border-black transition-all shrink-0 ${micActive ? 'bg-[var(--color-accent)] text-black shadow-[0_0_24px_var(--color-accent)] animate-pulse' : 'bg-white text-black hover:bg-[var(--color-accent)] shadow-[6px_6px_0_0_black]'}`}
+                className={`p-3 sm:p-4 rounded-none border-2 sm:border-4 border-black transition-all shrink-0 ${micActive ? 'bg-[var(--color-accent)] text-black shadow-[0_0_24px_var(--color-accent)] animate-pulse' : 'bg-white text-black hover:bg-[var(--color-accent)] shadow-[4px_4px_0_0_black] sm:shadow-[6px_6px_0_0_black]'}`}
                 title={micActive ? 'Stop opname' : 'Spreek in'}>
                 {micActive ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
               </button>
@@ -578,15 +578,15 @@ export const DebateRoom: FC<DebateRoomProps> = ({
               <input type="text" value={userInput}
                 onChange={e => setUserInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-                placeholder="Doe mee — zeg what je denkt..."
-                className="flex-1 bg-white dark:bg-black border-4 border-black rounded-none px-6 py-4 text-xl font-black text-black dark:text-white placeholder:text-black/20 focus:shadow-[6px_6px_0_0_var(--color-accent)] outline-none transition-all" />
+                placeholder="Doe mee..."
+                className="flex-1 bg-white dark:bg-black border-2 sm:border-4 border-black rounded-none px-4 py-3 sm:px-6 sm:py-4 text-sm sm:text-xl font-black text-black dark:text-white placeholder:text-black/20 focus:shadow-[4px_4px_0_0_var(--color-accent)] sm:focus:shadow-[6px_6px_0_0_var(--color-accent)] outline-none transition-all" />
 
               <button type="button" onClick={handleSend} disabled={!userInput.trim()} title="Verstuur bericht"
-                className="p-4 rounded-none bg-black text-white border-4 border-black hover:bg-[var(--color-accent)] hover:text-black disabled:opacity-20 transition-all shrink-0 shadow-[6px_6px_0_0_black]">
+                className="p-3 sm:p-4 rounded-none bg-black text-white border-2 sm:border-4 border-black hover:bg-[var(--color-accent)] hover:text-black disabled:opacity-20 transition-all shrink-0 shadow-[4px_4px_0_0_black] sm:shadow-[6px_6px_0_0_black]">
                 <Send className="w-5 h-5" />
               </button>
               <button type="button" onClick={handleEnd}
-                className="p-4 rounded-none bg-green-500 hover:bg-green-400 text-white border-4 border-black transition-all shrink-0 shadow-[6px_6px_0_0_black]" title="Beëindigen en samenvatten">
+                className="p-3 sm:p-4 rounded-none bg-green-500 hover:bg-green-400 text-white border-2 sm:border-4 border-black transition-all shrink-0 shadow-[4px_4px_0_0_black] sm:shadow-[6px_6px_0_0_black]" title="Beëindigen en samenvatten">
                 <StopCircle className="w-5 h-5" />
               </button>
             </div>

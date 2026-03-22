@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { defineConfig, loadEnv, type Plugin } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // Copies dist/index.html → dist/404.html after every build.
@@ -20,8 +20,7 @@ const copyIndexTo404: Plugin = {
   },
 };
 
-export default defineConfig(({ mode }) => {
-  void mode; // mode kept for loadEnv compatibility
+export default defineConfig(() => {
   return {
     server: {
       port: 3000,

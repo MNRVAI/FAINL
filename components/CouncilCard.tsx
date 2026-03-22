@@ -34,13 +34,13 @@ export const CouncilCard: FC<CouncilCardProps> = ({
     <div className="relative flex flex-col bg-white dark:bg-zinc-900 border-2 border-black dark:border-[var(--color-accent)]/40 rounded-none overflow-hidden transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(71,109,215,0.35)]">
 
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b-2 border-black dark:border-[var(--color-accent)]/30 bg-black">
-        <div className={`w-9 h-9 rounded-full shrink-0 border-2 border-white/30 overflow-hidden ${member.color}`}>
+      <div className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-4 md:py-3 border-b-2 border-black dark:border-[var(--color-accent)]/30 bg-black">
+        <div className={`w-7 h-7 md:w-9 md:h-9 rounded-full shrink-0 border-2 border-white/30 overflow-hidden ${member.color}`}>
           <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-black text-sm uppercase tracking-widest text-white truncate leading-none">{member.name}</h3>
-          <p className="text-[11px] text-white/50 mt-0.5 font-medium truncate">{member.description}</p>
+          <h3 className="font-black text-xs md:text-sm uppercase tracking-widest text-white truncate leading-none">{member.name}</h3>
+          <p className="text-[10px] md:text-[11px] text-white/50 mt-0.5 font-medium truncate">{member.description}</p>
         </div>
         {isLoading && (
           <div className="shrink-0">
@@ -62,12 +62,12 @@ export const CouncilCard: FC<CouncilCardProps> = ({
       {/* Content */}
       <div className="overflow-hidden">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-14 gap-4">
+          <div className="flex flex-col items-center justify-center py-8 md:py-14 gap-4">
             <NodeLoader shape="circle" />
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/30 animate-pulse">Analyseert jouw vraag…</span>
+            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black/40 dark:text-white/30 animate-pulse">Analyseert jouw vraag…</span>
           </div>
         ) : response ? (
-          <div className="px-5 py-4">
+          <div className="px-3 md:px-5 py-3 md:py-4">
             {response.sections && Object.keys(response.sections).length > 0 ? (
               <div className="space-y-4">
                 {Object.entries(response.sections).map(([key, content]) => (
@@ -98,9 +98,9 @@ export const CouncilCard: FC<CouncilCardProps> = ({
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-14 gap-2 text-black/20 dark:text-white/15">
-            <div className="w-6 h-6 border-2 border-black/10 dark:border-white/10 border-t-black/30 dark:border-t-white/30 rounded-full animate-spin" />
-            <span className="text-[11px] font-black uppercase tracking-[0.2em]">In de wachtrij…</span>
+          <div className="flex flex-col items-center justify-center py-8 md:py-14 gap-2 text-black/20 dark:text-white/15">
+            <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-black/10 dark:border-white/10 border-t-black/30 dark:border-t-white/30 rounded-full animate-spin" />
+            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]">In de wachtrij…</span>
           </div>
         )}
       </div>
