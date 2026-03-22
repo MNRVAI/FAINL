@@ -6,7 +6,12 @@
       "Bash(do echo:*)",
       "Bash(grep -r \"$f\" --include=\"*.tsx\" --include=\"*.ts\" -l .)",
       "Bash(done)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(grep -rn \"node-loader\\\\|AppView\\\\|Upload\\\\b\\\\|hasWatchedAd\\\\|ADSENSE\\\\|hero ontwerp\\\\|AdRewardModal\" --include=*.tsx --include=*.ts --include=*.css 'C:/Users/dave.vera/OneDrive - Autogroep Oostendorp/Bureaublad/FAINL')",
+      "Bash(grep -rn directives --include=*.tsx --include=*.ts 'C:/Users/dave.vera/OneDrive - Autogroep Oostendorp/Bureaublad/FAINL')",
+      "Bash(grep -rn \"console\\\\.log\\\\|console\\\\.warn\\\\|console\\\\.error\\\\|TODO\\\\|FIXME\\\\|HACK\\\\|XXX\" --include=*.tsx --include=*.ts 'C:/Users/dave.vera/OneDrive - Autogroep Oostendorp/Bureaublad/FAINL')",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npm run:*)"
     ]
   }
 }
