@@ -1,4 +1,4 @@
-﻿
+
 import { useState, useRef, useEffect, FC } from 'react';
 import { 
   Send, 
@@ -52,10 +52,12 @@ import { WelcomePopup } from './components/WelcomePopup';
 
 const FadingPlaceholder: FC<{ isFocused: boolean }> = ({ isFocused }: { isFocused: boolean }) => {
   const examples = [
-    "Should I learn Rust or Go?",
-    "Buy vs. Rent in 2026?",
-    "To be or not to be?",
-    "What came first: Chicken or the egg?"
+    "Should I learn Rust or Go for backend development?",
+    "Is it better to buy or rent a house in 2026?",
+    "What are the pros and cons of a four-day work week?",
+    "Is remote work better for productivity than in-office?",
+    "Should I use TypeScript or JavaScript for my next project?",
+    "What is the strongest argument for universal basic income?"
   ];
   
   const [index, setIndex] = useState(0);
@@ -84,56 +86,13 @@ const FadingPlaceholder: FC<{ isFocused: boolean }> = ({ isFocused }: { isFocuse
   );
 };
 
-const AnimatedSendIcon: FC = () => {
-  const [glitch, setGlitch] = useState(false);
-
-  useEffect(() => {
-    const triggerGlitch = () => {
-      setGlitch(true);
-      setTimeout(() => setGlitch(false), 150);
-      const nextDelay = Math.random() * 4000 + 2000;
-      setTimeout(triggerGlitch, nextDelay);
-    };
-    const timer = setTimeout(triggerGlitch, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
+const CyberLogo: FC<{ isAnimated?: boolean }> = () => {
   return (
-    <div className="relative">
-      <Send className={`w-6 h-6 md:w-10 md:h-10 transition-transform duration-100 ${glitch ? 'translate-x-0.5 -translate-y-0.5 opacity-80' : ''}`} />
-      {glitch && (
-        <Send className="w-6 h-6 md:w-10 md:h-10 absolute top-0 left-0 text-red-500 opacity-50 -translate-x-0.5 translate-y-0.5 mix-blend-screen" />
-      )}
+    <div className="w-8 h-8 rounded-lg bg-zinc-900 dark:bg-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
+      <Shield className="text-white dark:text-zinc-900 w-3.5 h-3.5" />
     </div>
   );
 };
-const CyberLogo: FC<{ isAnimated?: boolean }> = ({ isAnimated = true }) => {
-    return (
-      <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center group overflow-visible">
-        {/* Outer Glow Ring */}
-        <div className="absolute inset-0 bg-white/10 dark:bg-white/5 rounded-full blur-xl group-hover:bg-white/20 transition-all duration-500 animate-pulse-glow" />
-        
-        {/* Orbital Layers */}
-        {isAnimated && (
-          <>
-            <div className="absolute inset-x-0.5 inset-y-0.5 border border-white/20 rounded-full animate-orbit pointer-events-none" />
-            <div className="absolute inset-x-2 inset-y-2 border border-white/10 dark:border-white/5 rounded-full animate-reverse-orbit pointer-events-none" />
-          </>
-        )}
-        
-        {/* Core Geometry (Shield with Glassmorphism) */}
-        <div className="relative w-8 h-8 md:w-10 md:h-10 bg-white/10 dark:bg-white/5 backdrop-blur-md rounded-xl border border-white/30 dark:border-white/20 flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:border-white/50 transition-all duration-500 overflow-hidden">
-          {/* Internal Light Source */}
-          <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(255,255,255,0.4)_0%,transparent_60%)] opacity-50 group-hover:opacity-80 transition-opacity" />
-          
-          <Shield className="text-white dark:text-white w-4 h-4 md:w-5 md:h-5 relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-          
-          {/* Glass Glint */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
-        </div>
-      </div>
-    );
-  };
   
 const App: FC = () => {
   // Initialization with Persistent Config
@@ -295,7 +254,7 @@ const App: FC = () => {
       // 1. Council Analysis Phase
       const responses = await councilService.current.getCouncilResponses(input, readyMembers);
       
-      // Council done — stage stays at PROCESSING_COUNCIL until user opens debate
+      // Council done � stage stays at PROCESSING_COUNCIL until user opens debate
       setSession((prev: SessionState) => ({
         ...prev,
         councilResponses: responses,
@@ -459,34 +418,42 @@ const App: FC = () => {
   }, []);
 
   const NavLinks = [
-    { id: AppView.HOME, label: 'Protocols', icon: ZapIcon },
-    { id: AppView.PRICING, label: 'Access', icon: Coins },
-    { id: AppView.ACCOUNT, label: 'My FAINLS', icon: LayoutDashboard },
-    { id: AppView.COOKBOOK, label: 'Cookbook', icon: BookOpen },
+    { id: AppView.HOME, label: 'Home', icon: ZapIcon },
+    { id: AppView.PRICING, label: 'Pricing', icon: Coins },
+    { id: AppView.ACCOUNT, label: 'History', icon: LayoutDashboard },
+    { id: AppView.COOKBOOK, label: 'Examples', icon: BookOpen },
     { id: AppView.FAQ, label: 'FAQ', icon: HelpCircle },
     { id: AppView.CONTACT, label: 'Contact', icon: Mail },
   ];
 
   const renderStageIndicator = () => {
     const stages = [
-      { id: WorkflowStage.PROCESSING_COUNCIL, label: "Neural Deliberation", icon: Users },
-      { id: WorkflowStage.DEBATE, label: "Live Debate", icon: MessageSquare },
-      { id: WorkflowStage.SYNTHESIZING, label: "Verdict Synthesis", icon: Gavel },
+      { id: WorkflowStage.PROCESSING_COUNCIL, label: "Gathering perspectives", icon: Users },
+      { id: WorkflowStage.DEBATE, label: "Live debate", icon: MessageSquare },
+      { id: WorkflowStage.SYNTHESIZING, label: "Writing verdict", icon: Gavel },
     ];
     if (session.stage === WorkflowStage.IDLE || session.stage === WorkflowStage.ERROR) return null;
     return (
-      <div className="flex justify-center mb-8 md:mb-16 w-full">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 bg-white/20 dark:bg-white/5 p-2.5 rounded-3xl sm:rounded-full border border-black/10 dark:border-white/10 backdrop-blur-sm w-full sm:w-auto overflow-x-auto">
+      <div className="flex justify-center mb-6 md:mb-10 w-full">
+        <div className="inline-flex items-center gap-1 glass-card card-shadow px-2 py-1.5 rounded-full">
           {stages.map((s, idx) => {
             const isActive = session.stage === s.id;
             const isCompleted = [WorkflowStage.COMPLETED, ...stages.slice(idx + 1).map(st => st.id)].includes(session.stage);
             return (
-              <div key={s.id} className="flex items-center gap-3 w-full sm:w-auto">
-                <div className={`flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] font-black tracking-[0.2em] uppercase transition-all border-2 w-full sm:w-auto justify-center sm:justify-start ${isActive ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] sm:shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] dark:sm:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.1)]' : isCompleted ? 'bg-white dark:bg-zinc-800 text-black dark:text-white border-black dark:border-white/20' : 'text-black/20 dark:text-white/20 border-transparent'}`}>
-                  <s.icon className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isActive ? 'animate-pulse' : ''}`} />
-                  <span className="whitespace-nowrap">{s.label}</span>
+              <div key={s.id} className="flex items-center">
+                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold transition-all ${
+                  isActive
+                    ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-sm'
+                    : isCompleted
+                    ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10'
+                    : 'text-zinc-400 dark:text-zinc-600'
+                }`}>
+                  <s.icon className={`w-3 h-3 ${isActive ? 'animate-pulse' : ''}`} />
+                  <span className="hidden sm:inline whitespace-nowrap">{s.label}</span>
                 </div>
-                {idx < stages.length - 1 && <ArrowRight className="hidden sm:block w-4 h-4 text-black/10 dark:text-white/10" />}
+                {idx < stages.length - 1 && (
+                  <ArrowRight className="w-3 h-3 text-zinc-200 dark:text-zinc-700 mx-0.5" />
+                )}
               </div>
             );
           })}
@@ -496,303 +463,297 @@ const App: FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950 text-black dark:text-white flex flex-col font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black overflow-x-hidden transition-colors duration-300">
-      {/* Refined Navigation */}
-      <header className="border-b border-black/10 dark:border-white/10 bg-white/50 dark:bg-zinc-950/50 backdrop-blur-md sticky top-0 z-40 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4 md:gap-8">
-            <button 
+    <div className={`min-h-screen text-zinc-900 dark:text-zinc-100 flex flex-col overflow-x-hidden transition-colors duration-300 ${isDarkMode ? 'bg-grid-dark' : 'bg-grid-light'} bg-white dark:bg-[#0a0a0a]`}>
+      {/* -- Header -- */}
+      <header className="border-b border-black/[0.05] dark:border-white/[0.05] bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-xl sticky top-0 z-40 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 h-12 md:h-13 flex items-center justify-between gap-4">
+
+          {/* Logo + Desktop Nav */}
+          <div className="flex items-center gap-5">
+            <button
               onClick={() => setCurrentView(AppView.HOME)}
-              className="flex items-center gap-3 md:gap-5 group"
+              className="flex items-center gap-2 group shrink-0"
             >
-              <CyberLogo isAnimated={currentView !== AppView.HOME} />
-              <span className="text-2xl font-black tracking-tighter hidden sm:block text-black dark:text-white">FAINL</span>
+              <CyberLogo />
+              <span className="text-sm font-bold tracking-tight hidden sm:block text-zinc-900 dark:text-white">
+                FAINL
+              </span>
             </button>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-0">
               {NavLinks.map(link => (
                 <button
                   key={link.id}
                   onClick={() => setCurrentView(link.id)}
-                  className={`px-4 py-2 font-black text-[10px] uppercase tracking-widest transition-all rounded-lg ${currentView === link.id ? 'bg-black text-white dark:bg-white dark:text-black' : 'text-black/60 dark:text-white/70 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'}`}
+                  className={`relative px-3 py-1.5 text-xs font-medium transition-all rounded-lg ${
+                    currentView === link.id
+                      ? 'text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-white/8'
+                      : 'text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5'
+                  }`}
                 >
                   {link.label}
                 </button>
               ))}
             </nav>
           </div>
-          
-          <div className="flex items-center gap-3">
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-black dark:text-white"
+              className="p-1.5 rounded-lg text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/5 transition-all"
+              title="Toggle theme"
             >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-            <button 
-              onClick={() => setIsSettingsOpen(true)}
-              className="group flex items-center gap-3 px-3 py-2.5 sm:px-5 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded font-black text-[10px] uppercase tracking-widest hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:-translate-y-0.5 active:translate-y-px transition-all"
-            >
-              <Lock className="w-4 h-4 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors" />
-              <span className="hidden sm:inline">Settings</span>
+              {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
 
-            {/* Mobile Menu Toggle */}
-            <button 
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden p-2.5 bg-black dark:bg-white text-white dark:text-black rounded-lg active:scale-95 transition-all"
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/5 transition-all text-xs font-medium"
             >
-                {isMenuOpen ? <CloseIcon /> : <Menu />}
+              <Lock className="w-3 h-3" />
+              <span className="hidden sm:inline">API Keys</span>
             </button>
 
             {authSession && (
-              <button 
+              <button
                 onClick={handleLogout}
-                className="hidden sm:flex items-center gap-2 p-2.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all border border-red-200"
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-zinc-400 dark:text-zinc-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-xs font-medium"
                 title="Sign Out"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3 h-3" />
               </button>
             )}
           </div>
         </div>
-
-        {/* Mobile Navigation Dropdown */}
-        {isMenuOpen && (
-            <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-900 border-b-4 border-black dark:border-zinc-700 p-4 space-y-2 shadow-2xl animate-in slide-in-from-top-4 duration-300">
-                {NavLinks.map(link => (
-                    <button
-                      key={link.id}
-                      onClick={() => { setCurrentView(link.id); setIsMenuOpen(false); }}
-                      className={`w-full flex items-center gap-4 p-4 font-black text-xs uppercase tracking-[0.2em] rounded-xl transition-all ${currentView === link.id ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-zinc-50 dark:bg-zinc-800 text-black/40 dark:text-white/40'}`}
-                    >
-                      <link.icon className="w-5 h-5" />
-                      {link.label}
-                    </button>
-                ))}
-                
-                {authSession && (
-                  <button
-                    onClick={() => { handleLogout(); setIsMenuOpen(false); }}
-                    className="w-full flex items-center gap-4 p-4 font-black text-xs uppercase tracking-[0.2em] rounded-xl transition-all bg-red-50 text-red-600 border border-red-200 mt-4"
-                  >
-                    <LogOut className="w-5 h-5" />
-                    Sign Out
-                  </button>
-                )}
-            </div>
-        )}
       </header>
 
-      <main className="flex-1 w-full mx-auto">
+      <main className="flex-1 w-full mx-auto pb-safe">
         {currentView === AppView.HOME ? (
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 flex flex-col items-center justify-center min-h-[calc(100vh-120px)]">
+          <div className="max-w-2xl mx-auto px-4 md:px-6 py-4 flex flex-col items-center justify-center min-h-[calc(100dvh-48px-60px)] lg:min-h-[calc(100dvh-52px)]">
             {renderStageIndicator()}
-            {/* Protocol Error Display */}
-            {session.stage === WorkflowStage.ERROR && (
-                <div className="w-full max-w-xl bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 p-6 md:p-12 rounded-xl md:rounded rounded shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.1)] text-center animate-fade-in-up">
-                    <AlertTriangle className="w-12 h-12 md:w-20 md:h-20 text-black dark:text-white mb-6 md:mb-8 mx-auto" />
-                    <h3 className="text-xl md:text-3xl font-black uppercase mb-3 md:mb-4 tracking-tighter">Protocol Halt</h3>
-                    <p className="text-black/50 dark:text-white/50 font-bold mb-6 md:mb-10 leading-relaxed text-sm md:text-lg">{session.error}</p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onClick={() => setIsSettingsOpen(true)} className="px-6 py-3 md:px-10 md:py-5 bg-black dark:bg-white text-white dark:text-black font-black rounded uppercase tracking-[0.2em] text-[9px] md:text-[10px] hover:bg-zinc-800 dark:hover:bg-zinc-200 shadow-lg md:shadow-xl transition-all">Resolve Keys</button>
-                    <button onClick={() => setSession({ ...session, stage: WorkflowStage.IDLE })} className="px-6 py-3 md:px-10 md:py-5 bg-white dark:bg-zinc-900 border-2 border-black dark:border-zinc-700 font-black rounded uppercase tracking-[0.2em] text-[9px] md:text-[10px] transition-all text-black dark:text-white">Recalibrate</button>
-                    </div>
-                </div>
-            )}
-            
-            {/* Rest of home content logic */}
-            {session.stage === WorkflowStage.IDLE ? (
-                /* Mission Input Stage */
-          <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto w-full text-center space-y-8 md:space-y-16 animate-fade-in-up">
-            <div className="space-y-4 md:space-y-8">
-              <h3 className="text-5xl sm:text-7xl md:text-9xl lg:text-[10rem] font-black text-black dark:text-white tracking-tighter uppercase leading-[0.9] md:leading-[0.8] select-none">
-                <ScrambleText text="FAINL" />
-              </h3>
-              <p className="max-w-2xl mx-auto text-base font-semibold text-black/70 dark:text-white/70 leading-relaxed tracking-[0.06em]">
-                Eliminate decision uncertainty with the FAINL Orchestration Layer. Our autonomous multi-agent consensus protocol stress-tests every scenario through decentralized node deliberation, distilling complex dilemmas into high-integrity, authoritative council verdicts. Optimize your strategic outcomes with the next generation of neural governance.
-              </p>
-            </div>
-            
-            {!config.googleKey ? (
-              <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 border-4 border-black dark:border-zinc-700 p-8 md:p-16 rounded-3xl shadow-[32px_32px_0px_0px_rgba(0,0,0,1)] dark:shadow-[32px_32px_0px_0px_rgba(255,255,255,0.1)] text-left animate-in zoom-in-95 duration-500">
-                <div className="flex items-center gap-6 mb-10 pb-6 border-b-4 border-black dark:border-zinc-700">
-                  <div className="p-4 bg-black dark:bg-white rounded-2xl">
-                    <ZapIcon className="w-8 h-8 text-white dark:text-black" />
-                  </div>
-                  <div>
-                    <h3 className="text-3xl font-black uppercase tracking-tighter text-black dark:text-white">Quick Start</h3>
-                  </div>
-                </div>
-                
-                <div className="space-y-8">
-                  <div>
-                    <div className="flex justify-between items-center mb-4">
-                      <label className="text-xs font-black uppercase tracking-[0.2em] text-black dark:text-white">Paste Google Gemini API Key</label>
-                      <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline">Get Free Key</a>
-                    </div>
-                    <div className="flex gap-4">
-                      <input 
-                        type="password"
-                        placeholder="AIza..."
-                        className="flex-1 bg-zinc-100 dark:bg-zinc-800 border-4 border-black dark:border-zinc-700 p-5 rounded-2xl font-mono text-sm focus:bg-white dark:focus:bg-zinc-700 transition-all shadow-inner text-black dark:text-white"
-                        onChange={(e) => {
-                          const val = e.target.value.trim();
-                          if (val.startsWith('AIza')) {
-                            setConfig(prev => ({ ...prev, googleKey: val }));
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-5 border-2 border-black/5 dark:border-white/5 rounded-2xl bg-zinc-50 dark:bg-zinc-800">
-                      <div className="flex items-center gap-3 mb-2 font-black text-[10px] uppercase tracking-widest">
-                        <Shield className="w-4 h-4" /> Zero-Data
-                      </div>
-                      <p className="text-[9px] text-black/40 dark:text-white/40 font-bold uppercase leading-tight">Missions are encrypted and stored only on your device.</p>
-                    </div>
-                    <div className="p-5 border-2 border-black/5 dark:border-white/5 rounded-2xl bg-zinc-50 dark:bg-zinc-800">
-                      <div className="flex items-center gap-3 mb-2 font-black text-[10px] uppercase tracking-widest">
-                        <Globe className="w-4 h-4" /> Pure Logic
-                      </div>
-                      <p className="text-[9px] text-black/40 dark:text-white/40 font-bold uppercase leading-tight">No central filters. Direct access to raw neural reasoning.</p>
-                    </div>
-                  </div>
+            {/* -- Error State -- */}
+            {session.stage === WorkflowStage.ERROR && (
+              <div className="w-full max-w-md glass-card card-shadow rounded-2xl p-6 md:p-10 text-center animate-fade-in-up">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center mx-auto mb-5">
+                  <AlertTriangle className="w-7 h-7 text-red-500" />
                 </div>
-              </div>
-            ) : (
-              <div className="w-full relative">
-                <div className="relative bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl p-6 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] focus-within:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:focus-within:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] md:focus-within:shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] dark:md:focus-within:shadow-[20px_20px_0px_0px_rgba(255,255,255,0.1)] transition-all">
-                  <div className="relative w-full min-h-[200px] md:min-h-[350px]">
-                    {!input && !isInputFocused && (
-                      <div className="absolute top-0 left-0 pointer-events-none text-xl sm:text-2xl md:text-4xl font-black text-black/20 dark:text-white/20 font-serif italic">
-                        <FadingPlaceholder isFocused={isInputFocused} />
-                      </div>
-                    )}
-                    <textarea
-                      value={input}
-                      onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
-                      onFocus={() => setIsInputFocused(true)}
-                      onBlur={() => setIsInputFocused(false)}
-                      aria-label="Enter your mission or directive"
-                      placeholder="Enter your mission..."
-                      className="w-full h-full bg-transparent border-none p-0 text-xl sm:text-2xl md:text-4xl font-black text-black dark:text-white placeholder-transparent focus:ring-0 transition-all resize-none font-serif italic absolute top-0 left-0"
-                    />
-                  </div>
-                  <div className="absolute bottom-4 left-4 md:bottom-12 md:left-12 pointer-events-none">
-                    <span className={`text-[10px] md:text-xs font-black uppercase tracking-widest ${input.length >= MAX_CHARS ? 'text-red-500' : 'text-black/40 dark:text-white/40'}`}>
-                      {input.length} / {MAX_CHARS}
-                    </span>
-                  </div>
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Something went wrong</h3>
+                <p className="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed text-sm">{session.error}</p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <button
-                    onClick={handleStart}
-                    disabled={!input.trim()}
-                    title="Send mission"
-                    aria-label="Send mission"
-                    className="absolute bottom-4 right-4 md:bottom-12 md:right-12 p-4 md:p-8 bg-black dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed text-white dark:text-black rounded-xl md:rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] dark:shadow-[4px_4px_0px_1px_rgba(0,0,0,0.1)] md:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)] dark:md:shadow-[8px_8px_0px_1px_rgba(0,0,0,0.1)] overflow-hidden"
+                    onClick={() => setIsSettingsOpen(true)}
+                    className="btn-violet px-4 py-2 rounded-xl font-medium text-sm"
                   >
-                    <AnimatedSendIcon />
+                    Configure Keys
+                  </button>
+                  <button
+                    onClick={() => setSession({ ...session, stage: WorkflowStage.IDLE })}
+                    className="px-5 py-2.5 rounded-xl font-semibold text-sm border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 transition-all"
+                  >
+                    Try Again
                   </button>
                 </div>
-                <p className="mt-4 md:mt-8 text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] md:tracking-[0.3em]">Encrypted Session. Data persistent locally only.</p>
-              </div>
-            )}
-          </div>
-        ) : session.stage !== WorkflowStage.ERROR && (
-          <div className="animate-fade-in-up space-y-8 md:space-y-16 w-full pb-12 md:pb-20">
-            {/* Active Context */}
-            <div className="bg-white/40 dark:bg-zinc-900/40 border-2 border-black/5 dark:border-white/5 rounded-xl md:rounded-2xl p-6 md:p-12 text-center backdrop-blur-sm">
-               <span className="text-[8px] md:text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em] md:tracking-[0.5em] mb-4 md:mb-6 block border-b border-black/5 dark:border-white/5 pb-2 md:pb-3 mx-auto w-fit italic">Deliberation Protocol Active</span>
-               <p className="text-2xl sm:text-3xl md:text-5xl text-black dark:text-white font-serif italic font-medium tracking-tight leading-tight">"{session.query}"</p>
-            </div>
-
-            {/* Synthesis Display */}
-            {(session.stage === WorkflowStage.SYNTHESIZING || session.stage === WorkflowStage.COMPLETED) && (
-              <div className="w-full bg-white dark:bg-zinc-900 border-2 md:border-4 border-black dark:border-zinc-700 rounded-xl overflow-hidden shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,0.1)] md:shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:md:shadow-[24px_24px_0px_0px_rgba(255,255,255,0.1)]">
-                <div className="bg-black dark:bg-white text-white dark:text-black p-4 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-5 border-b-2 md:border-b-4 border-black dark:border-zinc-700">
-                  <div className="flex items-center gap-4 w-full sm:w-auto">
-                    <div className="p-2 md:p-3 bg-white/10 dark:bg-black/10 rounded-lg">
-                      <Gavel className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-black" />
-                    </div>
-                    <div>
-                      <h3 className="font-black text-lg md:text-2xl uppercase tracking-widest leading-none">Chairman's Verdict</h3>
-                      <p className="text-[8px] md:text-[10px] text-white/40 dark:text-black/40 font-black uppercase mt-1 md:mt-2 tracking-widest">Final Consolidated Synthesis</p>
-                    </div>
-                  </div>
-                  {session.stage === WorkflowStage.SYNTHESIZING && (
-                    <div className="ml-auto flex items-center gap-2 md:gap-3 bg-white/10 dark:bg-black/10 px-3 py-1.5 md:px-4 md:py-2 rounded font-black text-[8px] md:text-[10px] tracking-widest animate-pulse">
-                      <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
-                      SYNTHESIZING...
-                    </div>
-                  )}
-                </div>
-                <div className="p-6 md:p-16 prose prose-base md:prose-2xl max-w-none prose-p:text-black dark:prose-p:text-white prose-headings:text-black dark:prose-headings:text-white prose-strong:text-black dark:prose-strong:text-white prose-li:text-black dark:prose-li:text-white bg-white dark:bg-zinc-900 leading-relaxed">
-                  {session.synthesis ? (
-                    <ReactMarkdown>{session.synthesis}</ReactMarkdown>
-                  ) : (
-                    <div className="h-40 md:h-80 flex flex-col items-center justify-center gap-4 md:gap-8 text-black/10 dark:text-white/10">
-                      <Loader2 className="animate-spin w-10 h-10 md:w-16 md:h-16 text-black dark:text-white" />
-                      <span className="font-black text-lg md:text-2xl uppercase tracking-[0.3em] md:tracking-[0.5em] text-center">Merging Neural Logic States</span>
-                    </div>
-                  )}
-                </div>
               </div>
             )}
 
-            {/* Distributed Council Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12">
-              {config.activeCouncil.map(member => {
-                const response = session.councilResponses.find(r => r.memberId === member.id);
-                const isLoading = session.stage === WorkflowStage.PROCESSING_COUNCIL && !response;
-                return (
-                  <div key={member.id} className="flex flex-col gap-4 md:gap-8">
-                    <CouncilCard member={member} response={response} isLoading={isLoading} isExpanded={false} onToggle={() => {}} />
-                  </div>
-                );
-              })}
-            </div>
+            {/* -- IDLE: Hero + Input -- */}
+            {session.stage === WorkflowStage.IDLE ? (
+              <div className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center pb-20 px-0 animate-fade-in-up">
 
-            {/* ── Debate CTA — shown after nodes finish ── */}
-            {session.councilResponses.length > 0 && session.stage !== WorkflowStage.PROCESSING_COUNCIL && session.stage !== WorkflowStage.SYNTHESIZING && (
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 py-4">
-                <button
-                  onClick={() => setIsDebateOpen(true)}
-                  className="group flex items-center gap-4 px-10 py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:scale-105 active:scale-95 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.12)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)] dark:hover:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.1)]"
-                >
-                  <MessageSquare className="w-5 h-5 group-hover:animate-pulse" />
-                  Open Debate Room
-                  {session.debateMessages.length > 0 && (
-                    <span className="bg-white/20 dark:bg-black/20 px-2 py-0.5 rounded-lg text-xs">{session.debateMessages.length} msgs</span>
-                  )}
-                </button>
-                {session.synthesis && (
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black/30 dark:text-white/30">
-                    Debate completed
-                  </span>
+                {/* Compact heading */}
+                <div className="mb-5">
+                  <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-zinc-800 dark:text-zinc-200 leading-snug mb-1.5">
+                    Get a balanced answer from multiple AI models
+                  </h1>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
+                    The council deliberates, debates, and delivers one authoritative verdict.
+                  </p>
+                </div>
+
+                {/* -- The INPUT � ChatGPT/Claude style -- */}
+                <div className="w-full">
+                  <div className="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.5),0_1px_3px_rgba(0,0,0,0.3)] overflow-hidden transition-all duration-200 focus-within:border-zinc-300 dark:focus-within:border-zinc-700 focus-within:shadow-[0_4px_24px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.04)] dark:focus-within:shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+
+                    {/* Textarea */}
+                    <div className="relative w-full min-h-[88px] sm:min-h-[100px] md:min-h-[112px] p-4 md:p-5">
+                      {!input && !isInputFocused && (
+                        <div className="absolute top-4 left-4 md:top-5 md:left-5 pointer-events-none text-sm text-zinc-400 dark:text-zinc-500">
+                          <FadingPlaceholder isFocused={isInputFocused} />
+                        </div>
+                      )}
+                      <textarea
+                        value={input}
+                        onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
+                        onFocus={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
+                        aria-label="Enter your question"
+                        placeholder=""
+                        className="w-full bg-transparent border-none p-0 text-sm md:text-base text-zinc-900 dark:text-zinc-100 placeholder-transparent focus:ring-0 resize-none absolute inset-4 md:inset-5 font-normal leading-relaxed"
+                      />
+                    </div>
+
+                    {/* Bottom action bar */}
+                    <div className="flex items-center justify-between px-4 md:px-5 py-2.5 border-t border-zinc-100 dark:border-zinc-800">
+                      <span className={`text-[10px] font-medium tabular-nums ${input.length >= MAX_CHARS ? 'text-red-500' : 'text-zinc-300 dark:text-zinc-600'}`}>
+                        {input.length > 0 ? `${input.length} / ${MAX_CHARS}` : ''}
+                      </span>
+
+                      {!config.googleKey ? (
+                        <button
+                          onClick={() => setIsSettingsOpen(true)}
+                          className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                        >
+                          <ZapIcon className="w-3 h-3" />
+                          Connect API key ?
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleStart}
+                          disabled={!input.trim()}
+                          title="Ask the Council"
+                          aria-label="Ask the Council"
+                          className="btn-violet flex items-center gap-1.5 px-4 py-2 rounded-xl font-medium text-xs disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          <span>Ask the Council</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Model chips */}
+                  <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+                    {['Gemini', 'GPT-4', 'Claude', 'Grok', 'Llama', 'Mistral', 'DeepSeek'].map(model => (
+                      <span
+                        key={model}
+                        className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.07] text-[10px] font-medium text-zinc-400 dark:text-zinc-600"
+                      >
+                        {model}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Trust line */}
+                  <p className="mt-2.5 text-[10px] text-zinc-400 dark:text-zinc-600">
+                    Keys stored locally � Free with your own API key
+                  </p>
+                </div>
+              </div>
+
+            ) : session.stage !== WorkflowStage.ERROR && (
+              /* -- Active Session -- */
+              <div className="animate-fade-in-up space-y-5 md:space-y-8 w-full pb-8 md:pb-16">
+
+                {/* Active Query Context */}
+                <div className="glass-card card-shadow rounded-xl p-4 md:p-6 text-center">
+                  <p className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2">Analyzing</p>
+                  <p className="text-base sm:text-lg md:text-xl text-zinc-800 dark:text-zinc-100 font-medium leading-snug">
+                    "{session.query}"
+                  </p>
+                </div>
+
+                {/* Synthesis Panel */}
+                {(session.stage === WorkflowStage.SYNTHESIZING || session.stage === WorkflowStage.COMPLETED) && (
+                  <div className="w-full glass-card card-shadow rounded-2xl overflow-hidden">
+                    {/* Panel header */}
+                    <div className="bg-zinc-900 dark:bg-zinc-800 p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                      <div className="flex items-center gap-2.5 flex-1">
+                        <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
+                          <Gavel className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-white text-sm leading-tight">Final Verdict</h3>
+                          <p className="text-[10px] text-white/50 mt-0.5">Synthesized from all council perspectives</p>
+                        </div>
+                      </div>
+                      {session.stage === WorkflowStage.SYNTHESIZING && (
+                        <div className="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-full text-white/80 text-[10px] font-medium animate-pulse">
+                          <Sparkles className="w-3 h-3" />
+                          Synthesizing...
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Panel body */}
+                    <div className="p-5 md:p-8 prose prose-sm md:prose-base max-w-none dark:prose-invert prose-p:text-zinc-700 dark:prose-p:text-zinc-300 prose-headings:text-zinc-900 dark:prose-headings:text-zinc-100 prose-strong:text-zinc-900 dark:prose-strong:text-zinc-100 prose-li:text-zinc-700 dark:prose-li:text-zinc-300 leading-relaxed">
+                      {session.synthesis ? (
+                        <ReactMarkdown>{session.synthesis}</ReactMarkdown>
+                      ) : (
+                        <div className="h-32 md:h-48 flex flex-col items-center justify-center gap-4 text-zinc-300 dark:text-zinc-600">
+                          <Loader2 className="animate-spin w-6 h-6 text-zinc-400" />
+                          <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500">Merging perspectives...</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Council Grid */}
+                <div>
+                  <h2 className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-3">AI Council Perspectives</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                    {config.activeCouncil.map(member => {
+                      const response = session.councilResponses.find(r => r.memberId === member.id);
+                      const isLoading = session.stage === WorkflowStage.PROCESSING_COUNCIL && !response;
+                      return (
+                        <CouncilCard
+                          key={member.id}
+                          member={member}
+                          response={response}
+                          isLoading={isLoading}
+                          isExpanded={false}
+                          onToggle={() => {}}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Debate CTA */}
+                {session.councilResponses.length > 0 && session.stage !== WorkflowStage.PROCESSING_COUNCIL && session.stage !== WorkflowStage.SYNTHESIZING && (
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-2">
+                    <button
+                      onClick={() => setIsDebateOpen(true)}
+                      className="btn-violet group flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      Open Debate Room
+                      {session.debateMessages.length > 0 && (
+                        <span className="bg-white/20 dark:bg-black/20 px-1.5 py-0.5 rounded-full text-[10px]">
+                          {session.debateMessages.length}
+                        </span>
+                      )}
+                    </button>
+                    {session.synthesis && (
+                      <span className="text-xs text-zinc-400 dark:text-zinc-500 font-medium flex items-center gap-1.5">
+                        <CircleCheck className="w-3.5 h-3.5 text-emerald-500" />
+                        Debate completed
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* New Mission CTA */}
+                {session.stage === WorkflowStage.COMPLETED && session.councilResponses.length > 0 && (
+                  <div className="flex justify-center pt-6 pb-10 md:pb-16">
+                    <button
+                      onClick={() => setSession({ id: crypto.randomUUID(), stage: WorkflowStage.IDLE, query: '', synthesis: '', councilResponses: [], reviews: [], debateMessages: [] })}
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 hover:border-zinc-300 dark:hover:border-white/20 transition-all"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      Ask Another Question
+                    </button>
+                  </div>
                 )}
               </div>
             )}
-
-            {session.stage === WorkflowStage.COMPLETED && session.councilResponses.length > 0 && (
-              <div className="flex justify-center pt-12 md:pt-24 pb-20 md:pb-40">
-                <button 
-                  onClick={() => setSession({ id: crypto.randomUUID(), stage: WorkflowStage.IDLE, query: '', synthesis: '', councilResponses: [], reviews: [], debateMessages: [] })} 
-                  className="px-10 py-6 md:px-20 md:py-10 bg-black dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-xl md:rounded-2xl text-white dark:text-black transition-all hover:scale-105 flex items-center gap-4 md:gap-8 font-black text-xl md:text-3xl shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] dark:shadow-[8px_8px_0px_1px_rgba(0,0,0,0.1)] md:shadow-[16px_16px_0px_0px_rgba(255,255,255,0.2)] dark:md:shadow-[16px_16px_0px_1px_rgba(0,0,0,0.1)] active:translate-y-2 active:shadow-none uppercase tracking-tighter"
-                >
-                  <Send className="w-8 h-8 md:w-12 md:h-12" />
-                  Initialize New Mission
-                </button>
-              </div>
-            )}
           </div>
-        )}
-      </div>
-    ) : null}
+        ) : null}
 
-      {/* ── Debate Room Overlay ── */}
+      {/* -- Debate Room Overlay -- */}
       <DebateRoom
         isOpen={isDebateOpen}
         session={session}
@@ -845,28 +806,55 @@ const App: FC = () => {
         {currentView === AppView.TERMS && <TermsOfServicePage />}
       </main>
 
-      {/* Modern Footer with Privacy Link */}
-      <footer className="border-t border-black/5 dark:border-white/5 py-8 md:py-12 bg-white/50 dark:bg-zinc-950/50">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-
-          
-          <div className="flex items-center gap-8">
-            <button 
+      {/* -- Footer -- */}
+      <footer className="hidden lg:block border-t border-zinc-100 dark:border-white/[0.05] py-6 bg-white/60 dark:bg-transparent">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <CyberLogo isAnimated={false} />
+            <span className="text-sm font-bold text-zinc-400 dark:text-zinc-600">FAINL</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <button
               onClick={() => setCurrentView(AppView.PRIVACY)}
-              className="text-[10px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+              className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
             >
-              Privacy Policy
+              Privacy
             </button>
-            <button 
+            <button
               onClick={() => setCurrentView(AppView.TERMS)}
-              className="text-[10px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+              className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
             >
-              Terms of Service
+              Terms
             </button>
-            <span className="text-[10px] font-black uppercase tracking-widest text-black/10 dark:text-white/10">© 2026</span>
+            <span className="text-[11px] text-zinc-300 dark:text-zinc-700">� 2026 FAINL</span>
           </div>
         </div>
       </footer>
+
+      {/* -- Mobile Bottom Navigation -- */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-black/[0.05] dark:border-white/[0.05]" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <div className="flex items-center justify-around px-2 pt-1 pb-1.5">
+          {NavLinks.slice(0, 5).map(link => (
+            <button
+              key={link.id}
+              onClick={() => { setCurrentView(link.id); setIsMenuOpen(false); }}
+              className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-all min-w-[48px] relative ${
+                currentView === link.id
+                  ? 'text-zinc-900 dark:text-zinc-100'
+                  : 'text-zinc-400 dark:text-zinc-500'
+              }`}
+            >
+              <link.icon className={`w-4.5 h-4.5 transition-transform duration-200 ${currentView === link.id ? 'scale-110' : ''}`} />
+              <span className="text-[9px] font-medium">
+                {link.label}
+              </span>
+              {currentView === link.id && (
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-0.5 rounded-full bg-zinc-900 dark:bg-zinc-100" />
+              )}
+            </button>
+          ))}
+        </div>
+      </nav>
 
       <PaywallModal 
         isOpen={isPaywallOpen}

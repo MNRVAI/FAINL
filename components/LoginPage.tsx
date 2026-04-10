@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import { Shield, Github, Mail, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { Shield, Github, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 
 interface LoginPageProps {
@@ -16,9 +16,7 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
       setIsLoading(true);
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: {
-          redirectTo: window.location.origin
-        }
+        options: { redirectTo: window.location.origin }
       });
       if (error) throw error;
     } catch (err: any) {
@@ -31,17 +29,14 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-
     try {
       setIsLoading(true);
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
+        options: { emailRedirectTo: window.location.origin },
       });
       if (error) throw error;
-      setMessage({ type: 'success', text: 'Neural Link sent! Check your email to continue.' });
+      setMessage({ type: 'success', text: 'Magic link sent! Check your email to continue.' });
     } catch (err: any) {
       setMessage({ type: 'error', text: err.message });
     } finally {
@@ -51,79 +46,103 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-12 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-[16px_16px_0px_1px_rgba(255,255,255,0.1)]">
-        <div className="flex flex-col items-center text-center mb-10">
-          <div className="w-16 h-16 bg-black dark:bg-white rounded flex items-center justify-center mb-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.05)]">
-            <Shield className="text-white dark:text-black w-8 h-8" />
+      {/* Ambient glow */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="glow-orb w-96 h-96 top-1/4 left-1/2 -translate-x-1/2 animate-float-slow opacity-30" />
+      </div>
+
+      <div className="relative w-full max-w-sm">
+        {/* Card */}
+        <div className="glass-card card-shadow rounded-2xl overflow-hidden">
+          {/* Top accent */}
+          <div className="h-px bg-gradient-to-r from-transparent via-zinc-500/20 to-transparent" />
+
+          {/* Header */}
+          <div className="p-7 pb-6 text-center">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-zinc-900/15">
+              <Shield className="text-white w-6 h-6" />
+            </div>
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+              Sign In to FAINL
+            </h2>
+            <p className="text-sm text-zinc-400 dark:text-zinc-500 leading-snug">
+              Access your session history and saved question results
+            </p>
           </div>
-          <h2 className="text-4xl font-black uppercase tracking-tighter mb-2 text-black dark:text-white">Neural Vault</h2>
-          <p className="text-black/40 dark:text-white/40 font-bold uppercase text-[10px] tracking-widest text-balance leading-relaxed">Identity verification required to access secure session history</p>
-        </div>
 
-        {message && (
-          <div className={`mb-8 p-4 border-2 border-black dark:border-white/20 font-bold text-xs uppercase tracking-wider ${message.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'}`}>
-            {message.text}
+          {/* Message */}
+          {message && (
+            <div className={`mx-5 mb-5 p-3.5 rounded-xl text-sm font-medium ${
+              message.type === 'success'
+                ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20'
+                : 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-500/20'
+            }`}>
+              {message.text}
+            </div>
+          )}
+
+          {/* Social Buttons */}
+          <div className="px-5 pb-4 space-y-2.5">
+            <button
+              onClick={() => handleSocialLogin('google')}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-zinc-50 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 font-medium text-sm transition-all disabled:opacity-50 hover:border-zinc-300 dark:hover:border-white/15"
+            >
+              <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
+              Continue with Google
+            </button>
+
+            <button
+              onClick={() => handleSocialLogin('github')}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-zinc-50 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 font-medium text-sm transition-all disabled:opacity-50 hover:border-zinc-300 dark:hover:border-white/15"
+            >
+              <Github className="w-4 h-4" />
+              Continue with GitHub
+            </button>
           </div>
-        )}
 
-        <div className="space-y-4">
-          <button
-            onClick={() => handleSocialLogin('google')}
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-xs hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
-          >
-            <img src="https://www.google.com/favicon.ico" className="w-5 h-5 grayscale" alt="Google" />
-            Connect with Google
-          </button>
- 
-          <button
-            onClick={() => handleSocialLogin('github')}
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-4 p-5 border-4 border-black dark:border-white/20 bg-white dark:bg-zinc-900 font-black uppercase tracking-widest text-xs hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 text-black dark:text-white"
-          >
-            <Github className="w-5 h-5" />
-            Connect with GitHub
-          </button>
-        </div>
-
-        <div className="my-10 flex items-center gap-4">
-          <div className="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
-          <span className="text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.3em]">OR</span>
-          <div className="h-px flex-1 bg-black/10 dark:bg-white/10"></div>
-        </div>
-
-        <form onSubmit={handleEmailLogin} className="space-y-4">
-          <div className="relative">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="NEURAL-ID@EMAIL.COM"
-              className="w-full p-5 bg-zinc-50 dark:bg-zinc-800 border-4 border-black dark:border-white/20 font-bold uppercase tracking-widest text-xs placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all text-black dark:text-white"
-              required
-            />
-            <Mail className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-black/20 dark:text-white/20" />
+          {/* Divider */}
+          <div className="px-5 pb-4 flex items-center gap-3">
+            <div className="h-px flex-1 bg-zinc-100 dark:bg-white/[0.06]" />
+            <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-600">or</span>
+            <div className="h-px flex-1 bg-zinc-100 dark:bg-white/[0.06]" />
           </div>
-          
-          <button
-            type="submit"
-            disabled={isLoading || !email}
-            className="w-full bg-black dark:bg-white text-white dark:text-black p-5 font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all disabled:opacity-50"
-          >
-            {isLoading ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              <>
-                Initialize Link
-                <ArrowRight className="w-5 h-5" />
-              </>
-            )}
-          </button>
-        </form>
 
-        <p className="mt-8 text-center text-[8px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
-          Auth data is managed by Supabase. Your private missions remain encrypted on the server side.
-        </p>
+          {/* Email Form */}
+          <form onSubmit={handleEmailLogin} className="px-5 pb-6 space-y-3">
+            <div className="relative">
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 dark:text-zinc-500" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-full pl-10 pr-4 py-3 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading || !email}
+              className="btn-violet w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+            >
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  Send Magic Link
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+
+          <p className="px-5 pb-5 text-center text-[11px] text-zinc-400 dark:text-zinc-600 leading-relaxed">
+            Authentication is handled securely by Supabase. Your sessions remain encrypted.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,21 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DL89GBSH8"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-9DL89GBSH8');
     </script>
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FAINL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Primary Meta Tags -->
+    <title>FAINL — Multi-Agent AI Consensus Engine</title>
+    <meta name="title" content="FAINL — Multi-Agent AI Consensus Engine" />
+    <meta name="description" content="FAINL runs your question through multiple AI models simultaneously — Gemini, GPT-4, Claude, Grok and more — then synthesizes one authoritative, unbiased answer. Get AI consensus in seconds." />
+    <meta name="keywords" content="AI consensus, multi-agent AI, AI debate, multiple AI models, GPT-4, Claude, Gemini, Grok, Llama, AI comparison, decision making, FAINL, AI orchestration" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="FAINL" />
+    <meta name="theme-color" content="#09090b" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fainl.app/" />
+    <meta property="og:title" content="FAINL — Multi-Agent AI Consensus Engine" />
+    <meta property="og:description" content="Ask any question. Multiple AI models deliberate, debate, and deliver one authoritative verdict. Powered by Gemini, GPT-4, Claude, Grok, Llama and more." />
+    <meta property="og:image" content="https://fainl.app/og-image.png" />
+    <meta property="og:site_name" content="FAINL" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://fainl.app/" />
+    <meta name="twitter:title" content="FAINL — Multi-Agent AI Consensus Engine" />
+    <meta name="twitter:description" content="Ask any question. Multiple AI models deliberate, debate, and deliver one authoritative verdict." />
+    <meta name="twitter:image" content="https://fainl.app/og-image.png" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://fainl.app/" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://api.dicebear.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Structured Data: WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FAINL",
+      "url": "https://fainl.app",
+      "description": "FAINL is a multi-agent AI consensus engine that runs your question through multiple AI models simultaneously and synthesizes one authoritative, unbiased verdict.",
+      "applicationCategory": "BusinessApplication, UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "description": "Free tier available with your own API key"
+      },
+      "featureList": [
+        "Multi-agent AI consensus",
+        "Support for Gemini, GPT-4, Claude, Grok, Llama, Mistral",
+        "Live AI debate room",
+        "Chairman synthesis verdict",
+        "Local encrypted storage",
+        "No data sharing"
+      ],
+      "creator": {
+        "@type": "Organization",
+        "name": "FAINL"
+      }
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage (boosts rich snippets) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is FAINL?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "FAINL is a multi-agent AI consensus engine that runs your question through multiple AI models simultaneously — including Gemini, GPT-4, Claude, Grok and Llama — and synthesizes one authoritative, unbiased verdict."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All session data and API keys are stored locally in your browser only. FAINL uses a zero-knowledge architecture — your data never leaves your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which AI models does FAINL support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "FAINL supports Google Gemini, OpenAI GPT-4, Anthropic Claude, xAI Grok, Meta Llama, Mistral, DeepSeek, and more via OpenRouter."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

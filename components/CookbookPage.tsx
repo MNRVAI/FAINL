@@ -57,146 +57,157 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-center mb-16 md:mb-24">
-        <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
-          <ScrambleText text="Cookbook" />
+      <div className="text-center mb-10 md:mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold mb-4">
+          <LayoutGrid className="w-3.5 h-3.5" />
+          Examples
+        </div>
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">
+          <ScrambleText text="Question Cookbook" />
         </h1>
-        <p className="max-w-2xl mx-auto text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
-            A high-integrity database of neural directives optimized for autonomous multi-agent orchestration and strategic logic fulfillment.
+        <p className="max-w-md mx-auto text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed">
+          Browse curated example questions to inspire your next council session. Click any to load it instantly.
         </p>
       </div>
 
       {/* Control Bar */}
-      <div className="mb-12 space-y-6">
-        <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="relative w-full lg:flex-1 group">
-                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-black/20 dark:text-white/20 group-focus-within:text-black dark:group-focus-within:text-white transition-colors" />
-                <input 
-                    type="text" 
-                    placeholder="SCAN DATABASE FOR DIRECTIVES..."
+      <div className="mb-8 space-y-3">
+        <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 dark:text-zinc-500" />
+                <input
+                    type="text"
+                    placeholder="Search questions..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-16 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none focus:border-yellow-400 dark:focus:border-yellow-400 transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)]"
+                    className="w-full glass-card card-shadow rounded-xl pl-10 pr-4 py-2.5 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 transition-all"
                 />
             </div>
-            
-            <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
-                <div className="relative group min-w-[160px]">
-                    <select 
+
+            <div className="flex items-center gap-2 flex-wrap">
+                <div className="relative">
+                    <select
                         value={activeCategory}
                         onChange={(e) => setActiveCategory(e.target.value)}
                         title="Filter by Category"
-                        className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
+                        className="appearance-none glass-card card-shadow rounded-xl px-3.5 py-2.5 pr-8 text-sm text-zinc-700 dark:text-zinc-300 focus:outline-none cursor-pointer focus:ring-2 focus:ring-zinc-900/10 transition-all"
                     >
-                        {categories.map(c => <option key={c} value={c}>{c === 'All' ? 'ANY CATEGORY' : c.toUpperCase()}</option>)}
+                        {categories.map(c => <option key={c} value={c}>{c === 'All' ? 'All categories' : c}</option>)}
                     </select>
-                    <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
+                    <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none text-zinc-400" />
                 </div>
 
-                <div className="relative group min-w-[160px]">
-                    <select 
+                <div className="relative">
+                    <select
                         value={activeDifficulty}
                         onChange={(e) => setActiveDifficulty(e.target.value)}
-                        title="Filter by Difficulty Tier"
-                        className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
+                        title="Filter by Difficulty"
+                        className="appearance-none glass-card card-shadow rounded-xl px-3.5 py-2.5 pr-8 text-sm text-zinc-700 dark:text-zinc-300 focus:outline-none cursor-pointer focus:ring-2 focus:ring-zinc-900/10 transition-all"
                     >
-                        {difficulties.map(d => <option key={d} value={d}>{d === 'All' ? 'ANY DIFFICULTY' : `TIER ${d.toUpperCase()}`}</option>)}
+                        {difficulties.map(d => <option key={d} value={d}>{d === 'All' ? 'All levels' : `Level ${d}`}</option>)}
                     </select>
-                    <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
+                    <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none text-zinc-400" />
                 </div>
 
-                <div className="relative group min-w-[160px]">
-                    <select 
+                <div className="relative">
+                    <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as any)}
-                        title="Sort Results"
-                        className="w-full appearance-none bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 rounded-2xl px-6 py-5 font-black uppercase tracking-widest text-[10px] focus:outline-none cursor-pointer pr-12 text-black dark:text-white"
+                        title="Sort by"
+                        className="appearance-none glass-card card-shadow rounded-xl px-3.5 py-2.5 pr-8 text-sm text-zinc-700 dark:text-zinc-300 focus:outline-none cursor-pointer focus:ring-2 focus:ring-zinc-900/10 transition-all"
                     >
-                        <option value="popularity">BY POPULARITY</option>
-                        <option value="rating">BY RANKING</option>
+                        <option value="popularity">Most popular</option>
+                        <option value="rating">Top rated</option>
                     </select>
-                    <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none opacity-20" />
+                    <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none text-zinc-400" />
                 </div>
             </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredDirectives.length === 0 ? (
-            <div className="col-span-full py-20 text-center border-4 border-dashed border-black/10 dark:border-white/10 rounded-[3rem]">
-                <p className="font-black uppercase tracking-widest text-black/20 dark:text-white/20">Zero matching neural patterns found</p>
+            <div className="col-span-full py-16 text-center glass-card card-shadow rounded-2xl">
+                <p className="text-sm font-medium text-zinc-400 dark:text-zinc-500">No matching questions found.</p>
+                <p className="text-[11px] text-zinc-300 dark:text-zinc-700 mt-1">Try a different search term or filter.</p>
             </div>
         ) : (
             filteredDirectives.map((directive) => (
-                <button 
+                <button
                     key={directive.id}
                     onClick={() => onSelectMission(directive.query)}
-                    className="group text-left bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/10 p-5 md:p-6 rounded-2xl md:rounded-[2rem] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.05)] hover:-translate-y-1 transition-all relative overflow-hidden"
+                    className="group text-left glass-card card-shadow hover:card-shadow-hover p-4 md:p-5 rounded-2xl transition-all relative overflow-hidden hover:scale-[1.01]"
                 >
-                    {/* Recommended ribbon removed */}
-                    
-                    <div className="flex justify-between items-start mb-6">
-                        <div className="flex flex-wrap items-center gap-2">
-                             <span className={`px-3 py-1 border-2 border-black dark:border-white/10 rounded-lg text-[7px] font-black uppercase tracking-widest ${directive.difficulty === 'Gamma' ? 'bg-red-400 text-black' : directive.difficulty === 'Beta' ? 'bg-blue-400 text-black' : 'bg-green-400 text-black'}`}>
-                                {directive.difficulty}
+                    {/* Top accent */}
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+
+                    <div className="flex items-start justify-between mb-3 gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
+                              directive.difficulty === 'Gamma'
+                                ? 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-100 dark:border-red-500/20'
+                                : directive.difficulty === 'Beta'
+                                ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-500/20'
+                                : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20'
+                            }`}>
+                              {directive.difficulty === 'Alpha' ? 'Beginner' : directive.difficulty === 'Beta' ? 'Intermediate' : 'Advanced'}
                             </span>
-                            <span className="text-[8px] font-black text-black/40 dark:text-white/30 uppercase tracking-widest px-2 py-1 border border-black/10 dark:border-white/10 rounded-lg">{directive.category}</span>
+                            <span className="text-[10px] text-zinc-400 dark:text-zinc-500 bg-zinc-50 dark:bg-white/5 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-white/8">
+                              {directive.category}
+                            </span>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1.5 bg-black/5 dark:bg-white/5 rounded-lg">
-                                <button 
-                                    onClick={(e) => handleVote(directive.id, 1, e)}
-                                    title="Upvote to increase community ranking"
-                                    className="p-1 hover:bg-black/10 dark:hover:bg-white/10 rounded transition-colors text-black/40 dark:text-white/40 hover:text-green-500 flex items-center gap-1 group/vote"
-                                >
-                                    <ChevronUp className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
-                                </button>
-                                <span className="text-[10px] font-black text-black dark:text-white min-w-[16px] text-center" title="Net community ranking">
-                                    {(directive.rating + (localRatings[directive.id] || 0))}
-                                </span>
-                                <button 
-                                    onClick={(e) => handleVote(directive.id, -1, e)}
-                                    title="Downvote to decrease community ranking"
-                                    className="p-1 hover:bg-black/10 dark:hover:bg-white/10 rounded transition-colors text-black/40 dark:text-white/40 hover:text-red-500 flex items-center gap-1 group/vote"
-                                >
-                                    <ChevronDown className="w-4 h-4 group-hover/vote:scale-110 transition-transform" />
-                                </button>
+                        <div className="flex items-center gap-1 bg-zinc-50 dark:bg-white/5 rounded-lg px-1.5 py-1">
+                            <button
+                                onClick={(e) => handleVote(directive.id, 1, e)}
+                                title="Upvote"
+                                className="p-0.5 rounded hover:text-emerald-500 text-zinc-400 dark:text-zinc-500 transition-colors"
+                            >
+                                <ChevronUp className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="text-[11px] font-bold text-zinc-700 dark:text-zinc-300 min-w-[18px] text-center">
+                                {directive.rating + (localRatings[directive.id] || 0)}
+                            </span>
+                            <button
+                                onClick={(e) => handleVote(directive.id, -1, e)}
+                                title="Downvote"
+                                className="p-0.5 rounded hover:text-red-500 text-zinc-400 dark:text-zinc-500 transition-colors"
+                            >
+                                <ChevronDown className="w-3.5 h-3.5" />
+                            </button>
                         </div>
                     </div>
 
-                    <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 text-black dark:text-white line-clamp-1">{directive.title}</h3>
-                    <p className="text-[11px] md:text-xs font-bold text-black/60 dark:text-white/60 leading-relaxed italic mb-6 border-l-4 border-yellow-400 pl-4 bg-yellow-400/5 py-3 rounded-r-xl line-clamp-2">
+                    <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-2 line-clamp-1">{directive.title}</h3>
+                    <p className="text-[12px] text-zinc-500 dark:text-zinc-400 leading-relaxed italic mb-4 border-l-2 border-zinc-300/60 dark:border-zinc-700/60 pl-3 line-clamp-2">
                         "{directive.query}"
                     </p>
-                    
-                    <div className="flex items-center justify-between mt-auto">
-                        <div className="flex items-center gap-4 opacity-40">
-                             <div className="flex items-center gap-1.5">
-                                <Layers className="w-3 h-3" />
-                                <span className="text-[7px] font-black">{directive.nodesNeeded} NODES</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <Clock className="w-3 h-3" />
-                                <span className="text-[7px] font-black uppercase">{directive.length}</span>
-                            </div>
+
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-[10px] text-zinc-400 dark:text-zinc-500">
+                            <span className="flex items-center gap-1">
+                                <Layers className="w-3 h-3" /> {directive.nodesNeeded} models
+                            </span>
+                            <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" /> {directive.length}
+                            </span>
                         </div>
-                        <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.2em] group-hover:gap-5 transition-all text-black dark:text-white">
-                            INIT <ArrowRight className="w-3.5 h-3.5" />
-                        </div>
+                        <span className="flex items-center gap-1 text-[11px] font-semibold text-zinc-800 dark:text-zinc-200 group-hover:gap-1.5 transition-all">
+                            Try this <ArrowRight className="w-3 h-3" />
+                        </span>
                     </div>
                 </button>
             ))
         )}
       </div>
 
-      <div className="mt-32 p-12 md:p-20 bg-black dark:bg-zinc-900 text-white rounded-[3rem] text-center space-y-8 relative overflow-hidden group shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent pointer-events-none" />
-        <Book className="w-16 h-16 mx-auto text-yellow-400 animate-pulse-glow" />
-        <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">Neural Optimization Engaged</h2>
-            <p className="text-xs md:text-sm font-bold text-white/50 uppercase tracking-[0.2em] leading-relaxed">
-                FAINL directives are crowd-indexed using our proof-of-logic consensus. The more a directive is reviewed and utilized, the higher its priority in the global neural subnet.
-            </p>
-        </div>
+      {/* Bottom CTA */}
+      <div className="mt-10 glass-card card-shadow rounded-2xl p-8 text-center overflow-hidden relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-500/15 to-transparent" />
+        <Book className="w-8 h-8 mx-auto text-zinc-700 mb-3" />
+        <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-2">Community-Ranked Questions</h2>
+        <p className="text-sm text-zinc-400 dark:text-zinc-500 max-w-sm mx-auto leading-relaxed">
+          The more a question is used and upvoted, the higher it ranks. Contribute by using and rating questions in the Cookbook.
+        </p>
       </div>
     </div>
   );

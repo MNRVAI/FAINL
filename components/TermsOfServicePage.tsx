@@ -3,96 +3,142 @@ import { Gavel, Scale, FileText, Zap, Users, AlertTriangle } from 'lucide-react'
 
 export const TermsOfServicePage: FC = () => {
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-24 animate-fade-in">
-      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-16 shadow-[24px_24px_0px_0px_rgba(0,0,0,1)] dark:shadow-[24px_24px_0px_1px_rgba(255,255,255,0.1)]">
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-16 pb-16 border-b-4 border-black/5 dark:border-white/5">
-          <div className="w-24 h-24 bg-black dark:bg-white rounded flex items-center justify-center shrink-0 shadow-[12px_12px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.05)]">
-            <Gavel className="text-white dark:text-black w-12 h-12" />
+    <div className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-fade-in-up">
+
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold mb-4">
+          <Gavel className="w-3.5 h-3.5" />
+          Terms of Service
+        </div>
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">
+          Terms of Service
+        </h1>
+        <p className="max-w-sm mx-auto text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed">
+          By using FAINL, you agree to these terms. Please read them carefully.
+        </p>
+        <p className="mt-3 text-xs text-zinc-400 dark:text-zinc-600 font-medium">Version 1.0.0 · Effective immediately</p>
+      </div>
+
+      {/* Sections */}
+      <div className="space-y-4">
+
+        <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
+              <Zap className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
+            </div>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Acceptable Use</h2>
           </div>
-          <div>
-            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight mb-4 text-black dark:text-white">Terms of Protocol</h1>
-            <p className="text-black/40 dark:text-white/40 font-bold uppercase text-xs md:text-sm tracking-[0.3em]">Operational Governance & Usage Standards • Version 1.0.0</p>
-          </div>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+            By accessing FAINL, you are granted a limited, non-exclusive license to use the service for personal and professional analysis. This license requires adherence to the terms below. FAINL is a tool — all outputs are advisory and the responsibility for how they are used remains with you.
+          </p>
         </div>
 
-        <div className="prose prose-xl max-w-none prose-headings:uppercase prose-headings:font-black prose-headings:tracking-tighter prose-p:text-black/70 dark:prose-p:text-white/70 prose-strong:text-black dark:prose-strong:text-white prose-li:text-black/70 dark:prose-li:text-white/70 leading-relaxed space-y-16">
-          
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Zap className="w-8 h-8" />
-              <h2 className="text-3xl m-0">01. Neural Authorization</h2>
+        <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
+              <Users className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
             </div>
-            <p>
-              By accessing the FAINL terminal, you are granted a limited, non-exclusive license to orchestrate neural missions. 
-              This authorization is contingent upon your adherence to the protocol standards outlined herein. 
-              FAINL is an autonomous network; orchestration is performed at the user's discretion and risk.
-            </p>
-          </section>
-
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Users className="w-8 h-8" />
-              <h2 className="text-3xl m-0">02. Council Arbitration</h2>
-            </div>
-            <p>
-              FAINL utilizes a multi-node consensus mechanism for deliberation. 
-            </p>
-            <ul>
-              <li>**Non-Deterministic Output**: Neural verdicts are generated by autonomous agents and may vary between sessions.</li>
-              <li>**No Human Mediation**: Deliberations are fully autonomous. FAINL maintenance staff does not interfere with council logic.</li>
-              <li>**Responsibility of Verdict**: The user acknowledges that verdicts are advisory and do not constitute professional, legal, or financial advice.</li>
-            </ul>
-          </section>
-
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <Scale className="w-8 h-8" />
-              <h2 className="text-3xl m-0">03. Usage Limits & Credits</h2>
-            </div>
-            <p>
-              Access to the network is governed by neural access tiers. 
-            </p>
-            <ul>
-              <li>**Turns & Credits**: Missions consume neural energy (turns or credits). These are non-refundable once consumed by a processing node.</li>
-              <li>**BYO Experience**: Users providing their own API keys are responsible for costs incurred at the model provider level.</li>
-              <li>**Fair Use**: We reserve the right to throttle or terminate neural links that exhibit bot-like or recursive patterns detrimental to network stability.</li>
-            </ul>
-          </section>
-
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <AlertTriangle className="w-8 h-8" />
-              <h2 className="text-3xl m-0">04. Prohibited Directives</h2>
-            </div>
-            <p>
-              The FAINL protocol strictly prohibits the orchestration of missions involving:
-            </p>
-            <ul>
-              <li>Generation of malicious software or exploit code.</li>
-              <li>Synthesis of biological or chemical weapon directives.</li>
-              <li>Automated harassment or large-scale disinformation campaigns.</li>
-              <li>Any activity violating the jurisdiction of the user's primary node location.</li>
-            </ul>
-          </section>
-
-          <section>
-            <div className="flex items-center gap-4 mb-6 text-black dark:text-white">
-              <FileText className="w-8 h-8" />
-              <h2 className="text-3xl m-0">05. Termination of Access</h2>
-            </div>
-            <p>
-              Violation of these terms results in immediate neural de-authorization. 
-              We reserve the right to revoke "Neural Vault" access for accounts that compromise the integrity of the FAINL network.
-            </p>
-          </section>
-
-          <div className="pt-16 border-t-4 border-black dark:border-white/20">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 dark:text-white/20 text-center">
-              Protocol Governance Active • Usage Monitored by Local Node
-            </p>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">AI-Generated Content</h2>
           </div>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">
+            FAINL uses multiple AI models to generate responses. Please note:
+          </p>
+          <ul className="space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+              <span><strong className="text-zinc-700 dark:text-zinc-300">Non-deterministic output:</strong> Responses are generated by AI and may vary between sessions.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+              <span><strong className="text-zinc-700 dark:text-zinc-300">Not professional advice:</strong> AI verdicts do not constitute legal, financial, medical, or any other form of professional advice.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+              <span><strong className="text-zinc-700 dark:text-zinc-300">No interference:</strong> FAINL staff does not review or interfere with individual AI responses.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
+              <Scale className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
+            </div>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Usage & Credits</h2>
+          </div>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">
+            Access to FAINL is governed by usage tiers:
+          </p>
+          <ul className="space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+              <span><strong className="text-zinc-700 dark:text-zinc-300">Turns & Credits:</strong> Each complete consensus session (analysis → debate → verdict) consumes one Turn. Credits and Turns are non-refundable once consumed.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+              <span><strong className="text-zinc-700 dark:text-zinc-300">BYO API Keys:</strong> If you provide your own API keys, you are responsible for any costs incurred at the provider level.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+              <span><strong className="text-zinc-700 dark:text-zinc-300">Fair Use:</strong> We reserve the right to throttle or suspend access for accounts showing bot-like or abusive usage patterns.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400" />
+            </div>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Prohibited Uses</h2>
+          </div>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-3">
+            The following uses of FAINL are strictly prohibited:
+          </p>
+          <ul className="space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 shrink-0" />
+              <span>Generating malicious code, malware, or exploit instructions.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 shrink-0" />
+              <span>Requesting instructions related to biological or chemical weapons.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 shrink-0" />
+              <span>Automated harassment, spam, or large-scale disinformation campaigns.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 shrink-0" />
+              <span>Any activity that violates applicable laws in your jurisdiction.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
+              <FileText className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
+            </div>
+            <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Account Termination</h2>
+          </div>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+            Violation of these terms may result in immediate suspension or permanent removal of your account. We reserve the right to revoke access for accounts that compromise the integrity of the service or violate these terms, at our sole discretion.
+          </p>
         </div>
       </div>
+
+      <p className="mt-8 text-center text-[11px] text-zinc-400 dark:text-zinc-600 font-medium">
+        Questions about these terms?{' '}
+        <span className="text-zinc-800 dark:text-zinc-200 font-semibold">Contact us via the Contact page.</span>
+      </p>
     </div>
   );
 };

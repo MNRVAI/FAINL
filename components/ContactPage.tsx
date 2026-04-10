@@ -1,149 +1,160 @@
-
 import { FC, useState } from 'react';
-import { 
-  Globe, 
-  Github, 
-  Terminal,
-  Send,
-  MessageSquare,
-  Loader2,
-  CheckCircle2
-} from 'lucide-react';
-import { ScrambleText } from './ScrambleText';
+import { Send, MessageSquare, Loader2, CheckCircle2, Mail, Clock, Shield } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 
 export const ContactPage: FC = () => {
-    const [name, setName] = useState('');
-    const [payload, setPayload] = useState('');
-    const [status, setStatus] = useState<'idle' | 'transmitting' | 'success' | 'error'>('idle');
-    const [errorMessage, setErrorMessage] = useState('');
+  const [name, setName] = useState('');
+  const [payload, setPayload] = useState('');
+  const [status, setStatus] = useState<'idle' | 'transmitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!name || !payload || status !== 'idle') return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !payload || status !== 'idle') return;
 
-        setStatus('transmitting');
-        setErrorMessage('');
+    setStatus('transmitting');
+    setErrorMessage('');
 
-        try {
-            const { data, error } = await supabase.functions.invoke('send-contact-email', {
-                body: { name, payload }
-            });
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: { name, payload },
+      });
 
-            if (error) throw error;
-            if (data?.error) throw new Error(data.error);
-            
-            setStatus('success');
-            
-            // Reset after success
-            setTimeout(() => {
-                setName('');
-                setPayload('');
-                setStatus('idle');
-            }, 3000);
-        } catch (err: any) {
-            console.error('Transmission failed:', err);
-            setErrorMessage(err.message || 'Transmission handshaking failed.');
-            setStatus('error');
-            setTimeout(() => setStatus('idle'), 5000);
-        }
-    };
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
 
-    return (
-        <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex flex-col lg:flex-row gap-12 md:gap-24">
-                <div className="lg:w-1/2 space-y-8 md:space-y-12">
-                    <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-black dark:text-white">
-                        <ScrambleText text="Reach The Core" />
-                    </h1>
-                    <p className="text-sm md:text-lg font-bold text-black/50 dark:text-white/50 uppercase tracking-[0.2em] leading-relaxed">
-                        Direct encrypted link to the FAINL maintenance architecture. Our autonomous protocol ensures high-integrity deliberation for every transmission received. Initiate contact to sync with the core.
-                    </p>
-                    
-                    <div className="p-8 bg-black/5 dark:bg-white/5 border-4 border-black/10 dark:border-white/5 rounded-[2rem] space-y-6">
-                        <div className="flex items-center gap-4 text-black dark:text-white opacity-40">
-                            <MessageSquare className="w-5 h-5" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Neural Response Time: \u003c 12H</span>
-                        </div>
-                        <div className="flex items-center gap-4 text-black dark:text-white opacity-40">
-                            <Globe className="w-5 h-5" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Global Node Uptime: 99.9%</span>
-                        </div>
-                    </div>
-                </div>
+      setStatus('success');
 
-                <div className="lg:w-1/2">
-                    <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-[16px_16px_0px_1px_rgba(255,255,255,0.05)]">
-                        <div className="flex items-center gap-4 mb-10 text-black dark:text-white">
-                            <Terminal className="w-6 h-6 md:w-8 md:h-8" />
-                            <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Transmission</h3>
-                        </div>
-                        
-                        <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
-                            <div className="space-y-3">
-                                <label className="block text-[10px] font-black text-black/40 dark:text-white/40 uppercase tracking-[0.3em]">Source Identity</label>
-                                <input 
-                                    type="text" 
-                                    required
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    placeholder="NODE_NAME"
-                                    disabled={status !== 'idle'}
-                                    className="w-full bg-zinc-50 dark:bg-zinc-800 border-4 border-black dark:border-white/10 p-5 md:p-6 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[10px] focus:bg-white dark:focus:bg-zinc-700 transition-all outline-none text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 disabled:opacity-50"
-                                />
-                            </div>
-                            <div className="space-y-3">
-                                <label className="block text-[10px] font-black text-black/40 dark:text-white/40 uppercase tracking-[0.3em]">Communication Payload</label>
-                                <textarea 
-                                    required
-                                    value={payload}
-                                    onChange={(e) => setPayload(e.target.value)}
-                                    placeholder="ENTER DIRECTIVE..."
-                                    disabled={status !== 'idle'}
-                                    rows={5}
-                                    className="w-full bg-zinc-50 dark:bg-zinc-800 border-4 border-black dark:border-white/10 p-5 md:p-6 rounded-xl md:rounded-2xl font-bold uppercase tracking-widest text-[10px] focus:bg-white dark:focus:bg-zinc-700 transition-all outline-none resize-none text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 disabled:opacity-50"
-                                />
-                            </div>
-                            <button 
-                                type="submit"
-                                disabled={status !== 'idle' || !name || !payload}
-                                className={`w-full py-6 md:py-8 rounded-xl md:rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] transition-all shadow-xl flex items-center justify-center gap-4 ${
-                                    status === 'success' 
-                                    ? 'bg-green-500 text-white' 
-                                    : 'bg-black dark:bg-white text-white dark:text-black hover:scale-[1.02] active:scale-[0.98]'
-                                } disabled:opacity-50 disabled:cursor-not-allowed`}
-                            >
-                                {status === 'idle' && (
-                                    <>
-                                        <Send className="w-5 h-5 md:w-6 md:h-6" />
-                                        Initiate Transfer
-                                    </>
-                                )}
-                                {status === 'transmitting' && (
-                                    <>
-                                        <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" />
-                                        Transmitting...
-                                    </>
-                                )}
-                                {status === 'success' && (
-                                    <>
-                                        <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6" />
-                                        Transfer Complete
-                                    </>
-                                )}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <div className="mt-20 md:mt-32 border-t-4 border-black dark:border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
-                <div className="flex gap-8">
-                    <Github className="w-6 h-6 md:w-8 md:h-8 text-black/20 dark:text-white/20 hover:text-black dark:hover:text-white transition-colors cursor-pointer" />
-                    <Globe className="w-6 h-6 md:w-8 md:h-8 text-black/20 dark:text-white/20 hover:text-black dark:hover:text-white transition-colors cursor-pointer" />
-                </div>
-                <p className="text-[10px] font-black text-black/40 dark:text-white/40 uppercase tracking-[0.4em] text-center">\u00A9 2026 FAINL PROTOCOL \u2022 ALL RIGHTS RESERVED</p>
-            </div>
+      setTimeout(() => {
+        setName('');
+        setPayload('');
+        setStatus('idle');
+      }, 3000);
+    } catch (err: any) {
+      console.error('Contact form failed:', err);
+      setErrorMessage(err.message || 'Failed to send message. Please try again.');
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-fade-in-up">
+
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold mb-4">
+          <MessageSquare className="w-3.5 h-3.5" />
+          Contact
         </div>
-    );
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">
+          Get in Touch
+        </h1>
+        <p className="max-w-sm mx-auto text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed">
+          Have a question, feedback, or partnership inquiry? We'd love to hear from you.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8">
+
+        {/* Left: Info cards */}
+        <div className="lg:col-span-2 space-y-3">
+          {[
+            { icon: Clock, title: 'Response Time', desc: 'We typically respond within 12 hours.' },
+            { icon: Shield, title: 'Privacy First', desc: 'Your message is sent securely and never shared.' },
+            { icon: Mail, title: 'Direct Line', desc: 'Reach a real person — not an automated bot.' },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="glass-card card-shadow rounded-2xl p-4 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
+                <Icon className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-0.5">{title}</p>
+                <p className="text-[11px] text-zinc-400 dark:text-zinc-500 leading-snug">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Right: Form */}
+        <div className="lg:col-span-3">
+          <div className="glass-card card-shadow rounded-2xl p-5 md:p-7">
+            {/* Top accent */}
+            <div className="h-px bg-gradient-to-r from-transparent via-zinc-500/15 to-transparent mb-5" />
+
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Jane Smith"
+                  disabled={status !== 'idle'}
+                  className="w-full bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all disabled:opacity-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  required
+                  value={payload}
+                  onChange={(e) => setPayload(e.target.value)}
+                  placeholder="Write your message here..."
+                  disabled={status !== 'idle'}
+                  rows={5}
+                  className="w-full bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all resize-none disabled:opacity-50"
+                />
+              </div>
+
+              {status === 'error' && (
+                <p className="text-sm text-red-500 font-medium">{errorMessage}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={status !== 'idle' || !name || !payload}
+                className={`w-full py-3 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2.5 ${
+                  status === 'success'
+                    ? 'bg-emerald-500 text-white cursor-default'
+                    : 'btn-violet disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none'
+                }`}
+              >
+                {status === 'idle' && (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Send Message
+                  </>
+                )}
+                {status === 'transmitting' && (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending...
+                  </>
+                )}
+                {status === 'success' && (
+                  <>
+                    <CheckCircle2 className="w-4 h-4" />
+                    Message sent!
+                  </>
+                )}
+                {status === 'error' && (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Try again
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };

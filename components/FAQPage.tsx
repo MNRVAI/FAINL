@@ -1,109 +1,128 @@
 import { useState, FC } from 'react';
-import { 
-  HelpCircle, 
-  ChevronDown, 
-  ChevronUp, 
-  ShieldCheck, 
-  Zap, 
+import {
+  HelpCircle,
+  ChevronDown,
+  ShieldCheck,
+  Zap,
   Coins,
   Cpu,
   Lock,
   Globe,
-  MessageSquare
+  MessageSquare,
 } from 'lucide-react';
-import { ScrambleText } from './ScrambleText';
 
 const FAQS = [
   {
-    q: "What makes FAINL different from standard chat models?",
-    a: "FAINL is an autonomous orchestration layer that triggers a multi-agent consensus protocol. It forces multiple high-performance models to debate and critique each other, eliminating single-point bias and logical hallucinations.",
-    icon: Cpu
+    q: "What makes FAINL different from using ChatGPT or Claude directly?",
+    a: "FAINL is a consensus orchestration layer — it runs your question through multiple AI models simultaneously (Gemini, GPT-4, Claude, Grok, and more) and synthesizes one authoritative answer. This eliminates single-model bias and surfaces disagreements, giving you a more balanced and reliable perspective.",
+    icon: Cpu,
   },
   {
-    q: "Is my mission data secure and private?",
-    a: "FAINL follows a Zero-Knowledge architecture. Your API keys and session history are stored exclusively in your browser's local storage. We do not have access to your data, ensuring total sovereignty.",
-    icon: Lock
+    q: "Is my data private and secure?",
+    a: "Yes. FAINL uses a zero-knowledge architecture. Your API keys and session history are stored exclusively in your browser's local storage. We have no access to your data whatsoever — nothing leaves your device.",
+    icon: Lock,
   },
   {
-    q: "Why is there a paywall after one turn?",
-    a: "Executing multiple advanced models (Google, OpenAI, Anthropic) simultaneously requires significant compute resources. The paywall ensures we can provide the full multi-node intelligence experience without compromise.",
-    icon: Coins
+    q: "Why do I need an API key?",
+    a: "FAINL orchestrates real AI models from Google, OpenAI, Anthropic, and others. These providers require API keys for access. By using your own keys, you have full control over your costs and data. Google Gemini offers a generous free tier to get started.",
+    icon: Coins,
   },
   {
     q: "Can I use FAINL offline?",
-    a: "The logic orchestration happens in your browser, but the neural nodes require an internet connection to reach their respective API providers. Local model integration is a high-priority feature for Phase 2.",
-    icon: Globe
+    a: "The interface runs entirely in your browser, but the AI models require an internet connection to reach their respective API providers. Local model support is planned for a future release.",
+    icon: Globe,
   },
   {
-    q: "How does the Consensus Protocol work?",
-    a: "When a query is submitted, multiple AI agents generate independent solutions. These solutions are then peer-reviewed and debated until a high-integrity, authoritative verdict is reached by the Council.",
-    icon: MessageSquare
+    q: "How does the consensus process work?",
+    a: "When you submit a question, multiple AI agents independently analyze and respond. You can then open the Debate Room where the models challenge each other's reasoning in real time. Finally, a synthesizer combines all perspectives into one coherent, balanced verdict.",
+    icon: MessageSquare,
   },
   {
-    q: "Can I customize the Council members?",
-    a: "Yes. Advanced users can select specific neural nodes and define the roles of each council member in the Settings panel, tailoring the debate logic to their specific mission requirements.",
-    icon: Zap
+    q: "Can I customize which AI models are in the council?",
+    a: "Yes. In the Settings panel you can choose which AI providers to include, set their roles, and even define custom system prompts for each council member — giving you full control over the deliberation logic.",
+    icon: Zap,
   },
   {
-    q: "What are 'Turns' and 'Credits'?",
-    a: "Turns represent full consensus sessions where the council debates a query. Credits are used for specific high-intensity operations like deep-dive peer reviews or extended debates.",
-    icon: HelpCircle
+    q: "What are Turns and Credits?",
+    a: "A Turn is one complete consensus session — from initial analysis through debate to final verdict. Credits are used when you bring your own API keys and want to use the FAINL orchestration layer on top of your own provider accounts.",
+    icon: HelpCircle,
   },
   {
-    q: "How is the ranking in the Cookbook determined?",
-    a: "The Cookbook rankings are entirely community-driven. Users upvote directives that provide high value, which influences their visibility and priority within the collective database.",
-    icon: ShieldCheck
-  }
+    q: "How is the Cookbook ranking determined?",
+    a: "Cookbook rankings are community-driven. Users upvote questions that produce especially insightful or high-value council verdicts, surfacing the most useful prompts for other users.",
+    icon: ShieldCheck,
+  },
 ];
 
 export const FAQPage: FC = () => {
-    const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-    return (
-        <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="text-center mb-16 md:mb-24">
-                <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
-                    <ScrambleText text="Internal Protocol" />
-                </h1>
-                <p className="max-w-2xl mx-auto text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
-                    Access the foundational logic and operational guidelines of the FAINL Orchestration Layer. Understand the mechanics of decentralized consensus and neural governance.
-                </p>
-            </div>
+  return (
+    <div className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-fade-in-up">
 
-            <div className="space-y-4 md:space-y-6 max-w-4xl mx-auto">
-                {FAQS.map((faq, idx) => (
-                    <div 
-                        key={idx}
-                        className={`bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-2xl md:rounded-[2rem] overflow-hidden transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.05)] ${openIndex === idx ? 'ring-2 ring-yellow-400' : ''}`}
-                    >
-                        <button 
-                            onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                            className="w-full text-left p-6 md:p-10 flex items-center justify-between group"
-                        >
-                            <div className="flex items-center gap-4 md:gap-8">
-                                <div className={`p-3 rounded-xl transition-colors ${openIndex === idx ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-black/5 dark:bg-white/5 text-black dark:text-white'}`}>
-                                    <faq.icon className="w-5 h-5 md:w-6 md:h-6" />
-                                </div>
-                                <h3 className="text-lg md:text-xl font-black uppercase tracking-tight leading-tight text-black dark:text-white">{faq.q}</h3>
-                            </div>
-                            <div className={`transition-transform duration-300 ${openIndex === idx ? 'rotate-180' : ''}`}>
-                                <ChevronDown className="w-6 h-6 md:w-8 md:h-8 text-black dark:text-white opacity-20 group-hover:opacity-100" />
-                            </div>
-                        </button>
-                        {openIndex === idx && (
-                            <div className="px-6 md:px-10 pb-6 md:pb-10 animate-in slide-in-from-top-4 duration-300">
-                                <div className="pt-6 border-t-2 border-black/5 dark:border-white/5 text-xs md:text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed uppercase tracking-widest">
-                                    {faq.a}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
-
-            <div className="mt-20 text-center">
-                <p className="text-[10px] font-black text-black/20 dark:text-white/20 uppercase tracking-[0.5em]">System Revision 4.2.0 • Consensus Priority 0</p>
-            </div>
+      {/* Header */}
+      <div className="text-center mb-10 md:mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold mb-4">
+          <HelpCircle className="w-3.5 h-3.5" />
+          FAQ
         </div>
-    );
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">
+          Frequently Asked Questions
+        </h1>
+        <p className="max-w-md mx-auto text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed">
+          Everything you need to know about how FAINL works, what it costs, and how your data is handled.
+        </p>
+      </div>
+
+      {/* FAQ List */}
+      <div className="space-y-2.5">
+        {FAQS.map((faq, idx) => (
+          <div
+            key={idx}
+            className={`glass-card rounded-2xl overflow-hidden transition-all duration-200 ${
+              openIndex === idx ? 'card-shadow-hover' : 'card-shadow'
+            }`}
+          >
+            <button
+              onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+              className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 group"
+              aria-expanded={openIndex === idx}
+            >
+              <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                  openIndex === idx
+                    ? 'bg-zinc-900 text-white'
+                    : 'bg-zinc-100 dark:bg-white/5 text-zinc-500 dark:text-zinc-400 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-1000/10 group-hover:text-zinc-800 dark:group-hover:text-zinc-500'
+                }`}>
+                  <faq.icon className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+                  {faq.q}
+                </h3>
+              </div>
+              <ChevronDown
+                className={`w-4 h-4 text-zinc-400 shrink-0 transition-transform duration-200 ${openIndex === idx ? 'rotate-180 text-zinc-700' : ''}`}
+              />
+            </button>
+
+            {openIndex === idx && (
+              <div className="px-5 pb-5 pt-1 animate-in slide-in-from-top-2 duration-200">
+                <div className="pl-11">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                    {faq.a}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Footer note */}
+      <p className="mt-8 text-center text-[11px] text-zinc-400 dark:text-zinc-600 font-medium">
+        Still have questions?{' '}
+        <span className="text-zinc-800 dark:text-zinc-200 font-semibold">Reach out via the Contact page.</span>
+      </p>
+    </div>
+  );
 };

@@ -1,6 +1,5 @@
-
 import { FC, useState } from 'react';
-import { Gift, Mail, X, Zap } from 'lucide-react';
+import { Gift, Mail, X, Check, Sparkles } from 'lucide-react';
 
 interface WelcomePopupProps {
   onClose: () => void;
@@ -16,70 +15,90 @@ export const WelcomePopup: FC<WelcomePopupProps> = ({ onClose }) => {
     setSubmitted(true);
     setTimeout(() => {
       onClose();
-    }, 2000);
+    }, 2200);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl p-4 animate-in fade-in duration-300">
-      <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-[2rem] md:rounded-[3rem] w-full max-w-lg shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] dark:shadow-[16px_16px_0px_1px_rgba(255,255,255,0.1)] overflow-hidden animate-in zoom-in-95 duration-300">
-        
-        {/* Top bar */}
-        <div className="bg-black dark:bg-white p-6 md:p-8 relative">
-          <button 
-            onClick={onClose} 
-            title="Close welcome offer"
-            aria-label="Close welcome offer"
-            className="absolute top-4 right-4 p-2 text-white/40 dark:text-black/40 hover:text-white dark:hover:text-black transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-yellow-400 rounded-xl">
-              <Gift className="w-5 h-5 text-black" />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60 dark:text-black/60">First-Time User Protocol</span>
-          </div>
-          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white dark:text-black leading-tight">
-            Unlock 15%<br/>Neural Discount
-          </h2>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+      <div className="relative w-full max-w-sm animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-300">
 
-        {/* Body */}
-        <div className="p-6 md:p-8">
-          {!submitted ? (
-            <>
-              <p className="text-sm font-bold text-black/60 dark:text-white/60 leading-relaxed mb-6">
-                Subscribe to the FAINL newsletter and receive an immediate protocol voucher for your first access tier.
-              </p>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input 
-                  type="email"
-                  required
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="YOUR_EMAIL@NODE.LOCAL"
-                  className="w-full bg-zinc-50 dark:bg-zinc-800 border-4 border-black/10 dark:border-white/10 rounded-xl md:rounded-2xl px-5 py-4 font-black uppercase tracking-widest text-[10px] text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 outline-none focus:bg-white dark:focus:bg-zinc-700 transition-all"
-                />
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-black dark:bg-white text-white dark:text-black rounded-xl md:rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl"
-                >
-                  <Mail className="w-4 h-4" />
-                  Claim Discount
-                </button>
-              </form>
-              <button onClick={onClose} className="w-full mt-3 py-3 font-black text-[10px] uppercase tracking-[0.3em] text-black/30 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors">
-                Skip for now
-              </button>
-            </>
-          ) : (
-            <div className="py-8 text-center">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-white" />
+        {/* Card */}
+        <div className="glass-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20 dark:shadow-black/60">
+          {/* Top gradient accent */}
+          <div className="h-px bg-gradient-to-r from-transparent via-zinc-500/20 to-transparent" />
+
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            title="Close"
+            aria-label="Close welcome offer"
+            className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/15 transition-all z-10"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+
+          {submitted ? (
+            /* Success State */
+            <div className="p-8 text-center">
+              <div className="w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-100 dark:border-emerald-500/25 flex items-center justify-center mx-auto mb-4">
+                <Check className="w-7 h-7 text-emerald-500" />
               </div>
-              <h3 className="text-xl font-black uppercase tracking-tighter text-black dark:text-white mb-2">Protocol Synced</h3>
-              <p className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-widest">Your voucher will arrive shortly.</p>
+              <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-1.5">You're in!</h3>
+              <p className="text-sm text-zinc-400 dark:text-zinc-500">
+                Your 15% voucher will arrive shortly.
+              </p>
             </div>
+          ) : (
+            <>
+              {/* Header */}
+              <div className="p-6 pb-5">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center shadow-sm shadow-zinc-900/20">
+                    <Gift className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-semibold text-zinc-700 dark:text-zinc-200 uppercase tracking-widest">First-time offer</span>
+                  </div>
+                </div>
+                <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight mb-2">
+                  Unlock 15%<br />Off Your First Order
+                </h2>
+                <p className="text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed">
+                  Subscribe to the FAINL newsletter and get an instant discount code for your first purchase.
+                </p>
+              </div>
+
+              {/* Form */}
+              <div className="px-6 pb-6 space-y-3">
+                <form onSubmit={handleSubmit} className="space-y-2.5">
+                  <div className="relative">
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder="your@email.com"
+                      className="w-full pl-10 pr-4 py-3 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn-violet w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    Claim Discount
+                  </button>
+                </form>
+
+                <button
+                  onClick={onClose}
+                  className="w-full py-2 text-[11px] font-medium text-zinc-400 dark:text-zinc-600 hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors"
+                >
+                  Maybe later
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>

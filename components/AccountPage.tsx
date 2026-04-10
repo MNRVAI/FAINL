@@ -1,22 +1,20 @@
-
-import { FC } from 'react';
-import { 
-  Users, 
-  MessageSquare, 
-  Zap, 
-  Database, 
-  History, 
+import { FC, useState } from 'react';
+import {
+  Users,
+  MessageSquare,
+  Zap,
+  Database,
+  History,
   ChevronRight,
-  ShieldAlert,
-  CreditCard,
+  Shield,
   Trash2,
   Archive,
   ChevronLeft,
   CheckCircle2,
   Square,
-  CheckSquare
+  CheckSquare,
+  Infinity as InfinityIcon,
 } from 'lucide-react';
-import { useState } from 'react';
 import { SessionState, AppConfig } from '../types';
 import { ScrambleText } from './ScrambleText';
 
@@ -28,27 +26,31 @@ interface AccountPageProps {
   onArchiveSessions: (ids: string[]) => void;
 }
 
-export const AccountPage: FC<AccountPageProps> = ({ 
-  config, 
+export const AccountPage: FC<AccountPageProps> = ({
+  config,
   history,
   onLoadSession,
   onDeleteSessions,
-  onArchiveSessions
+  onArchiveSessions,
 }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
-  const turnsRemaining = config.isLifetime ? 'Unlimited' : Math.max(0, config.totalTurnsAllowed - config.turnsUsed);
+  const turnsRemaining = config.isLifetime
+    ? <InfinityIcon className="w-7 h-7 text-zinc-700" />
+    : Math.max(0, config.totalTurnsAllowed - config.turnsUsed);
 
-  // Pagination Logic
   const totalPages = Math.ceil(history.length / itemsPerPage);
-  const currentHistory = history.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const currentHistory = history.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
 
   const toggleSelect = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedIds(prev => 
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    setSelectedIds(prev =>
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id],
     );
   };
 
@@ -73,169 +75,235 @@ export const AccountPage: FC<AccountPageProps> = ({
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16 md:mb-24">
-        <div>
-          <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-black dark:text-white">
-            <ScrambleText text="Command Center" />
-          </h1>
-          <p className="max-w-2xl text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
-            High-integrity neural state management and session orchestration logs.
-          </p>
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12 animate-fade-in-up">
+
+      {/* Page Header */}
+      <div className="mb-8 md:mb-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold tracking-wide mb-3">
+          <Users className="w-3.5 h-3.5" />
+          Account
         </div>
-        <div className="flex items-center gap-4 bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-5 md:p-6 rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[8px_8px_0px_1px_rgba(255,255,255,0.05)] text-black dark:text-white">
-            <div className="p-3 bg-black dark:bg-white text-white dark:text-black rounded-xl">
-                <Users className="w-5 h-5 md:w-6 md:h-6" />
-            </div>
-            <div>
-                <span className="block text-[8px] font-black text-black/40 dark:text-white/40 uppercase tracking-widest">Active Identity</span>
-                <span className="font-black text-xs md:text-sm uppercase tracking-tight text-black dark:text-white">FAINL-USER-01</span>
-            </div>
-        </div>
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+          <ScrambleText text="Command Center" />
+        </h1>
+        <p className="text-sm text-zinc-400 dark:text-zinc-500 mt-1.5">
+          Manage your sessions, usage, and local data.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-9 md:gap-20">
-        {/* Statistics Sidebar */}
-        <div className="space-y-8">
-          <div className="bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 p-8 rounded-[2rem] shadow-[12px_12px_0px_0px_rgba(0,0,0,0.05)] dark:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.05)] relative overflow-hidden text-black dark:text-white">
-            <div className={`absolute top-0 right-0 p-4 ${config.isLifetime ? 'bg-yellow-400' : 'bg-black dark:bg-white'} text-white dark:text-black rounded-bl-2xl shadow-lg`}>
-                <Zap className={`w-5 h-5 ${config.isLifetime ? 'text-black' : 'text-white dark:text-black'}`} />
-            </div>
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter text-black dark:text-white mb-8">Access Integrity</h2>
-            <div className="space-y-6 text-black dark:text-white">
-                <div>
-                    <span className="block text-3xl md:text-4xl font-black">{turnsRemaining}</span>
-                    <span className="text-[10px] font-black text-black/40 dark:text-white/40 uppercase tracking-widest">Turns Available</span>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6">
+
+        {/* ── Sidebar Stats ── */}
+        <div className="space-y-4">
+
+          {/* Access Stats */}
+          <div className="glass-card card-shadow rounded-2xl overflow-hidden">
+            <div className="h-px bg-linear-to-r from-transparent via-zinc-500/15 to-transparent" />
+            <div className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Access Status</h2>
+                {config.isLifetime && (
+                  <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-50 dark:bg-yellow-500/10 border border-yellow-100 dark:border-yellow-500/20 text-yellow-600 dark:text-yellow-400 text-[10px] font-bold">
+                    <Zap className="w-3 h-3" /> Lifetime
+                  </span>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-zinc-50 dark:bg-white/3 border border-zinc-100 dark:border-white/6">
+                  <div className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                    {turnsRemaining}
+                  </div>
+                  <div className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 mt-0.5 uppercase tracking-wide">
+                    Turns remaining
+                  </div>
                 </div>
-                <div>
-                    <span className="block text-3xl md:text-4xl font-black">{config.creditsRemaining}</span>
-                    <span className="text-[10px] font-black text-black/40 dark:text-white/40 uppercase tracking-widest">Orchestration Credits</span>
+
+                <div className="p-4 rounded-xl bg-zinc-50 dark:bg-white/3 border border-zinc-100 dark:border-white/6">
+                  <div className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+                    {config.creditsRemaining}
+                  </div>
+                  <div className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 mt-0.5 uppercase tracking-wide">
+                    Credits remaining
+                  </div>
                 </div>
+              </div>
             </div>
           </div>
 
-          <div className="bg-black dark:bg-zinc-900 text-white dark:text-white p-8 rounded-[2rem] border-4 border-black dark:border-white/10 space-y-6">
-             <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                 <ShieldAlert className="w-6 h-6 text-yellow-500" />
-                 <span className="font-black uppercase tracking-widest text-[10px]">Security Protocol</span>
-             </div>
-             <p className="text-[11px] font-bold text-white/50 leading-relaxed uppercase tracking-wider">
-                 Decentralized storage protocol engaged. Your mission data is localized exclusively to this node's environment.
-             </p>
+          {/* Security Note */}
+          <div className="glass-card card-shadow rounded-2xl p-5">
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center">
+                <Shield className="w-3.5 h-3.5 text-emerald-500" />
+              </div>
+              <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Local Security</span>
+            </div>
+            <p className="text-[11px] text-zinc-400 dark:text-zinc-500 leading-relaxed">
+              All session data is stored exclusively in your browser's local storage. Nothing leaves your device.
+            </p>
+          </div>
+
+          {/* Session Count */}
+          <div className="glass-card card-shadow rounded-2xl p-5 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center">
+              <History className="w-4 h-4 text-zinc-700" />
+            </div>
+            <div>
+              <div className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{history.length}</div>
+              <div className="text-[11px] text-zinc-400 dark:text-zinc-500 font-medium">Saved sessions</div>
+            </div>
           </div>
         </div>
 
-        {/* History Area */}
-        <div className="space-y-10">
-          <div className="flex items-center justify-between border-b-4 border-black dark:border-white/20 pb-6 text-black dark:text-white">
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter flex items-center gap-4">
-                <History className="w-6 h-6 md:w-8 md:h-8" />
-                Mission History
+        {/* ── History Area ── */}
+        <div className="lg:col-span-2 space-y-4">
+
+          {/* Toolbar */}
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+              <History className="w-4 h-4 text-zinc-700" />
+              Session History
             </h2>
-            <div className="flex items-center gap-3">
-                {selectedIds.length > 0 && (
-                    <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 duration-300">
-                        <button 
-                            onClick={handleArchive}
-                            className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors text-black/60 dark:text-white/60"
-                            title="Archive Selected"
-                        >
-                            <Archive className="w-5 h-5" />
-                        </button>
-                        <button 
-                            onClick={handleDelete}
-                            className="p-2 hover:bg-red-500/10 rounded-lg transition-colors text-red-500"
-                            title="Delete Selected"
-                        >
-                            <Trash2 className="w-5 h-5" />
-                        </button>
-                    </div>
-                )}
-                <span className="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-black text-[10px] font-black rounded-full uppercase tracking-widest">
-                    {history.length} Saved
-                </span>
+
+            <div className="flex items-center gap-2">
+              {selectedIds.length > 0 && (
+                <div className="flex items-center gap-1.5 animate-in fade-in duration-200">
+                  <span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+                    {selectedIds.length} selected
+                  </span>
+                  <button
+                    onClick={handleArchive}
+                    className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 text-zinc-500 dark:text-zinc-400 transition-all"
+                    title="Archive"
+                  >
+                    <Archive className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 text-red-500 transition-all"
+                    title="Delete"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="space-y-4">
-            {history.length > 0 && (
-                <div className="flex items-center justify-between px-4 pb-2">
-                    <button 
-                        onClick={toggleSelectAll}
-                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
-                    >
-                        {selectedIds.length === currentHistory.length && currentHistory.length > 0 ? (
-                            <CheckSquare className="w-4 h-4 text-black dark:text-white" />
-                        ) : (
-                            <Square className="w-4 h-4" />
-                        )}
-                        {selectedIds.length === currentHistory.length ? 'Deselect All' : 'Select Page'}
-                    </button>
-                    {totalPages > 1 && (
-                        <div className="flex items-center gap-4">
-                            <button 
-                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                disabled={currentPage === 1}
-                                title="Previous Page"
-                                aria-label="Previous Page"
-                                className="disabled:opacity-20 hover:scale-110 transition-transform text-black dark:text-white"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-black/40 dark:text-white/40">
-                                {currentPage} / {totalPages}
-                            </span>
-                            <button 
-                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                disabled={currentPage === totalPages}
-                                title="Next Page"
-                                aria-label="Next Page"
-                                className="disabled:opacity-20 hover:scale-110 transition-transform text-black dark:text-white"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
-                    )}
-                </div>
-            )}
+          {/* Select All + Pagination row */}
+          {history.length > 0 && (
+            <div className="flex items-center justify-between">
+              <button
+                onClick={toggleSelectAll}
+                className="flex items-center gap-2 text-[11px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+              >
+                {selectedIds.length === currentHistory.length && currentHistory.length > 0
+                  ? <CheckSquare className="w-3.5 h-3.5 text-zinc-700" />
+                  : <Square className="w-3.5 h-3.5" />
+                }
+                {selectedIds.length === currentHistory.length ? 'Deselect all' : 'Select page'}
+              </button>
 
-            {history.length === 0 ? (
-                <div className="py-20 text-center bg-white/40 border-4 border-dashed border-black/10 rounded-[2rem]">
-                    <Database className="w-16 h-16 text-black/5 mx-auto mb-6" />
-                    <p className="font-black uppercase tracking-widest text-black/20">No data records found in local vault</p>
+              {totalPages > 1 && (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 disabled:opacity-30 transition-all"
+                    title="Previous page"
+                  >
+                    <ChevronLeft className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
+                  </button>
+                  <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+                    {currentPage} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 disabled:opacity-30 transition-all"
+                    title="Next page"
+                  >
+                    <ChevronRight className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
+                  </button>
                 </div>
+              )}
+            </div>
+          )}
+
+          {/* Sessions List */}
+          <div className="space-y-2.5">
+            {history.length === 0 ? (
+              <div className="py-16 text-center glass-card card-shadow rounded-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-white/5 flex items-center justify-center mx-auto mb-3">
+                  <Database className="w-6 h-6 text-zinc-300 dark:text-zinc-600" />
+                </div>
+                <p className="text-sm font-medium text-zinc-400 dark:text-zinc-500">No sessions yet</p>
+                <p className="text-[11px] text-zinc-300 dark:text-zinc-600 mt-1">Your completed missions will appear here</p>
+              </div>
             ) : (
-                currentHistory.map((session) => (
-                    <div key={session.id} className="relative group">
-                        <button 
-                            onClick={(e) => toggleSelect(session.id, e)}
-                            className={`absolute left-[-2.5rem] top-1/2 -translate-y-1/2 p-2 transition-all duration-300 ${selectedIds.includes(session.id) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} text-black dark:text-white`}
-                        >
-                            {selectedIds.includes(session.id) ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5" />}
-                        </button>
-                        
-                        <button 
-                            onClick={() => onLoadSession(session)}
-                            className={`w-full group/item flex items-center justify-between p-5 md:p-6 bg-white dark:bg-zinc-900 border-4 border-black dark:border-white/20 rounded-2xl md:rounded-[2rem] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0px_1px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all text-left text-black dark:text-white overflow-hidden ${session.isArchived ? 'opacity-50 grayscale' : ''} ${selectedIds.includes(session.id) ? 'border-yellow-400 bg-yellow-400/5 dark:bg-yellow-400/5' : ''}`}
-                        >
-                            <div className="flex items-center gap-5 md:gap-6">
-                                <div className={`p-3 md:p-4 bg-zinc-100 dark:bg-zinc-800 rounded-xl md:rounded-2xl group-hover/item:bg-black dark:group-hover/item:bg-white group-hover/item:text-white dark:group-hover/item:text-black transition-colors ${selectedIds.includes(session.id) ? 'bg-yellow-400 text-black' : ''}`}>
-                                    {session.isArchived ? <Archive className="w-5 h-5" /> : <MessageSquare className="w-5 h-5 md:w-6 md:h-6" />}
-                                </div>
-                                <div>
-                                    <h4 className="text-lg md:text-xl font-black uppercase tracking-tight mb-1 truncate max-w-[150px] sm:max-w-md">"{session.query}"</h4>
-                                    <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                                        <span className="text-[8px] md:text-[9px] font-black text-black/40 dark:text-white/40 uppercase tracking-widest">{new Date().toLocaleDateString()}</span>
-                                        <span className="px-2 py-0.5 bg-black/5 dark:bg-white/5 rounded text-[8px] font-black uppercase tracking-widest whitespace-nowrap">
-                                            {session.isArchived ? 'Archived' : 'Consensus Achieved'}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-black/20 dark:text-white/20 group-hover:text-black dark:group-hover:text-white group-hover:translate-x-2 transition-all opacity-0 md:opacity-100" />
-                        </button>
+              currentHistory.map((session) => (
+                <div key={session.id} className="relative group">
+                  {/* Checkbox */}
+                  <button
+                    onClick={(e) => toggleSelect(session.id, e)}
+                    className={`absolute left-3 top-1/2 -translate-y-1/2 z-10 transition-all duration-200 ${
+                      selectedIds.includes(session.id)
+                        ? 'opacity-100'
+                        : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                  >
+                    {selectedIds.includes(session.id)
+                      ? <CheckSquare className="w-4 h-4 text-zinc-700" />
+                      : <Square className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
+                    }
+                  </button>
+
+                  <button
+                    onClick={() => onLoadSession(session)}
+                    className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all duration-200 text-left group/item ${
+                      session.isArchived ? 'opacity-50' : ''
+                    } ${
+                      selectedIds.includes(session.id)
+                        ? 'border-zinc-300 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-1000/5'
+                        : 'glass-card card-shadow hover:card-shadow-hover'
+                    } pl-10`}
+                  >
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                        session.isArchived
+                          ? 'bg-zinc-100 dark:bg-white/5'
+                          : 'bg-zinc-100 dark:bg-white/5 group-hover/item:bg-zinc-200 dark:group-hover/item:bg-white/10'
+                      }`}>
+                        {session.isArchived
+                          ? <Archive className="w-3.5 h-3.5 text-zinc-400" />
+                          : <MessageSquare className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover/item:text-zinc-800 dark:group-hover/item:text-zinc-500 transition-colors" />
+                        }
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 truncate">
+                          "{session.query}"
+                        </h4>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500">
+                            {new Date().toLocaleDateString()}
+                          </span>
+                          {session.isArchived ? (
+                            <span className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-white/5 px-1.5 py-0.5 rounded-md">
+                              Archived
+                            </span>
+                          ) : session.synthesis ? (
+                            <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-1.5 py-0.5 rounded-md flex items-center gap-1">
+                              <CheckCircle2 className="w-2.5 h-2.5" /> Synthesized
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
                     </div>
-                ))
+                    <ChevronRight className="w-4 h-4 text-zinc-300 dark:text-zinc-600 group-hover/item:text-zinc-700 group-hover/item:translate-x-0.5 transition-all shrink-0" />
+                  </button>
+                </div>
+              ))
             )}
           </div>
         </div>
