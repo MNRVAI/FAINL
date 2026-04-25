@@ -53,6 +53,7 @@ import {
   Cpu,
   Key,
   ChevronDown,
+  ChevronLeft,
   LogOut
 } from 'lucide-react';
 import { supabase } from './services/supabaseClient';
@@ -146,6 +147,18 @@ const App: FC = () => {
     }
     return false;
   });
+
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() =>
+    localStorage.getItem('fainl_sidebar_collapsed') === 'true'
+  );
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(prev => {
+      const next = !prev;
+      localStorage.setItem('fainl_sidebar_collapsed', String(next));
+      return next;
+    });
+  };
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const toggleSection = (key: string) =>
@@ -505,12 +518,23 @@ const App: FC = () => {
     <div className="app-shell">
 
       {/* ══ SIDEBAR ══════════════════════════════════════════════════════ */}
-      <aside className="sidebar">
+      <aside className={`sidebar${isSidebarCollapsed ? ' collapsed' : ''}`}>
+
+        {/* ── Toggle button ────────────────────────────────── */}
+        <button
+          className="sidebar-toggle-btn"
+          onClick={toggleSidebar}
+          title={isSidebarCollapsed ? 'Sidebar uitklappen' : 'Sidebar inklappen'}
+          aria-label={isSidebarCollapsed ? 'Sidebar uitklappen' : 'Sidebar inklappen'}
+        >
+          <ChevronLeft />
+        </button>
 
         {/* ── Logo ──────────────────────────────────────────── */}
         <button
           className="sidebar-logo sidebar-logo-border"
           onClick={() => setCurrentView(AppView.HOME)}
+          title="FAINL — Home"
         >
           <span className="sidebar-logo-mark">
             <Shield className="sidebar-logo-icon" />
@@ -534,14 +558,17 @@ const App: FC = () => {
         {/* ── Primary nav ───────────────────────────────────── */}
         <nav className="sidebar-nav sidebar-nav-primary">
           {SidebarPrimary.map(link => (
-            <button
-              key={link.id}
-              className={`sidebar-link ${currentView === link.id ? 'active' : ''}`}
-              onClick={() => setCurrentView(link.id)}
-            >
-              <link.icon />
-              {link.label}
-            </button>
+            <div key={link.id} className="sidebar-tooltip-wrap">
+              <button
+                className={`sidebar-link ${currentView === link.id ? 'active' : ''}`}
+                onClick={() => setCurrentView(link.id)}
+                title={link.label}
+              >
+                <link.icon />
+                <span>{link.label}</span>
+              </button>
+              <span className="sidebar-tooltip">{link.label}</span>
+            </div>
           ))}
         </nav>
 
@@ -570,16 +597,19 @@ const App: FC = () => {
         <div className="sidebar-footer">
 
           {/* Dark / light toggle */}
-          <button
-            className="flyout-btn flyout-btn-spread"
-            onClick={() => setIsDarkMode(d => !d)}
-            title={isDarkMode ? 'Schakel naar licht' : 'Schakel naar donker'}
-          >
-            <span className="flyout-btn-icon-row">
-              {isDarkMode ? <Sun className="flyout-theme-icon" /> : <Moon className="flyout-theme-icon" />}
-              {isDarkMode ? 'Lichte modus' : 'Donkere modus'}
-            </span>
-          </button>
+          <div className="sidebar-tooltip-wrap">
+            <button
+              className="flyout-btn flyout-btn-spread"
+              onClick={() => setIsDarkMode(d => !d)}
+              title={isDarkMode ? 'Schakel naar licht' : 'Schakel naar donker'}
+            >
+              <span className="flyout-btn-icon-row">
+                {isDarkMode ? <Sun className="flyout-theme-icon" /> : <Moon className="flyout-theme-icon" />}
+                <span>{isDarkMode ? 'Lichte modus' : 'Donkere modus'}</span>
+              </span>
+            </button>
+            <span className="sidebar-tooltip">{isDarkMode ? 'Lichte modus' : 'Donkere modus'}</span>
+          </div>
 
           {/* User row / flyout trigger */}
           <div className="flyout-trigger">
@@ -635,7 +665,7 @@ const App: FC = () => {
       </aside>
 
       {/* ══ MAIN CANVAS ══════════════════════════════════════════════════ */}
-      <div className="main-canvas">
+      <div className={`main-canvas${isSidebarCollapsed ? ' sidebar-collapsed' : ''}`}>
 
         {/* Mobile topbar */}
         <div className="mobile-topbar">

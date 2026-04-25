@@ -7,8 +7,8 @@
 
 :root {
   /* Canvas */
-  --canvas:       #f7f7f7;
-  --surface:      #ffffff;
+  --canvas:       #fff;
+  --surface:      #dfdfdf;
   --surface-2:    #f2f2f2;
   --surface-3:    #e8e8e8;
 
@@ -16,7 +16,7 @@
   --sidebar:      #111111;
   --sidebar-2:    #1c1c1c;
   --sidebar-text: #ffffff;
-  --sidebar-muted:#888888;
+  --sidebar-muted:#575656;
   --sidebar-line: #2a2a2a;
 
   /* Typography */
@@ -55,6 +55,7 @@
 
   /* Layout */
   --sb-w: 240px;
+  --sb-w-collapsed: 56px;
 
   /* Fonts */
   --f-display: 'Space Grotesk', system-ui, sans-serif;
@@ -74,21 +75,21 @@ html.dark {
   --ink-3:        #888888;
   --ink-4:        #505050;
 
-  --line:         #2a2a2a;
-  --line-2:       #333333;
+  --line:         #ffffff;
+  --line-2:       #ffffff;
 
   --action:       #f0f0f0;
-  --action-text:  #111111;
+  --action-text:  #000;
   --action-hover: #d8d8d8;
 
   --card-bg:      #1a1a1a;
-  --card-border:  #272727;
+  --card-border:  #ffffff;
   --card-shadow:  0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
   --card-shadow-h:0 4px 12px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
 
   --input-bg:     #1e1e1e;
-  --input-border: #2e2e2e;
-  --placeholder:  #555555;
+  --input-border: #fff;
+  --placeholder:  #fff;
 }
 
 
@@ -154,6 +155,109 @@ a:hover { opacity: 0.7; }
   top: 0; left: 0; bottom: 0;
   z-index: 100;
   overflow: hidden;
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+  width: var(--sb-w-collapsed);
+}
+
+/* Hide text labels in collapsed mode */
+.sidebar.collapsed .sidebar-logo-text,
+.sidebar.collapsed .sidebar-section-label,
+.sidebar.collapsed .sidebar-history-label,
+.sidebar.collapsed .sidebar-link span,
+.sidebar.collapsed .btn-new-chat span,
+.sidebar.collapsed .flyout-btn .user-name-wrap,
+.sidebar.collapsed .flyout-btn .flyout-btn-icon-row span:last-child,
+.sidebar.collapsed .flyout-more-icon {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s, width 0.22s;
+}
+
+/* Center icons in collapsed mode */
+.sidebar.collapsed .sidebar-logo {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+.sidebar.collapsed .sidebar-link,
+.sidebar.collapsed .flyout-btn,
+.sidebar.collapsed .btn-new-chat {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Hide recent-chats section when collapsed */
+.sidebar.collapsed .sidebar-section-scrollable {
+  display: none;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 50%; 
+  right: -8px;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 20px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--sidebar-line);
+  color: var(--sidebar-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 101;
+  transition: background 0.15s, color 0.15s, transform 0.22s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.sidebar-toggle-btn:hover {
+  background: transparent;
+  color: #ffffff;
+}
+.sidebar-toggle-btn svg {
+  width: 52px;
+  height: 52px;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar.collapsed .sidebar-toggle-btn svg {
+  transform: rotate(180deg);
+}
+
+/* Tooltip system for collapsed sidebar */
+.sidebar-tooltip-wrap {
+  position: relative;
+  width: 100%;
+}
+.sidebar-tooltip-wrap .sidebar-tooltip {
+  position: absolute;
+  left: calc(var(--sb-w-collapsed) - 4px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  font-family: var(--f-ui);
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 200;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  border: 1px solid var(--sidebar-line);
+  transition: opacity 0.12s;
+}
+.sidebar.collapsed .sidebar-tooltip-wrap:hover .sidebar-tooltip {
+  opacity: 1;
 }
 
 .sidebar-logo {
@@ -185,8 +289,8 @@ a:hover { opacity: 0.7; }
   font-family: var(--f-display);
   font-weight: 700;
   font-size: 16px;
-  color: #ffffff;
-  letter-spacing: -0.02em;
+  color: rgb(116, 112, 112)
+  letter-spacing -0.02em;
 }
 
 .sidebar-nav {
@@ -250,6 +354,10 @@ a:hover { opacity: 0.7; }
   flex-direction: column;
   min-height: 100dvh;
   margin-left: var(--sb-w);
+  transition: margin-left 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.main-canvas.sidebar-collapsed {
+  margin-left: var(--sb-w-collapsed);
 }
 
 @media (max-width: 1023px) {
