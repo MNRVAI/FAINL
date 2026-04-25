@@ -8,9 +8,10 @@ interface AccountPageProps {
   onLoadSession: (session: SessionState) => void;
   onDeleteSessions: (ids: string[]) => void;
   onArchiveSessions: (ids: string[]) => void;
+  mode?: 'answers' | 'verdicts';
 }
 
-export const AccountPage: FC<AccountPageProps> = ({ config, history, onLoadSession, onDeleteSessions, onArchiveSessions }) => {
+export const AccountPage: FC<AccountPageProps> = ({ config, history, onLoadSession, onDeleteSessions, onArchiveSessions, mode = 'answers' }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -40,9 +41,21 @@ export const AccountPage: FC<AccountPageProps> = ({ config, history, onLoadSessi
   return (
     <div className="page-container animate-fade-in-up">
       <div className="page-header">
-        <div className="page-badge"><Users className="w-3.5 h-3.5" />Account</div>
-        <h1 className="page-title">Mijn Gesprekken</h1>
-        <p className="page-sub">Bekijk, herstel of verwijder eerdere AI-raadsessies. Alles wordt lokaal opgeslagen.</p>
+        <div className="page-badge">
+          {mode === 'verdicts'
+            ? <><Shield className="w-3.5 h-3.5" />Uitspraken</>
+            : <><MessageSquare className="w-3.5 h-3.5" />Antwoorden</>
+          }
+        </div>
+        <h1 className="page-title">
+          {mode === 'verdicts' ? 'Uitspraken' : 'Mijn antwoorden'}
+        </h1>
+        <p className="page-sub">
+          {mode === 'verdicts'
+            ? 'Bekijk eerder gegenereerde uitspraken van de AI-raad. Klik op een uitspraak om terug te keren naar de sessie.'
+            : 'Bekijk, herstel of verwijder eerdere AI-antwoorden. Alles wordt lokaal opgeslagen.'
+          }
+        </p>
       </div>
 
       <div className="stats-row">

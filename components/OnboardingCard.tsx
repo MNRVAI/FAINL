@@ -16,9 +16,9 @@ const TIPS = [
   },
   {
     icon: Swords,
-    title: 'Laat ze debatteren',
-    body: 'Na elke analyse kunnen de AI-modellen met elkaar in debat gaan. Open de Debatkamer en zie wie het sterkste argument heeft.',
-    action: 'Debatkamer',
+    title: 'Laat ze beraadslagen',
+    body: 'Na elke analyse kunnen de AI-modellen met elkaar in debat gaan. Open de Beraadslagingskamer en zie wie het sterkste argument heeft.',
+    action: 'Beraadslagen',
     view: 'DEBATES',
   },
   {

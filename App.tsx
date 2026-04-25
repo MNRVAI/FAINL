@@ -509,32 +509,32 @@ const App: FC = () => {
 
   // Primaire sidebar navigatie
   const SidebarPrimary = [
-    { id: AppView.CHATS,   label: 'Gesprekken',       icon: History },
-    { id: AppView.NODES,   label: 'AI-Nodes',          icon: Cpu },
-    { id: AppView.DEBATES, label: 'Debatkamer',        icon: Swords },
-    { id: AppView.VERDICT, label: 'Uitspraak Editor',  icon: FileEdit },
+    { id: AppView.CHATS,   label: 'Antwoorden',   icon: History },
+    { id: AppView.DEBATES, label: 'Beraadslagen',  icon: Swords },
   ];
 
   // Flyout menu items (gebruikersavatar-knop)
   const FlyoutItems = [
-    { id: AppView.PRICING,  label: 'Prijzen',         icon: CreditCard },
-    { id: AppView.NODES,    label: 'Nodes aanmaken',  icon: Cpu },
-    { id: AppView.COOKBOOK, label: 'Voorbeelden',     icon: BookOpen },
+    { id: AppView.PRICING,  label: 'Prijzen',           icon: CreditCard },
+    { id: AppView.COOKBOOK, label: 'Voorbeelden',       icon: BookOpen },
     { divider: true },
-    { id: AppView.FAQ,      label: 'FAQ',             icon: HelpCircle },
-    { id: AppView.CONTACT,  label: 'Contact',         icon: Mail },
+    { id: AppView.NODES,    label: 'AI-Nodes',          icon: Cpu },
+    { id: AppView.VERDICT,  label: 'Uitspraken',        icon: FileEdit },
+    { id: AppView.APIKEYS,  label: 'API-Sleutels',      icon: Key },
     { divider: true },
-    { id: AppView.APIKEYS,  label: 'API-Sleutels',    icon: Key },
-    { id: 'signout' as AppView, label: 'Uitloggen',   icon: LogOut, action: handleLogout, hidden: !authSession },
+    { id: AppView.FAQ,      label: 'FAQ',               icon: HelpCircle },
+    { id: AppView.CONTACT,  label: 'Contact',           icon: Mail },
+    { divider: true },
+    { id: 'signout' as AppView, label: 'Uitloggen',     icon: LogOut, action: handleLogout, hidden: !authSession },
   ];
 
   // Mobiele navigatie
   const NavLinks = [
-    { id: AppView.HOME,    label: 'Chat',        icon: ZapIcon },
-    { id: AppView.CHATS,   label: 'Gesprekken',  icon: History },
-    { id: AppView.NODES,   label: 'Nodes',       icon: Cpu },
-    { id: AppView.PRICING, label: 'Prijzen',     icon: CreditCard },
-    { id: AppView.FAQ,     label: 'FAQ',         icon: HelpCircle },
+    { id: AppView.HOME,    label: 'Chat',          icon: ZapIcon },
+    { id: AppView.CHATS,   label: 'Antwoorden',    icon: History },
+    { id: AppView.DEBATES, label: 'Beraadslagen',  icon: Swords },
+    { id: AppView.PRICING, label: 'Prijzen',       icon: CreditCard },
+    { id: AppView.FAQ,     label: 'FAQ',           icon: HelpCircle },
   ];
 
   const renderStageIndicator = () => {
@@ -893,6 +893,7 @@ const App: FC = () => {
             )}
             {(currentView === AppView.CHATS || currentView === AppView.ACCOUNT) && (
               <AccountPage
+                mode="answers"
                 config={config}
                 history={history}
                 onLoadSession={(s) => { setSession(s); setCurrentView(AppView.HOME); }}
@@ -906,15 +907,15 @@ const App: FC = () => {
             {currentView === AppView.DEBATES && (
               <div className="page-container animate-fade-in-up">
                 <div className="page-header">
-                  <div className="page-badge"><Swords className="w-3.5 h-3.5" />Debatkamer</div>
-                  <h1 className="page-title">Debatkamer</h1>
-                  <p className="page-sub">Start een nieuwe sessie om de AI-raad in debat te zien gaan. De debatkamer opent automatisch na het stellen van een vraag.</p>
+                  <div className="page-badge"><Swords className="w-3.5 h-3.5" />Beraadslagen</div>
+                  <h1 className="page-title">Mijn beraadslagen</h1>
+                  <p className="page-sub">Bekijk eerdere sessies waarbij de AI-raad in debat ging. Een nieuw beraad start automatisch na het stellen van een vraag.</p>
                 </div>
                 {history.filter(s => s.debateMessages && s.debateMessages.length > 0).length === 0 ? (
                   <div className="page-cta">
                     <Swords className="w-8 h-8 mx-auto mb-3 debate-empty-icon" />
-                    <h2 className="page-cta-title">Nog geen debatten</h2>
-                    <p className="page-cta-text">Stel een vraag op het startscherm om een debat te starten tussen jouw AI-raadsleden.</p>
+                    <h2 className="page-cta-title">Nog geen beraadslagen</h2>
+                    <p className="page-cta-text">Stel een vraag op het startscherm om een beraad te starten tussen jouw AI-raadsleden.</p>
                     <button className="btn-primary debate-cta-btn" onClick={() => setCurrentView(AppView.HOME)}>
                       Naar de chat
                     </button>
@@ -933,6 +934,7 @@ const App: FC = () => {
             )}
             {currentView === AppView.VERDICT && (
               <AccountPage
+                mode="verdicts"
                 config={config}
                 history={history.filter(s => !!s.synthesis)}
                 onLoadSession={(s) => { setSession(s); setCurrentView(AppView.HOME); }}

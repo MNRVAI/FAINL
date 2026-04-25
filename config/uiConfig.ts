@@ -26,16 +26,17 @@ import {
 
 // ── Sidebar navigatie ─────────────────────────────────────────────────────────
 export const NAV_ITEMS = [
-  { id: 'HOME',    label: 'Home',         icon: LayoutGrid,    desc: 'Vraag stellen'         },
-  { id: 'CHATS',   label: 'Gesprekken',   icon: MessageSquare, desc: 'Sessiegeschiedenis'    },
-  { id: 'NODES',   label: 'AI-Nodes',     icon: Cpu,           desc: 'Raadsleden bekijken'   },
-  { id: 'DEBATES', label: 'Debatten',     icon: Scale,         desc: 'Analyse-rondes'        },
-  { id: 'VERDICT', label: 'Verdict',      icon: CheckCircle,   desc: 'Eindoordeel'           },
-  { id: 'PRICING', label: 'Prijzen',      icon: CreditCard,    desc: 'Pakketten & credits'   },
-  { id: 'ACCOUNT', label: 'Account',      icon: User,          desc: 'Profiel & instellingen'},
-  { id: 'COOKBOOK',label: 'Voorbeelden',  icon: BookOpen,      desc: 'Gebruiksscenario\'s'  },
-  { id: 'FAQ',     label: 'FAQ',          icon: HelpCircle,    desc: 'Veelgestelde vragen'   },
-  { id: 'CONTACT', label: 'Contact',      icon: Mail,          desc: 'Neem contact op'       },
+  { id: 'HOME',     label: 'Home',          icon: LayoutGrid,    desc: 'Vraag stellen'              },
+  { id: 'CHATS',    label: 'Antwoorden',    icon: MessageSquare, desc: 'Mijn antwoorden'            },
+  { id: 'DEBATES',  label: 'Beraadslagen',  icon: Scale,         desc: 'Mijn beraadslagen'          },
+  { id: 'PRICING',  label: 'Prijzen',       icon: CreditCard,    desc: 'Pakketten & credits'        },
+  { id: 'COOKBOOK', label: 'Voorbeelden',   icon: BookOpen,      desc: 'Gebruiksscenario\'s'       },
+  { id: 'ACCOUNT',  label: 'Account',       icon: User,          desc: 'Profiel & instellingen'    },
+  { id: 'FAQ',      label: 'FAQ',           icon: HelpCircle,    desc: 'Veelgestelde vragen'        },
+  { id: 'CONTACT',  label: 'Contact',       icon: Mail,          desc: 'Neem contact op'            },
+  // Flyout-only items (niet in primaire nav):
+  { id: 'NODES',    label: 'AI-Nodes',      icon: Cpu,           desc: 'Raadsleden configureren'   },
+  { id: 'VERDICT',  label: 'Uitspraken',    icon: CheckCircle,   desc: 'Gegenereerde uitspraken'   },
 ] as const;
 
 // ── Instellingen tabs ──────────────────────────────────────────────────────────
