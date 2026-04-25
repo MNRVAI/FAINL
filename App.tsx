@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect, FC } from 'react';
+import { useState, useRef, useEffect, useCallback, FC } from 'react';
 import { 
   Send, 
   Settings as SettingsIcon, 
@@ -64,6 +64,7 @@ import { ScrambleText } from './components/ScrambleText';
 import { WelcomePopup } from './components/WelcomePopup';
 import { CookieBanner } from './components/CookieBanner';
 import { OnboardingCard } from './components/OnboardingCard';
+import { LoginGateModal } from './components/LoginGateModal';
 
 
 const FadingPlaceholder: FC<{ isFocused: boolean }> = ({ isFocused }: { isFocused: boolean }) => {
@@ -180,6 +181,18 @@ const App: FC = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setAuthSession(session);
+
+      // ── Auto-execute pending query after OAuth / magic-link login ──
+      if (session) {
+        const pending = sessionStorage.getItem('fainl_pending_query');
+        if (pending) {
+          sessionStorage.removeItem('fainl_pending_query');
+          setInput(pending);
+          setIsLoginGateOpen(false);
+          // Small delay so React state settles before we run
+          setTimeout(() => executePendingQueryRef.current?.(pending), 100);
+        }
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -237,6 +250,11 @@ const App: FC = () => {
     () => parseInt(localStorage.getItem('fainl_query_count') || '0', 10)
   );
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isLoginGateOpen, setIsLoginGateOpen] = useState(false);
+
+  // Stable refs so onAuthStateChange can reach back into current handlers
+  const pendingQueryRef = useRef<string>('');
+  const executePendingQueryRef = useRef<((q: string) => void) | null>(null);
   
   const [session, setSession] = useState<SessionState>({
     id: crypto.randomUUID(),
@@ -263,8 +281,17 @@ const App: FC = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const MAX_CHARS = 4000;
 
-  const handleStart = async () => {
-    if (!input.trim()) return;
+  const handleStart = async (overrideQuery?: string) => {
+    const queryToRun = (overrideQuery ?? input).trim();
+    if (!queryToRun) return;
+
+    // ── Auth gate: visitors must be logged in ──────────────────────────────
+    if (!authSession) {
+      pendingQueryRef.current = queryToRun;
+      sessionStorage.setItem('fainl_pending_query', queryToRun);
+      setIsLoginGateOpen(true);
+      return;
+    }
 
     // Usage check
     const hasOwnKeys = config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey;
@@ -293,12 +320,15 @@ const App: FC = () => {
     setSession({
       id: crypto.randomUUID(),
       stage: WorkflowStage.PROCESSING_COUNCIL,
-      query: input,
+      query: queryToRun,
       councilResponses: [],
       debateMessages: [],
       reviews: [],
       synthesis: ''
     });
+
+    // Register stable ref so onAuthStateChange can call this after OAuth return
+    executePendingQueryRef.current = handleStart;
 
     // Increment query counter — show onboarding after 2nd query
     setQueryCount(prev => {
@@ -961,6 +991,22 @@ const App: FC = () => {
         onImportHistory={setHistory}
         onVerifyKey={(provider: ModelProvider, key: string) => councilService.current.verifyProviderKey(provider, key)}
       />
+      {/* ══ LOGIN GATE MODAL ════════════════════════════════════════════════ */}
+      {isLoginGateOpen && !authSession && (
+        <LoginGateModal
+          pendingQuery={pendingQueryRef.current}
+          onClose={() => {
+            setIsLoginGateOpen(false);
+            pendingQueryRef.current = '';
+            sessionStorage.removeItem('fainl_pending_query');
+          }}
+          onLoginSuccess={() => {
+            // Supabase onAuthStateChange handles the actual query execution
+            setIsLoginGateOpen(false);
+          }}
+        />
+      )}
+
       {/* ══ COOKIE BANNER ══════════════════════════════════════════════════ */}
       {!cookieConsent.given && (
         <CookieBanner

@@ -1,9 +1,9 @@
-
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect, useRef, FC } from 'react';
 import {
-  X, Key, Plus, Trash2, Zap, Settings, Shield, Loader2,
+  X, Key, Plus, Trash2, Zap, Settings2, Shield, Loader2,
   CheckCircle, AlertCircle, RefreshCw, Database, Download, Upload,
-  Wand2, HelpCircle, ChevronDown
+  Wand2, HelpCircle, ChevronDown, LayoutDashboard, Users, Lock, Server,
+  Eye, EyeOff, ExternalLink, Info, Cpu
 } from 'lucide-react';
 import { AppConfig, CouncilMember, ModelProvider, SessionState } from '../types';
 import { DEFAULT_COUNCIL, PRESETS } from '../constants';
@@ -27,518 +27,455 @@ const IDENTITY_PRESETS = [
   { name: "Synthesizer", prompt: "You are a synthesis node. Integrate diverse viewpoints into a cohesive whole. Prioritize harmony and completeness." },
 ];
 
+const API_FIELDS = [
+  { label: "Google Gemini", key: 'googleKey', provider: ModelProvider.GOOGLE, url: "https://aistudio.google.com/app/apikey", desc: "Standaard model. Gratis tier beschikbaar.", badge: "Gratis" },
+  { label: "Groq", key: 'groqKey', provider: ModelProvider.GROQ, url: "https://console.groq.com/keys", desc: "Ultra-snelle inferentie voor hoog volume.", badge: null },
+  { label: "DeepSeek", key: 'deepseekKey', provider: ModelProvider.DEEPSEEK, url: "https://platform.deepseek.com/api_keys", desc: "Sterk in wiskunde, code en redenering.", badge: null },
+  { label: "Anthropic Claude", key: 'anthropicKey', provider: ModelProvider.ANTHROPIC, url: "https://console.anthropic.com/settings/keys", desc: "Genuanceerde, ethische en lange analyse.", badge: null },
+  { label: "OpenAI GPT", key: 'openaiKey', provider: ModelProvider.OPENAI, url: "https://platform.openai.com/api-keys", desc: "Betrouwbaar met brede algemene kennis.", badge: null },
+  { label: "OpenRouter", key: 'openRouterKey', provider: ModelProvider.OPENROUTER, url: "https://openrouter.ai/keys", desc: "Toegang tot 100+ modellen via één sleutel.", badge: null },
+];
+
+type Tab = 'overview' | 'members' | 'keys' | 'storage';
+
+const TABS: { id: Tab; label: string; icon: FC<any>; desc: string }[] = [
+  { id: 'overview',  label: 'Overzicht',      icon: LayoutDashboard, desc: 'Configuratie & presets' },
+  { id: 'members',   label: 'AI-Nodes',        icon: Cpu,             desc: 'Raadsleden beheren' },
+  { id: 'keys',      label: 'API-Sleutels',    icon: Key,             desc: 'Providers koppelen' },
+  { id: 'storage',   label: 'Data & Opslag',   icon: Database,        desc: 'Export & import' },
+];
+
+/* ── Kleine hulpcomponenten ─────────────────────────────────────── */
+const SField: FC<{ label: string; hint?: string; children: React.ReactNode; span2?: boolean }> = ({ label, hint, children, span2 }) => (
+  <div className={span2 ? 'sm-col-2' : ''}>
+    <label className="sf-label">
+      {label}
+      {hint && (
+        <span className="sf-hint-wrap" title={hint}>
+          <HelpCircle className="sf-hint-icon" aria-hidden="true" />
+        </span>
+      )}
+    </label>
+    {children}
+  </div>
+);
+
+/* ── Hoofd component ─────────────────────────────────────────────── */
 export const SettingsModal: FC<SettingsModalProps> = ({
-  isOpen,
-  onClose,
-  config,
-  onSave,
-  history = [],
-  onImportHistory,
-  onVerifyKey
+  isOpen, onClose, config, onSave, history = [], onImportHistory, onVerifyKey
 }) => {
-  const [activeTab, setActiveTab] = useState<'keys' | 'members' | 'overview' | 'storage'>('overview');
+  const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [tempConfig, setTempConfig] = useState<AppConfig>(() => JSON.parse(JSON.stringify(config)));
   const [verifyingKey, setVerifyingKey] = useState<string | null>(null);
-  const [verificationResults, setVerificationResults] = useState<Record<string, 'success' | 'error' | null>>({});
+  const [verifyResults, setVerifyResults] = useState<Record<string, 'ok' | 'err' | null>>({});
+  const [visibleKeys, setVisibleKeys] = useState<Record<string, boolean>>({});
+  const [saveFlash, setSaveFlash] = useState(false);
+  const backdropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setTempConfig(JSON.parse(JSON.stringify(config)));
-    }
+    if (isOpen) setTempConfig(JSON.parse(JSON.stringify(config)));
   }, [isOpen, config]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    if (isOpen) window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  const handleMemberChange = (index: number, field: keyof CouncilMember, value: any) => {
-    const newMembers = [...tempConfig.activeCouncil];
-    newMembers[index] = { ...newMembers[index], [field]: value };
-    setTempConfig({ ...tempConfig, activeCouncil: newMembers });
+  /* ── handlers ── */
+  const upd = (patch: Partial<AppConfig>) => setTempConfig(p => ({ ...p, ...patch }));
+  const updMember = (i: number, field: keyof CouncilMember, val: any) => {
+    const m = [...tempConfig.activeCouncil];
+    m[i] = { ...m[i], [field]: val };
+    upd({ activeCouncil: m });
   };
-
-  const regenerateAvatar = (index: number) => {
-    const seed = Math.random().toString(36).substring(7);
-    const newAvatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${seed}`;
-    handleMemberChange(index, 'avatar', newAvatarUrl);
+  const regenAvatar = (i: number) =>
+    updMember(i, 'avatar', `https://api.dicebear.com/7.x/bottts/svg?seed=${Math.random().toString(36).slice(2)}`);
+  const uploadAvatar = (i: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0]; if (!f) return;
+    const r = new FileReader();
+    r.onloadend = () => updMember(i, 'avatar', r.result as string);
+    r.readAsDataURL(f);
   };
-
-  const handleAvatarUpload = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleMemberChange(index, 'avatar', reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const applyPreset = (i: number, name: string) => {
+    const p = IDENTITY_PRESETS.find(x => x.name === name); if (!p) return;
+    // Update both fields atomically to avoid stale-state overwrite
+    const m = [...tempConfig.activeCouncil];
+    m[i] = { ...m[i], name: p.name, systemPrompt: p.prompt };
+    upd({ activeCouncil: m });
   };
-
-  const handleIdentityPreset = (index: number, presetName: string) => {
-    const preset = IDENTITY_PRESETS.find(p => p.name === presetName);
-    if (preset) {
-      handleMemberChange(index, 'name', preset.name);
-      handleMemberChange(index, 'systemPrompt', preset.prompt);
-    }
-  };
-
-  const removeMember = (index: number) => {
-    const newMembers = tempConfig.activeCouncil.filter((_, i) => i !== index);
-    setTempConfig({ ...tempConfig, activeCouncil: newMembers });
-  };
-
   const addMember = () => {
-    const newMember: CouncilMember = {
-      ...DEFAULT_COUNCIL[0],
-      id: `node-${Date.now()}`,
-      name: "New Member",
-      role: 'MEMBER',
-      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${Date.now()}`
-    };
-    setTempConfig({ ...tempConfig, activeCouncil: [...tempConfig.activeCouncil, newMember] });
+    const m: CouncilMember = { ...DEFAULT_COUNCIL[0], id: `node-${Date.now()}`, name: 'Nieuw Node', role: 'MEMBER', avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${Date.now()}` };
+    upd({ activeCouncil: [...tempConfig.activeCouncil, m] });
   };
+  const removeMember = (i: number) => upd({ activeCouncil: tempConfig.activeCouncil.filter((_, j) => j !== i) });
 
-  const loadPreset = (preset: typeof PRESETS[0]) => {
-    setTempConfig({
-      ...tempConfig,
-      activeCouncil: preset.members as CouncilMember[],
-      chairmanId: preset.chairman.id
-    });
-  };
-
-  const handleKeyChange = (key: keyof AppConfig, value: string) => {
-    setTempConfig({ ...tempConfig, [key]: value });
-  };
-
-  const handleExport = () => {
-    const data = { config: tempConfig, history, exportedAt: new Date().toISOString() };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `fainl-export-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      try {
-        const data = JSON.parse(ev.target?.result as string);
-        if (data.config) setTempConfig(data.config);
-        if (data.history && onImportHistory) onImportHistory(data.history);
-      } catch(err) {
-        alert('Import failed: invalid file format.');
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-  };
-
-  const testKey = async (provider: ModelProvider, configKey: string) => {
+  const testKey = async (provider: ModelProvider, cfgKey: string) => {
     if (!onVerifyKey) return;
-    const value = (tempConfig as any)[configKey];
-    if (!value) return;
-
-    setVerifyingKey(configKey);
-    const result = await onVerifyKey(provider, value);
-    setVerificationResults(prev => ({ ...prev, [configKey]: result ? 'success' : 'error' }));
+    const val = (tempConfig as any)[cfgKey]; if (!val) return;
+    setVerifyingKey(cfgKey);
+    const ok = await onVerifyKey(provider, val);
+    setVerifyResults(p => ({ ...p, [cfgKey]: ok ? 'ok' : 'err' }));
     setVerifyingKey(null);
   };
 
-  const validateApiKey = (key: string, providerKey: string) => {
+  const validateFormat = (key: string, cfgKey: string): boolean | null => {
     if (!key) return null;
-
-    const patterns: Record<string, RegExp> = {
+    const pats: Record<string, RegExp> = {
       googleKey: /^AIza[a-zA-Z0-9_-]{35}$/,
       openaiKey: /^sk-[a-zA-Z0-9]{32,}$/,
       anthropicKey: /^sk-ant-[a-zA-Z0-9_-]+$/,
       groqKey: /^gsk_[a-zA-Z0-9]{32,}$/,
       deepseekKey: /^sk-[0-9a-f]{32}$/,
-      openRouterKey: /^sk-or-v1-[a-zA-Z0-9]{64}$/
+      openRouterKey: /^sk-or-v1-[a-zA-Z0-9]{64}$/,
     };
-
-    if (patterns[providerKey]) {
-      return patterns[providerKey].test(key);
-    }
-
-    return key.length > 20;
+    return pats[cfgKey] ? pats[cfgKey].test(key) : key.length > 20;
   };
 
-  const TABS = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'members', label: 'Council Members' },
-    { id: 'keys', label: 'API Keys' },
-    { id: 'storage', label: 'Data & Storage' },
-  ];
+  const handleExport = () => {
+    const blob = new Blob([JSON.stringify({ config: tempConfig, history, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `fainl-export-${new Date().toISOString().split('T')[0]}.json` });
+    a.click(); URL.revokeObjectURL(a.href);
+  };
 
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      try {
+        const d = JSON.parse(ev.target?.result as string);
+        if (d.config) setTempConfig(d.config);
+        if (d.history && onImportHistory) onImportHistory(d.history);
+      } catch { alert('Import mislukt: ongeldig bestandsformaat.'); }
+    };
+    r.readAsText(f); e.target.value = '';
+  };
+
+  const handleSave = () => {
+    onSave(tempConfig);
+    setSaveFlash(true);
+    setTimeout(() => { setSaveFlash(false); onClose(); }, 600);
+  };
+
+  const activeCount = tempConfig.activeCouncil.length;
+  const keyCount = API_FIELDS.filter(f => !!(tempConfig as any)[f.key]).length;
+
+  /* ── Tab panels ── */
+  const renderOverview = () => (
+    <div className="sm-panel">
+      {/* Status banner */}
+      <div className="sm-status-banner">
+        <div className="sm-status-left">
+          <span className="sm-status-dot" aria-hidden="true" />
+          <div>
+            <p className="sm-status-title">Raad actief — klaar om te analyseren</p>
+            <p className="sm-status-sub">{activeCount} actieve node{activeCount !== 1 ? 's' : ''} · {keyCount} API-sleutel{keyCount !== 1 ? 's' : ''} geconfigureerd</p>
+          </div>
+        </div>
+        <span className="sm-badge-green">Actief</span>
+      </div>
+
+      {/* Info block */}
+      <div className="sm-info-block">
+        <Info className="sm-info-icon" aria-hidden="true" />
+        <p className="sm-info-text">
+          FAINL verwerkt je vraag via meerdere AI-modellen tegelijkertijd en synthetiseert één gezaghebbend antwoord.
+          Standaard zijn drie raadsleden actief op de Google Gemini gratis tier — geen API-sleutel vereist.
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderMembers = () => (
+    <div className="sm-panel">
+      {/* Snelle configuraties */}
+      <div className="sm-section-title">Snelle configuraties</div>
+      <div className="sm-preset-grid" style={{marginBottom: 8}}>
+        {PRESETS.map((preset, i) => (
+          <button
+            key={i}
+            className="sm-preset-card"
+            onClick={() => setTempConfig(p => ({ ...p, activeCouncil: preset.members as CouncilMember[], chairmanId: preset.chairman.id }))}
+            title={`Laad: ${preset.name}`}
+          >
+            <div className="sm-preset-header">
+              <span className="sm-preset-name">{preset.name}</span>
+              <Settings2 className="sm-preset-icon" aria-hidden="true" />
+            </div>
+            <p className="sm-preset-desc">{preset.description}</p>
+          </button>
+        ))}
+      </div>
+
+      <div className="sm-panel-hdr">
+        <div>
+          <h3 className="sm-panel-title">Actieve nodes</h3>
+          <p className="sm-panel-sub">Pas naam, provider en gedrag aan per raadslid.</p>
+        </div>
+        <button className="sm-btn-primary" onClick={addMember}>
+          <Plus className="sm-btn-icon" aria-hidden="true" /> Node toevoegen
+        </button>
+      </div>
+
+      <div className="sm-member-list">
+        {tempConfig.activeCouncil.map((member, idx) => (
+          <div key={idx} className="sm-member-card">
+            {/* Avatar col */}
+            <div className="sm-avatar-col">
+              <div className="sm-avatar-wrap">
+                {/* Handle both emoji strings and URL-based avatars */}
+                {member.avatar?.startsWith('http') || member.avatar?.startsWith('data:')
+                  ? <img src={member.avatar} alt={`Avatar van ${member.name}`} className="sm-avatar-img" />
+                  : <span className="sm-avatar-emoji" aria-label={`Avatar van ${member.name}`}>{member.avatar}</span>
+                }
+                <label className="sm-avatar-upload" title="Avatar uploaden">
+                  <Upload className="sm-avatar-upload-icon" aria-hidden="true" />
+                  <input type="file" accept="image/*" style={{display:'none'}} onChange={e => uploadAvatar(idx, e)} aria-label="Avatar afbeelding uploaden" />
+                </label>
+              </div>
+              <button className="sm-btn-ghost sm-btn-xs" onClick={() => regenAvatar(idx)} title="Willekeurige avatar">
+                <RefreshCw className="sm-btn-icon-xs" aria-hidden="true" /> Nieuw
+              </button>
+            </div>
+
+            {/* Fields */}
+            <div className="sm-member-fields">
+              <div>
+                <label className="sf-label">Naam</label>
+                <div className="sm-input-with-action">
+                  <input id={`mn-${idx}`} value={member.name} onChange={e => updMember(idx, 'name', e.target.value)} placeholder="Node naam" className="sm-input" />
+                  <div className="sm-select-overlay">
+                    <select onChange={e => { applyPreset(idx, e.target.value); (e.target as HTMLSelectElement).value = ''; }} className="sm-select-hidden" aria-label="Rol preset kiezen" title="Rol preset kiezen" defaultValue="">
+                      <option value="" disabled>Kies preset</option>
+                      {IDENTITY_PRESETS.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+                    </select>
+                    <ChevronDown className="sm-select-chevron" aria-hidden="true" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="sf-label">AI Provider</label>
+                <select id={`mp-${idx}`} value={member.provider} onChange={e => updMember(idx, 'provider', e.target.value as ModelProvider)} className="sm-select" title="Provider kiezen">
+                  {Object.values(ModelProvider).map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label className="sf-label">Model ID</label>
+                <input id={`mid-${idx}`} value={member.modelId || ''} onChange={e => updMember(idx, 'modelId', e.target.value)} placeholder="bijv. gemini-3-flash-preview" className="sm-input sm-mono" />
+              </div>
+
+              <div>
+                <label className="sf-label" title="Overschrijf de standaard API-endpoint. Handig voor lokale modellen of proxies.">Base URL <HelpCircle style={{width:10,height:10,display:'inline',verticalAlign:'middle',color:'#bbb'}} /></label>
+                <input id={`mu-${idx}`} value={member.baseUrl || ''} onChange={e => updMember(idx, 'baseUrl', e.target.value)} placeholder="http://localhost:11434/v1" className="sm-input sm-mono" />
+              </div>
+
+              <div style={{gridColumn:'1 / -1'}}>
+                <label className="sf-label">Systeemprompt</label>
+                <textarea id={`msp-${idx}`} value={member.systemPrompt || ''} onChange={e => updMember(idx, 'systemPrompt', e.target.value)} placeholder="Aangepaste instructies voor dit raadslid..." className="sm-textarea" />
+              </div>
+            </div>
+
+            {/* Remove */}
+            <button onClick={() => removeMember(idx)} className="sm-remove-btn" title="Node verwijderen" aria-label="Node verwijderen">
+              <Trash2 className="sm-remove-icon" aria-hidden="true" />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderKeys = () => (
+    <div className="sm-panel">
+      <div className="sm-panel-hdr">
+        <div>
+          <h3 className="sm-panel-title">API-Sleutels</h3>
+          <p className="sm-panel-sub">Sleutels worden uitsluitend lokaal in je browser opgeslagen — wij zien ze nooit.</p>
+        </div>
+        <div className="sm-security-badge">
+          <Lock className="sm-security-icon" aria-hidden="true" /> Lokaal opgeslagen
+        </div>
+      </div>
+
+      <div className="sm-keys-list">
+        {API_FIELDS.map(field => {
+          const val = (tempConfig as any)[field.key] || '';
+          const fmt = validateFormat(val, field.key);
+          const verStatus = verifyResults[field.key];
+          const isVerifying = verifyingKey === field.key;
+          const isVis = visibleKeys[field.key];
+          const hasVal = val.length > 0;
+
+          return (
+            <div key={field.key} className={`sm-key-row ${hasVal ? 'sm-key-row--filled' : ''}`}>
+              <div className="sm-key-meta">
+                <div className="sm-key-header">
+                  <span className="sm-key-label">{field.label}</span>
+                  {field.badge && <span className="sm-key-badge">{field.badge}</span>}
+                  {verStatus === 'ok'  && <span className="sm-key-badge sm-key-badge--ok">Geverifieerd</span>}
+                  {verStatus === 'err' && <span className="sm-key-badge sm-key-badge--err">Ongeldig</span>}
+                </div>
+                <p className="sm-key-desc">{field.desc}</p>
+              </div>
+
+              <div className="sm-key-input-row">
+                <div className="sm-key-input-wrap">
+                  <input
+                    type={isVis ? 'text' : 'password'}
+                    value={val}
+                    onChange={e => upd({ [field.key]: e.target.value } as any)}
+                    placeholder="••••••••••••••••••••••••"
+                    className={`sm-key-input ${verStatus === 'ok' || fmt === true ? 'sm-key-input--ok' : verStatus === 'err' || fmt === false ? 'sm-key-input--err' : ''}`}
+                    aria-label={`${field.label} API-sleutel`}
+                  />
+                  <div className="sm-key-icons">
+                    {verStatus === 'ok'  && <CheckCircle className="sm-key-icon-ok"  aria-hidden="true" />}
+                    {verStatus === 'err' && <AlertCircle className="sm-key-icon-err" aria-hidden="true" />}
+                    <button className="sm-key-vis-btn" onClick={() => setVisibleKeys(p => ({ ...p, [field.key]: !p[field.key] }))} aria-label={isVis ? 'Sleutel verbergen' : 'Sleutel tonen'} title={isVis ? 'Verbergen' : 'Tonen'}>
+                      {isVis ? <EyeOff className="sm-key-vis-icon" aria-hidden="true" /> : <Eye className="sm-key-vis-icon" aria-hidden="true" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="sm-key-actions">
+                  <button onClick={() => testKey(field.provider, field.key)} disabled={!val || isVerifying} className="sm-btn-outline sm-btn-sm" aria-label={`${field.label} sleutel verifiëren`}>
+                    {isVerifying ? <Loader2 className="sm-spin" aria-hidden="true" /> : 'Verifiëren'}
+                  </button>
+                  <a href={field.url} target="_blank" rel="noopener noreferrer" className="sm-btn-ghost sm-btn-sm" title={`${field.label} sleutel ophalen`} aria-label={`${field.label} API-sleutel ophalen`}>
+                    Sleutel <ExternalLink className="sm-ext-icon" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  const renderStorage = () => (
+    <div className="sm-panel sm-panel--center">
+      <div className="sm-storage-icon-wrap">
+        <Database className="sm-storage-icon" aria-hidden="true" />
+      </div>
+      <h3 className="sm-storage-title">Export &amp; Import</h3>
+      <p className="sm-storage-desc">
+        Exporteer je instellingen, raadsconfiguratie en sessiegeschiedenis als JSON-bestand.
+        Importeer een eerdere export om alles te herstellen.
+      </p>
+
+      <div className="sm-storage-stats">
+        <div className="sm-stat">
+          <span className="sm-stat-val">{history.length}</span>
+          <span className="sm-stat-lbl">Sessies opgeslagen</span>
+        </div>
+        <div className="sm-stat">
+          <span className="sm-stat-val">{tempConfig.activeCouncil.length}</span>
+          <span className="sm-stat-lbl">Raadsleden</span>
+        </div>
+        <div className="sm-stat">
+          <span className="sm-stat-val">{keyCount}</span>
+          <span className="sm-stat-lbl">API-sleutels</span>
+        </div>
+      </div>
+
+      <div className="sm-storage-actions">
+        <button onClick={handleExport} className="sm-btn-primary">
+          <Download className="sm-btn-icon" aria-hidden="true" /> Exporteer data
+        </button>
+        <label className="sm-btn-outline sm-btn-upload">
+          <Upload className="sm-btn-icon" aria-hidden="true" /> Importeer data
+          <input type="file" accept=".json" onChange={handleImport} style={{display:'none'}} aria-label="Databestand importeren" />
+        </label>
+      </div>
+
+      <div className="sm-storage-note">
+        <Shield className="sm-note-icon" aria-hidden="true" />
+        Alle data wordt verwerkt in je browser. Er wordt niets naar onze servers gestuurd.
+      </div>
+    </div>
+  );
+
+  /* ── Render ── */
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xl p-4 md:p-8">
-      <div className="glass-card card-shadow rounded-2xl w-full max-w-5xl h-[88vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+    <div className="sm-overlay" role="dialog" aria-modal="true" aria-labelledby="sm-title">
+      <div className="sm-backdrop" ref={backdropRef} onClick={e => { if (e.target === backdropRef.current) onClose(); }} />
 
-        {/* Top accent */}
-        <div className="h-px bg-gradient-to-r from-transparent via-zinc-500/20 to-transparent shrink-0" />
-
-        {/* Header */}
-        <div className="flex justify-between items-center px-5 py-4 md:px-7 md:py-5 border-b border-zinc-100 dark:border-white/[0.06] shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center shadow-lg shadow-zinc-900/15">
-              <Settings className="w-4 h-4 text-white" />
+      <div className="sm-shell">
+        {/* Sidebar */}
+        <aside className="sm-sidebar" aria-label="Instellingen navigatie">
+          <div className="sm-sidebar-brand">
+            <div className="sm-sidebar-logo">
+              <Settings2 className="sm-sidebar-logo-icon" aria-hidden="true" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 leading-none">Settings</h2>
-              <p className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">Configure your council and API keys</p>
+              <p className="sm-sidebar-brand-name">Instellingen</p>
+              <p className="sm-sidebar-brand-sub">FAINL configuratie</p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            title="Close settings"
-            aria-label="Close settings"
-            className="p-2 hover:bg-zinc-100 dark:hover:bg-white/5 rounded-xl transition-all text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
 
-        {/* Tab Navigation */}
-        <div className="flex border-b border-zinc-100 dark:border-white/[0.06] overflow-x-auto hide-scrollbar shrink-0 px-5 md:px-7 gap-1 pt-2">
-          {TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-4 py-2.5 text-xs font-semibold rounded-t-xl whitespace-nowrap transition-all border-b-2 -mb-px ${
-                activeTab === tab.id
-                  ? 'text-zinc-800 dark:text-zinc-200 border-zinc-800 bg-zinc-100 dark:bg-zinc-1000/10'
-                  : 'text-zinc-500 dark:text-zinc-400 border-transparent hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-white/[0.03]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-5 md:p-7 bg-zinc-50/50 dark:bg-black/20">
-
-          {/* OVERVIEW TAB */}
-          {activeTab === 'overview' && (
-            <div className="space-y-5 max-w-5xl mx-auto">
-              <div className="glass-card card-shadow rounded-2xl p-5 md:p-7">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent rounded-t-2xl" />
-                <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-2">Default Configuration</h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
-                  FAINL runs your question through multiple AI models simultaneously and synthesizes one authoritative answer. By default, three council members are active using the Google Gemini free tier — no API key required to get started.
-                </p>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-emerald-50 dark:bg-emerald-500/10 p-3.5 rounded-xl border border-emerald-100 dark:border-emerald-500/20 gap-3">
-                  <div className="flex items-center gap-2.5">
-                    <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                    <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">Council active — ready to analyze</span>
-                  </div>
-                  <div className="px-2.5 py-1 bg-emerald-500 text-white font-semibold text-[10px] rounded-full">Active</div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {PRESETS.map((preset, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => loadPreset(preset)}
-                    className="group text-left glass-card card-shadow hover:card-shadow-hover p-4 rounded-xl transition-all hover:scale-[1.01] relative overflow-hidden"
-                  >
-                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-800 dark:group-hover:text-zinc-500 transition-colors">
-                        {preset.name}
-                      </span>
-                      <Settings className="w-3.5 h-3.5 text-zinc-300 dark:text-zinc-600 group-hover:text-zinc-700 transition-colors" />
-                    </div>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">{preset.description}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* DATA & STORAGE TAB */}
-          {activeTab === 'storage' && (
-            <div className="space-y-5 max-w-3xl mx-auto">
-              <div className="glass-card card-shadow rounded-2xl p-7 md:p-10 text-center relative overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
-                <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center mx-auto mb-4">
-                  <Database className="w-6 h-6 text-zinc-800 dark:text-zinc-200" />
-                </div>
-                <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-2">Export & Import</h3>
-                <p className="max-w-md mx-auto text-sm text-zinc-500 dark:text-zinc-400 mb-7 leading-relaxed">
-                  Export your settings, council configuration, and session history as a JSON file. Import a previous export to restore everything.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-sm mx-auto">
-                  <button
-                    onClick={handleExport}
-                    className="btn-violet w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    Export Data
-                  </button>
-                  <label className="w-full py-3 glass-card card-shadow rounded-xl font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer hover:card-shadow-hover transition-all text-zinc-700 dark:text-zinc-300">
-                    <Upload className="w-4 h-4" />
-                    Import Data
-                    <input type="file" accept=".json" onChange={handleImport} className="hidden" />
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* API KEYS TAB */}
-          {activeTab === 'keys' && (
-            <div className="space-y-4 max-w-4xl mx-auto">
-              <div className="glass-card card-shadow rounded-2xl p-5 md:p-6 relative overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
-                <div className="flex items-center gap-2.5 mb-2">
-                  <Key className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
-                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">API Keys</h3>
-                </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-5 leading-relaxed">
-                  Google Gemini is set up by default. Add more API keys to expand your council with additional AI models. Keys are stored only in your browser — we never see them.
-                </p>
-
-                <div className="space-y-3">
-                  {[
-                    { label: "Google Gemini", key: 'googleKey', provider: ModelProvider.GOOGLE, url: "https://aistudio.google.com/app/apikey", desc: "Default model. Free tier available — great to get started." },
-                    { label: "Groq", key: 'groqKey', provider: ModelProvider.GROQ, url: "https://console.groq.com/keys", desc: "Ultra-fast inference. Great for snappy, high-volume sessions." },
-                    { label: "DeepSeek", key: 'deepseekKey', provider: ModelProvider.DEEPSEEK, url: "https://platform.deepseek.com/api_keys", desc: "Strong at math, coding, and complex logical reasoning." },
-                    { label: "Anthropic Claude", key: 'anthropicKey', provider: ModelProvider.ANTHROPIC, url: "https://console.anthropic.com/settings/keys", desc: "Best for nuanced, ethical, and long-form analysis." },
-                    { label: "OpenAI GPT", key: 'openaiKey', provider: ModelProvider.OPENAI, url: "https://platform.openai.com/api-keys", desc: "Highly reliable with broad general knowledge coverage." },
-                    { label: "OpenRouter", key: 'openRouterKey', provider: ModelProvider.OPENROUTER, url: "https://openrouter.ai/keys", desc: "Access 100+ specialized models through a single key." }
-                  ].map((field) => {
-                    const value = (tempConfig as any)[field.key] || '';
-                    const isValid = validateApiKey(value, field.key);
-                    const isVerifying = verifyingKey === field.key;
-                    const verifyStatus = verificationResults[field.key];
-
-                    return (
-                      <div key={field.key} className="p-4 bg-zinc-50 dark:bg-white/[0.03] rounded-xl border border-zinc-100 dark:border-white/[0.06] flex flex-col gap-3">
-                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                          <div>
-                            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-0.5">{field.label}</label>
-                            <p className="text-[11px] text-zinc-400 dark:text-zinc-500">{field.desc}</p>
-                          </div>
-                          <a
-                            href={field.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 text-xs font-semibold text-zinc-800 dark:text-zinc-200 hover:underline whitespace-nowrap"
-                          >
-                            Get key →
-                          </a>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <div className="relative flex-1">
-                            <input
-                              type="password"
-                              value={value}
-                              onChange={(e) => handleKeyChange(field.key as keyof AppConfig, e.target.value)}
-                              placeholder="••••••••••••••••••••••••"
-                              className={`w-full bg-white dark:bg-white/5 border rounded-xl px-4 py-2.5 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-zinc-900/10 transition-all text-zinc-900 dark:text-zinc-100 ${
-                                verifyStatus === 'success' || isValid === true
-                                  ? 'border-emerald-400/60'
-                                  : verifyStatus === 'error' || isValid === false
-                                  ? 'border-red-400/60'
-                                  : 'border-zinc-200 dark:border-white/10'
-                              }`}
-                            />
-                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                              {verifyStatus === 'success' && <CheckCircle className="w-4 h-4 text-emerald-500" />}
-                              {verifyStatus === 'error' && <AlertCircle className="w-4 h-4 text-red-500" />}
-                              {(!verifyStatus && isValid === true) && <CheckCircle className="w-4 h-4 text-emerald-500/40" />}
-                              {(!verifyStatus && isValid === false) && <AlertCircle className="w-4 h-4 text-red-500/40" />}
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => testKey(field.provider, field.key)}
-                            disabled={!value || isVerifying}
-                            className="px-5 py-2.5 rounded-xl text-xs font-semibold transition-all flex items-center justify-center min-w-[80px] bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 hover:text-zinc-800 dark:hover:text-zinc-500 disabled:opacity-40 disabled:cursor-not-allowed"
-                          >
-                            {isVerifying ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify'}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* COUNCIL MEMBERS TAB */}
-          {activeTab === 'members' && (
-            <div className="space-y-5">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Council Members</h3>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Customize each AI member's name, provider, and behavior.</p>
-                </div>
+          <nav className="sm-sidebar-nav" aria-label="Instellingen secties">
+            {TABS.map(tab => {
+              const Icon = tab.icon;
+              return (
                 <button
-                  onClick={addMember}
-                  className="btn-violet w-full sm:w-auto px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"
+                  key={tab.id}
+                  className={`sm-nav-item ${activeTab === tab.id ? 'sm-nav-item--active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                  aria-current={activeTab === tab.id ? 'page' : undefined}
                 >
-                  <Plus className="w-4 h-4" />
-                  Add Member
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4">
-                {tempConfig.activeCouncil.map((member: CouncilMember, idx: number) => (
-                  <div key={idx} className="glass-card card-shadow rounded-2xl p-5 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
-                    <div className="flex flex-col md:flex-row items-start gap-5">
-
-                      {/* Avatar Section */}
-                      <div className="flex flex-row md:flex-col items-center gap-3 w-full md:w-auto shrink-0">
-                        <div className={`w-14 h-14 rounded-xl border border-zinc-200 dark:border-white/10 ${member.color} overflow-hidden bg-zinc-50 dark:bg-zinc-800 relative group/avatar`}>
-                          <img src={member.avatar} alt="Avatar" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex items-center justify-center">
-                            <label className="cursor-pointer p-1.5 bg-white rounded-lg hover:scale-110 transition-transform" title="Upload image">
-                              <Upload className="w-3.5 h-3.5 text-black" />
-                              <input type="file" aria-label="Upload avatar image" className="hidden" accept="image/*" onChange={(e) => handleAvatarUpload(idx, e)} />
-                            </label>
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-1.5 w-full md:w-20">
-                          <button
-                            onClick={() => regenerateAvatar(idx)}
-                            className="text-xs font-medium bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-400 px-2 py-1.5 rounded-lg hover:border-zinc-300/40 hover:text-zinc-800 dark:hover:text-zinc-500 transition-all flex items-center justify-center gap-1.5 w-full"
-                          >
-                            <RefreshCw className="w-3 h-3" />
-                            Random
-                          </button>
-                          <button
-                            className="text-xs font-medium bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 text-zinc-400 dark:text-zinc-600 px-2 py-1.5 rounded-lg flex items-center justify-center gap-1.5 w-full opacity-40 cursor-not-allowed"
-                            title="AI generation coming soon"
-                            disabled
-                          >
-                            <Wand2 className="w-3 h-3" />
-                            Generate
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Details Section */}
-                      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                        <div>
-                          <label htmlFor={`member-name-${idx}`} className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1.5 block">Name</label>
-                          <div className="relative">
-                            <input
-                              id={`member-name-${idx}`}
-                              placeholder="Member name"
-                              value={member.name}
-                              onChange={(e) => handleMemberChange(idx, 'name', e.target.value)}
-                              className="w-full bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all pr-8"
-                            />
-                            <div className="absolute right-2 top-1/2 -translate-y-1/2">
-                              <select
-                                onChange={(e) => handleIdentityPreset(idx, e.target.value)}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                title="Select role preset"
-                                aria-label="Select role preset"
-                                value=""
-                              >
-                                <option value="" disabled>Select preset</option>
-                                {IDENTITY_PRESETS.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
-                              </select>
-                              <ChevronDown className="w-3.5 h-3.5 text-zinc-400 pointer-events-none" />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <label htmlFor={`member-provider-${idx}`} className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1.5 flex items-center gap-1.5">
-                            AI Provider
-                            <div className="group/tip relative">
-                              <HelpCircle className="w-3 h-3 cursor-help text-zinc-400" />
-                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 p-2.5 bg-zinc-900 text-white text-[11px] rounded-xl hidden group-hover/tip:block z-10 normal-case font-normal leading-relaxed shadow-xl">
-                                Select which AI model powers this council member. Different providers offer varying reasoning styles and speeds.
-                              </div>
-                            </div>
-                          </label>
-                          <select
-                            id={`member-provider-${idx}`}
-                            title="Select provider"
-                            value={member.provider}
-                            onChange={(e) => handleMemberChange(idx, 'provider', e.target.value)}
-                            className="w-full bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all"
-                          >
-                            {Object.values(ModelProvider).map(p => <option key={p} value={p}>{p}</option>)}
-                          </select>
-                        </div>
-
-                        <div className="col-span-1 sm:col-span-2">
-                          <label htmlFor={`member-url-${idx}`} className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1.5 flex items-center gap-1.5">
-                            Custom Endpoint (Base URL)
-                            <div className="group/etip relative">
-                              <HelpCircle className="w-3 h-3 cursor-help text-zinc-400" />
-                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-2.5 bg-zinc-900 text-white text-[11px] rounded-xl hidden group-hover/etip:block z-10 normal-case font-normal leading-relaxed shadow-xl">
-                                Optional: override the default API endpoint. Useful for local models (e.g., Ollama) or custom proxies.
-                              </div>
-                            </div>
-                          </label>
-                          <input
-                            id={`member-url-${idx}`}
-                            value={member.baseUrl || ''}
-                            onChange={(e) => handleMemberChange(idx, 'baseUrl', e.target.value)}
-                            placeholder="e.g., http://localhost:11434/v1"
-                            className="w-full bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-sm font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all"
-                          />
-                        </div>
-
-                        <div className="col-span-1 sm:col-span-2">
-                          <div className="flex justify-between items-center mb-1.5">
-                            <label htmlFor={`member-prompt-${idx}`} className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">System Prompt</label>
-                            <button className="flex items-center gap-1 text-xs font-semibold text-zinc-800 dark:text-zinc-200 hover:underline opacity-50 cursor-not-allowed" disabled>
-                              <Wand2 className="w-3 h-3" /> Enhance with AI
-                            </button>
-                          </div>
-                          <textarea
-                            id={`member-prompt-${idx}`}
-                            placeholder="Custom instructions for this council member..."
-                            value={member.systemPrompt || ''}
-                            onChange={(e) => handleMemberChange(idx, 'systemPrompt', e.target.value)}
-                            className="w-full bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300 transition-all resize-none min-h-[80px]"
-                          />
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() => removeMember(idx)}
-                        title="Remove member"
-                        aria-label="Remove council member"
-                        className="p-2 text-zinc-300 dark:text-zinc-700 hover:text-red-500 dark:hover:text-red-400 transition-colors shrink-0"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+                  <Icon className="sm-nav-icon" aria-hidden="true" />
+                  <div className="sm-nav-text">
+                    <span className="sm-nav-label">{tab.label}</span>
+                    <span className="sm-nav-desc">{tab.desc}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+                </button>
+              );
+            })}
+          </nav>
 
-        {/* Footer */}
-        <div className="px-5 py-4 md:px-7 border-t border-zinc-100 dark:border-white/[0.06] flex flex-col-reverse sm:flex-row justify-end gap-3 items-center shrink-0">
-          <button
-            onClick={onClose}
-            className="w-full sm:w-auto px-5 py-2.5 text-sm font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors rounded-xl hover:bg-zinc-100 dark:hover:bg-white/5"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={() => { onSave(tempConfig); onClose(); }}
-            className="btn-violet w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-sm"
-          >
-            Save Changes
-          </button>
+          <div className="sm-sidebar-footer">
+            <Server className="sm-sidebar-footer-icon" aria-hidden="true" />
+            <span>v2.0 · Lokale opslag</span>
+          </div>
+        </aside>
+
+        {/* Main content */}
+        <div className="sm-main">
+          {/* Top bar */}
+          <div className="sm-topbar">
+            <div>
+              <h2 id="sm-title" className="sm-topbar-title">
+                {TABS.find(t => t.id === activeTab)?.label}
+              </h2>
+              <p className="sm-topbar-sub">
+                {TABS.find(t => t.id === activeTab)?.desc}
+              </p>
+            </div>
+            <button className="sm-close-btn" onClick={onClose} aria-label="Instellingen sluiten" title="Sluiten">
+              <X aria-hidden="true" />
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="sm-content">
+            {activeTab === 'overview' && renderOverview()}
+            {activeTab === 'members'  && renderMembers()}
+            {activeTab === 'keys'     && renderKeys()}
+            {activeTab === 'storage'  && renderStorage()}
+          </div>
+
+          {/* Footer */}
+          <div className="sm-footer">
+            <button className="sm-btn-ghost" onClick={onClose}>Annuleren</button>
+            <button className={`sm-btn-primary ${saveFlash ? 'sm-btn-primary--saved' : ''}`} onClick={handleSave}>
+              {saveFlash ? <><CheckCircle className="sm-btn-icon" aria-hidden="true" /> Opgeslagen!</> : 'Wijzigingen opslaan'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
