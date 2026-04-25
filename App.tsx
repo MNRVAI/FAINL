@@ -30,6 +30,8 @@ import { ContactPage } from './components/ContactPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
 import { TermsOfServicePage } from './components/TermsOfServicePage';
 import { DebateRoom } from './components/DebateRoom';
+import { NodesPage } from './components/NodesPage';
+import { ApiKeysPage } from './components/ApiKeysPage';
 import { 
   Menu,
   X as CloseIcon,
@@ -40,24 +42,35 @@ import {
   Mail,
   Zap as ZapIcon,
   Sun,
-  Moon
+  Moon,
+  Plus,
+  History,
+  Settings2,
+  Swords,
+  FileEdit,
+  MoreHorizontal,
+  CreditCard,
+  Cpu,
+  Key,
+  ChevronDown,
+  LogOut
 } from 'lucide-react';
 import { supabase } from './services/supabaseClient';
 import { LoginPage } from './components/LoginPage';
 import { Session } from '@supabase/supabase-js';
-import { LogOut } from 'lucide-react';
 import { ScrambleText } from './components/ScrambleText';
+
 import { WelcomePopup } from './components/WelcomePopup';
 
 
 const FadingPlaceholder: FC<{ isFocused: boolean }> = ({ isFocused }: { isFocused: boolean }) => {
   const examples = [
-    "Should I learn Rust or Go for backend development?",
-    "Is it better to buy or rent a house in 2026?",
-    "What are the pros and cons of a four-day work week?",
-    "Is remote work better for productivity than in-office?",
-    "Should I use TypeScript or JavaScript for my next project?",
-    "What is the strongest argument for universal basic income?"
+    "Moet ik Rust of Go leren voor backend development?",
+    "Is het beter om een huis te kopen of te huren?",
+    "Wat zijn de voor- en nadelen van een vierdaagse werkweek?",
+    "Is thuiswerken beter voor productiviteit dan op kantoor?",
+    "Welke programmeertaal kies ik voor mijn volgende project?",
+    "Wat is het sterkste argument voor een basisinkomen?"
   ];
   
   const [index, setIndex] = useState(0);
@@ -134,6 +147,10 @@ const App: FC = () => {
     return false;
   });
 
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  const toggleSection = (key: string) =>
+    setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('fainl_theme', isDarkMode ? 'dark' : 'light');
@@ -178,6 +195,7 @@ const App: FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isDebateOpen, setIsDebateOpen] = useState(false);
+  const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => {
     const seen = localStorage.getItem('fainl_visited');
     if (!seen) {
@@ -254,7 +272,7 @@ const App: FC = () => {
       // 1. Council Analysis Phase
       const responses = await councilService.current.getCouncilResponses(input, readyMembers);
       
-      // Council done � stage stays at PROCESSING_COUNCIL until user opens debate
+      // Council done � stage stays at PROCESSING_COUNCIL until user opens debate
       setSession((prev: SessionState) => ({
         ...prev,
         councilResponses: responses,
@@ -417,13 +435,34 @@ const App: FC = () => {
     }
   }, []);
 
+  // Primary sidebar navigation
+  const SidebarPrimary = [
+    { id: AppView.CHATS,   label: 'Mijn Gesprekken', icon: History },
+    { id: AppView.NODES,   label: 'Mijn AI-Nodes',   icon: Cpu },
+    { id: AppView.DEBATES, label: 'Debatkamer',       icon: Swords },
+    { id: AppView.VERDICT, label: 'Uitspraak Editor', icon: FileEdit },
+  ];
+
+  // Flyout menu items (user avatar button)
+  const FlyoutItems = [
+    { id: AppView.PRICING,  label: 'Prijzen',          icon: CreditCard },
+    { id: AppView.NODES,    label: 'Nodes aanmaken',   icon: Cpu },
+    { id: AppView.COOKBOOK, label: 'Inspiratie',         icon: BookOpen },
+    { divider: true },
+    { id: AppView.FAQ,      label: 'FAQ',              icon: HelpCircle },
+    { id: AppView.CONTACT,  label: 'Contact',          icon: Mail },
+    { divider: true },
+    { id: AppView.APIKEYS,  label: 'API Sleutels',     icon: Key },
+    { id: 'signout' as AppView, label: 'Uitloggen',    icon: LogOut, action: handleLogout, hidden: !authSession },
+  ];
+
+  // Mobile nav keeps the most-used items
   const NavLinks = [
-    { id: AppView.HOME, label: 'Home', icon: ZapIcon },
-    { id: AppView.PRICING, label: 'Pricing', icon: Coins },
-    { id: AppView.ACCOUNT, label: 'History', icon: LayoutDashboard },
-    { id: AppView.COOKBOOK, label: 'Examples', icon: BookOpen },
-    { id: AppView.FAQ, label: 'FAQ', icon: HelpCircle },
-    { id: AppView.CONTACT, label: 'Contact', icon: Mail },
+    { id: AppView.HOME,    label: 'Chat',     icon: ZapIcon },
+    { id: AppView.CHATS,   label: 'Gesprekken', icon: History },
+    { id: AppView.NODES,   label: 'Nodes',    icon: Cpu },
+    { id: AppView.PRICING, label: 'Prijzen',  icon: CreditCard },
+    { id: AppView.FAQ,     label: 'FAQ',      icon: HelpCircle },
   ];
 
   const renderStageIndicator = () => {
@@ -463,400 +502,390 @@ const App: FC = () => {
   };
 
   return (
-    <div className={`min-h-screen text-zinc-900 dark:text-zinc-100 flex flex-col overflow-x-hidden transition-colors duration-300 ${isDarkMode ? 'bg-grid-dark' : 'bg-grid-light'} bg-white dark:bg-[#0a0a0a]`}>
-      {/* -- Header -- */}
-      <header className="border-b border-black/[0.05] dark:border-white/[0.05] bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-xl sticky top-0 z-40 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 h-12 md:h-13 flex items-center justify-between gap-4">
+    <div className="app-shell">
 
-          {/* Logo + Desktop Nav */}
-          <div className="flex items-center gap-5">
-            <button
-              onClick={() => setCurrentView(AppView.HOME)}
-              className="flex items-center gap-2 group shrink-0"
-            >
-              <CyberLogo />
-              <span className="text-sm font-bold tracking-tight hidden sm:block text-zinc-900 dark:text-white">
-                FAINL
-              </span>
-            </button>
+      {/* ══ SIDEBAR ══════════════════════════════════════════════════════ */}
+      <aside className="sidebar">
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-0">
-              {NavLinks.map(link => (
-                <button
-                  key={link.id}
-                  onClick={() => setCurrentView(link.id)}
-                  className={`relative px-3 py-1.5 text-xs font-medium transition-all rounded-lg ${
-                    currentView === link.id
-                      ? 'text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-white/8'
-                      : 'text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </nav>
-          </div>
+        {/* ── Logo ──────────────────────────────────────────── */}
+        <button
+          className="sidebar-logo sidebar-logo-border"
+          onClick={() => setCurrentView(AppView.HOME)}
+        >
+          <span className="sidebar-logo-mark">
+            <Shield className="sidebar-logo-icon" />
+          </span>
+          <span className="sidebar-logo-text">FAINL</span>
+        </button>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-1.5 rounded-lg text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/5 transition-all"
-              title="Toggle theme"
-            >
-              {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-            </button>
+        {/* ── Nieuwe chat ───────────────────────────────────── */}
+        <button
+          className="btn-new-chat"
+          onClick={() => {
+            setCurrentView(AppView.HOME);
+            setSession(prev => ({ ...prev, stage: WorkflowStage.IDLE, query: '', councilResponses: [], synthesis: '' }));
+            setInput('');
+          }}
+        >
+          <Plus />
+          Nieuwe chat
+        </button>
 
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-white/[0.08] text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-white/5 transition-all text-xs font-medium"
-            >
-              <Lock className="w-3 h-3" />
-              <span className="hidden sm:inline">API Keys</span>
-            </button>
-
-            {authSession && (
-              <button
-                onClick={handleLogout}
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-zinc-400 dark:text-zinc-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-xs font-medium"
-                title="Sign Out"
-              >
-                <LogOut className="w-3 h-3" />
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <main className="flex-1 w-full mx-auto pb-safe">
-        {currentView === AppView.HOME ? (
-          <div className="max-w-2xl mx-auto px-4 md:px-6 py-4 flex flex-col items-center justify-center min-h-[calc(100dvh-48px-60px)] lg:min-h-[calc(100dvh-52px)]">
-            {renderStageIndicator()}
-
-            {/* -- Error State -- */}
-            {session.stage === WorkflowStage.ERROR && (
-              <div className="w-full max-w-md glass-card card-shadow rounded-2xl p-6 md:p-10 text-center animate-fade-in-up">
-                <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center mx-auto mb-5">
-                  <AlertTriangle className="w-7 h-7 text-red-500" />
-                </div>
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Something went wrong</h3>
-                <p className="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed text-sm">{session.error}</p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
-                    onClick={() => setIsSettingsOpen(true)}
-                    className="btn-violet px-4 py-2 rounded-xl font-medium text-sm"
-                  >
-                    Configure Keys
-                  </button>
-                  <button
-                    onClick={() => setSession({ ...session, stage: WorkflowStage.IDLE })}
-                    className="px-5 py-2.5 rounded-xl font-semibold text-sm border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 transition-all"
-                  >
-                    Try Again
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* -- IDLE: Hero + Input -- */}
-            {session.stage === WorkflowStage.IDLE ? (
-              <div className="flex-1 flex flex-col items-center justify-center w-full max-w-2xl mx-auto text-center pb-20 px-0 animate-fade-in-up">
-
-                {/* Compact heading */}
-                <div className="mb-5">
-                  <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-zinc-800 dark:text-zinc-200 leading-snug mb-1.5">
-                    Get a balanced answer from multiple AI models
-                  </h1>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
-                    The council deliberates, debates, and delivers one authoritative verdict.
-                  </p>
-                </div>
-
-                {/* -- The INPUT � ChatGPT/Claude style -- */}
-                <div className="w-full">
-                  <div className="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.5),0_1px_3px_rgba(0,0,0,0.3)] overflow-hidden transition-all duration-200 focus-within:border-zinc-300 dark:focus-within:border-zinc-700 focus-within:shadow-[0_4px_24px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.04)] dark:focus-within:shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
-
-                    {/* Textarea */}
-                    <div className="relative w-full min-h-[88px] sm:min-h-[100px] md:min-h-[112px] p-4 md:p-5">
-                      {!input && !isInputFocused && (
-                        <div className="absolute top-4 left-4 md:top-5 md:left-5 pointer-events-none text-sm text-zinc-400 dark:text-zinc-500">
-                          <FadingPlaceholder isFocused={isInputFocused} />
-                        </div>
-                      )}
-                      <textarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
-                        onFocus={() => setIsInputFocused(true)}
-                        onBlur={() => setIsInputFocused(false)}
-                        aria-label="Enter your question"
-                        placeholder=""
-                        className="w-full bg-transparent border-none p-0 text-sm md:text-base text-zinc-900 dark:text-zinc-100 placeholder-transparent focus:ring-0 resize-none absolute inset-4 md:inset-5 font-normal leading-relaxed"
-                      />
-                    </div>
-
-                    {/* Bottom action bar */}
-                    <div className="flex items-center justify-between px-4 md:px-5 py-2.5 border-t border-zinc-100 dark:border-zinc-800">
-                      <span className={`text-[10px] font-medium tabular-nums ${input.length >= MAX_CHARS ? 'text-red-500' : 'text-zinc-300 dark:text-zinc-600'}`}>
-                        {input.length > 0 ? `${input.length} / ${MAX_CHARS}` : ''}
-                      </span>
-
-                      {!config.googleKey ? (
-                        <button
-                          onClick={() => setIsSettingsOpen(true)}
-                          className="flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                        >
-                          <ZapIcon className="w-3 h-3" />
-                          Connect API key ?
-                        </button>
-                      ) : (
-                        <button
-                          onClick={handleStart}
-                          disabled={!input.trim()}
-                          title="Ask the Council"
-                          aria-label="Ask the Council"
-                          className="btn-violet flex items-center gap-1.5 px-4 py-2 rounded-xl font-medium text-xs disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
-                        >
-                          <Send className="w-3.5 h-3.5" />
-                          <span>Ask the Council</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Model chips */}
-                  <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
-                    {['Gemini', 'GPT-4', 'Claude', 'Grok', 'Llama', 'Mistral', 'DeepSeek'].map(model => (
-                      <span
-                        key={model}
-                        className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/[0.07] text-[10px] font-medium text-zinc-400 dark:text-zinc-600"
-                      >
-                        {model}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Trust line */}
-                  <p className="mt-2.5 text-[10px] text-zinc-400 dark:text-zinc-600">
-                    Keys stored locally � Free with your own API key
-                  </p>
-                </div>
-              </div>
-
-            ) : session.stage !== WorkflowStage.ERROR && (
-              /* -- Active Session -- */
-              <div className="animate-fade-in-up space-y-5 md:space-y-8 w-full pb-8 md:pb-16">
-
-                {/* Active Query Context */}
-                <div className="glass-card card-shadow rounded-xl p-4 md:p-6 text-center">
-                  <p className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2">Analyzing</p>
-                  <p className="text-base sm:text-lg md:text-xl text-zinc-800 dark:text-zinc-100 font-medium leading-snug">
-                    "{session.query}"
-                  </p>
-                </div>
-
-                {/* Synthesis Panel */}
-                {(session.stage === WorkflowStage.SYNTHESIZING || session.stage === WorkflowStage.COMPLETED) && (
-                  <div className="w-full glass-card card-shadow rounded-2xl overflow-hidden">
-                    {/* Panel header */}
-                    <div className="bg-zinc-900 dark:bg-zinc-800 p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                      <div className="flex items-center gap-2.5 flex-1">
-                        <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-                          <Gavel className="w-3.5 h-3.5 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-white text-sm leading-tight">Final Verdict</h3>
-                          <p className="text-[10px] text-white/50 mt-0.5">Synthesized from all council perspectives</p>
-                        </div>
-                      </div>
-                      {session.stage === WorkflowStage.SYNTHESIZING && (
-                        <div className="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-full text-white/80 text-[10px] font-medium animate-pulse">
-                          <Sparkles className="w-3 h-3" />
-                          Synthesizing...
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Panel body */}
-                    <div className="p-5 md:p-8 prose prose-sm md:prose-base max-w-none dark:prose-invert prose-p:text-zinc-700 dark:prose-p:text-zinc-300 prose-headings:text-zinc-900 dark:prose-headings:text-zinc-100 prose-strong:text-zinc-900 dark:prose-strong:text-zinc-100 prose-li:text-zinc-700 dark:prose-li:text-zinc-300 leading-relaxed">
-                      {session.synthesis ? (
-                        <ReactMarkdown>{session.synthesis}</ReactMarkdown>
-                      ) : (
-                        <div className="h-32 md:h-48 flex flex-col items-center justify-center gap-4 text-zinc-300 dark:text-zinc-600">
-                          <Loader2 className="animate-spin w-6 h-6 text-zinc-400" />
-                          <span className="text-sm font-medium text-zinc-400 dark:text-zinc-500">Merging perspectives...</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Council Grid */}
-                <div>
-                  <h2 className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-3">AI Council Perspectives</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-                    {config.activeCouncil.map(member => {
-                      const response = session.councilResponses.find(r => r.memberId === member.id);
-                      const isLoading = session.stage === WorkflowStage.PROCESSING_COUNCIL && !response;
-                      return (
-                        <CouncilCard
-                          key={member.id}
-                          member={member}
-                          response={response}
-                          isLoading={isLoading}
-                          isExpanded={false}
-                          onToggle={() => {}}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Debate CTA */}
-                {session.councilResponses.length > 0 && session.stage !== WorkflowStage.PROCESSING_COUNCIL && session.stage !== WorkflowStage.SYNTHESIZING && (
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-2">
-                    <button
-                      onClick={() => setIsDebateOpen(true)}
-                      className="btn-violet group flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      Open Debate Room
-                      {session.debateMessages.length > 0 && (
-                        <span className="bg-white/20 dark:bg-black/20 px-1.5 py-0.5 rounded-full text-[10px]">
-                          {session.debateMessages.length}
-                        </span>
-                      )}
-                    </button>
-                    {session.synthesis && (
-                      <span className="text-xs text-zinc-400 dark:text-zinc-500 font-medium flex items-center gap-1.5">
-                        <CircleCheck className="w-3.5 h-3.5 text-emerald-500" />
-                        Debate completed
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* New Mission CTA */}
-                {session.stage === WorkflowStage.COMPLETED && session.councilResponses.length > 0 && (
-                  <div className="flex justify-center pt-6 pb-10 md:pb-16">
-                    <button
-                      onClick={() => setSession({ id: crypto.randomUUID(), stage: WorkflowStage.IDLE, query: '', synthesis: '', councilResponses: [], reviews: [], debateMessages: [] })}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5 hover:border-zinc-300 dark:hover:border-white/20 transition-all"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      Ask Another Question
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ) : null}
-
-      {/* -- Debate Room Overlay -- */}
-      <DebateRoom
-        isOpen={isDebateOpen}
-        session={session}
-        config={config}
-        councilService={councilService.current}
-        onClose={() => setIsDebateOpen(false)}
-        onEndDebate={handleEndDebate}
-        onAddDebateMessage={handleAddDebateMessage}
-      />
-
-        {/* New Pages */}
-        {currentView === AppView.PRICING && (
-            <PricingPage 
-                hasOwnKeys={!!(config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey)}
-                onPurchaseTurns={(count: number | typeof Infinity) => handlePurchase('turns', count)}
-                onPurchaseCredits={(count: number) => handlePurchase('credits', count)}
-            />
-        )}
-        {currentView === AppView.ACCOUNT && (
-            !authSession ? (
-                <LoginPage onLoginSuccess={() => setCurrentView(AppView.ACCOUNT)} />
-            ) : (
-                <AccountPage 
-                    config={config}
-                    history={history}
-                    onLoadSession={(sess: SessionState) => {
-                        setSession(sess);
-                        setCurrentView(AppView.HOME);
-                    }}
-                    onDeleteSessions={(ids: string[]) => {
-                        setHistory(prev => prev.filter(s => !ids.includes(s.id)));
-                    }}
-                    onArchiveSessions={(ids: string[]) => {
-                        setHistory(prev => prev.map(s => ids.includes(s.id) ? { ...s, isArchived: !s.isArchived } : s));
-                    }}
-                />
-            )
-        )}
-        {currentView === AppView.COOKBOOK && (
-            <CookbookPage 
-                onSelectMission={(q: string) => {
-                    setInput(q);
-                    setCurrentView(AppView.HOME);
-                }}
-            />
-        )}
-        {currentView === AppView.FAQ && <FAQPage />}
-        {currentView === AppView.CONTACT && <ContactPage />}
-        {currentView === AppView.PRIVACY && <PrivacyPolicyPage />}
-        {currentView === AppView.TERMS && <TermsOfServicePage />}
-      </main>
-
-      {/* -- Footer -- */}
-      <footer className="hidden lg:block border-t border-zinc-100 dark:border-white/[0.05] py-6 bg-white/60 dark:bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <CyberLogo isAnimated={false} />
-            <span className="text-sm font-bold text-zinc-400 dark:text-zinc-600">FAINL</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => setCurrentView(AppView.PRIVACY)}
-              className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
-            >
-              Privacy
-            </button>
-            <button
-              onClick={() => setCurrentView(AppView.TERMS)}
-              className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
-            >
-              Terms
-            </button>
-            <span className="text-[11px] text-zinc-300 dark:text-zinc-700">� 2026 FAINL</span>
-          </div>
-        </div>
-      </footer>
-
-      {/* -- Mobile Bottom Navigation -- */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-black/[0.05] dark:border-white/[0.05]" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-        <div className="flex items-center justify-around px-2 pt-1 pb-1.5">
-          {NavLinks.slice(0, 5).map(link => (
+        {/* ── Primary nav ───────────────────────────────────── */}
+        <nav className="sidebar-nav sidebar-nav-primary">
+          {SidebarPrimary.map(link => (
             <button
               key={link.id}
-              onClick={() => { setCurrentView(link.id); setIsMenuOpen(false); }}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-all min-w-[48px] relative ${
-                currentView === link.id
-                  ? 'text-zinc-900 dark:text-zinc-100'
-                  : 'text-zinc-400 dark:text-zinc-500'
-              }`}
+              className={`sidebar-link ${currentView === link.id ? 'active' : ''}`}
+              onClick={() => setCurrentView(link.id)}
             >
-              <link.icon className={`w-4.5 h-4.5 transition-transform duration-200 ${currentView === link.id ? 'scale-110' : ''}`} />
-              <span className="text-[9px] font-medium">
-                {link.label}
-              </span>
-              {currentView === link.id && (
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-0.5 rounded-full bg-zinc-900 dark:bg-zinc-100" />
-              )}
+              <link.icon />
+              {link.label}
             </button>
           ))}
+        </nav>
+
+        {/* ── Recent chats ──────────────────────────────────── */}
+        {history.length > 0 && (
+          <div className="sidebar-section sidebar-section-scrollable">
+            <p className="sidebar-section-label">Recente chats</p>
+            {history.slice(0, 12).map(h => (
+              <button
+                key={h.id}
+                className="sidebar-history-item"
+                onClick={() => {
+                  setSession(h);
+                  setCurrentView(AppView.HOME);
+                }}
+                title={h.query}
+              >
+                <MessageSquare />
+                <span className="sidebar-history-label">{h.query || 'Naamloos'}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── Footer: user row + flyout ───────────────────────── */}
+        <div className="sidebar-footer">
+
+          {/* Dark / light toggle */}
+          <button
+            className="flyout-btn flyout-btn-spread"
+            onClick={() => setIsDarkMode(d => !d)}
+            title={isDarkMode ? 'Schakel naar licht' : 'Schakel naar donker'}
+          >
+            <span className="flyout-btn-icon-row">
+              {isDarkMode ? <Sun className="flyout-theme-icon" /> : <Moon className="flyout-theme-icon" />}
+              {isDarkMode ? 'Lichte modus' : 'Donkere modus'}
+            </span>
+          </button>
+
+          {/* User row / flyout trigger */}
+          <div className="flyout-trigger">
+            <button
+              className="flyout-btn flyout-btn-user"
+              onClick={() => setIsFlyoutOpen(o => !o)}
+            >
+              {/* Avatar */}
+              <span className="user-avatar">
+                {authSession?.user?.email?.charAt(0).toUpperCase() ?? 'G'}
+              </span>
+              <span className="user-name-wrap">
+                <span className="user-display-name">
+                  {authSession?.user?.user_metadata?.full_name
+                    || authSession?.user?.email?.split('@')[0]
+                    || 'Gast'}
+                </span>
+                <span className="user-subtitle">Mijn account</span>
+              </span>
+              <MoreHorizontal className="flyout-more-icon" />
+            </button>
+
+
+            {/* Flyout panel */}
+            {isFlyoutOpen && (
+              <>
+                <div className="flyout-backdrop" onClick={() => setIsFlyoutOpen(false)} />
+                <div className="flyout-menu">
+                  {FlyoutItems.map((item: any, i) => {
+                    if (item.divider) return <div key={i} className="flyout-divider" />;
+                    if (item.hidden) return null;
+                    return (
+                      <button
+                        key={item.id}
+                        className="flyout-item"
+                        onClick={() => {
+                          setIsFlyoutOpen(false);
+                          if (item.action) { item.action(); }
+                          else setCurrentView(item.id);
+                        }}
+                      >
+                        <item.icon />
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
         </div>
+      </aside>
+
+      {/* ══ MAIN CANVAS ══════════════════════════════════════════════════ */}
+      <div className="main-canvas">
+
+        {/* Mobile topbar */}
+        <div className="mobile-topbar">
+          <span className="mobile-topbar-brand">FAINL</span>
+          <button onClick={() => setIsSettingsOpen(true)} title="API-sleutels instellen" className="mobile-topbar-btn">
+            <Lock style={{ width: 16, height: 16 }} />
+          </button>
+        </div>
+
+        {/* ── HOME VIEW ──────────────────────────────────────────────── */}
+        {currentView === AppView.HOME && (
+          <>
+            {renderStageIndicator()}
+
+            {/* ERROR */}
+            {session.stage === WorkflowStage.ERROR && (
+              <div className="error-center">
+                <div className="error-card animate-up">
+                  <div className="error-icon-circle">
+                    <AlertTriangle className="error-icon" />
+                  </div>
+                  <h3 className="error-title">Er ging iets mis</h3>
+                  <p className="error-message">{session.error}</p>
+                  <div className="error-actions">
+                    <button className="btn-send" onClick={() => setIsSettingsOpen(true)}>Sleutels instellen</button>
+                    <button className="btn-ghost" onClick={() => setSession({ ...session, stage: WorkflowStage.IDLE })}>Opnieuw</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* IDLE — Hero */}
+            {session.stage === WorkflowStage.IDLE && (
+              <div className="hero-center animate-up">
+                <h1 className="hero-heading">{(() => { const h = new Date().getHours(); const g = h < 12 ? 'Goedemorgen' : h < 18 ? 'Goedemiddag' : 'Goedenavond'; const name = authSession?.user?.user_metadata?.name?.split(' ')[0] || authSession?.user?.user_metadata?.full_name?.split(' ')[0]; return name ? `${g}, ${name}.` : `${g}.`; })()}</h1>
+                <p className="hero-sub">Stel je vraag — zeven AI-modellen debatteren en leveren één gefundeerde conclusie. Niet één mening, maar een echt antwoord.</p>
+
+                {/* Input */}
+                <div className="chat-input-wrap chat-input-full">
+                  <div className="chat-input-pos">
+                    {!input && !isInputFocused && (
+                      <div className="placeholder-fade">
+                        <FadingPlaceholder isFocused={isInputFocused} />
+                      </div>
+                    )}
+                    <textarea
+                      className="chat-textarea"
+                      value={input}
+                      onChange={e => setInput(e.target.value.slice(0, MAX_CHARS))}
+                      onFocus={() => setIsInputFocused(true)}
+                      onBlur={() => setIsInputFocused(false)}
+                      aria-label="Stel je vraag"
+                    />
+                  </div>
+                  <div className="chat-input-bar">
+                    <span className={`chat-counter ${input.length >= MAX_CHARS ? 'warn' : ''}`}>
+                      {input.length > 0 ? `${input.length} / ${MAX_CHARS}` : ''}
+                    </span>
+                    <button
+                      className="btn-send"
+                      onClick={config.googleKey ? handleStart : () => setIsSettingsOpen(true)}
+                      disabled={config.googleKey ? !input.trim() : false}
+                    >
+                      <Send className="send-icon" />
+                      Vraag stellen
+                    </button>
+                  </div>
+                </div>
+
+
+
+
+              </div>
+            )}
+
+
+            {/* ACTIVE SESSION */}
+            {session.stage !== WorkflowStage.IDLE && session.stage !== WorkflowStage.ERROR && (
+              <div className="session-wrap animate-up">
+
+                {/* Query */}
+                <div className="query-card card-shadow">
+                  <p className="query-label">Analyseren</p>
+                  <p className="query-text">"{session.query}"</p>
+                </div>
+
+                {/* Verdict Panel */}
+                {(session.stage === WorkflowStage.SYNTHESIZING || session.stage === WorkflowStage.COMPLETED) && (
+                  <div className="verdict-panel card-shadow">
+                    <div className="verdict-header">
+                      <div className="verdict-icon-circle">
+                        <Gavel className="verdict-icon" />
+                      </div>
+                      <div className="verdict-header-text">
+                        <h3 className="verdict-title">Eindoordeel van de Raad</h3>
+                        <p className="verdict-sub">Samengesteld uit {config.activeCouncil.length} perspectieven</p>
+                      </div>
+                      {session.stage === WorkflowStage.SYNTHESIZING && (
+                        <span className="badge">
+                          <Sparkles className="verdict-sparkle-icon" />
+                          Samenvatten…
+                        </span>
+                      )}
+                    </div>
+                    <div className="verdict-body">
+                      {session.synthesis ? (
+                        <p className="verdict-synthesis">
+                          {session.synthesis}
+                          {session.stage === WorkflowStage.SYNTHESIZING && <span className="cursor" />}
+                        </p>
+                      ) : (
+                        <div className="skeleton-row">
+                          <div className="skeleton skeleton-90" />
+                          <div className="skeleton skeleton-75" />
+                          <div className="skeleton skeleton-83" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Council grid */}
+                <div className="council-grid">
+                  {session.councilResponses.map((resp, i) => {
+                    const member = config.activeCouncil.find(m => m.id === resp.memberId);
+                    if (!member) return null;
+                    return (
+                      <CouncilCard
+                        key={resp.memberId}
+                        member={member}
+                        response={resp}
+                        index={i}
+                        isLoading={false}
+                        isExpanded={false}
+                        onToggle={() => {}}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* New question button */}
+                {session.stage === WorkflowStage.COMPLETED && (
+                  <div className="new-question-wrap">
+                    <button
+                      className="btn-send"
+                      onClick={() => setSession({ ...session, stage: WorkflowStage.IDLE, query: '', councilResponses: [], synthesis: '' })}
+                    >
+                      Nieuwe vraag stellen
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ── ALL PAGES ────────────────────────────────────────────────── */}
+        {currentView !== AppView.HOME && (
+          <div className="all-pages-wrap">
+            {currentView === AppView.PRICING && (
+              <PricingPage
+                hasOwnKeys={!!(config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey)}
+                onPurchaseTurns={(c) => handlePurchase('turns', c)}
+                onPurchaseCredits={(c) => handlePurchase('credits', c)}
+              />
+            )}
+            {(currentView === AppView.CHATS || currentView === AppView.ACCOUNT) && (
+              <AccountPage
+                config={config}
+                history={history}
+                onLoadSession={(s) => { setSession(s); setCurrentView(AppView.HOME); }}
+                onDeleteSessions={(ids) => setHistory(h => h.filter(s => !ids.includes(s.id)))}
+                onArchiveSessions={(ids) => setHistory(h => h.map(s => ids.includes(s.id) ? { ...s, isArchived: true } : s))}
+              />
+            )}
+            {currentView === AppView.NODES && (
+              <NodesPage onOpenSettings={() => setIsSettingsOpen(true)} />
+            )}
+            {currentView === AppView.DEBATES && (
+              <div className="page-container animate-fade-in-up">
+                <div className="page-header">
+                  <div className="page-badge"><Swords className="w-3.5 h-3.5" />Debatkamer</div>
+                  <h1 className="page-title">Debatkamer</h1>
+                  <p className="page-sub">Start een nieuwe sessie om de AI-raad in debat te zien gaan. De debatkamer opent automatisch na het stellen van een vraag.</p>
+                </div>
+                {history.filter(s => s.debateMessages && s.debateMessages.length > 0).length === 0 ? (
+                  <div className="page-cta">
+                    <Swords className="w-8 h-8 mx-auto mb-3 debate-empty-icon" />
+                    <h2 className="page-cta-title">Nog geen debatten</h2>
+                    <p className="page-cta-text">Stel een vraag op het startscherm om een debat te starten tussen jouw AI-raadsleden.</p>
+                    <button className="btn-primary debate-cta-btn" onClick={() => setCurrentView(AppView.HOME)}>
+                      Naar de chat
+                    </button>
+                  </div>
+                ) : (
+                  <div className="nodes-grid">
+                    {history.filter(s => s.debateMessages && s.debateMessages.length > 0).map(s => (
+                      <button key={s.id} className="node-tile debate-tile-btn" onClick={() => { setSession(s); setCurrentView(AppView.HOME); }}>
+                        <div className="node-tile-name">{s.query}</div>
+                        <div className="node-tile-desc">{s.debateMessages.length} berichten · {new Date().toLocaleDateString('nl-NL')}</div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {currentView === AppView.VERDICT && (
+              <AccountPage
+                config={config}
+                history={history.filter(s => !!s.synthesis)}
+                onLoadSession={(s) => { setSession(s); setCurrentView(AppView.HOME); }}
+                onDeleteSessions={(ids) => setHistory(h => h.filter(s => !ids.includes(s.id)))}
+                onArchiveSessions={(ids) => setHistory(h => h.map(s => ids.includes(s.id) ? { ...s, isArchived: true } : s))}
+              />
+            )}
+            {currentView === AppView.COOKBOOK && (
+              <CookbookPage onSelectMission={(q) => { setInput(q); setCurrentView(AppView.HOME); }} />
+            )}
+            {currentView === AppView.FAQ && <FAQPage />}
+            {currentView === AppView.CONTACT && <ContactPage />}
+            {currentView === AppView.PRIVACY && <PrivacyPolicyPage />}
+            {currentView === AppView.TERMS && <TermsOfServicePage />}
+            {currentView === AppView.APIKEYS && (
+              <ApiKeysPage
+                config={config}
+                onSave={(partial) => setConfig(prev => ({ ...prev, ...partial }))}
+              />
+            )}
+          </div>
+        )}
+
+
+      </div>{/* end main-canvas */}
+
+      {/* ══ MOBILE BOTTOM NAV ════════════════════════════════════════════ */}
+      <nav className="mobile-nav">
+        {NavLinks.slice(0, 5).map(link => (
+          <button
+            key={link.id}
+            className={`mobile-nav-item ${currentView === link.id ? 'active' : ''}`}
+            onClick={() => setCurrentView(link.id)}
+          >
+            <link.icon />
+            {link.label}
+          </button>
+        ))}
       </nav>
 
-      <PaywallModal 
+      {/* ══ MODALS ═══════════════════════════════════════════════════════ */}
+      <PaywallModal
         isOpen={isPaywallOpen}
         hasOwnKeys={!!(config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey)}
         isLoading={isPaymentLoading}
@@ -864,7 +893,7 @@ const App: FC = () => {
         onPurchaseCredits={(count: number) => handlePurchase('credits', count)}
         onClose={() => setIsPaywallOpen(false)}
       />
-      <SettingsModal 
+      <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         config={config}

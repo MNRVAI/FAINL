@@ -4,22 +4,23 @@ import { CouncilMember, ModelProvider } from "./types";
 // --- ASSET MANAGEMENT ---
 export const UI_ASSETS = {
   avatars: {
-    gemini: "https://api.dicebear.com/7.x/bottts/svg?seed=gemini",
-    flash: "https://api.dicebear.com/7.x/bottts/svg?seed=flash",
-    gpt: "https://api.dicebear.com/7.x/bottts/svg?seed=gpt4",
-    claude: "https://api.dicebear.com/7.x/bottts/svg?seed=claude",
-    llama: "https://api.dicebear.com/7.x/bottts/svg?seed=llama",
-    mistral: "https://api.dicebear.com/7.x/bottts/svg?seed=mistral",
-    dolphin: "https://api.dicebear.com/7.x/bottts/svg?seed=dolphin",
-    deepseek: "https://api.dicebear.com/7.x/bottts/svg?seed=deepseek",
-    chairman: "https://api.dicebear.com/7.x/bottts/svg?seed=chairman",
-    grok: "https://api.dicebear.com/7.x/bottts/svg?seed=grok"
+    gemini:   "🧠",
+    flash:    "⚡",
+    gpt:      "🤖",
+    claude:   "🌊",
+    llama:    "🦙",
+    mistral:  "💨",
+    dolphin:  "🐬",
+    deepseek: "🔍",
+    chairman: "⚖️",
+    grok:     "🌀"
   },
   placeholders: {
     user: "User",
     system: "System"
   }
 };
+
 
 // --- DEFAULT CONFIGURATION (SECURE OUT-OF-THE-BOX READY) ---
 // These three agents use the standard Gemini API key (Free Tier enabled)

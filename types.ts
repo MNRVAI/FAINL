@@ -62,13 +62,18 @@ export enum WorkflowStage {
 
 export enum AppView {
   HOME = 'HOME',
+  CHATS = 'CHATS',
+  NODES = 'NODES',
+  DEBATES = 'DEBATES',
+  VERDICT = 'VERDICT',
   PRICING = 'PRICING',
   ACCOUNT = 'ACCOUNT',
   COOKBOOK = 'COOKBOOK',
   FAQ = 'FAQ',
   CONTACT = 'CONTACT',
   PRIVACY = 'PRIVACY',
-  TERMS = 'TERMS'
+  TERMS = 'TERMS',
+  APIKEYS = 'APIKEYS',
 }
 
 export interface SessionState {

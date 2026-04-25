@@ -9,47 +9,48 @@ import {
   Lock,
   Globe,
   MessageSquare,
+  Mail,
 } from 'lucide-react';
 
 const FAQS = [
   {
-    q: "What makes FAINL different from using ChatGPT or Claude directly?",
-    a: "FAINL is a consensus orchestration layer — it runs your question through multiple AI models simultaneously (Gemini, GPT-4, Claude, Grok, and more) and synthesizes one authoritative answer. This eliminates single-model bias and surfaces disagreements, giving you a more balanced and reliable perspective.",
+    q: "Wat maakt FAINL anders dan ChatGPT of Claude rechtstreeks gebruiken?",
+    a: "FAINL is een consensus-orkestratielaag — je vraag wordt gelijktijdig door meerdere AI-modellen verwerkt (Gemini, GPT-4, Claude, Grok en meer) en er wordt één gezaghebbend antwoord gesynthetiseerd. Dit elimineert de bias van een enkel model en brengt meningsverschillen aan het licht, zodat je een evenwichtiger en betrouwbaarder perspectief krijgt.",
     icon: Cpu,
   },
   {
-    q: "Is my data private and secure?",
-    a: "Yes. FAINL uses a zero-knowledge architecture. Your API keys and session history are stored exclusively in your browser's local storage. We have no access to your data whatsoever — nothing leaves your device.",
+    q: "Is mijn data privé en veilig?",
+    a: "Ja. FAINL werkt met een zero-knowledge architectuur. Je API-sleutels en sessiegeschiedenis worden uitsluitend opgeslagen in de lokale opslag van je browser. Wij hebben geen toegang tot je gegevens — niets verlaat je apparaat.",
     icon: Lock,
   },
   {
-    q: "Why do I need an API key?",
-    a: "FAINL orchestrates real AI models from Google, OpenAI, Anthropic, and others. These providers require API keys for access. By using your own keys, you have full control over your costs and data. Google Gemini offers a generous free tier to get started.",
+    q: "Waarom heb ik een API-sleutel nodig?",
+    a: "FAINL orkestreert echte AI-modellen van Google, OpenAI, Anthropic en anderen. Deze providers vereisen API-sleutels voor toegang. Door je eigen sleutels te gebruiken, heb je volledige controle over je kosten en gegevens. Google Gemini biedt een ruimhartige gratis laag om mee te beginnen.",
     icon: Coins,
   },
   {
-    q: "Can I use FAINL offline?",
-    a: "The interface runs entirely in your browser, but the AI models require an internet connection to reach their respective API providers. Local model support is planned for a future release.",
+    q: "Kan ik FAINL offline gebruiken?",
+    a: "De interface draait volledig in je browser, maar de AI-modellen vereisen een internetverbinding om de respectieve API-providers te bereiken. Ondersteuning voor lokale modellen is gepland voor een toekomstige release.",
     icon: Globe,
   },
   {
-    q: "How does the consensus process work?",
-    a: "When you submit a question, multiple AI agents independently analyze and respond. You can then open the Debate Room where the models challenge each other's reasoning in real time. Finally, a synthesizer combines all perspectives into one coherent, balanced verdict.",
+    q: "Hoe werkt het consensusproces?",
+    a: "Wanneer je een vraag stelt, analyseren meerdere AI-agents deze zelfstandig en geven ze antwoord. Vervolgens kun je de Debatkamer openen waar de modellen elkaars redenering in realtime uitdagen. Ten slotte combineert een synthesizer alle perspectieven tot één coherent, evenwichtig verdict.",
     icon: MessageSquare,
   },
   {
-    q: "Can I customize which AI models are in the council?",
-    a: "Yes. In the Settings panel you can choose which AI providers to include, set their roles, and even define custom system prompts for each council member — giving you full control over the deliberation logic.",
+    q: "Kan ik kiezen welke AI-modellen in de raad zitten?",
+    a: "Ja. In het instellingenpaneel kun je kiezen welke AI-providers je wilt opnemen, hun rollen instellen en zelfs aangepaste systeemprompts definiëren voor elk raadslid — zodat je volledige controle hebt over de deliberatielogica.",
     icon: Zap,
   },
   {
-    q: "What are Turns and Credits?",
-    a: "A Turn is one complete consensus session — from initial analysis through debate to final verdict. Credits are used when you bring your own API keys and want to use the FAINL orchestration layer on top of your own provider accounts.",
+    q: "Wat zijn Beurten en Credits?",
+    a: "Een Beurt is één volledige consensussessie — van initiële analyse via debat tot het eindvonnis. Credits worden gebruikt wanneer je je eigen API-sleutels meeneemt en de FAINL-orkestratielaag bovenop je eigen provideraccounts wilt gebruiken.",
     icon: HelpCircle,
   },
   {
-    q: "How is the Cookbook ranking determined?",
-    a: "Cookbook rankings are community-driven. Users upvote questions that produce especially insightful or high-value council verdicts, surfacing the most useful prompts for other users.",
+    q: "Hoe wordt de Inspiratie-ranking bepaald?",
+    a: "Inspiratie-rankings zijn door de community gestuurd. Gebruikers stemmen op vragen die bijzonder inzichtelijke of waardevolle raadsverdicts opleveren, waardoor de meest nuttige prompts voor andere gebruikers naar boven komen.",
     icon: ShieldCheck,
   },
 ];
@@ -58,71 +59,93 @@ export const FAQPage: FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-fade-in-up">
+    <div className="page-container animate-fade-in-up">
 
       {/* Header */}
-      <div className="text-center mb-10 md:mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold mb-4">
+      <div className="page-header">
+        <div className="page-badge">
           <HelpCircle className="w-3.5 h-3.5" />
-          FAQ
+          Veelgestelde vragen
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">
-          Frequently Asked Questions
-        </h1>
-        <p className="max-w-md mx-auto text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed">
-          Everything you need to know about how FAINL works, what it costs, and how your data is handled.
+        <h1 className="page-title">FAQ</h1>
+        <p className="page-sub">
+          Alles wat je moet weten over hoe FAINL werkt, wat het kost en hoe jouw gegevens worden beheerd.
         </p>
       </div>
 
-      {/* FAQ List */}
-      <div className="space-y-2.5">
-        {FAQS.map((faq, idx) => (
-          <div
-            key={idx}
-            className={`glass-card rounded-2xl overflow-hidden transition-all duration-200 ${
-              openIndex === idx ? 'card-shadow-hover' : 'card-shadow'
-            }`}
-          >
-            <button
-              onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-              className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 group"
-              aria-expanded={openIndex === idx}
-            >
-              <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                  openIndex === idx
-                    ? 'bg-zinc-900 text-white'
-                    : 'bg-zinc-100 dark:bg-white/5 text-zinc-500 dark:text-zinc-400 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-1000/10 group-hover:text-zinc-800 dark:group-hover:text-zinc-500'
-                }`}>
-                  <faq.icon className="w-4 h-4" />
-                </div>
-                <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
-                  {faq.q}
-                </h3>
-              </div>
-              <ChevronDown
-                className={`w-4 h-4 text-zinc-400 shrink-0 transition-transform duration-200 ${openIndex === idx ? 'rotate-180 text-zinc-700' : ''}`}
-              />
-            </button>
-
-            {openIndex === idx && (
-              <div className="px-5 pb-5 pt-1 animate-in slide-in-from-top-2 duration-200">
-                <div className="pl-11">
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                    {faq.a}
-                  </p>
-                </div>
-              </div>
-            )}
+      {/* Stats */}
+      <div className="stats-row">
+        {[
+          { label: 'Vragen', value: FAQS.length, icon: HelpCircle },
+          { label: 'Privacy-first', value: '100%', icon: Lock },
+          { label: 'AI-modellen', value: '10+', icon: Cpu },
+        ].map(({ label, value, icon: Icon }) => (
+          <div key={label} className="stat-card">
+            <div className="stat-icon"><Icon className="w-4 h-4" /></div>
+            <div className="stat-value" style={{ fontSize: '1.3rem' }}>{value}</div>
+            <div className="stat-label">{label}</div>
           </div>
         ))}
       </div>
 
-      {/* Footer note */}
-      <p className="mt-8 text-center text-[11px] text-zinc-400 dark:text-zinc-600 font-medium">
-        Still have questions?{' '}
-        <span className="text-zinc-800 dark:text-zinc-200 font-semibold">Reach out via the Contact page.</span>
-      </p>
+      {/* FAQ accordion */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {FAQS.map((faq, idx) => {
+          const isOpen = openIndex === idx;
+          return (
+            <div
+              key={idx}
+              className="key-card"
+              style={{
+                gap: 0,
+                overflow: 'hidden',
+                padding: 0,
+                borderColor: isOpen ? 'var(--ink-4)' : 'var(--line)',
+                transition: 'border-color 0.2s',
+              }}
+            >
+              <button
+                onClick={() => setOpenIndex(isOpen ? null : idx)}
+                className="landing-section-header"
+                aria-expanded={isOpen ? 'true' : 'false'}
+                aria-label={faq.q}
+                style={{ padding: '16px 20px', borderRadius: 0 }}
+              >
+                <div className="landing-section-icon">
+                  <faq.icon className="w-4 h-4" />
+                </div>
+                <div style={{ flex: 1, textAlign: 'left' }}>
+                  <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink)' }}>{faq.q}</div>
+                </div>
+                <ChevronDown
+                  style={{
+                    width: 16, height: 16, color: 'var(--ink-4)',
+                    transform: isOpen ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.2s',
+                    flexShrink: 0,
+                  }}
+                />
+              </button>
+
+              {isOpen && (
+                <div
+                  className="landing-section-body"
+                  style={{ borderTop: '1px solid var(--line)', borderRadius: 0, margin: 0 }}
+                >
+                  <p style={{ fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.65 }}>{faq.a}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div className="page-cta" style={{ marginTop: 24 }}>
+        <Mail className="w-7 h-7 mx-auto mb-3" style={{ color: 'var(--ink-3)' }} />
+        <h2 className="page-cta-title">Nog vragen?</h2>
+        <p className="page-cta-text">Neem contact op via de contactpagina. We reageren doorgaans binnen 12 uur.</p>
+      </div>
     </div>
   );
 };

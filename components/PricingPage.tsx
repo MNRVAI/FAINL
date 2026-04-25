@@ -1,15 +1,6 @@
 import { FC } from 'react';
-import {
-  Zap,
-  Shield,
-  Key,
-  ArrowRight,
-  Infinity as InfinityIcon,
-  CreditCard,
-  Check,
-} from 'lucide-react';
+import { Zap, Shield, Key, ArrowRight, Infinity as InfinityIcon, CreditCard, Check } from 'lucide-react';
 import { PRICING } from '../constants';
-import { ScrambleText } from './ScrambleText';
 
 interface PricingPageProps {
   hasOwnKeys: boolean;
@@ -17,154 +8,143 @@ interface PricingPageProps {
   onPurchaseCredits: (count: number) => void;
 }
 
-export const PricingPage: FC<PricingPageProps> = ({
-  hasOwnKeys,
-  onPurchaseTurns,
-  onPurchaseCredits,
-}) => {
+export const PricingPage: FC<PricingPageProps> = ({ hasOwnKeys, onPurchaseTurns, onPurchaseCredits }) => {
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-6 py-10 md:py-16 animate-fade-in-up">
+    <div className="page-container animate-fade-in-up">
 
       {/* Header */}
-      <div className="text-center mb-10 md:mb-14">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-1000/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-semibold tracking-wide mb-4">
+      <div className="page-header">
+        <div className="page-badge">
           <Zap className="w-3.5 h-3.5" />
-          Access Tiers
+          Toegangsniveaus
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight mb-3">
-          <ScrambleText text="Simple Pricing" />
-        </h1>
-        <p className="max-w-sm mx-auto text-zinc-400 dark:text-zinc-500 text-sm md:text-base leading-relaxed">
-          Choose your access tier and start deliberating with the council.
-        </p>
+        <h1 className="page-title">Transparante Prijzen</h1>
+        <p className="page-sub">Kies jouw toegangsniveau en start het debat met de AI-raad. Geen abonnementen — betaal alleen wat je gebruikt.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+      {/* Stats */}
+      <div className="stats-row">
+        {[
+          { label: 'Providers', value: '10+', icon: Zap },
+          { label: 'Verborgen kosten', value: '€0', icon: Check },
+          { label: 'Lokale opslag', value: '100%', icon: Shield },
+        ].map(({ label, value, icon: Icon }) => (
+          <div key={label} className="stat-card">
+            <div className="stat-icon"><Icon className="w-4 h-4" /></div>
+            <div className="stat-value" style={{ fontSize: '1.4rem' }}>{value}</div>
+            <div className="stat-label">{label}</div>
+          </div>
+        ))}
+      </div>
 
-        {/* Standard Turns */}
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center shadow-sm shadow-zinc-900/20">
-              <Shield className="w-4 h-4 text-white" />
-            </div>
+      {/* Two column grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20, marginBottom: 28 }}>
+
+        {/* Standaard beurten */}
+        <div className="key-card" style={{ gap: 16 }}>
+          <div className="key-card-header">
             <div>
-              <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Standard Access</h2>
-              <p className="text-[11px] text-zinc-400 dark:text-zinc-500">Full consensus turns included</p>
+              <span className="key-label">
+                <Shield className="w-4 h-4 inline mr-1.5" style={{ verticalAlign: -3 }} />
+                Standaard Toegang
+              </span>
+              <div style={{ fontSize: 11, color: 'var(--ink-4)', marginTop: 2 }}>Volledige consensussessies inbegrepen</div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {PRICING.TURNS.map((pkg, idx) => (
-              <button
-                key={idx}
-                onClick={() => onPurchaseTurns(pkg.count)}
-                className={`group relative flex flex-col items-start p-4 rounded-2xl border transition-all duration-200 text-left overflow-hidden ${
-                  pkg.count === Infinity
-                    ? 'col-span-2 sm:col-span-3 bg-gradient-to-br from-zinc-800 to-zinc-900 border-transparent text-white shadow-lg shadow-zinc-900/20 hover:shadow-zinc-900/15 hover:scale-[1.02]'
-                    : 'glass-card card-shadow hover:card-shadow-hover hover:scale-[1.02] text-zinc-900 dark:text-zinc-100'
-                }`}
-              >
-                {pkg.count === Infinity && (
-                  <div className="absolute top-2.5 right-[-2rem] bg-yellow-400 text-black px-8 py-0.5 text-[9px] font-bold uppercase tracking-wider rotate-45">
-                    Best
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+            {PRICING.TURNS.filter(p => p.count !== Infinity).map((pkg, idx) => (
+              <button key={idx} onClick={() => onPurchaseTurns(pkg.count)}
+                style={{ background: 'var(--surface-2)', border: '1px solid var(--line)', borderRadius: 'var(--r-lg)', padding: '14px 10px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.15s' }}
+                onMouseOver={e => (e.currentTarget.style.borderColor = 'var(--ink-3)')}
+                onMouseOut={e => (e.currentTarget.style.borderColor = 'var(--line)')}>
+                <div style={{ fontFamily: 'var(--f-display)', fontSize: '1.4rem', fontWeight: 700, color: 'var(--ink)' }}>{pkg.count}</div>
+                <div style={{ fontSize: 10.5, color: 'var(--ink-4)', marginBottom: 8 }}>beurten</div>
+                <div style={{ fontWeight: 700, color: 'var(--ink-2)', fontSize: 14 }}>€{pkg.price}</div>
+                <div style={{ fontSize: 10, color: 'var(--ink-4)', marginTop: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+                  Kies <ArrowRight style={{ width: 10, height: 10 }} />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Lifetime */}
+          {PRICING.TURNS.filter(p => p.count === Infinity).map((pkg, idx) => (
+            <button key={idx} onClick={() => onPurchaseTurns(pkg.count)}
+              style={{ width: '100%', background: 'var(--ink)', color: 'var(--canvas)', border: 'none', borderRadius: 'var(--r-lg)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--f-display)', fontSize: '1.1rem', fontWeight: 700 }}>
+                  <InfinityIcon style={{ width: 20, height: 20 }} /> Levenslang
+                </div>
+                <div style={{ fontSize: 11, opacity: 0.6, marginTop: 2 }}>Onbeperkt gebruik, altijd</div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>€{pkg.price}</div>
+                <div style={{ fontSize: 10, opacity: 0.5 }}>Eenmalig</div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Eigen sleutels */}
+        <div className="key-card" style={{ gap: 16 }}>
+          <div className="key-card-header">
+            <div>
+              <span className="key-label">
+                <Key className="w-4 h-4 inline mr-1.5" style={{ verticalAlign: -3 }} />
+                Eigen API-sleutels
+              </span>
+              <div style={{ fontSize: 11, color: 'var(--ink-4)', marginTop: 2 }}>1 credit = 1 volledige netwerksessie</div>
+            </div>
+          </div>
+
+          <p style={{ fontSize: 12.5, color: 'var(--ink-3)', lineHeight: 1.55 }}>
+            Gebruik jouw eigen sleutels. Betaal alleen voor de orchestratielaag — volledige controle.
+          </p>
+
+          {!hasOwnKeys && (
+            <div className="info-banner" style={{ marginBottom: 0 }}>
+              <Zap className="w-4 h-4 shrink-0" style={{ color: 'var(--ink-3)' }} />
+              <p>Voeg API-sleutels in via <strong>Instellingen</strong> om dit niveau te ontgrendelen.</p>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {PRICING.CREDITS.map((pkg, idx) => (
+              <button key={idx} onClick={() => onPurchaseCredits(pkg.count)} disabled={!hasOwnKeys}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '12px 16px', background: 'var(--surface-2)', border: '1px solid var(--line)',
+                  borderRadius: 'var(--r-md)', cursor: hasOwnKeys ? 'pointer' : 'not-allowed',
+                  opacity: hasOwnKeys ? 1 : 0.45, transition: 'all 0.15s',
+                }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div className="stat-icon" style={{ width: 30, height: 30, margin: 0, flexShrink: 0 }}>
+                    <CreditCard style={{ width: 14, height: 14 }} />
                   </div>
-                )}
-
-                {/* Subtle accent top line for regular cards */}
-                {pkg.count !== Infinity && (
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
-                )}
-
-                <div className="text-2xl font-bold mb-0.5 flex items-center gap-1.5">
-                  {pkg.count === Infinity
-                    ? <InfinityIcon className="w-6 h-6" />
-                    : pkg.count
-                  }
-                  {pkg.count !== Infinity && (
-                    <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">turns</span>
-                  )}
+                  <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink)' }}>{pkg.label}</span>
                 </div>
-
-                <div className={`text-base font-bold ${pkg.count === Infinity ? 'text-yellow-300' : 'text-zinc-800 dark:text-zinc-200'}`}>
-                  €{pkg.price}
-                </div>
-
-                <div className={`mt-3 flex items-center gap-1 text-[10px] font-semibold ${pkg.count === Infinity ? 'text-white/50' : 'text-zinc-400 dark:text-zinc-500'}`}>
-                  Select
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--ink)' }}>€{pkg.price}</span>
+                  <ArrowRight style={{ width: 14, height: 14, color: 'var(--ink-4)' }} />
                 </div>
               </button>
             ))}
           </div>
         </div>
-
-        {/* BYO API Keys */}
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-xl glass-card card-shadow flex items-center justify-center">
-              <Key className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
-            </div>
-            <div>
-              <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">BYO Experience</h2>
-              <p className="text-[11px] text-zinc-400 dark:text-zinc-500">1 credit = 1 full network turn</p>
-            </div>
-          </div>
-
-          <div className="glass-card card-shadow rounded-2xl overflow-hidden">
-            <div className="p-4 md:p-5 border-b border-zinc-100 dark:border-white/[0.06]">
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                Use your own API keys. Pay only for the orchestration layer — keep full control.
-              </p>
-              {!hasOwnKeys && (
-                <div className="mt-3 flex items-center gap-2 p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
-                  <p className="text-[11px] text-amber-700 dark:text-amber-400 font-medium">
-                    Connect API keys in Settings to unlock this tier.
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <div className="p-4 md:p-5 space-y-2.5">
-              {PRICING.CREDITS.map((pkg, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => onPurchaseCredits(pkg.count)}
-                  disabled={!hasOwnKeys}
-                  className="w-full flex items-center justify-between p-4 rounded-xl border border-zinc-100 dark:border-white/[0.06] bg-white/50 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-white/[0.05] hover:border-zinc-300 dark:hover:border-white/15 transition-all group disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-zinc-100 dark:disabled:hover:border-white/[0.06]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center">
-                      <CreditCard className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
-                    </div>
-                    <span className="font-semibold text-sm text-zinc-800 dark:text-zinc-200">{pkg.label}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-base text-zinc-900 dark:text-zinc-100">€{pkg.price}</span>
-                    <ArrowRight className="w-4 h-4 text-zinc-300 dark:text-zinc-600 group-hover:text-zinc-700 group-hover:translate-x-0.5 transition-all" />
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Value props */}
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="stats-row" style={{ marginBottom: 0 }}>
         {[
-          { icon: Shield, label: 'End-to-End Encrypted', desc: 'Your sessions and keys are stored locally only.' },
-          { icon: Zap, label: 'Multi-Provider', desc: 'Orchestrate across 10+ AI providers simultaneously.' },
-          { icon: Check, label: 'No Subscription', desc: 'Pay once, use as needed. No hidden fees.' },
+          { icon: Shield, label: 'Lokaal versleuteld', desc: 'Sessies en sleutels worden alleen lokaal opgeslagen.' },
+          { icon: Zap, label: 'Multi-Provider', desc: 'Orchestreer 10+ AI-providers tegelijk.' },
+          { icon: Check, label: 'Geen abonnement', desc: 'Betaal eenmalig. Geen verborgen kosten.' },
         ].map(({ icon: Icon, label, desc }) => (
-          <div key={label} className="glass-card card-shadow rounded-2xl p-4 flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
-              <Icon className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-0.5">{label}</p>
-              <p className="text-[11px] text-zinc-400 dark:text-zinc-500 leading-snug">{desc}</p>
-            </div>
+          <div key={label} className="stat-card" style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-start' }}>
+            <div className="stat-icon" style={{ margin: 0 }}><Icon className="w-4 h-4" /></div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink)' }}>{label}</div>
+            <div style={{ fontSize: 11, color: 'var(--ink-4)', lineHeight: 1.5 }}>{desc}</div>
           </div>
         ))}
       </div>
