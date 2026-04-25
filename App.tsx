@@ -507,34 +507,34 @@ const App: FC = () => {
     }
   }, []);
 
-  // Primary sidebar navigation
+  // Primaire sidebar navigatie
   const SidebarPrimary = [
-    { id: AppView.CHATS,   label: 'Mijn Gesprekken', icon: History },
-    { id: AppView.NODES,   label: 'Mijn AI-Nodes',   icon: Cpu },
-    { id: AppView.DEBATES, label: 'Debatkamer',       icon: Swords },
-    { id: AppView.VERDICT, label: 'Uitspraak Editor', icon: FileEdit },
+    { id: AppView.CHATS,   label: 'Gesprekken',       icon: History },
+    { id: AppView.NODES,   label: 'AI-Nodes',          icon: Cpu },
+    { id: AppView.DEBATES, label: 'Debatkamer',        icon: Swords },
+    { id: AppView.VERDICT, label: 'Uitspraak Editor',  icon: FileEdit },
   ];
 
-  // Flyout menu items (user avatar button)
+  // Flyout menu items (gebruikersavatar-knop)
   const FlyoutItems = [
-    { id: AppView.PRICING,  label: 'Prijzen',          icon: CreditCard },
-    { id: AppView.NODES,    label: 'Nodes aanmaken',   icon: Cpu },
-    { id: AppView.COOKBOOK, label: 'Inspiratie',         icon: BookOpen },
+    { id: AppView.PRICING,  label: 'Prijzen',         icon: CreditCard },
+    { id: AppView.NODES,    label: 'Nodes aanmaken',  icon: Cpu },
+    { id: AppView.COOKBOOK, label: 'Voorbeelden',     icon: BookOpen },
     { divider: true },
-    { id: AppView.FAQ,      label: 'FAQ',              icon: HelpCircle },
-    { id: AppView.CONTACT,  label: 'Contact',          icon: Mail },
+    { id: AppView.FAQ,      label: 'FAQ',             icon: HelpCircle },
+    { id: AppView.CONTACT,  label: 'Contact',         icon: Mail },
     { divider: true },
-    { id: AppView.APIKEYS,  label: 'API Sleutels',     icon: Key },
-    { id: 'signout' as AppView, label: 'Uitloggen',    icon: LogOut, action: handleLogout, hidden: !authSession },
+    { id: AppView.APIKEYS,  label: 'API-Sleutels',    icon: Key },
+    { id: 'signout' as AppView, label: 'Uitloggen',   icon: LogOut, action: handleLogout, hidden: !authSession },
   ];
 
-  // Mobile nav keeps the most-used items
+  // Mobiele navigatie
   const NavLinks = [
-    { id: AppView.HOME,    label: 'Chat',     icon: ZapIcon },
-    { id: AppView.CHATS,   label: 'Gesprekken', icon: History },
-    { id: AppView.NODES,   label: 'Nodes',    icon: Cpu },
-    { id: AppView.PRICING, label: 'Prijzen',  icon: CreditCard },
-    { id: AppView.FAQ,     label: 'FAQ',      icon: HelpCircle },
+    { id: AppView.HOME,    label: 'Chat',        icon: ZapIcon },
+    { id: AppView.CHATS,   label: 'Gesprekken',  icon: History },
+    { id: AppView.NODES,   label: 'Nodes',       icon: Cpu },
+    { id: AppView.PRICING, label: 'Prijzen',     icon: CreditCard },
+    { id: AppView.FAQ,     label: 'FAQ',         icon: HelpCircle },
   ];
 
   const renderStageIndicator = () => {
@@ -785,7 +785,7 @@ const App: FC = () => {
                     </span>
                     <button
                       className="btn-send"
-                      onClick={config.googleKey ? handleStart : () => setIsSettingsOpen(true)}
+                      onClick={config.googleKey ? () => handleStart() : () => setIsSettingsOpen(true)}
                       disabled={config.googleKey ? !input.trim() : false}
                     >
                       <Send className="send-icon" />

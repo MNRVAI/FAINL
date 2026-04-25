@@ -108,7 +108,7 @@ export const CouncilCard: FC<CouncilCardProps> = ({
           )}
           <div
             className="w-10 h-10 rounded-full overflow-hidden ring-2 transition-all duration-300"
-            style={{ ringColor: isLoading ? accentColor : 'transparent', boxShadow: isLoading ? `0 0 0 2px ${accentColor}60` : response ? '0 0 0 2px rgba(16,185,129,0.5)' : '0 0 0 1px rgba(255,255,255,0.08)' }}
+            style={{ boxShadow: isLoading ? `0 0 0 2px ${accentColor}60` : response ? '0 0 0 2px rgba(16,185,129,0.5)' : '0 0 0 1px rgba(255,255,255,0.08)' }}
           >
             <img
               src={member.avatar}

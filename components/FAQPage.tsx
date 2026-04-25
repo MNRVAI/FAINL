@@ -82,57 +82,36 @@ export const FAQPage: FC = () => {
         ].map(({ label, value, icon: Icon }) => (
           <div key={label} className="stat-card">
             <div className="stat-icon"><Icon className="w-4 h-4" /></div>
-            <div className="stat-value" style={{ fontSize: '1.3rem' }}>{value}</div>
+            <div className="stat-value">{value}</div>
             <div className="stat-label">{label}</div>
           </div>
         ))}
       </div>
 
       {/* FAQ accordion */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div className="faq-list">
         {FAQS.map((faq, idx) => {
           const isOpen = openIndex === idx;
           return (
-            <div
-              key={idx}
-              className="key-card"
-              style={{
-                gap: 0,
-                overflow: 'hidden',
-                padding: 0,
-                borderColor: isOpen ? 'var(--ink-4)' : 'var(--line)',
-                transition: 'border-color 0.2s',
-              }}
-            >
+            <div key={idx} className={`key-card faq-item ${isOpen ? 'faq-item--open' : ''}`}>
               <button
                 onClick={() => setOpenIndex(isOpen ? null : idx)}
-                className="landing-section-header"
+                className="landing-section-header faq-trigger"
                 aria-expanded={isOpen ? 'true' : 'false'}
                 aria-label={faq.q}
-                style={{ padding: '16px 20px', borderRadius: 0 }}
               >
                 <div className="landing-section-icon">
                   <faq.icon className="w-4 h-4" />
                 </div>
-                <div style={{ flex: 1, textAlign: 'left' }}>
-                  <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink)' }}>{faq.q}</div>
+                <div className="faq-question-text">
+                  <div className="faq-q">{faq.q}</div>
                 </div>
-                <ChevronDown
-                  style={{
-                    width: 16, height: 16, color: 'var(--ink-4)',
-                    transform: isOpen ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.2s',
-                    flexShrink: 0,
-                  }}
-                />
+                <ChevronDown className={`faq-chevron ${isOpen ? 'faq-chevron--open' : ''}`} />
               </button>
 
               {isOpen && (
-                <div
-                  className="landing-section-body"
-                  style={{ borderTop: '1px solid var(--line)', borderRadius: 0, margin: 0 }}
-                >
-                  <p style={{ fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.65 }}>{faq.a}</p>
+                <div className="landing-section-body faq-answer">
+                  <p className="faq-answer-text">{faq.a}</p>
                 </div>
               )}
             </div>
@@ -141,8 +120,8 @@ export const FAQPage: FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="page-cta" style={{ marginTop: 24 }}>
-        <Mail className="w-7 h-7 mx-auto mb-3" style={{ color: 'var(--ink-3)' }} />
+      <div className="page-cta faq-cta">
+        <Mail className="w-7 h-7 mx-auto mb-3 faq-mail-icon" />
         <h2 className="page-cta-title">Nog vragen?</h2>
         <p className="page-cta-text">Neem contact op via de contactpagina. We reageren doorgaans binnen 12 uur.</p>
       </div>

@@ -1472,6 +1472,7 @@ a:hover { opacity: 0.7; }
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.5);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 .cookie-banner {
@@ -1749,8 +1750,8 @@ a:hover { opacity: 0.7; }
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
 .login-gate-card {
@@ -1817,6 +1818,7 @@ a:hover { opacity: 0.7; }
   font-weight: 500;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1993,8 +1995,8 @@ a:hover { opacity: 0.7; }
 .sm-backdrop {
   position: absolute; inset: 0;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 .sm-shell {
   position: relative;
@@ -2169,7 +2171,9 @@ a:hover { opacity: 0.7; }
   box-sizing: border-box;
 }
 .sm-input:focus { border-color: #111; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); background: #fff; }
-.sm-input::placeholder { color: #ccc; }
+.sm-input::placeholder { color: #999; }
+.sm-input.sm-mono::placeholder { color: #aaa; font-style: italic; }
+.sm-textarea::placeholder { color: #999; }
 .sm-mono { font-family: monospace; font-size: 12px; }
 
 .sm-select {
@@ -2319,3 +2323,53 @@ a:hover { opacity: 0.7; }
 /* Emoji avatar fallback */
 .sm-avatar-emoji { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:28px; line-height:1; }
 
+
+/* -- FAQ page classes (replaces inline styles) ------------------- */
+.faq-list { display: flex; flex-direction: column; gap: 10px; }
+.faq-item { gap: 0; overflow: hidden; padding: 0; transition: border-color 0.2s; }
+.faq-item--open { border-color: var(--ink-4); }
+.faq-trigger { padding: 16px 20px; border-radius: 0; }
+.faq-question-text { flex: 1; text-align: left; }
+.faq-q { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.faq-chevron { width: 16px; height: 16px; color: var(--ink-4); transition: transform 0.2s; flex-shrink: 0; }
+.faq-chevron--open { transform: rotate(180deg); }
+.faq-answer { border-top: 1px solid var(--line); border-radius: 0; margin: 0; }
+.faq-answer-text { font-size: 13px; color: var(--ink-3); line-height: 1.65; }
+.faq-cta { margin-top: 24px; }
+.stat-value { font-size: 1.3rem; }
+.faq-mail-icon { color: var(--ink-3); }
+
+
+/* -- Centrale UI config verbeteringen ---------------------------- */
+/* Verbeterde placeholder contrast conform WCAG AA */
+.sm-input::placeholder { color: #999; }
+.sm-input.sm-mono::placeholder { color: #aaa; font-style: italic; }
+.sm-textarea::placeholder { color: #999; }
+.sm-select option[value=''][disabled] { color: #aaa; }
+
+/* Node naam: volledige input breedte */
+.sm-member-fields .sm-input { width: 100%; }
+
+/* Preset select: zelfde hoogte als sm-select */
+.sm-member-fields .sm-select { height: 38px; }
+
+/* Avatar emoji: scherp centreren */
+.sm-avatar-emoji {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; line-height: 1; user-select: none;
+}
+
+/* sm-member-card grid: correct 4-koloms layout */
+.sm-member-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-content: start;
+  flex: 1;
+}
+
+/* Sidebar collapse: smooth icon-only mode */
+.sidebar.collapsed .sidebar-nav-label { opacity: 0; max-width: 0; overflow: hidden; white-space: nowrap; }
+.sidebar.collapsed .sidebar-nav-item { justify-content: center; padding: 10px; }
+.sidebar.collapsed .sidebar-section-label { display: none; }

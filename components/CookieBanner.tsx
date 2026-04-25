@@ -59,7 +59,7 @@ export const CookieBanner: FC<Props> = ({ onAcceptAll, onRejectAll, onSavePrefer
             <button
               className="cookie-prefs-toggle"
               onClick={() => setExpanded(e => !e)}
-              aria-expanded={expanded}
+              aria-expanded={expanded ? 'true' : 'false'}
               aria-controls="cookie-prefs-detail"
             >
               <span>Cookievoorkeuren</span>
@@ -92,7 +92,7 @@ export const CookieBanner: FC<Props> = ({ onAcceptAll, onRejectAll, onSavePrefer
                   </div>
                   <button
                     role="switch"
-                    aria-checked={analytics}
+                    aria-checked={analytics ? 'true' : 'false'}
                     aria-label="Analysecookies in-/uitschakelen"
                     className={`cookie-toggle ${analytics ? 'cookie-toggle--on' : ''}`}
                     onClick={() => setAnalytics(a => !a)}
@@ -109,7 +109,7 @@ export const CookieBanner: FC<Props> = ({ onAcceptAll, onRejectAll, onSavePrefer
                   </div>
                   <button
                     role="switch"
-                    aria-checked={marketing}
+                    aria-checked={marketing ? 'true' : 'false'}
                     aria-label="Marketingcookies in-/uitschakelen"
                     className={`cookie-toggle ${marketing ? 'cookie-toggle--on' : ''}`}
                     onClick={() => setMarketing(m => !m)}
