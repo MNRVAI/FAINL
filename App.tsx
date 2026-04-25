@@ -62,6 +62,8 @@ import { Session } from '@supabase/supabase-js';
 import { ScrambleText } from './components/ScrambleText';
 
 import { WelcomePopup } from './components/WelcomePopup';
+import { CookieBanner } from './components/CookieBanner';
+import { OnboardingCard } from './components/OnboardingCard';
 
 
 const FadingPlaceholder: FC<{ isFocused: boolean }> = ({ isFocused }: { isFocused: boolean }) => {
@@ -209,15 +211,32 @@ const App: FC = () => {
   const [input, setInput] = useState('');
   const [isDebateOpen, setIsDebateOpen] = useState(false);
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
-  const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => {
-    const seen = localStorage.getItem('fainl_visited');
-    if (!seen) {
-      // Delay popup slightly so page loads first
-      setTimeout(() => {}, 0);
-      return true;
+
+  // ── Cookie consent ──────────────────────────────────────────────
+  const [cookieConsent, setCookieConsent] = useState<{
+    given: boolean;
+    functional: boolean;
+    analytics: boolean;
+    marketing: boolean;
+  }>(() => {
+    const saved = localStorage.getItem('fainl_cookie_consent');
+    if (saved) {
+      try { return { given: true, ...JSON.parse(saved) }; } catch { /* fallthrough */ }
     }
-    return false;
+    return { given: false, functional: false, analytics: false, marketing: false };
   });
+
+  const saveConsent = (functional: boolean, analytics: boolean, marketing: boolean) => {
+    const data = { functional, analytics, marketing };
+    localStorage.setItem('fainl_cookie_consent', JSON.stringify(data));
+    setCookieConsent({ given: true, ...data });
+  };
+
+  // ── Onboarding (shown after 2nd completed query) ─────────────────
+  const [queryCount, setQueryCount] = useState(
+    () => parseInt(localStorage.getItem('fainl_query_count') || '0', 10)
+  );
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   
   const [session, setSession] = useState<SessionState>({
     id: crypto.randomUUID(),
@@ -279,6 +298,16 @@ const App: FC = () => {
       debateMessages: [],
       reviews: [],
       synthesis: ''
+    });
+
+    // Increment query counter — show onboarding after 2nd query
+    setQueryCount(prev => {
+      const next = prev + 1;
+      localStorage.setItem('fainl_query_count', String(next));
+      if (next === 2 && localStorage.getItem('fainl_onboarding_seen') !== '1') {
+        setTimeout(() => setIsOnboardingOpen(true), 1800);
+      }
+      return next;
     });
 
     try {
@@ -932,11 +961,28 @@ const App: FC = () => {
         onImportHistory={setHistory}
         onVerifyKey={(provider: ModelProvider, key: string) => councilService.current.verifyProviderKey(provider, key)}
       />
-      {isWelcomeOpen && (
-        <WelcomePopup onClose={() => {
-          localStorage.setItem('fainl_visited', '1');
-          setIsWelcomeOpen(false);
-        }} />
+      {/* ══ COOKIE BANNER ══════════════════════════════════════════════════ */}
+      {!cookieConsent.given && (
+        <CookieBanner
+          onAcceptAll={c => saveConsent(c.functional, c.analytics, c.marketing)}
+          onRejectAll={c => saveConsent(c.functional, false, false)}
+          onSavePreferences={c => saveConsent(c.functional, c.analytics, c.marketing)}
+        />
+      )}
+
+      {/* ══ ONBOARDING CARD (after 2nd query) ══════════════════════════════ */}
+      {isOnboardingOpen && cookieConsent.given && (
+        <OnboardingCard
+          onDismiss={() => {
+            localStorage.setItem('fainl_onboarding_seen', '1');
+            setIsOnboardingOpen(false);
+          }}
+          onNavigate={view => {
+            setCurrentView(view as AppView);
+            localStorage.setItem('fainl_onboarding_seen', '1');
+            setIsOnboardingOpen(false);
+          }}
+        />
       )}
     </div>
   );

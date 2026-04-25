@@ -204,8 +204,8 @@ a:hover { opacity: 0.7; }
   top: 50%; 
   right: -8px;
   transform: translateY(-50%);
-  width: 50px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: transparent;
   border: 1px solid var(--sidebar-line);
@@ -223,8 +223,8 @@ a:hover { opacity: 0.7; }
   color: #ffffff;
 }
 .sidebar-toggle-btn svg {
-  width: 52px;
-  height: 52px;
+  width: 12px;
+  height: 12px;
   transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar.collapsed .sidebar-toggle-btn svg {
@@ -241,8 +241,8 @@ a:hover { opacity: 0.7; }
   left: calc(var(--sb-w-collapsed) - 4px);
   top: 50%;
   transform: translateY(-50%);
-  background: rgb(255, 255, 255);
-  color: rgb(255, 255, 255);
+  background: #1c1c1c;
+  color: #ffffff;
   font-size: 12px;
   font-family: var(--f-ui);
   font-weight: 500;
@@ -289,8 +289,8 @@ a:hover { opacity: 0.7; }
   font-family: var(--f-display);
   font-weight: 700;
   font-size: 16px;
-  color: rgb(116, 112, 112)
-  letter-spacing -0.02em;
+  color: rgb(116, 112, 112);
+  letter-spacing: -0.02em;
 }
 
 .sidebar-nav {
@@ -1454,3 +1454,279 @@ a:hover { opacity: 0.7; }
 .debate-tile-btn { text-align: left; cursor: pointer; }
 .debate-cta-btn { margin: 12px auto 0; display: flex; }
 .debate-empty-icon { color: var(--ink-3); }
+
+/* ---------------------------------------------------------------------------
+   COOKIE BANNER
+   --------------------------------------------------------------------------- */
+
+.cookie-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 16px 24px;
+}
+.cookie-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+}
+.cookie-banner {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+  max-width: 680px;
+  width: 100%;
+  overflow: hidden;
+  animation: cookie-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes cookie-slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cookie-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.cookie-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.cookie-icon { width: 18px; height: 18px; color: #111; }
+.cookie-title { font-family: var(--f-display); font-size: 16px; font-weight: 700; color: #111; margin-bottom: 3px; letter-spacing: -0.01em; }
+.cookie-sub   { font-size: 13px; color: #666; line-height: 1.5; }
+.cookie-body  { padding: 16px 24px; }
+.cookie-desc  { font-size: 13.5px; color: #444; line-height: 1.65; margin-bottom: 14px; }
+.cookie-link  { background: none; border: none; padding: 0; color: #111; font-size: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.cookie-link:hover { color: #333; }
+
+/* Preferences accordion */
+.cookie-prefs { border: 1px solid #ebebeb; border-radius: 10px; overflow: hidden; }
+.cookie-prefs-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  background: #fafafa;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  font-family: var(--f-ui);
+  transition: background 0.12s;
+}
+.cookie-prefs-toggle:hover { background: #f0f0f0; }
+.cookie-chevron { width: 14px; height: 14px; color: #888; }
+.cookie-prefs-detail { border-top: 1px solid #ebebeb; }
+.cookie-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  border-bottom: 1px solid #f5f5f5;
+}
+.cookie-category:last-child { border-bottom: none; }
+.cookie-category-info { flex: 1; }
+.cookie-category-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 3px;
+}
+.cookie-category-icon { width: 12px; height: 12px; color: #555; }
+.cookie-category-desc { font-size: 11.5px; color: #888; line-height: 1.5; }
+
+/* Toggle switch */
+.cookie-toggle {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: #d0d0d0;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.cookie-toggle::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: left 0.2s;
+}
+.cookie-toggle--on { background: #111; }
+.cookie-toggle--on::after { left: 18px; }
+.cookie-toggle--disabled { cursor: not-allowed; opacity: 0.6; }
+
+/* Footer */
+.cookie-footer {
+  padding: 14px 24px 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cookie-links { display: flex; gap: 16px; }
+.cookie-policy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.12s;
+}
+.cookie-policy-link:hover { color: #111; }
+.cookie-ext-icon { width: 10px; height: 10px; }
+.cookie-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cookie-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--f-ui);
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+.cookie-btn--ghost { background: transparent; color: #777; border: 1px solid #e0e0e0; }
+.cookie-btn--ghost:hover { background: #f5f5f5; color: #333; }
+.cookie-btn--secondary { background: #f0f0f0; color: #333; }
+.cookie-btn--secondary:hover { background: #e0e0e0; }
+.cookie-btn--primary { background: #111; color: #fff; }
+.cookie-btn--primary:hover { background: #333; }
+
+@media (max-width: 600px) {
+  .cookie-footer { flex-direction: column; align-items: stretch; }
+  .cookie-actions { flex-direction: column; }
+  .cookie-btn { width: 100%; text-align: center; }
+}
+
+/* ---------------------------------------------------------------------------
+   ONBOARDING CARD  (appears after 2nd query, bottom-right corner)
+   --------------------------------------------------------------------------- */
+
+.onboarding-card {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 500;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 22px 18px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.06);
+  border: 1px solid #ebebeb;
+  animation: onboarding-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.onboarding-card--exit {
+  animation: onboarding-out 0.25s ease forwards;
+}
+@keyframes onboarding-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes onboarding-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(20px) scale(0.95); }
+}
+.onboarding-dismiss {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #888;
+  transition: background 0.12s, color 0.12s;
+}
+.onboarding-dismiss:hover { background: #e8e8e8; color: #111; }
+.onboarding-dismiss svg { width: 12px; height: 12px; }
+.onboarding-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f5f5f5;
+  color: #555;
+  font-size: 10.5px;
+  font-weight: 600;
+  font-family: var(--f-ui);
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.onboarding-pill-icon { width: 10px; height: 10px; }
+.onboarding-icon-circle {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+}
+.onboarding-icon { width: 20px; height: 20px; color: #111; }
+.onboarding-title { font-family: var(--f-display); font-size: 15px; font-weight: 700; color: #111; margin-bottom: 6px; letter-spacing: -0.01em; }
+.onboarding-body  { font-size: 12.5px; color: #666; line-height: 1.6; margin-bottom: 16px; }
+.onboarding-dots  { display: flex; gap: 5px; margin-bottom: 16px; }
+.onboarding-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #ddd;
+  border: none; cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, width 0.2s;
+}
+.onboarding-dot--active { background: #111; width: 18px; border-radius: 3px; }
+.onboarding-actions { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.onboarding-btn-secondary {
+  padding: 7px 13px; border-radius: 7px; border: 1px solid #e0e0e0;
+  background: transparent; color: #555; font-size: 12px; font-weight: 600;
+  font-family: var(--f-ui); cursor: pointer; transition: background 0.12s;
+}
+.onboarding-btn-secondary:hover { background: #f5f5f5; }
+.onboarding-btn-primary {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 7px;
+  background: #111; color: #fff;
+  font-size: 12px; font-weight: 600;
+  font-family: var(--f-ui); border: none; cursor: pointer;
+  transition: background 0.15s;
+}
+.onboarding-btn-primary:hover { background: #333; }
+.onboarding-arrow { width: 12px; height: 12px; }
+
+@media (max-width: 1023px) {
+  .onboarding-card { bottom: 80px; right: 12px; left: 12px; width: auto; }
+}
