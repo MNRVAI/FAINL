@@ -62,7 +62,7 @@ export const CookbookPage: FC<CookbookPageProps> = ({ onSelectMission }) => {
           { label: 'Vragen', value: DIRECTIVES.length, icon: Book },
           { label: 'Zichtbaar', value: filteredDirectives.length, icon: LayoutGrid },
           { label: 'Categorieën', value: categories.length - 1, icon: Layers },
-        ]}.map(({ label, value, icon: Icon }) => (
+        ].map(({ label, value, icon: Icon }) => (
           <div key={label} className="stat-card">
             <div className="stat-icon"><Icon className="w-4 h-4" /></div>
             <div className="stat-value">{value}</div>

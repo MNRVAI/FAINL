@@ -136,19 +136,13 @@ export const PRESETS = [
   }
 ];
 
-export const PRICING = {
-  TURNS: [
-    { count: 10, price: 19.99, label: "Starter Pack" },
-    { count: 30, price: 49.99, label: "Pro Pack" },
-    { count: 100, price: 149.99, label: "Expert Pack" },
-    { count: Infinity, price: 499.99, label: "LIFETIME UNLIMITED" }
-  ],
-  CREDITS: [
-    { count: 25, price: 14.99, label: "Lite Sync" },
-    { count: 100, price: 49.99, label: "Standard Sync" },
-    { count: 250, price: 99.99, label: "Enterprise Sync" }
-  ]
-};
+export const TOKEN_PACKAGES = [
+  { tokens: 1,  price: '1,99',  stripeUrl: 'https://buy.stripe.com/5kQ00c7Ge5RN4tjdau7Re0i' },
+  { tokens: 3,  price: '5,49',  stripeUrl: 'https://buy.stripe.com/5kQ8wI9Om1Bx4tjdau7Re0j' },
+  { tokens: 5,  price: '8,49',  stripeUrl: 'https://buy.stripe.com/7sY28kf8Gcgb5xn4DY7Re0k' },
+  { tokens: 10, price: '15,99', stripeUrl: 'https://buy.stripe.com/eVq9AMbWubc79ND1rM7Re0l' },
+  { tokens: 15, price: '22,49', stripeUrl: 'https://buy.stripe.com/14AfZa6Ca5RN6Br5I27Re0m' },
+];
 
 export const USAGE_LIMITS = {
   FREE_TURNS: 1,

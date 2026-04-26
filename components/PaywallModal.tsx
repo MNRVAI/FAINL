@@ -1,33 +1,13 @@
 import { FC } from 'react';
-import {
-  Zap,
-  Shield,
-  Check,
-  X,
-  CreditCard,
-  Infinity as InfinityIcon,
-  Key,
-  Loader2,
-} from 'lucide-react';
-import { PRICING } from '../constants';
+import { Coins, X, ArrowRight } from 'lucide-react';
+import { TOKEN_PACKAGES } from '../constants';
 
 interface PaywallModalProps {
   isOpen: boolean;
-  hasOwnKeys: boolean;
-  isLoading?: boolean;
-  onPurchaseTurns: (count: number) => void;
-  onPurchaseCredits: (count: number) => void;
   onClose: () => void;
 }
 
-export const PaywallModal: FC<PaywallModalProps> = ({
-  isOpen,
-  hasOwnKeys,
-  isLoading,
-  onPurchaseTurns,
-  onPurchaseCredits,
-  onClose,
-}) => {
+export const PaywallModal: FC<PaywallModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
@@ -41,17 +21,17 @@ export const PaywallModal: FC<PaywallModalProps> = ({
         <div className="flex items-center justify-between p-5 md:p-6 border-b border-zinc-100 dark:border-white/[0.06]">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center shadow-sm shadow-zinc-900/20">
-              <Shield className="w-4.5 h-4.5 text-white" />
+              <Coins className="w-4.5 h-4.5 text-white" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Access Required</h2>
-              <p className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">Unlock the full FAINL consensus engine</p>
+              <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Tokens Nodig</h2>
+              <p className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">Koop tokens om verder te gaan</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            title="Close"
-            aria-label="Close paywall"
+            title="Sluiten"
+            aria-label="Paywall sluiten"
             className="w-7 h-7 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/15 transition-all"
           >
             <X className="w-3.5 h-3.5" />
@@ -59,105 +39,82 @@ export const PaywallModal: FC<PaywallModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-5 md:p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-            {/* Turns Section */}
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Zap className="w-4 h-4 text-zinc-700" />
-                <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Standard Turns</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                {PRICING.TURNS.map((pkg, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => onPurchaseTurns(pkg.count)}
-                    disabled={isLoading}
-                    className={`relative flex flex-col items-start p-4 rounded-2xl border transition-all duration-200 text-left overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] ${
-                      pkg.count === Infinity
-                        ? 'col-span-2 bg-gradient-to-br from-zinc-800 to-zinc-900 border-transparent text-white shadow-md shadow-zinc-900/20'
-                        : 'border-zinc-100 dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03] hover:border-zinc-300 dark:hover:border-white/15'
-                    }`}
-                  >
-                    {pkg.count === Infinity && (
-                      <div className="absolute top-2 right-[-2rem] bg-yellow-400 text-black px-8 py-0.5 text-[9px] font-bold uppercase tracking-wider rotate-45">
-                        Best
-                      </div>
-                    )}
-                    <div className={`text-xl font-bold mb-0.5 ${pkg.count === Infinity ? 'text-white' : 'text-zinc-900 dark:text-zinc-100'}`}>
-                      {pkg.count === Infinity ? <InfinityIcon className="w-5 h-5" /> : pkg.count}
-                      {pkg.count !== Infinity && <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500 ml-1">turns</span>}
-                    </div>
-                    <div className={`text-base font-bold ${pkg.count === Infinity ? 'text-yellow-300' : 'text-zinc-800 dark:text-zinc-200'}`}>
-                      €{pkg.price}
-                    </div>
-                    {isLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/40 dark:bg-black/40">
-                        <Loader2 className="w-4 h-4 animate-spin text-zinc-700" />
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Credits Section */}
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Key className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-                <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">BYO Credits</h3>
-              </div>
-
-              {!hasOwnKeys && (
-                <div className="mb-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20 flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
-                  <p className="text-[11px] text-amber-700 dark:text-amber-400 font-medium leading-snug">
-                    Connect API keys in Settings to unlock credit billing.
-                  </p>
+        <div className="flex-1 overflow-y-auto p-5 md:p-6">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+            gap: 12,
+          }}>
+            {TOKEN_PACKAGES.map((pkg) => (
+              <a
+                key={pkg.tokens}
+                href={pkg.stripeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '20px 12px 16px',
+                  background: 'var(--surface-2)',
+                  border: '1px solid var(--line)',
+                  borderRadius: 'var(--r-lg)',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseOver={e => {
+                  e.currentTarget.style.borderColor = 'var(--ink-3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseOut={e => {
+                  e.currentTarget.style.borderColor = 'var(--line)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                <div style={{
+                  fontFamily: 'var(--f-display)',
+                  fontSize: '2.4rem',
+                  fontWeight: 900,
+                  lineHeight: 1,
+                  color: 'var(--ink)',
+                  letterSpacing: '-0.03em',
+                }}>
+                  {pkg.tokens}
                 </div>
-              )}
-
-              <div className="space-y-2">
-                {PRICING.CREDITS.map((pkg, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => onPurchaseCredits(pkg.count)}
-                    disabled={!hasOwnKeys || isLoading}
-                    className="w-full flex items-center justify-between p-3.5 rounded-xl border border-zinc-100 dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03] hover:border-zinc-300 dark:hover:border-white/15 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-zinc-100 group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center">
-                        <CreditCard className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
-                      </div>
-                      <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">{pkg.label}</span>
-                    </div>
-                    <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">€{pkg.price}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Value Props */}
-          <div className="flex flex-wrap gap-3">
-            {['Multi-Node Consensus', 'Local Encryption', 'No Subscription'].map(label => (
-              <div key={label} className="flex items-center gap-1.5 text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
-                {label}
-              </div>
+                <div style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.12em',
+                  color: 'var(--ink-3)',
+                }}>
+                  {pkg.tokens === 1 ? 'TOKEN' : 'TOKENS'}
+                </div>
+                <div style={{ width: '100%', height: 1, background: 'var(--line)', margin: '2px 0' }} />
+                <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--ink)' }}>
+                  €{pkg.price}
+                </div>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 3,
+                  fontSize: 10, fontWeight: 600, color: 'var(--ink-3)',
+                }}>
+                  Kopen <ArrowRight style={{ width: 10, height: 10 }} />
+                </div>
+              </a>
             ))}
           </div>
         </div>
 
         {/* Footer */}
         <div className="p-4 md:p-5 border-t border-zinc-100 dark:border-white/[0.06] flex items-center justify-between gap-4">
-          <p className="text-[11px] text-zinc-400 dark:text-zinc-600">Secure checkout · End-to-end encrypted</p>
+          <p className="text-[11px] text-zinc-400 dark:text-zinc-600">Veilig afrekenen via Stripe</p>
           <button
             onClick={onClose}
             className="px-5 py-2 rounded-xl text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/10 transition-all"
           >
-            Maybe later
+            Later
           </button>
         </div>
       </div>
