@@ -1,11 +1,11 @@
 
 import { useState, useRef, useEffect, useCallback, FC } from 'react';
-import { 
-  Send, 
-  Settings as SettingsIcon, 
-  Users, 
-  MessageSquare, 
-  Gavel, 
+import {
+  Send,
+  Settings as SettingsIcon,
+  Users,
+  MessageSquare,
+  Gavel,
   Sparkles,
   ArrowRight,
   Loader2,
@@ -13,26 +13,7 @@ import {
   AlertTriangle,
   Lock,
   Globe,
-  CircleCheck
-} from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import { DEFAULT_COUNCIL, DEFAULT_CHAIRMAN, USAGE_LIMITS } from './constants';
-import { CouncilResponse, PeerReview, WorkflowStage, SessionState, AppConfig, ModelProvider, AppView } from './types';
-import { UnifiedCouncilService } from './services/councilService';
-import { SettingsModal } from './components/SettingsModal';
-import { CouncilCard } from './components/CouncilCard';
-import { PaywallModal } from './components/PaywallModal';
-import { PricingPage } from './components/PricingPage';
-import { AccountPage } from './components/AccountPage';
-import { CookbookPage } from './components/CookbookPage';
-import { FAQPage } from './components/FAQPage';
-import { ContactPage } from './components/ContactPage';
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { TermsOfServicePage } from './components/TermsOfServicePage';
-import { DebateRoom } from './components/DebateRoom';
-import { NodesPage } from './components/NodesPage';
-import { ApiKeysPage } from './components/ApiKeysPage';
-import { 
+  CircleCheck,
   Menu,
   X as CloseIcon,
   LayoutDashboard,
@@ -56,6 +37,23 @@ import {
   ChevronLeft,
   LogOut
 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import { DEFAULT_COUNCIL, DEFAULT_CHAIRMAN, USAGE_LIMITS } from './constants';
+import { CouncilResponse, PeerReview, WorkflowStage, SessionState, AppConfig, ModelProvider, AppView } from './types';
+import { UnifiedCouncilService } from './services/councilService';
+import { SettingsModal } from './components/SettingsModal';
+import { CouncilCard } from './components/CouncilCard';
+import { PaywallModal } from './components/PaywallModal';
+import { PricingPage } from './components/PricingPage';
+import { AccountPage } from './components/AccountPage';
+import { CookbookPage } from './components/CookbookPage';
+import { FAQPage } from './components/FAQPage';
+import { ContactPage } from './components/ContactPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/TermsOfServicePage';
+import { DebateRoom } from './components/DebateRoom';
+import { NodesPage } from './components/NodesPage';
+import { ApiKeysPage } from './components/ApiKeysPage';
 import { supabase } from './services/supabaseClient';
 
 import { LoginPage } from './components/LoginPage';
@@ -137,6 +135,7 @@ const App: FC = () => {
       turnsUsed: 0,
       creditsRemaining: 0,
       isLifetime: false,
+      totalTurnsAllowed: 0,
     };
   });
 
@@ -431,49 +430,6 @@ const App: FC = () => {
     }));
   };
 
-
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const stripeSessionId = params.get('stripe_session_id');
-
-    if (stripeSessionId) {
-      // Verify the Stripe payment via edge function
-      (async () => {
-        try {
-          const { data, error } = await supabase.functions.invoke('verify-payment', {
-            body: { sessionId: stripeSessionId },
-          });
-
-          if (error) throw error;
-
-          if (data?.paid) {
-            const type = data.metadata?.type || params.get('type');
-            const countStr = data.metadata?.count || params.get('count');
-            const count = countStr === 'infinity' ? Infinity : parseInt(countStr || '0', 10);
-
-            if (type === 'turns') {
-              setConfig(prev => ({
-                ...prev,
-                isLifetime: count === Infinity ? true : prev.isLifetime,
-                totalTurnsAllowed: count === Infinity ? prev.totalTurnsAllowed : prev.totalTurnsAllowed + count,
-              }));
-            } else if (type === 'credits') {
-              setConfig(prev => ({
-                ...prev,
-                creditsRemaining: prev.creditsRemaining + (count as number),
-              }));
-            }
-          }
-        } catch (err) {
-          console.error('Payment verification failed:', err);
-        }
-
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      })();
-    }
-  }, []);
 
   // Primaire sidebar navigatie
   const SidebarPrimary = [
