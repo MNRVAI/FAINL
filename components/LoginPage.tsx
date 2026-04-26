@@ -55,11 +55,11 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
         {/* Card */}
         <div className="glass-card card-shadow rounded-2xl overflow-hidden">
           {/* Top accent */}
-          <div className="h-px bg-gradient-to-r from-transparent via-zinc-500/20 to-transparent" />
+          <div className="h-px bg-linear-to-r from-transparent via-zinc-500/20 to-transparent" />
 
           {/* Header */}
           <div className="p-7 pb-6 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-zinc-900/15">
+            <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-zinc-800 to-zinc-900 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-zinc-900/15">
               <Shield className="text-white w-6 h-6" />
             </div>
             <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
@@ -104,9 +104,9 @@ export const LoginPage: FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
           {/* Divider */}
           <div className="px-5 pb-4 flex items-center gap-3">
-            <div className="h-px flex-1 bg-zinc-100 dark:bg-white/[0.06]" />
+            <div className="h-px flex-1 bg-zinc-100 dark:bg-white/6" />
             <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-600">or</span>
-            <div className="h-px flex-1 bg-zinc-100 dark:bg-white/[0.06]" />
+            <div className="h-px flex-1 bg-zinc-100 dark:bg-white/6" />
           </div>
 
           {/* Email Form */}

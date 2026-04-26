@@ -59,7 +59,7 @@ export const NODE_ROLE_PRESETS = [
 
 // ── Provider kleurmapping ──────────────────────────────────────────────────────
 export const PROVIDER_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  'Google (Direct)':            { bg: '#e8f5e9', text: '#2e7d32', border: '#a5d6a7' },
+  'Google':                     { bg: '#e8f5e9', text: '#2e7d32', border: '#a5d6a7' },
   'OpenAI':                     { bg: '#e3f2fd', text: '#1565c0', border: '#90caf9' },
   'Anthropic':                  { bg: '#fce4ec', text: '#880e4f', border: '#f48fb1' },
   'Groq':                       { bg: '#fff3e0', text: '#e65100', border: '#ffcc80' },

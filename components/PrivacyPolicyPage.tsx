@@ -24,7 +24,7 @@ export const PrivacyPolicyPage: FC = () => {
       <div className="space-y-4">
 
         <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-zinc-400/15 to-transparent" />
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
               <Eye className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
@@ -37,7 +37,7 @@ export const PrivacyPolicyPage: FC = () => {
         </div>
 
         <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-zinc-400/15 to-transparent" />
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
               <Server className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
@@ -64,7 +64,7 @@ export const PrivacyPolicyPage: FC = () => {
         </div>
 
         <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-zinc-400/15 to-transparent" />
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
               <Cpu className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
@@ -91,7 +91,7 @@ export const PrivacyPolicyPage: FC = () => {
         </div>
 
         <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-zinc-400/15 to-transparent" />
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
               <Lock className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
@@ -114,7 +114,7 @@ export const PrivacyPolicyPage: FC = () => {
         </div>
 
         <div className="glass-card card-shadow rounded-2xl p-6 md:p-7 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-zinc-400/15 to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-zinc-400/15 to-transparent" />
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-zinc-1000/10 flex items-center justify-center shrink-0">
               <Globe className="w-4 h-4 text-zinc-800 dark:text-zinc-200" />
