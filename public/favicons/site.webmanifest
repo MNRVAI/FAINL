@@ -1,0 +1,27 @@
+{
+  "name": "FAINL — Multi-Agent AI Consensus Engine",
+  "short_name": "FAINL",
+  "description": "Meerdere AI-modellen beraadslagen, debatteren en leveren één gezaghebbend oordeel.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080812",
+  "theme_color": "#080812",
+  "icons": [
+    {
+      "src": "/favicons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
