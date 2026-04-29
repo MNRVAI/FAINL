@@ -983,6 +983,7 @@ const App: FC = () => {
       <PaywallModal
         isOpen={isPaywallOpen}
         onClose={() => setIsPaywallOpen(false)}
+        userEmail={authSession?.user?.email}
       />
       <SettingsModal
         isOpen={isSettingsOpen}
