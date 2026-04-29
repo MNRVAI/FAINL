@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect, useCallback, FC } from 'react';
+import { useState, useRef, useEffect, useCallback, FC, lazy, Suspense } from 'react';
 import {
   Send,
   Settings as SettingsIcon,
@@ -41,29 +41,39 @@ import ReactMarkdown from 'react-markdown';
 import { DEFAULT_COUNCIL, DEFAULT_CHAIRMAN, USAGE_LIMITS } from './constants';
 import { CouncilResponse, PeerReview, WorkflowStage, SessionState, AppConfig, ModelProvider, AppView } from './types';
 import { UnifiedCouncilService } from './services/councilService';
-import { SettingsModal } from './components/SettingsModal';
-import { CouncilCard } from './components/CouncilCard';
-import { PaywallModal } from './components/PaywallModal';
-import { PricingPage } from './components/PricingPage';
-import { AccountPage } from './components/AccountPage';
-import { CookbookPage } from './components/CookbookPage';
-import { FAQPage } from './components/FAQPage';
-import { ContactPage } from './components/ContactPage';
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { TermsOfServicePage } from './components/TermsOfServicePage';
-import { DebateRoom } from './components/DebateRoom';
-import { NodesPage } from './components/NodesPage';
-import { ApiKeysPage } from './components/ApiKeysPage';
-import { supabase } from './services/supabaseClient';
 
-import { LoginPage } from './components/LoginPage';
+// Critical path — eagerly loaded (needed on first paint)
+import { CouncilCard } from './components/CouncilCard';
+import { DebateRoom } from './components/DebateRoom';
+import { supabase } from './services/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 import { ScrambleText } from './components/ScrambleText';
-
-import { WelcomePopup } from './components/WelcomePopup';
 import { CookieBanner } from './components/CookieBanner';
-import { OnboardingCard } from './components/OnboardingCard';
 import { LoginGateModal } from './components/LoginGateModal';
+
+// Lazy-loaded — only fetched when user navigates to these views
+const SettingsModal = lazy(() => import('./components/SettingsModal').then(m => ({ default: m.SettingsModal })));
+const PaywallModal = lazy(() => import('./components/PaywallModal').then(m => ({ default: m.PaywallModal })));
+const PricingPage = lazy(() => import('./components/PricingPage').then(m => ({ default: m.PricingPage })));
+const AccountPage = lazy(() => import('./components/AccountPage').then(m => ({ default: m.AccountPage })));
+const CookbookPage = lazy(() => import('./components/CookbookPage').then(m => ({ default: m.CookbookPage })));
+const FAQPage = lazy(() => import('./components/FAQPage').then(m => ({ default: m.FAQPage })));
+const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
+const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsOfServicePage = lazy(() => import('./components/TermsOfServicePage').then(m => ({ default: m.TermsOfServicePage })));
+const NodesPage = lazy(() => import('./components/NodesPage').then(m => ({ default: m.NodesPage })));
+const ApiKeysPage = lazy(() => import('./components/ApiKeysPage').then(m => ({ default: m.ApiKeysPage })));
+const OnboardingCard = lazy(() => import('./components/OnboardingCard').then(m => ({ default: m.OnboardingCard })));
+const LoginPage = lazy(() => import('./components/LoginPage').then(m => ({ default: m.LoginPage })));
+const WelcomePopup = lazy(() => import('./components/WelcomePopup').then(m => ({ default: m.WelcomePopup })));
+
+// Suspense fallback for lazy-loaded pages
+const PageLoader: FC = () => (
+  <div className="page-loader">
+    <Loader2 className="w-6 h-6 animate-spin page-loader-icon" />
+  </div>
+);
+
 
 
 const FadingPlaceholder: FC<{ isFocused: boolean }> = ({ isFocused }: { isFocused: boolean }) => {
@@ -172,15 +182,49 @@ const App: FC = () => {
     localStorage.setItem('fainl_theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
+  // ── Fetch token balance from Supabase ──────────────────────────────
+  const fetchUserCredits = useCallback(async (userEmail: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('user_tokens')
+        .select('tokens_purchased, tokens_used')
+        .eq('email', userEmail);
+
+      if (error) {
+        console.warn('Could not fetch user tokens:', error.message);
+        return;
+      }
+
+      if (!data || data.length === 0) return;
+
+      const totalPurchased = data.reduce((sum: number, row: any) => sum + (row.tokens_purchased || 0), 0);
+      const totalUsed = data.reduce((sum: number, row: any) => sum + (row.tokens_used || 0), 0);
+      const remaining = Math.max(0, totalPurchased - totalUsed);
+
+      setConfig(prev => ({ ...prev, creditsRemaining: remaining }));
+    } catch (e) {
+      console.warn('fetchUserCredits failed:', e);
+    }
+  }, []);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setAuthSession(session);
+      // Laad credits voor al ingelogde gebruiker
+      if (session?.user?.email) {
+        fetchUserCredits(session.user.email);
+      }
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setAuthSession(session);
+
+      // Laad credits bij elke auth state change (login, token refresh)
+      if (session?.user?.email) {
+        fetchUserCredits(session.user.email);
+      }
 
       // ── Auto-execute pending query after OAuth / magic-link login ──
       if (session) {
@@ -196,12 +240,26 @@ const App: FC = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [fetchUserCredits]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setConfig(prev => ({ ...prev, creditsRemaining: 0 }));
     setCurrentView(AppView.HOME);
   };
+
+  // ── Stripe success redirect: herlaad credits na terugkeer van betaling ──
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('payment') === 'success') {
+      // Verwijder parameter uit URL (clean URL)
+      window.history.replaceState({}, '', window.location.pathname);
+      // Wacht kort zodat Stripe webhook tijd heeft om te verwerken
+      if (authSession?.user?.email) {
+        setTimeout(() => fetchUserCredits(authSession.user.email!), 2500);
+      }
+    }
+  }, [authSession, fetchUserCredits]);
 
   const [history, setHistory] = useState<SessionState[]>(() => {
     const saved = localStorage.getItem('fainl_history');
@@ -294,10 +352,13 @@ const App: FC = () => {
     }
 
     // Usage check
+    // hasOwnKeys: gebruiker heeft eigen API-sleutels (gratis gebruik)
+    // hasPurchasedCredits: gebruiker heeft tokens gekocht via Stripe
+    // hasTurnsRemaining: gebruiker heeft nog gratis beurten over
     const hasOwnKeys = config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey;
-    const canUseCredits = hasOwnKeys && config.creditsRemaining > 0;
+    const hasPurchasedCredits = config.creditsRemaining > 0;
     const hasTurnsRemaining = config.turnsUsed < config.totalTurnsAllowed;
-    const isAllowed = config.isLifetime || hasTurnsRemaining || canUseCredits;
+    const isAllowed = config.isLifetime || hasTurnsRemaining || hasPurchasedCredits || !!hasOwnKeys;
 
     if (!isAllowed) {
       setIsPaywallOpen(true);
@@ -398,17 +459,37 @@ const App: FC = () => {
         
         // Update Usage Tracking
         setConfig((current: AppConfig) => {
-          const hasOwnKeys = current.googleKey || current.openaiKey || current.anthropicKey || current.groqKey || current.deepseekKey;
-          if (hasOwnKeys && current.creditsRemaining > 0) {
-            return {
-              ...current,
-              creditsRemaining: current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN
-            };
+          if (current.creditsRemaining > 0) {
+            // Gebruik een gekochte credit — ook bijwerken in Supabase
+            const newRemaining = current.creditsRemaining - USAGE_LIMITS.CREDITS_PER_TURN;
+
+            // Async: verhoog tokens_used in Supabase (beste-poging, niet blocking)
+            if (authSession?.user?.email) {
+              supabase
+                .from('user_tokens')
+                .select('id, tokens_purchased, tokens_used')
+                .eq('email', authSession.user.email)
+                .order('created_at', { ascending: true })
+                .then(({ data }) => {
+                  if (!data) return;
+                  // Vind de oudste rij met nog beschikbare credits
+                  const row = data.find((r: any) => r.tokens_purchased > r.tokens_used);
+                  if (row) {
+                    supabase
+                      .from('user_tokens')
+                      .update({ tokens_used: row.tokens_used + 1 })
+                      .eq('id', row.id)
+                      .then(({ error }) => {
+                        if (error) console.warn('tokens_used update failed:', error.message);
+                      });
+                  }
+                });
+            }
+
+            return { ...current, creditsRemaining: newRemaining };
           } else {
-            return {
-              ...current,
-              turnsUsed: current.turnsUsed + 1
-            };
+            // Geen credits — tel gratis beurten
+            return { ...current, turnsUsed: current.turnsUsed + 1 };
           }
         });
 
@@ -807,6 +888,7 @@ const App: FC = () => {
 
         {/* ── ALL PAGES ────────────────────────────────────────────────── */}
         {currentView !== AppView.HOME && (
+          <Suspense fallback={<PageLoader />}>
           <div className="all-pages-wrap">
             {currentView === AppView.PRICING && (
               <PricingPage />
@@ -876,6 +958,7 @@ const App: FC = () => {
               />
             )}
           </div>
+          </Suspense>
         )}
 
 
@@ -896,6 +979,7 @@ const App: FC = () => {
       </nav>
 
       {/* ══ MODALS ═══════════════════════════════════════════════════════ */}
+      <Suspense fallback={null}>
       <PaywallModal
         isOpen={isPaywallOpen}
         onClose={() => setIsPaywallOpen(false)}
@@ -948,6 +1032,7 @@ const App: FC = () => {
           }}
         />
       )}
+      </Suspense>
     </div>
   );
 };

@@ -1,0 +1,15 @@
+# FAINL — https://fainl.app
+# Multi-Agent AI Consensus Engine
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://fainl.app/sitemap.xml
+
+# Crawl-delay (be polite)
+Crawl-delay: 1
+
+# Block non-essential paths
+Disallow: /api/
+Disallow: /_next/

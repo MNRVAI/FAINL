@@ -1,6 +1,23 @@
 import path from 'path';
+import fs from 'fs';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+
+// GitHub Pages SPA fallback: copies index.html → 404.html after build
+function spaFallbackPlugin() {
+  return {
+    name: 'spa-fallback-404',
+    closeBundle() {
+      const dist = path.resolve(__dirname, 'dist');
+      const src = path.join(dist, 'index.html');
+      const dest = path.join(dist, '404.html');
+      if (fs.existsSync(src)) {
+        fs.copyFileSync(src, dest);
+        console.log('✓ Created 404.html for SPA routing');
+      }
+    }
+  };
+}
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
@@ -9,7 +26,7 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
       },
-      plugins: [react()],
+      plugins: [react(), spaFallbackPlugin()],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
