@@ -89,22 +89,7 @@ export interface SessionState {
 }
 
 export interface AppConfig {
-  googleKey: string;
-  openRouterKey: string;
-  openaiKey: string;
-  anthropicKey: string;
-  deepseekKey: string;
-  groqKey: string;
-  mistralKey: string;
-  customKey: string;
-  // New Keys
-  mimoKey: string;
-  devstralKey: string;
-  katKey: string;
-  olmoKey: string;
-  nemotronKey: string;
-  gemmaKey: string;
-  glmKey: string;
+  // Council configuration
   activeCouncil: CouncilMember[];
   chairmanId: string;
   // Usage Tracking

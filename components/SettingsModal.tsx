@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, FC } from 'react';
 import {
-  X, Settings2, Shield, Loader2, ChevronDown,
-  CheckCircle, AlertCircle, RefreshCw, Download, Upload,
-  HelpCircle, Lock, Server, Eye, EyeOff, ExternalLink,
-  Info, Plus, Trash2, Key, Database, LayoutDashboard, Cpu
+  X, Settings2, Shield, Loader2,
+  CheckCircle, RefreshCw, Download, Upload,
+  HelpCircle, Server, Database, LayoutDashboard, Cpu,
+  Info, Plus, Trash2,
 } from 'lucide-react';
 import { AppConfig, CouncilMember, ModelProvider, SessionState } from '../types';
 import { DEFAULT_COUNCIL, PRESETS } from '../constants';
@@ -16,10 +16,9 @@ interface SettingsModalProps {
   onSave: (config: AppConfig) => void;
   history?: SessionState[];
   onImportHistory?: (history: SessionState[]) => void;
-  onVerifyKey?: (provider: ModelProvider, key: string) => Promise<boolean>;
 }
 
-type Tab = 'overview' | 'members' | 'keys' | 'storage';
+type Tab = 'overview' | 'members' | 'storage';
 const TABS = SETTINGS_TABS as unknown as { id: Tab; label: string; icon: FC<any>; desc: string }[];
 
 /* ── Kleine hulpcomponenten ─────────────────────────────────────── */
@@ -39,13 +38,10 @@ const SField: FC<{ label: string; hint?: string; children: React.ReactNode; span
 
 /* ── Hoofd component ─────────────────────────────────────────────── */
 export const SettingsModal: FC<SettingsModalProps> = ({
-  isOpen, onClose, config, onSave, history = [], onImportHistory, onVerifyKey
+  isOpen, onClose, config, onSave, history = [], onImportHistory
 }) => {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [tempConfig, setTempConfig] = useState<AppConfig>(() => JSON.parse(JSON.stringify(config)));
-  const [verifyingKey, setVerifyingKey] = useState<string | null>(null);
-  const [verifyResults, setVerifyResults] = useState<Record<string, 'ok' | 'err' | null>>({});
-  const [visibleKeys, setVisibleKeys] = useState<Record<string, boolean>>({});
   const [saveFlash, setSaveFlash] = useState(false);
   const backdropRef = useRef<HTMLDivElement>(null);
 
@@ -96,26 +92,9 @@ export const SettingsModal: FC<SettingsModalProps> = ({
   };
   const removeMember = (i: number) => upd({ activeCouncil: tempConfig.activeCouncil.filter((_, j) => j !== i) });
 
-  const testKey = async (provider: ModelProvider, cfgKey: string) => {
-    if (!onVerifyKey) return;
-    const val = (tempConfig as any)[cfgKey]; if (!val) return;
-    setVerifyingKey(cfgKey);
-    const ok = await onVerifyKey(provider, val);
-    setVerifyResults(p => ({ ...p, [cfgKey]: ok ? 'ok' : 'err' }));
-    setVerifyingKey(null);
-  };
-
-  const validateFormat = (key: string, cfgKey: string): boolean | null => {
-    if (!key) return null;
-    const pats: Record<string, RegExp> = {
-      googleKey: /^AIza[a-zA-Z0-9_-]{35}$/,
-      openaiKey: /^sk-[a-zA-Z0-9]{32,}$/,
-      anthropicKey: /^sk-ant-[a-zA-Z0-9_-]+$/,
-      groqKey: /^gsk_[a-zA-Z0-9]{32,}$/,
-      deepseekKey: /^sk-[0-9a-f]{32}$/,
-      openRouterKey: /^sk-or-v1-[a-zA-Z0-9]{64}$/,
-    };
-    return pats[cfgKey] ? pats[cfgKey].test(key) : key.length > 20;
+  const validateFormat = (_key: string, _cfgKey: string): boolean | null => {
+    // Key validation removed — keys are managed server-side
+    return null;
   };
 
   const handleExport = () => {
@@ -144,7 +123,6 @@ export const SettingsModal: FC<SettingsModalProps> = ({
   };
 
   const activeCount = tempConfig.activeCouncil.length;
-  const keyCount = API_KEY_FIELDS.filter(f => !!(tempConfig as any)[f.key]).length;
 
   /* ── Tab panels ── */
   const renderOverview = () => (
@@ -155,7 +133,7 @@ export const SettingsModal: FC<SettingsModalProps> = ({
           <span className="sm-status-dot" aria-hidden="true" />
           <div>
             <p className="sm-status-title">Raad actief — klaar om te analyseren</p>
-            <p className="sm-status-sub">{activeCount} actieve node{activeCount !== 1 ? 's' : ''} · {keyCount} API-sleutel{keyCount !== 1 ? 's' : ''} geconfigureerd</p>
+            <p className="sm-status-sub">{activeCount} actieve node{activeCount !== 1 ? 's' : ''} · Beheerd door FAINL</p>
           </div>
         </div>
         <span className="sm-badge-green">Actief</span>
@@ -316,73 +294,6 @@ export const SettingsModal: FC<SettingsModalProps> = ({
     </div>
   );
 
-  const renderKeys = () => (
-    <div className="sm-panel">
-      <div className="sm-panel-hdr">
-        <div>
-          <h3 className="sm-panel-title">API-Sleutels</h3>
-          <p className="sm-panel-sub">Sleutels worden uitsluitend lokaal in je browser opgeslagen — wij zien ze nooit.</p>
-        </div>
-        <div className="sm-security-badge">
-          <Lock className="sm-security-icon" aria-hidden="true" /> Lokaal opgeslagen
-        </div>
-      </div>
-
-      <div className="sm-keys-list">
-        {API_KEY_FIELDS.map(field => {
-          const val = (tempConfig as any)[field.key] || '';
-          const fmt = validateFormat(val, field.key);
-          const verStatus = verifyResults[field.key];
-          const isVerifying = verifyingKey === field.key;
-          const isVis = visibleKeys[field.key];
-          const hasVal = val.length > 0;
-
-          return (
-            <div key={field.key} className={`sm-key-row ${hasVal ? 'sm-key-row--filled' : ''}`}>
-              <div className="sm-key-meta">
-                <div className="sm-key-header">
-                  <span className="sm-key-label">{field.label}</span>
-                  {field.badge && <span className="sm-key-badge">{field.badge}</span>}
-                  {verStatus === 'ok'  && <span className="sm-key-badge sm-key-badge--ok">Geverifieerd</span>}
-                  {verStatus === 'err' && <span className="sm-key-badge sm-key-badge--err">Ongeldig</span>}
-                </div>
-                <p className="sm-key-desc">{field.desc}</p>
-              </div>
-
-              <div className="sm-key-input-row">
-                <div className="sm-key-input-wrap">
-                  <input
-                    type={isVis ? 'text' : 'password'}
-                    value={val}
-                    onChange={e => upd({ [field.key]: e.target.value } as any)}
-                    placeholder="••••••••••••••••••••••••"
-                    className={`sm-key-input ${verStatus === 'ok' || fmt === true ? 'sm-key-input--ok' : verStatus === 'err' || fmt === false ? 'sm-key-input--err' : ''}`}
-                    aria-label={`${field.label} API-sleutel`}
-                  />
-                  <div className="sm-key-icons">
-                    {verStatus === 'ok'  && <CheckCircle className="sm-key-icon-ok"  aria-hidden="true" />}
-                    {verStatus === 'err' && <AlertCircle className="sm-key-icon-err" aria-hidden="true" />}
-                    <button className="sm-key-vis-btn" onClick={() => setVisibleKeys(p => ({ ...p, [field.key]: !p[field.key] }))} aria-label={isVis ? 'Sleutel verbergen' : 'Sleutel tonen'} title={isVis ? 'Verbergen' : 'Tonen'}>
-                      {isVis ? <EyeOff className="sm-key-vis-icon" aria-hidden="true" /> : <Eye className="sm-key-vis-icon" aria-hidden="true" />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="sm-key-actions">
-                  <button onClick={() => testKey(field.provider as unknown as ModelProvider, field.key)} disabled={!val || isVerifying} className="sm-btn-outline sm-btn-sm" aria-label={`${field.label} sleutel verifiëren`}>
-                    {isVerifying ? <Loader2 className="sm-spin" aria-hidden="true" /> : 'Verifiëren'}
-                  </button>
-                  <a href={field.url} target="_blank" rel="noopener noreferrer" className="sm-btn-ghost sm-btn-sm" title={`${field.label} sleutel ophalen`} aria-label={`${field.label} API-sleutel ophalen`}>
-                    Sleutel <ExternalLink className="sm-ext-icon" aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
 
   const renderStorage = () => (
     <div className="sm-panel sm-panel--center">
@@ -405,8 +316,8 @@ export const SettingsModal: FC<SettingsModalProps> = ({
           <span className="sm-stat-lbl">Raadsleden</span>
         </div>
         <div className="sm-stat">
-          <span className="sm-stat-val">{keyCount}</span>
-          <span className="sm-stat-lbl">API-sleutels</span>
+          <span className="sm-stat-val">🔒</span>
+          <span className="sm-stat-lbl">Beheerd door FAINL</span>
         </div>
       </div>
 
@@ -492,7 +403,6 @@ export const SettingsModal: FC<SettingsModalProps> = ({
           <div className="sm-content">
             {activeTab === 'overview' && renderOverview()}
             {activeTab === 'members'  && renderMembers()}
-            {activeTab === 'keys'     && renderKeys()}
             {activeTab === 'storage'  && renderStorage()}
           </div>
 

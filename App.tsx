@@ -125,21 +125,6 @@ const App: FC = () => {
   const [config, setConfig] = useState<AppConfig>(() => {
     const saved = localStorage.getItem('fainl_config_v2');
     return saved ? JSON.parse(saved) : {
-      googleKey: '',
-      openRouterKey: '',
-      openaiKey: '',
-      anthropicKey: '',
-      deepseekKey: '',
-      groqKey: '',
-      mistralKey: '',
-      customKey: '',
-      mimoKey: '',
-      devstralKey: '',
-      katKey: '',
-      olmoKey: '',
-      nemotronKey: '',
-      gemmaKey: '',
-      glmKey: '',
       activeCouncil: DEFAULT_COUNCIL,
       chairmanId: DEFAULT_CHAIRMAN.id,
       turnsUsed: 0,
@@ -351,14 +336,10 @@ const App: FC = () => {
       return;
     }
 
-    // Usage check
-    // hasOwnKeys: gebruiker heeft eigen API-sleutels (gratis gebruik)
-    // hasPurchasedCredits: gebruiker heeft tokens gekocht via Stripe
-    // hasTurnsRemaining: gebruiker heeft nog gratis beurten over
-    const hasOwnKeys = config.googleKey || config.openaiKey || config.anthropicKey || config.groqKey || config.deepseekKey;
+    // Usage check: lifetime, gratis beurten of gekochte credits
     const hasPurchasedCredits = config.creditsRemaining > 0;
     const hasTurnsRemaining = config.turnsUsed < config.totalTurnsAllowed;
-    const isAllowed = config.isLifetime || hasTurnsRemaining || hasPurchasedCredits || !!hasOwnKeys;
+    const isAllowed = config.isLifetime || hasTurnsRemaining || hasPurchasedCredits;
 
     if (!isAllowed) {
       setIsPaywallOpen(true);
@@ -790,8 +771,8 @@ const App: FC = () => {
                     </span>
                     <button
                       className="btn-send"
-                      onClick={config.googleKey ? () => handleStart() : () => setIsSettingsOpen(true)}
-                      disabled={config.googleKey ? !input.trim() : false}
+                      onClick={() => handleStart()}
+                      disabled={!input.trim()}
                     >
                       <Send className="send-icon" />
                       Vraag stellen
@@ -951,12 +932,7 @@ const App: FC = () => {
             {currentView === AppView.CONTACT && <ContactPage />}
             {currentView === AppView.PRIVACY && <PrivacyPolicyPage />}
             {currentView === AppView.TERMS && <TermsOfServicePage />}
-            {currentView === AppView.APIKEYS && (
-              <ApiKeysPage
-                config={config}
-                onSave={(partial) => setConfig(prev => ({ ...prev, ...partial }))}
-              />
-            )}
+            {currentView === AppView.APIKEYS && <ApiKeysPage />}
           </div>
           </Suspense>
         )}
@@ -992,7 +968,6 @@ const App: FC = () => {
         onSave={setConfig}
         history={history}
         onImportHistory={setHistory}
-        onVerifyKey={(provider: ModelProvider, key: string) => councilService.current.verifyProviderKey(provider, key)}
       />
       {/* ══ LOGIN GATE MODAL ════════════════════════════════════════════════ */}
       {isLoginGateOpen && !authSession && (

@@ -14,7 +14,7 @@
  */
 
 import {
-  LayoutDashboard, Cpu, Key, Database, Settings2,
+  LayoutDashboard, Cpu, Database, Settings2,
   Shield, Zap, Brain, Globe, Code2, Lightbulb,
   Scale, Eye, AlertTriangle, Shuffle,
   LayoutGrid, BarChart3, MessageSquare, BookOpen,
@@ -43,7 +43,6 @@ export const NAV_ITEMS = [
 export const SETTINGS_TABS = [
   { id: 'overview', label: 'Overzicht',    icon: LayoutDashboard, desc: 'Configuratie & presets' },
   { id: 'members',  label: 'AI-Nodes',     icon: Cpu,             desc: 'Raadsleden beheren'     },
-  { id: 'keys',     label: 'API-Sleutels', icon: Key,             desc: 'Providers koppelen'     },
   { id: 'storage',  label: 'Data & Opslag',icon: Database,        desc: 'Export & import'        },
 ] as const;
 
@@ -85,62 +84,9 @@ export const PROVIDER_AVATARS: Record<string, string> = {
 };
 
 // ── API veld configuratie ──────────────────────────────────────────────────────
-export const API_KEY_FIELDS = [
-  {
-    label:    'Google Gemini',
-    key:      'googleKey',
-    provider: 'Google (Direct)',
-    url:      'https://aistudio.google.com/app/apikey',
-    desc:     'Standaard model. Gratis tier beschikbaar.',
-    badge:    'Gratis',
-    pattern:  /^AIza[a-zA-Z0-9_-]{35}$/,
-  },
-  {
-    label:    'Groq',
-    key:      'groqKey',
-    provider: 'Groq',
-    url:      'https://console.groq.com/keys',
-    desc:     'Ultra-snelle inferentie voor hoog volume.',
-    badge:    null,
-    pattern:  /^gsk_[a-zA-Z0-9]{32,}$/,
-  },
-  {
-    label:    'DeepSeek',
-    key:      'deepseekKey',
-    provider: 'DeepSeek',
-    url:      'https://platform.deepseek.com/api_keys',
-    desc:     'Sterk in wiskunde, code en redenering.',
-    badge:    null,
-    pattern:  /^sk-[0-9a-f]{32}$/,
-  },
-  {
-    label:    'Anthropic Claude',
-    key:      'anthropicKey',
-    provider: 'Anthropic',
-    url:      'https://console.anthropic.com/settings/keys',
-    desc:     'Genuanceerde, ethische en lange analyse.',
-    badge:    null,
-    pattern:  /^sk-ant-[a-zA-Z0-9_-]+$/,
-  },
-  {
-    label:    'OpenAI GPT',
-    key:      'openaiKey',
-    provider: 'OpenAI',
-    url:      'https://platform.openai.com/api-keys',
-    desc:     'Betrouwbaar met brede algemene kennis.',
-    badge:    null,
-    pattern:  /^sk-[a-zA-Z0-9]{32,}$/,
-  },
-  {
-    label:    'OpenRouter',
-    key:      'openRouterKey',
-    provider: 'OpenRouter',
-    url:      'https://openrouter.ai/keys',
-    desc:     'Toegang tot 100+ modellen via één sleutel.',
-    badge:    null,
-    pattern:  /^sk-or-v1-[a-zA-Z0-9]{64}$/,
-  },
-] as const;
+// API-sleutels worden uitsluitend beheerd via de backend (Supabase Edge Function secrets).
+// Gebruikers kunnen geen eigen sleutels meer invoeren.
+export const API_KEY_FIELDS: readonly never[] = [] as const;
 
 // ── UI Labels (NL) ─────────────────────────────────────────────────────────────
 export const UI_LABELS = {
@@ -198,7 +144,7 @@ export const UI_LABELS = {
 
 // ── Icon exports (re-export voor gebruik in componenten) ──────────────────────
 export const ICONS = {
-  LayoutDashboard, Cpu, Key, Database, Settings2,
+  LayoutDashboard, Cpu, Database, Settings2,
   Shield, Zap, Brain, Globe, Code2, Lightbulb,
   Scale, Eye, AlertTriangle, Shuffle,
   LayoutGrid, BarChart3, MessageSquare, BookOpen,

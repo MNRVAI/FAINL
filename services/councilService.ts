@@ -1,201 +1,185 @@
-import { GoogleGenAI } from "@google/genai";
-import { CouncilMember, CouncilResponse, PeerReview, ModelProvider, AppConfig, DebateMessage } from "../types";
+import { CouncilMember, CouncilResponse, PeerReview, AppConfig, DebateMessage } from "../types";
 import { SYSTEM_PROMPTS } from "../constants";
+import { supabase } from "./supabaseClient";
 
-export class UnifiedCouncilService {
-  private config: AppConfig;
-  private googleClient: GoogleGenAI | null = null;
+// ── Proxy URL ─────────────────────────────────────────────────────────
+const PROXY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-proxy`;
 
-  constructor(config: AppConfig) {
-    this.config = config;
-    
-    // Initialize Google Client
-    const gKey = config.googleKey || process.env.API_KEY;
-    if (gKey) {
-      this.googleClient = new GoogleGenAI({ apiKey: gKey });
-    }
+// ── Low-level proxy call ──────────────────────────────────────────────
+async function callProxy(
+  prompt: string,
+  systemInstruction?: string,
+  modelId?: string
+): Promise<string> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+
+  if (!token) throw new Error("Niet ingelogd. Log in om de raad te gebruiken.");
+
+  const res = await fetch(PROXY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ prompt, systemInstruction, modelId, mode: "generate" }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+    throw new Error(err.error ?? `Proxy fout: ${res.status}`);
   }
 
-  // Check if a specific provider has a key configured
-  public isProviderReady(provider: ModelProvider): boolean {
-    const c = this.config;
-    switch (provider) {
-      case ModelProvider.GOOGLE: return !!(c.googleKey || process.env.API_KEY);
-      case ModelProvider.OPENAI: return !!c.openaiKey;
-      case ModelProvider.ANTHROPIC: return !!c.anthropicKey;
-      case ModelProvider.GROQ: return !!c.groqKey;
-      case ModelProvider.DEEPSEEK: return !!c.deepseekKey;
-      case ModelProvider.MISTRAL: return !!c.mistralKey;
-      case ModelProvider.OPENROUTER: return !!c.openRouterKey;
-      case ModelProvider.NEMOTRON: return !!c.nemotronKey;
-      case ModelProvider.GLM: return !!c.glmKey;
-      case ModelProvider.MIMO: return !!c.mimoKey;
-      case ModelProvider.DEVSTRAL: return !!c.devstralKey;
-      case ModelProvider.KAT: return !!c.katKey;
-      case ModelProvider.OLMO: return !!c.olmoKey;
-      case ModelProvider.GEMMA: return !!c.gemmaKey;
-      case ModelProvider.OLLAMA:
-      case ModelProvider.CUSTOM: return true; 
-      default: return false;
-    }
+  const data = await res.json();
+  return data.text ?? "";
+}
+
+// ── Streaming proxy call ──────────────────────────────────────────────
+async function callProxyStream(
+  prompt: string,
+  systemInstruction?: string,
+  modelId?: string,
+  onChunk?: (chunk: string) => void
+): Promise<string> {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+
+  if (!token) throw new Error("Niet ingelogd.");
+
+  const res = await fetch(PROXY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ prompt, systemInstruction, modelId, mode: "stream" }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+    throw new Error(err.error ?? `Proxy fout: ${res.status}`);
   }
 
-  public async verifyProviderKey(provider: ModelProvider, key: string): Promise<boolean> {
-    if (!key) return false;
-    try {
-      switch (provider) {
-        case ModelProvider.GOOGLE: {
-          const tempGenAI = new GoogleGenAI({ apiKey: key });
-          // List models as a lightweight check
-          await tempGenAI.models.get({ model: "gemini-1.5-flash" });
-          return true;
+  if (!res.body) throw new Error("Geen response body ontvangen.");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+    const lines = chunk.split("\n");
+
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue;
+      const raw = line.slice(6).trim();
+      if (raw === "[DONE]" || !raw) continue;
+
+      try {
+        const parsed = JSON.parse(raw);
+        // Gemini SSE format: candidates[0].content.parts[0].text
+        const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+        if (text) {
+          fullText += text;
+          onChunk?.(text);
         }
-        case ModelProvider.ANTHROPIC: {
-          const res = await fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST",
-            headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json", "dangerously-allow-browser": "true" },
-            body: JSON.stringify({ model: "claude-3-haiku-20240307", max_tokens: 1, messages: [{ role: "user", content: "hi" }] })
-          });
-          return res.status !== 401;
-        }
-        default: {
-          // Generic OpenAI-compatible check (e.g. models list)
-          let baseUrl = "";
-          switch (provider) {
-            case ModelProvider.OPENAI: baseUrl = "https://api.openai.com/v1"; break;
-            case ModelProvider.GROQ: baseUrl = "https://api.groq.com/openai/v1"; break;
-            case ModelProvider.DEEPSEEK: baseUrl = "https://api.deepseek.com"; break;
-            case ModelProvider.MISTRAL: baseUrl = "https://api.mistral.ai/v1"; break;
-            case ModelProvider.OPENROUTER: baseUrl = "https://openrouter.ai/api/v1"; break;
-            default: return true; // Can't easily verify local/custom without knowing URL
-          }
-          const res = await fetch(`${baseUrl}/models`, {
-            headers: { "Authorization": `Bearer ${key}` }
-          });
-          return res.status === 200;
-        }
+      } catch {
+        // Partial chunk — skip
       }
-    } catch (e) {
-      console.warn("Key verification failed", e);
-      return false;
     }
   }
 
-  // Filter council to only include members with valid keys
+  return fullText;
+}
+
+// ── Main service class ────────────────────────────────────────────────
+export class UnifiedCouncilService {
+  // Config behouden voor achterwaartse compatibiliteit — keys worden genegeerd
+  constructor(_config: AppConfig) {}
+
+  /** Altijd true — proxy beheert alle provider-toegang */
+  public isProviderReady(_member?: CouncilMember): boolean {
+    return true;
+  }
+
   public getReadyMembers(members: CouncilMember[]): CouncilMember[] {
-    return members.filter(m => this.isProviderReady(m.provider));
+    return members; // Alle members zijn altijd beschikbaar via de proxy
   }
 
   private async generate(member: CouncilMember, prompt: string, systemInstruction?: string): Promise<string> {
-    if (!this.isProviderReady(member.provider)) {
-      return `[Skipped] ${member.name}: Provider not configured.`;
-    }
-
     try {
-      switch (member.provider) {
-        case ModelProvider.GOOGLE:
-          return this.callGoogle(member, prompt, systemInstruction);
-        case ModelProvider.ANTHROPIC:
-          return this.callAnthropic(member, prompt, systemInstruction);
-        default:
-          return this.callGeneric(member, prompt, systemInstruction);
-      }
+      return await callProxy(prompt, systemInstruction, member.modelId);
     } catch (error: any) {
-      console.error(`Error with ${member.name}:`, error);
-      const msg = error.message || "Unknown error";
-      if (msg.includes("401") || msg.toLowerCase().includes("invalid api key")) {
-        return `[Unauthorized] ${member.name}: Invalid or missing API key.`;
-      }
-      return `[Error] ${member.name}: ${msg}`;
+      console.error(`Fout bij ${member.name}:`, error);
+      return `[Fout] ${member.name}: ${error.message ?? "Onbekende fout"}`;
     }
   }
 
-  private async callGoogle(member: CouncilMember, prompt: string, systemInstruction?: string): Promise<string> {
-    if (!this.googleClient) throw new Error("Google API Key missing.");
-    const response = await this.googleClient.models.generateContent({
-      model: member.modelId,
-      contents: prompt,
-      config: { systemInstruction, temperature: 0.7 }
-    });
-    return response.text || "";
-  }
-
-  private async callAnthropic(member: CouncilMember, prompt: string, systemInstruction?: string): Promise<string> {
-    const apiKey = this.config.anthropicKey;
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json",
-        "dangerously-allow-browser": "true" 
-      },
-      body: JSON.stringify({
-        model: member.modelId,
-        max_tokens: 1024,
-        system: systemInstruction,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    if (!response.ok) throw new Error(`Anthropic Error ${response.status}`);
-    const data = await response.json();
-    return data.content?.[0]?.text || "";
-  }
-
-  private async callGeneric(member: CouncilMember, prompt: string, systemInstruction?: string): Promise<string> {
-    let apiKey = "";
-    let baseUrl = "";
-
-    switch (member.provider) {
-      case ModelProvider.OPENAI: apiKey = this.config.openaiKey; baseUrl = "https://api.openai.com/v1"; break;
-      case ModelProvider.GROQ: apiKey = this.config.groqKey; baseUrl = member.baseUrl || "https://api.groq.com/openai/v1"; break;
-      case ModelProvider.DEEPSEEK: apiKey = this.config.deepseekKey; baseUrl = member.baseUrl || "https://api.deepseek.com"; break;
-      case ModelProvider.MISTRAL: apiKey = this.config.mistralKey; baseUrl = "https://api.mistral.ai/v1"; break;
-      case ModelProvider.OPENROUTER: apiKey = this.config.openRouterKey; baseUrl = "https://openrouter.ai/api/v1"; break;
-      case ModelProvider.OLLAMA: apiKey = "ollama"; baseUrl = member.baseUrl || "http://localhost:11434/v1"; break;
-      case ModelProvider.NEMOTRON: apiKey = this.config.nemotronKey; baseUrl = member.baseUrl || "https://integrate.api.nvidia.com/v1"; break;
-      case ModelProvider.GLM: apiKey = this.config.glmKey; baseUrl = member.baseUrl || "https://open.bigmodel.cn/api/paas/v4"; break;
-      default: apiKey = this.config.customKey; baseUrl = member.baseUrl || "http://localhost:1234/v1";
+  private async generateStream(
+    member: CouncilMember,
+    prompt: string,
+    systemInstruction?: string,
+    onChunk?: (chunk: string) => void
+  ): Promise<string> {
+    try {
+      return await callProxyStream(prompt, systemInstruction, member.modelId, onChunk);
+    } catch (error: any) {
+      console.error(`Fout bij ${member.name}:`, error);
+      const msg = `[Fout] ${member.name}: ${error.message ?? "Onbekende fout"}`;
+      onChunk?.(msg);
+      return msg;
     }
-
-    if (!apiKey && member.provider !== ModelProvider.OLLAMA) throw new Error("Missing Key");
-
-    const messages = [];
-    if (systemInstruction) messages.push({ role: "system", content: systemInstruction });
-    messages.push({ role: "user", content: prompt });
-
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: member.modelId, messages, temperature: 0.7 })
-    });
-    if (!response.ok) throw new Error(`API Error ${response.status}`);
-    const data = await response.json();
-    return data.choices?.[0]?.message?.content || "";
   }
+
+  // ── Public orchestration methods (API ongewijzigd t.o.v. vóór) ──────
 
   async getCouncilResponses(query: string, members: CouncilMember[]): Promise<CouncilResponse[]> {
     const promises = members.map(async (member) => ({
       memberId: member.id,
-      content: await this.generate(member, query, member.systemPrompt || SYSTEM_PROMPTS.COUNCIL_MEMBER(query, member.description)),
-      timestamp: Date.now()
+      content: await this.generate(
+        member,
+        query,
+        member.systemPrompt || SYSTEM_PROMPTS.COUNCIL_MEMBER(query, member.description)
+      ),
+      timestamp: Date.now(),
     }));
     return Promise.all(promises);
   }
 
-  async getPeerReviews(query: string, members: CouncilMember[], responses: CouncilResponse[]): Promise<PeerReview[]> {
-    const activeResponses = responses.filter(r => !r.content.startsWith("[Skipped]") && !r.content.startsWith("[Unauthorized]"));
+  async getPeerReviews(
+    query: string,
+    members: CouncilMember[],
+    responses: CouncilResponse[]
+  ): Promise<PeerReview[]> {
+    const activeResponses = responses.filter(
+      (r) => !r.content.startsWith("[Fout]") && !r.content.startsWith("[Skipped]")
+    );
     const reviewPromises: Promise<PeerReview | null>[] = [];
 
-    members.forEach(reviewer => {
-      activeResponses.forEach(target => {
+    members.forEach((reviewer) => {
+      activeResponses.forEach((target) => {
         if (target.memberId === reviewer.id) return;
-        reviewPromises.push((async () => {
-          const critique = await this.generate(reviewer, SYSTEM_PROMPTS.PEER_REVIEWER(query, target.content, members.find(m => m.id === target.memberId)?.name || "Peer"), "Analyze logical consistency.");
-          if (critique.startsWith("[Skipped]") || critique.startsWith("[Unauthorized]")) return null;
-          const scoreMatch = critique.match(/Score:\s*(\d+)/i);
-          return { reviewerId: reviewer.id, targetId: target.memberId, content: critique, score: scoreMatch ? parseInt(scoreMatch[1], 10) : 5 };
-        })());
+        reviewPromises.push(
+          (async () => {
+            const targetName = members.find((m) => m.id === target.memberId)?.name ?? "Peer";
+            const critique = await this.generate(
+              reviewer,
+              SYSTEM_PROMPTS.PEER_REVIEWER(query, target.content, targetName),
+              "Analyze logical consistency."
+            );
+            if (critique.startsWith("[Fout]") || critique.startsWith("[Skipped]")) return null;
+            const scoreMatch = critique.match(/Score:\s*(\d+)/i);
+            return {
+              reviewerId: reviewer.id,
+              targetId: target.memberId,
+              content: critique,
+              score: scoreMatch ? parseInt(scoreMatch[1], 10) : 5,
+            };
+          })()
+        );
       });
     });
 
@@ -212,35 +196,40 @@ export class UnifiedCouncilService {
   ): Promise<string> {
     let context = `ORIGINAL QUESTION: "${query}"\n\n`;
     context += "=== NODE STANCES (brief) ===\n";
-    councilResponses.forEach(r => {
-      // Truncate to 200 chars — enough flavour, far fewer tokens
-      const preview = r.content.substring(0, 200).replace(/\n/g, ' ');
-      context += `[${members.find(m => m.id === r.memberId)?.name}]: ${preview}...\n`;
+    councilResponses.forEach((r) => {
+      const preview = r.content.substring(0, 200).replace(/\n/g, " ");
+      context += `[${members.find((m) => m.id === r.memberId)?.name}]: ${preview}...\n`;
     });
 
-    const recentMessages = debateMessages.slice(-6); // 6 turns = tight, fast context
-    const lastSpeaker = recentMessages.length > 0 ? recentMessages[recentMessages.length - 1] : null;
-    const userSpokeRecently = lastSpeaker?.memberId === 'user';
+    const recentMessages = debateMessages.slice(-6);
+    const lastSpeaker = recentMessages.at(-1);
+    const userSpokeRecently = lastSpeaker?.memberId === "user";
 
     if (recentMessages.length > 0) {
       context += "\n=== DEBATE (recent) ===\n";
-      recentMessages.forEach(m => {
-        const authorName = m.memberId === 'user' ? 'USER' : members.find(x => x.id === m.memberId)?.name || 'Unknown';
-        // Trim each turn to 120 chars to stay lean
-        const snippet = m.content.substring(0, 120).replace(/\n/g, ' ');
+      recentMessages.forEach((m) => {
+        const authorName =
+          m.memberId === "user"
+            ? "USER"
+            : members.find((x) => x.id === m.memberId)?.name ?? "Unknown";
+        const snippet = m.content.substring(0, 120).replace(/\n/g, " ");
         context += `[${authorName}]: ${snippet}\n`;
       });
     }
 
-    // Detect user sophistication level from their messages
-    const userMessages = debateMessages.filter(m => m.memberId === 'user');
-    const avgUserWordCount = userMessages.length > 0
-      ? Math.round(userMessages.reduce((sum, m) => sum + m.content.split(' ').length, 0) / userMessages.length)
-      : 0;
-    const userLevel = avgUserWordCount > 40 ? 'expert' : avgUserWordCount > 15 ? 'informed' : 'general';
+    const userMessages = debateMessages.filter((m) => m.memberId === "user");
+    const avgUserWordCount =
+      userMessages.length > 0
+        ? Math.round(
+            userMessages.reduce((sum, m) => sum + m.content.split(" ").length, 0) /
+              userMessages.length
+          )
+        : 0;
+    const userLevel =
+      avgUserWordCount > 40 ? "expert" : avgUserWordCount > 15 ? "informed" : "general";
 
     const systemPrompt = `
-You are ${member.name}. ${member.systemPrompt || member.description || ''}
+You are ${member.name}. ${member.systemPrompt || member.description || ""}
 
 You are live in a spoken debate. Real people are watching or listening. This is performance as much as it is reasoning.
 
@@ -248,7 +237,7 @@ You are live in a spoken debate. Real people are watching or listening. This is 
 1. Speak AS IF you are talking, not writing. Use natural spoken rhythms.
 2. React to what was JUST said. Don't repeat old points — respond, challenge, or pivot.
 3. Keep your turn to 2–4 sentences MAX. Punchy. Vivid. Memorable.
-4. Use one of these moves per turn (vary them — don't repeat the same move twice in a row):
+4. Use one of these moves per turn (vary them):
    - CHALLENGE: "That's wrong, and here's why..."
    - ANALOGY: Draw a sharp, clear parallel to something real
    - CONCESSION + PIVOT: Admit one tiny thing, then flip it against them
@@ -260,205 +249,78 @@ You are live in a spoken debate. Real people are watching or listening. This is 
    - general → clear, plain language, relatable analogies. No jargon.
    - informed → some technical terms are fine, but explain quickly.
    - expert → full depth, precision, no hand-holding.
-8. Detect the topic's emotional weight:
-   - Lighthearted/playful topic → be bold, entertaining, even a little theatrical.
-   - Serious/sensitive topic → be measured, empathetic, and precise.
+8. Detect the topic's emotional weight — be theatrical for light topics, measured for serious ones.
 9. Do NOT use markdown headers, bullet points, or bold text. Speak in plain sentences.
-${userSpokeRecently ? '\n🚨 THE USER JUST SPOKE. Address them directly in your opening line.' : ''}
-    `;
+${userSpokeRecently ? "\n🚨 THE USER JUST SPOKE. Address them directly in your opening line." : ""}
+    `.trim();
 
-    return this.generate(member, context, systemPrompt.trim());
+    return this.generate(member, context, systemPrompt);
   }
 
-
-  async synthesize(query: string, responses: CouncilResponse[], reviews: PeerReview[], debateMessages: DebateMessage[], members: CouncilMember[], chairman: CouncilMember): Promise<string> {
+  async synthesize(
+    query: string,
+    responses: CouncilResponse[],
+    reviews: PeerReview[],
+    debateMessages: DebateMessage[],
+    members: CouncilMember[],
+    chairman: CouncilMember
+  ): Promise<string> {
     const context = this.buildContext(query, responses, reviews, debateMessages, members);
     return this.generate(chairman, SYSTEM_PROMPTS.CHAIRMAN(query, context), chairman.systemPrompt);
   }
 
-  async synthesizeStream(query: string, responses: CouncilResponse[], reviews: PeerReview[], debateMessages: DebateMessage[], members: CouncilMember[], chairman: CouncilMember, onChunk: (chunk: string) => void): Promise<string> {
+  async synthesizeStream(
+    query: string,
+    responses: CouncilResponse[],
+    reviews: PeerReview[],
+    debateMessages: DebateMessage[],
+    members: CouncilMember[],
+    chairman: CouncilMember,
+    onChunk: (chunk: string) => void
+  ): Promise<string> {
     const context = this.buildContext(query, responses, reviews, debateMessages, members);
-    return this.generateStream(chairman, SYSTEM_PROMPTS.CHAIRMAN(query, context), chairman.systemPrompt, onChunk);
+    return this.generateStream(
+      chairman,
+      SYSTEM_PROMPTS.CHAIRMAN(query, context),
+      chairman.systemPrompt,
+      onChunk
+    );
   }
 
-  private buildContext(query: string, responses: CouncilResponse[], reviews: PeerReview[], debateMessages: DebateMessage[], members: CouncilMember[]): string {
+  private buildContext(
+    query: string,
+    responses: CouncilResponse[],
+    reviews: PeerReview[],
+    debateMessages: DebateMessage[],
+    members: CouncilMember[]
+  ): string {
     let context = "--- COUNCIL FINDINGS ---\n";
-    responses.filter(r => !r.content.startsWith("[")).forEach(r => {
-      context += `\n[${members.find(x => x.id === r.memberId)?.name}]: ${r.content}\n`;
-    });
-    
-    if (reviews && reviews.length > 0) {
+    responses
+      .filter((r) => !r.content.startsWith("["))
+      .forEach((r) => {
+        context += `\n[${members.find((x) => x.id === r.memberId)?.name}]: ${r.content}\n`;
+      });
+
+    if (reviews?.length > 0) {
       context += "\n--- PEER REVIEWS ---\n";
-      reviews.forEach(r => {
-        context += `\n[${members.find(m => m.id === r.reviewerId)?.name} reviewing ${members.find(m => m.id === r.targetId)?.name}]: ${r.content}\n`;
+      reviews.forEach((r) => {
+        context += `\n[${members.find((m) => m.id === r.reviewerId)?.name} reviewing ${
+          members.find((m) => m.id === r.targetId)?.name
+        }]: ${r.content}\n`;
       });
     }
 
-    if (debateMessages && debateMessages.length > 0) {
+    if (debateMessages?.length > 0) {
       context += "\n--- DEBATE TRANSCRIPT ---\n";
-      debateMessages.forEach(m => {
-        const authorName = m.memberId === 'user' ? 'User' : members.find(x => x.id === m.memberId)?.name || 'Unknown';
+      debateMessages.forEach((m) => {
+        const authorName =
+          m.memberId === "user"
+            ? "User"
+            : members.find((x) => x.id === m.memberId)?.name ?? "Unknown";
         context += `\n[${authorName}]: ${m.content}\n`;
       });
     }
 
     return context;
-  }
-
-  private async generateStream(member: CouncilMember, prompt: string, systemInstruction?: string, onChunk?: (chunk: string) => void): Promise<string> {
-    if (!this.isProviderReady(member.provider)) {
-      const msg = `[Skipped] ${member.name}: Provider not configured.`;
-      onChunk?.(msg);
-      return msg;
-    }
-
-    try {
-      switch (member.provider) {
-        case ModelProvider.GOOGLE:
-          return this.callGoogleStream(member, prompt, systemInstruction, onChunk);
-        case ModelProvider.ANTHROPIC:
-          return this.callAnthropicStream(member, prompt, systemInstruction, onChunk);
-        default:
-          return this.callGenericStream(member, prompt, systemInstruction, onChunk);
-      }
-    } catch (error: any) {
-      console.error(`Error with ${member.name}:`, error);
-      const msg = error.message || "Unknown error";
-      const errorMsg = `[Error] ${member.name}: ${msg}`;
-      onChunk?.(errorMsg);
-      return errorMsg;
-    }
-  }
-
-  private async callGoogleStream(member: CouncilMember, prompt: string, systemInstruction?: string, onChunk?: (chunk: string) => void): Promise<string> {
-    if (!this.googleClient) throw new Error("Google API Key missing.");
-    const response = await this.googleClient.models.generateContentStream({
-      model: member.modelId,
-      contents: prompt,
-      config: { systemInstruction, temperature: 0.7 }
-    });
-
-    let fullText = "";
-    for await (const chunk of response) {
-      const text = chunk.text || "";
-      fullText += text;
-      onChunk?.(text);
-    }
-    return fullText;
-  }
-
-  private async callAnthropicStream(member: CouncilMember, prompt: string, systemInstruction?: string, onChunk?: (chunk: string) => void): Promise<string> {
-    const apiKey = this.config.anthropicKey;
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json",
-        "dangerously-allow-browser": "true" 
-      },
-      body: JSON.stringify({
-        model: member.modelId,
-        max_tokens: 1024,
-        system: systemInstruction,
-        messages: [{ role: "user", content: prompt }],
-        stream: true
-      })
-    });
-
-    if (!response.ok) throw new Error(`Anthropic Error ${response.status}`);
-    if (!response.body) throw new Error("No response body");
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      
-      const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
-      
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') continue;
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-              const text = parsed.delta.text;
-              fullText += text;
-              onChunk?.(text);
-            }
-          } catch (e) {
-            // Ignore parse errors for partial chunks
-          }
-        }
-      }
-    }
-    return fullText;
-  }
-
-  private async callGenericStream(member: CouncilMember, prompt: string, systemInstruction?: string, onChunk?: (chunk: string) => void): Promise<string> {
-    let apiKey = "";
-    let baseUrl = "";
-
-    switch (member.provider) {
-      case ModelProvider.OPENAI: apiKey = this.config.openaiKey; baseUrl = "https://api.openai.com/v1"; break;
-      case ModelProvider.GROQ: apiKey = this.config.groqKey; baseUrl = member.baseUrl || "https://api.groq.com/openai/v1"; break;
-      case ModelProvider.DEEPSEEK: apiKey = this.config.deepseekKey; baseUrl = member.baseUrl || "https://api.deepseek.com"; break;
-      case ModelProvider.MISTRAL: apiKey = this.config.mistralKey; baseUrl = "https://api.mistral.ai/v1"; break;
-      case ModelProvider.OPENROUTER: apiKey = this.config.openRouterKey; baseUrl = "https://openrouter.ai/api/v1"; break;
-      case ModelProvider.OLLAMA: apiKey = "ollama"; baseUrl = member.baseUrl || "http://localhost:11434/v1"; break;
-      case ModelProvider.NEMOTRON: apiKey = this.config.nemotronKey; baseUrl = member.baseUrl || "https://integrate.api.nvidia.com/v1"; break;
-      case ModelProvider.GLM: apiKey = this.config.glmKey; baseUrl = member.baseUrl || "https://open.bigmodel.cn/api/paas/v4"; break;
-      default: apiKey = this.config.customKey; baseUrl = member.baseUrl || "http://localhost:1234/v1";
-    }
-
-    if (!apiKey && member.provider !== ModelProvider.OLLAMA) throw new Error("Missing Key");
-
-    const messages = [];
-    if (systemInstruction) messages.push({ role: "system", content: systemInstruction });
-    messages.push({ role: "user", content: prompt });
-
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: member.modelId, messages, temperature: 0.7, stream: true })
-    });
-
-    if (!response.ok) throw new Error(`API Error ${response.status}`);
-    if (!response.body) throw new Error("No response body");
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      
-      const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
-      
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') continue;
-          try {
-            const parsed = JSON.parse(data);
-            const text = parsed.choices?.[0]?.delta?.content || "";
-            if (text) {
-              fullText += text;
-              onChunk?.(text);
-            }
-          } catch (e) {
-            // Ignore parse errors for partial chunks
-          }
-        }
-      }
-    }
-    return fullText;
   }
 }
